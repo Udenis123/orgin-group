@@ -33,25 +33,25 @@ import { AnalyticsComponent } from './modules/analytics/analytics/analytics.comp
 import { AnalyticsDetailsComponent } from './modules/analytics/analytics-details/analytics-details.component';
 
 export const routes: Routes = [
-  { 
-    path: 'login', 
+  {
+    path: 'login',
     component: LoginComponent,
-    canActivate: [NoSessionGuard]  // Block access if logged in
+    canActivate: [NoSessionGuard], // Block access if logged in
   },
   {
     path: 'auth/forgot-password',
     component: ForgotPasswordComponent,
-    canActivate: [NoSessionGuard]
+    canActivate: [NoSessionGuard],
   },
   {
     path: 'auth/verify-otp',
     component: VerifyOtpComponent,
-    canActivate: [NoSessionGuard]
+    canActivate: [NoSessionGuard],
   },
   {
     path: 'auth/reset-password',
     component: ResetPasswordComponent,
-    canActivate: [NoSessionGuard]
+    canActivate: [NoSessionGuard],
   },
 
   // Protected route for dashboard
@@ -60,128 +60,124 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivate: [SessionGuard],
     children: [
-  
-
       // Common Routes (accessible to all plans)
-      { 
-        path: 'account/0/1/profile', 
-        component: ProfileComponent
+      {
+        path: 'account/0/1/profile',
+        component: ProfileComponent,
       },
-      { 
-        path: 'account/0/0/settings', 
-        component: SettingsComponent
+      {
+        path: 'account/0/0/settings',
+        component: SettingsComponent,
       },
       {
         path: 'page-not-found',
         component: PageNotFoundComponent,
-        canActivate: [SessionGuard]
+        canActivate: [SessionGuard],
       },
-    
-     
-     
+
       {
         path: 'projects/submitted/ordered',
-        component: SubmittedOrderedProjectsComponent
+        component: SubmittedOrderedProjectsComponent,
       },
       {
         path: 'projects/submitted/community',
-        component: SubmittedCommunityProjectsComponent
+        component: SubmittedCommunityProjectsComponent,
       },
       {
         path: 'projects/launched',
-        component: ProjectsLaunchedComponent
+        component: ProjectsLaunchedComponent,
       },
       {
         path: 'projects/ordered',
-        component: ProjectsOrderedComponent
+        component: ProjectsOrderedComponent,
       },
       {
         path: 'projects/community',
-        component: ProjectsCommunityComponent
+        component: ProjectsCommunityComponent,
       },
       {
         path: 'users/all/analyzers',
-        component: AnalyzerComponent
+        component: AnalyzerComponent,
       },
       {
         path: 'feedback-approval',
-        component: ClientFeedbackApprovalComponent
+        component: ClientFeedbackApprovalComponent,
       },
       {
         path: 'feedback-details/:id',
-        component: FeedbackDetailsComponent
+        component: FeedbackDetailsComponent,
       },
-    
-      
+
       {
         path: 'users/all/clients',
-        component: ClientsComponent
+        component: ClientsComponent,
       },
       {
         path: 'users/new/analyzer',
-        component: NewAnalyzerComponent
+        component: NewAnalyzerComponent,
       },
       {
         path: 'update/users/analyzer/:id',
-        component: UpdateAnalyzerComponent
+        component: UpdateAnalyzerComponent,
       },
       {
         path: 'update/users/client/:id',
-        component: UpdateClientComponent
+        component: UpdateClientComponent,
       },
       {
         path: 'details/users/analyzer/:id',
-        component: AnalyzerDetailsComponent
+        component: AnalyzerDetailsComponent,
       },
       {
         path: 'details/users/client/:id',
-        component: ClientDetailsComponent
+        component: ClientDetailsComponent,
       },
       {
         path: 'project/details/:id',
         component: LaunchedProjectDetailsComponent,
-        
       },
-    
-      
+
       {
         path: 'appointments/incoming',
-        component: IncomingAppointmentsComponent
+        component: IncomingAppointmentsComponent,
       },
       {
         path: 'appointments/scheduled',
-        component: ScheduledAppointmentsComponent
+        component: ScheduledAppointmentsComponent,
       },
       {
         path: 'appointments/details/:id',
-        component: AppointmentDetailsComponent
+        component: AppointmentDetailsComponent,
       },
-    
+
       {
         path: 'analytics',
-        component: AnalyticsComponent
+        component: AnalyticsComponent,
       },
       {
         path: 'analytics/details/:id',
-        component: AnalyticsDetailsComponent
+        component: AnalyticsDetailsComponent,
       },
-      
+
       // Default route
-      { path: '', redirectTo: 'projects/launched', pathMatch: 'full' }
-    ]
+      { path: '', redirectTo: 'projects/launched', pathMatch: 'full' },
+    ],
   },
 
   // Default redirect to 'dashboard/project/buy' if logged in
   { path: '', redirectTo: 'dashboard/projects/launched', pathMatch: 'full' },
 
-   // Wildcard route to handle unknown paths
-  //{ path: '**', redirectTo: 'dashboard/page-not-found', pathMatch: 'full' },
-
-
+  // Wildcard route to handle unknown paths
+  { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, {
+      enableTracing: false,
+      onSameUrlNavigation: 'reload',
+    }),
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
