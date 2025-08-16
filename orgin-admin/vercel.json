@@ -1,12 +1,10 @@
 {
-  "version": 2,
   "buildCommand": "npm run build:vercel",
-  "outputDirectory": "dist/orgin-admin",
+  "outputDirectory": "dist/orgin-admin/browser",
   "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "cleanUrls": true
+  ]
 }
