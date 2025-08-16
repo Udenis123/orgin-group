@@ -1,17 +1,12 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist/orgin-client/browser"
-      }
-    }
-  ],
+  "installCommand": "npm install",
+  "buildCommand": "npm run build:vercel",
+  "outputDirectory": "dist/orgin-client",
+  "framework": "angular",
   "routes": [
     {
-      "src": "/assets/(.*)",
+      "src": "/.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$",
       "headers": {
         "cache-control": "public, max-age=31536000, immutable"
       }
@@ -20,7 +15,7 @@
       "handle": "filesystem"
     },
     {
-      "src": "/(.*)",
+      "src": ".*",
       "dest": "/index.html"
     }
   ]
