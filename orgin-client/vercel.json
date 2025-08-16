@@ -1,13 +1,10 @@
 {
-  "version": 2,
-  "builds": [
+  "buildCommand": "npm run build:vercel",
+  "outputDirectory": "dist/orgin-client/browser",
+  "rewrites": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist/orgin-client/browser"
-      }
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
-  ],
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  ]
 }
