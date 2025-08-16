@@ -104,8 +104,7 @@
                 "fonts": false
               },
               "outputMode": "static",
-              "server": false,
-              "ssr": false
+              "prerender": false
             },
             "development": {
               "optimization": false,
