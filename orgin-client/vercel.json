@@ -5,7 +5,7 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist/orgin-client/browser/browser"
+        "distDir": "dist/orgin-client/browser"
       }
     }
   ],
@@ -21,7 +21,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/index.csr.html"
+      "dest": "/index.html"
     }
   ]
 }
