@@ -41,34 +41,34 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [NoSessionGuard]  // Block access if logged in
+    canActivate: [NoSessionGuard], // Block access if logged in
   },
   {
     path: 'signup',
     component: SignupComponent,
-    canActivate: [NoSessionGuard]  // Block access if logged in
+    canActivate: [NoSessionGuard], // Block access if logged in
   },
   {
     path: 'auth/forgot-password',
     component: ForgotPasswordComponent,
-    canActivate: [NoSessionGuard]
+    canActivate: [NoSessionGuard],
   },
   {
     path: 'auth/verify-otp',
     component: VerifyOtpComponent,
-    canActivate: [NoSessionGuard]
+    canActivate: [NoSessionGuard],
   },
   {
     path: 'auth/reset-password',
     component: ResetPasswordComponent,
-    canActivate: [NoSessionGuard]
+    canActivate: [NoSessionGuard],
   },
   {
     path: 'auth/0/1/0/a/e/now/verify-email',
     component: EmailOtpValidationComponent,
     canActivate: [NoSessionGuard, FromSignupGuard],
     data: { fromSignup: true },
-    title: 'Verify Email'
+    title: 'Verify Email',
   },
 
   // Protected route for dashboard
@@ -82,19 +82,19 @@ export const routes: Routes = [
         path: 'project/launch',
         component: ProjectLaunchComponent,
         canActivate: [SubscriptionGuard],
-        data: { requiredPlan: 'BASIC' }
+        data: { requiredPlan: 'BASIC' },
       },
       {
         path: 'project/buy/:id',
         component: BuyComponent,
         canActivate: [SubscriptionGuard],
-        data: { requiredPlan: 'BASIC' }
+        data: { requiredPlan: 'BASIC' },
       },
       {
         path: 'project/join/:id',
         component: JoinProjectComponent,
         canActivate: [SubscriptionGuard],
-        data: { requiredPlan: 'BASIC' }
+        data: { requiredPlan: 'BASIC' },
       },
 
       // Premium Plan Routes
@@ -102,135 +102,131 @@ export const routes: Routes = [
         path: 'analytics/:id',
         component: AnalyticsComponent,
         canActivate: [SubscriptionGuard],
-        data: { requiredPlan: 'PREMIUM' }
+        data: { requiredPlan: 'PREMIUM' },
       },
       {
         path: 'project/invest/:id',
         component: InvestComponent,
         canActivate: [SubscriptionGuard],
-        data: { requiredPlan: 'PREMIUM' }
+        data: { requiredPlan: 'PREMIUM' },
       },
       {
         path: 'project/order',
         component: ProjectOrderComponent,
         canActivate: [SubscriptionGuard],
-        data: { requiredPlan: 'PREMIUM' }
+        data: { requiredPlan: 'PREMIUM' },
       },
       {
         path: 'project/launch-community',
         component: LaunchCommunityProjectComponent,
         canActivate: [SubscriptionGuard],
-        data: { requiredPlan: 'PREMIUM' }
+        data: { requiredPlan: 'PREMIUM' },
       },
       {
         path: 'schedule/:type/:id',
         component: SchedulingComponent,
         canActivate: [SubscriptionGuard],
-        data: { requiredPlan: 'PREMIUM' }
+        data: { requiredPlan: 'PREMIUM' },
       },
       {
         path: 'appointments',
         component: AppointmentsComponent,
         canActivate: [SubscriptionGuard],
-        data: { requiredPlan: 'PREMIUM' }
+        data: { requiredPlan: 'PREMIUM' },
       },
       {
         path: 'appointments/update/:id',
         component: UpdateAppointmentComponent,
         canActivate: [SubscriptionGuard],
-        data: { requiredPlan: 'PREMIUM' }
+        data: { requiredPlan: 'PREMIUM' },
       },
       {
         path: 'project/update/launched/:id',
         component: LaunchedProjectUpdateComponent,
         canActivate: [SubscriptionGuard],
-        data: { requiredPlan: 'BASIC' }
+        data: { requiredPlan: 'BASIC' },
       },
       {
         path: 'project/update/ordered/:id',
         component: OrderedProjectUpdateComponent,
         canActivate: [SubscriptionGuard],
-        data: { requiredPlan: 'PREMIUM' }
+        data: { requiredPlan: 'PREMIUM' },
       },
-        // Payment Route
-        {
-          path: 'finish-payment',
-          component: FinishPaymentComponent,
-
-        },
+      // Payment Route
+      {
+        path: 'finish-payment',
+        component: FinishPaymentComponent,
+      },
       {
         path: 'project/update/community/:id',
         component: CommunityProjectUpdateComponent,
         canActivate: [SubscriptionGuard],
-        data: { requiredPlan: 'PREMIUM' }
+        data: { requiredPlan: 'PREMIUM' },
       },
 
       // Common Routes (accessible to all plans)
       {
         path: 'account/0/1/profile',
-        component: ProfileComponent
+        component: ProfileComponent,
       },
       {
         path: 'account/0/0/settings',
-        component: SettingsComponent
+        component: SettingsComponent,
       },
       {
         path: 'project/bookmarked',
-        component: BookmarkedComponent
+        component: BookmarkedComponent,
       },
       {
         path: 'project/bookmarked/:id',
-        component: BookmarkedComponent
+        component: BookmarkedComponent,
       },
       {
         path: 'project/my-projects',
-        component: MyProjectsComponent
+        component: MyProjectsComponent,
       },
       {
         path: 'project/details/:id',
-        component: ProjectDetailsComponent
+        component: ProjectDetailsComponent,
       },
       {
         path: 'subscription/plan',
-        component: SubscriptionPlanComponent
+        component: SubscriptionPlanComponent,
       },
 
       // Checkout Routes
       {
         path: 'checkout/basic',
-        component: BasicCheckoutComponent
+        component: BasicCheckoutComponent,
       },
       {
         path: 'page-not-found',
         component: PageNotFoundComponent,
-        canActivate: [SessionGuard]
+        canActivate: [SessionGuard],
       },
       {
         path: 'checkout/premium',
-        component: PremiumCheckoutComponent
+        component: PremiumCheckoutComponent,
       },
       {
         path: 'checkout/imena',
-        component: ImenaCheckoutComponent
+        component: ImenaCheckoutComponent,
       },
 
-
-
       // Default route
-      { path: '', redirectTo: 'project/launch', pathMatch: 'full' }
-    ]
+      { path: '', redirectTo: 'project/launch', pathMatch: 'full' },
+    ],
   },
 
   // Default redirect to 'dashboard/project/buy' if logged in
   { path: '', redirectTo: 'dashboard/project/launch', pathMatch: 'full' },
 
-   // Wildcard route to handle unknown paths
-  //{ path: '**', redirectTo: 'dashboard/page-not-found', pathMatch: 'full' },
-
+  // Wildcard route to handle unknown paths
+  { path: '**', redirectTo: 'dashboard/page-not-found', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
