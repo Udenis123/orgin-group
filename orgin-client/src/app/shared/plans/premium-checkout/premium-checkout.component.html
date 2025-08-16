@@ -1,0 +1,85 @@
+<div class="checkout-container">
+  <h1>{{ 'checkout.title' | translate }}</h1>
+  <p>{{ 'checkout.selectSubscription' | translate }}</p>
+  <form id="premium-form">
+    <div class="form-group">
+      <label>{{ 'checkout.subscriptionType' | translate }}</label>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="subscription-type" value="monthly" [(ngModel)]="selectedSubscriptionType" required>
+          {{ 'checkout.monthly' | translate }} $500
+        </label>
+        <label>
+          <input type="radio" name="subscription-type" value="annually" [(ngModel)]="selectedSubscriptionType" required>
+          {{ 'checkout.annually' | translate }} $5000
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>{{ 'checkout.paymentMethod' | translate }}</label>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="payment-method" value="mtn" [(ngModel)]="selectedPaymentMethod" required>
+          {{ 'checkout.mtn' | translate }}
+        </label>
+        <label>
+          <input type="radio" name="payment-method" value="airtel" [(ngModel)]="selectedPaymentMethod" required>
+          {{ 'checkout.airtel' | translate }}
+        </label>
+       
+        <label>
+          <input type="radio" name="payment-method" value="bank-account" [(ngModel)]="selectedPaymentMethod" required>
+          {{ 'checkout.bankAccount' | translate }}
+        </label>
+        
+        
+      </div>
+    </div>
+    <div class="form-group" *ngIf="selectedPaymentMethod === 'mtn' || selectedPaymentMethod === 'airtel'">
+      <label for="phone-number">{{ 'checkout.phoneNumber' | translate }}</label>
+      <div class="phone-input">
+        <select id="country-code" name="country-code" required>
+          <option value="+250">Rwanda (+250)</option>
+          <option value="+254">Kenya (+254)</option>
+          <option value="+255">Tanzania (+255)</option>
+          <option value="+256">Uganda (+256)</option>
+          <option value="+257">Burundi (+257)</option>
+          <option value="+211">South Sudan (+211)</option>
+        </select>
+        <input type="tel" id="phone-number" name="phone-number" placeholder="{{ 'checkout.enterPhone' | translate }}" required>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="selectedPaymentMethod === 'bank-account'">
+      <label for="card-number">{{ 'checkout.cardNumber' | translate }}</label>
+      <div class="card-info-icons">
+        <i class="fab fa-cc-visa" *ngIf="!detectedCardType || detectedCardType === 'visa'"></i>
+        <i class="fab fa-cc-mastercard" *ngIf="!detectedCardType || detectedCardType === 'mastercard'"></i>
+        <i class="fab fa-cc-amex" *ngIf="!detectedCardType || detectedCardType === 'amex'"></i>
+        <i class="fab fa-cc-discover" *ngIf="!detectedCardType || detectedCardType === 'discover'"></i>
+      </div>
+      <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required
+             (input)="validateCardNumber($event)"
+             maxlength="19">
+      
+      <div class="card-details">
+        <div>
+          <label for="expiry-date">{{ 'checkout.expiryDate' | translate }}</label>
+          <input type="text" id="expiry-date" name="expiry-date" 
+                 placeholder="MM/YY" required
+                 (input)="validateExpiryDate($event)"
+                 maxlength="5">
+        </div>
+        <div>
+          <label for="cvv">{{ 'checkout.cvv' | translate }}</label>
+          <input type="text" id="cvv" name="cvv" placeholder="123" required
+                 (input)="validateCVV($event)"
+                 maxlength="4">
+        </div>
+      </div>
+      
+      <label for="card-holder">{{ 'checkout.cardHolder' | translate }}</label>
+      <input type="text" id="card-holder" name="card-holder" placeholder="{{ 'checkout.fullName' | translate }}" required>
+    </div>
+    <button type="submit">{{ 'checkout.submitPayment' | translate }}</button>
+  </form>
+</div>

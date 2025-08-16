@@ -1,0 +1,28 @@
+.update-appointment-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+
+  h1 {
+    color: var(--secondary-color);
+    margin-bottom: 2rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+  }
+} 

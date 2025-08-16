@@ -1,0 +1,44 @@
+<div class="appointments-container">
+  <h1>{{ 'appointments.title' | translate }}</h1>
+  <div class="scheduling-content">
+    <table class="appointments-table">
+      <thead>
+        <tr>
+          <th>{{ 'appointments.project' | translate }}</th>
+          <th>{{ 'appointments.type' | translate }}</th>
+          <th>{{ 'appointments.date' | translate }}</th>
+          <th>{{ 'appointments.time' | translate }}</th>
+          <th>{{ 'appointments.status' | translate }}</th>
+          <th>{{ 'appointments.actions' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let element of dataSource">
+          <td>{{ element.projectName }}</td>
+          <td>{{ 'appointments.' + element.type | translate }}</td>
+          <td>{{ element.date | date }}</td>
+          <td>{{ element.time }}</td>
+          <td>
+            <span [ngClass]="'status-' + element.status">
+              {{ 'appointments.' + element.status | translate }}
+            </span>
+          </td>
+          <td>
+            <button *ngIf="element.status === 'pending' || element.status === 'scheduled'"
+                    class="icon-button" 
+                    (click)="updateAppointment(element)"
+                    [title]="'appointments.edit' | translate">
+              <i class="material-icons">edit</i>
+            </button>
+            <button *ngIf="element.status === 'pending' || element.status === 'scheduled'"
+                    class="icon-button cancel-button"
+                    (click)="cancelAppointment(element)"
+                    [title]="'appointments.cancel' | translate">
+              <i class="material-icons">cancel</i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

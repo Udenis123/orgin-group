@@ -1,0 +1,359 @@
+<div class="container mt-5">
+  <h2 class="text-center text-primary mb-4">{{ 'projectDetails.title' | translate }}</h2>
+  
+  <!-- Error state -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="!project && !error" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Main Project Info Card -->
+  <div *ngIf="project" class="card mb-4 scroll-animate">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      {{ project.projectName }}
+      <span class="badge" [ngClass]="{
+        'bg-warning': project.status === 'PENDING',
+        'bg-success': project.status === 'APPROVED',
+        'bg-danger': project.status === 'DECLINED'
+      }">
+        {{ 'status.' + project.status.toLowerCase() | translate }}
+      </span>
+    </div>
+    
+    <div class="card-body">
+      <!-- Project Thumbnail -->
+      <div class="project-thumbnail mb-4" *ngIf="project.projectPhotoUrl">
+        <img [src]="project.projectPhotoUrl" [alt]="project.projectName" class="img-fluid rounded">
+      </div>
+      
+      <div class="row">
+        <!-- Personal Information Card -->
+        <div class="col-md-6 mb-4">
+          <div class="card scroll-animate">
+            <div class="card-header">
+              <h5 class="border-bottom pb-2 text-secondary">{{ 'projectDetails.personalInfo' | translate }}</h5>
+            </div>
+            <div class="card-body">
+              <div class="mb-2" *ngIf="project.clientName">
+                <strong>{{ 'projectDetails.fullName' | translate }}:</strong> {{ project.clientName }}
+              </div>
+              <div class="mb-2" *ngIf="project.professionalStatus">
+                <strong>{{ 'projectDetails.professionalStatus' | translate }}:</strong> {{ project.professionalStatus }}
+              </div>
+              <div class="mb-2" *ngIf="project.email">
+                <strong>{{ 'projectDetails.email' | translate }}:</strong> {{ project.email }}
+              </div>
+              <div class="mb-2" *ngIf="project.phone">
+                <strong>{{ 'projectDetails.phone' | translate }}:</strong> {{ project.phone }}
+              </div>
+              <div class="mb-2" *ngIf="project.linkedIn">
+                <strong>{{ 'projectDetails.linkedin' | translate }}:</strong> 
+                <a [href]="project.linkedIn" target="_blank">{{ project.linkedIn }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Project Information Card -->
+        <div class="col-md-6 mb-4">
+          <div class="card scroll-animate">
+            <div class="card-header">
+              <h5 class="border-bottom pb-2 text-secondary">{{ 'projectDetails.projectInfo' | translate }}</h5>
+            </div>
+            <div class="card-body">
+              <div class="mb-2">
+                <strong>{{ 'projectLaunch.fields.projectDescription' | translate }}:</strong> {{ project.description }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.projectLocation">
+                <strong>{{ 'projectLaunch.fields.location' | translate }}:</strong> {{ project.projectLocation }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.projectPurpose">
+                <strong>{{ 'projectLaunch.fields.purpose' | translate }}:</strong> {{ project.projectPurpose }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.specialityOfProject">
+                <strong>{{ 'projectLaunch.fields.speciality' | translate }}:</strong> {{ project.specialityOfProject }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.businessIdea">
+                <strong>{{ 'projectLaunch.fields.businessIdea' | translate }}:</strong> {{ project.businessIdea }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.wantOriginToBusinessPlanQ">
+                <strong>{{ 'projectLaunch.fields.needsBusinessPlan' | translate }}:</strong> {{ project.wantOriginToBusinessPlanQ }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.intellectualProjectQ">
+                <strong>{{ 'projectLaunch.fields.wantsIP' | translate }}:</strong> {{ project.intellectualProjectQ }}
+              </div>
+              
+              <div class="mb-2">
+                <strong>{{ 'myProjects.tableHeaders.submissionDate' | translate }}:</strong> {{ project.submittedOn | date:'medium' }}
+              </div>
+              
+              <div class="mb-2">
+                <strong>{{ 'myProjects.tableHeaders.lastUpdated' | translate }}:</strong> {{ project.updatedOn | date:'medium' }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.category">
+                <strong>{{ 'projectLaunch.fields.category' | translate }}:</strong> {{ project.category }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.projectStatus">
+                <strong>{{ 'projectLaunch.fields.status' | translate }}:</strong> {{ project.projectStatus }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.prototypeLink">
+                <strong>{{ 'projectLaunch.fields.prototypeLink' | translate }}:</strong> 
+                <a [href]="project.prototypeLink" target="_blank">{{ project.prototypeLink }}</a>
+              </div>
+              
+              <div class="mb-2" *ngIf="project.numberOfEmp">
+                <strong>{{ 'projectLaunch.fields.employeesCount' | translate }}:</strong> {{ project.numberOfEmp }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.monthlyIncome">
+                <strong>{{ 'projectLaunch.fields.monthlyIncome' | translate }}:</strong> {{ project.monthlyIncome | currency }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.website">
+                <strong>{{ 'projectLaunch.fields.websiteUrl' | translate }}:</strong> 
+                <a [href]="project.website" target="_blank">{{ project.website }}</a>
+              </div>
+              
+              <div class="mb-2" *ngIf="project.haveSponsorQ">
+                <strong>{{ 'projectLaunch.fields.hasSponsorship' | translate }}:</strong> {{ project.haveSponsorQ }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.sponsorName">
+                <strong>{{ 'projectLaunch.fields.sponsorName' | translate }}:</strong> {{ project.sponsorName }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.needSponsorQ">
+                <strong>{{ 'projectLaunch.fields.needsSponsor' | translate }}:</strong> {{ project.needSponsorQ }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.needOrgQ">
+                <strong>{{ 'projectLaunch.fields.orginSponsorship' | translate }}:</strong> {{ project.needOrgQ }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.doSellProjectQ">
+                <strong>{{ 'projectLaunch.fields.sellProject' | translate }}:</strong> {{ project.doSellProjectQ }}
+              </div>
+              
+              <div class="mb-2" *ngIf="project.projectAmount">
+                <strong>{{ 'projectLaunch.fields.projectInvestment' | translate }}:</strong> {{ project.projectAmount | currency }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Analytics Section Card -->
+      <div *ngIf="project.status === 'APPROVED' && projectAnalytics" class="mb-4">
+        <div class="card scroll-animate">
+          <div class="card-header">
+            <h5 class="border-bottom pb-2 text-secondary">{{ 'projectDetails.analytics' | translate }}</h5>
+          </div>
+          <div class="card-body">
+            <div class="row mt-3">
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h6>{{ 'projectDetails.totalViews' | translate }}</h6>
+                    <p class="h3">{{ projectAnalytics.views }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h6>{{ 'projectDetails.interactions' | translate }}</h6>
+                    <p class="h3">{{ projectAnalytics.interactions }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h6>{{ 'projectDetails.interestedInvestors' | translate }}</h6>
+                    <p class="h3">{{ projectAnalytics.interestedInvestors }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h6>{{ 'projectDetails.feasibility' | translate }}</h6>
+                    <p class="h3">{{ projectAnalytics.feasibility.percentage }}%</p>
+                    <small>{{ projectAnalytics.feasibility.reason }}</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h6>{{ 'projectDetails.roi' | translate }}</h6>
+                    <p class="h3">{{ projectAnalytics.income.roi }}%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Documents Section Card -->
+      <div class="mb-4">
+        <div class="card scroll-animate">
+          <div class="card-header">
+            <h5 class="border-bottom pb-2 text-secondary">{{ 'projectDetails.documents' | translate }}</h5>
+          </div>
+          <div class="card-body">
+            <!-- Income Statement -->
+            <div class="row mb-2 align-items-center" *ngIf="project.incomeStatementUrl">
+              <div class="col-1">
+                <i class="far fa-file-pdf text-danger fa-2x"></i>
+              </div>
+              <div class="col-8">
+                {{ 'projectLaunch.fields.incomeStatement' | translate }}
+              </div>
+              <div class="col-3 text-end">
+                <button class="btn btn-sm btn-primary" (click)="downloadDocument(project.incomeStatementUrl)">
+                  {{ 'projectDetails.buttons.download' | translate }}
+                </button>
+              </div>
+            </div>
+            
+            <!-- Cash Flow Statement -->
+            <div class="row mb-2 align-items-center" *ngIf="project.cashFlowUrl">
+              <div class="col-1">
+                <i class="far fa-file-pdf text-danger fa-2x"></i>
+              </div>
+              <div class="col-8">
+                {{ 'projectLaunch.fields.cashFlowStatement' | translate }}
+              </div>
+              <div class="col-3 text-end">
+                <button class="btn btn-sm btn-primary" (click)="downloadDocument(project.cashFlowUrl)">
+                  {{ 'projectDetails.buttons.download' | translate }}
+                </button>
+              </div>
+            </div>
+            
+            <!-- Balance Sheet -->
+            <div class="row mb-2 align-items-center" *ngIf="project.balanceSheetUrl">
+              <div class="col-1">
+                <i class="far fa-file-pdf text-danger fa-2x"></i>
+              </div>
+              <div class="col-8">
+                {{ 'projectLaunch.fields.balanceSheet' | translate }}
+              </div>
+              <div class="col-3 text-end">
+                <button class="btn btn-sm btn-primary" (click)="downloadDocument(project.balanceSheetUrl)">
+                  {{ 'projectDetails.buttons.download' | translate }}
+                </button>
+              </div>
+            </div>
+            
+            <!-- Pitching Video -->
+            <div class="row mb-2 align-items-center" *ngIf="project.pitchingVideoUrl">
+              <div class="col-1">
+                <i class="far fa-file-video text-primary fa-2x"></i>
+              </div>
+              <div class="col-8">
+                {{ 'projectDetails.pitchingVideo' | translate }}
+              </div>
+              <div class="col-3 text-end">
+                <button class="btn btn-sm btn-secondary me-1" (click)="previewVideo(project.pitchingVideoUrl)">
+                  {{ 'projectDetails.buttons.preview' | translate }}
+                </button>
+                <button class="btn btn-sm btn-primary" (click)="downloadDocument(project.pitchingVideoUrl)">
+                  {{ 'projectDetails.buttons.download' | translate }}
+                </button>
+              </div>
+            </div>
+            
+            <!-- Business Plan -->
+            <div class="row mb-2 align-items-center" *ngIf="project.businessPlanUrl">
+              <div class="col-1">
+                <i class="far fa-file-pdf text-danger fa-2x"></i>
+              </div>
+              <div class="col-8">
+                {{ 'projectLaunch.fields.businessPlan' | translate }}
+              </div>
+              <div class="col-3 text-end">
+                <button class="btn btn-sm btn-primary" (click)="downloadDocument(project.businessPlanUrl)">
+                  {{ 'projectDetails.buttons.download' | translate }}
+                </button>
+              </div>
+            </div>
+            
+            <!-- Business Idea Document -->
+            <div class="row mb-2 align-items-center" *ngIf="project.businessIdeaDocumentUrl">
+              <div class="col-1">
+                <i class="far fa-file-pdf text-danger fa-2x"></i>
+              </div>
+              <div class="col-8">
+                {{ 'projectLaunch.fields.businessIdeaDocument' | translate }}
+              </div>
+              <div class="col-3 text-end">
+                <button class="btn btn-sm btn-primary" (click)="downloadDocument(project.businessIdeaDocumentUrl)">
+                  {{ 'projectDetails.buttons.download' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Feedback Card -->
+      <div *ngIf="project.status === 'DECLINED' && project.feedback" class="mb-4">
+        <div class="card scroll-animate">
+          <div class="card-header">
+            <h5 class="border-bottom pb-2 text-secondary">{{ 'projectDetails.feedback' | translate }}</h5>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-danger mt-3">
+              <p>{{ project.feedback }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Back button -->
+  <div class="mb-4">
+    <button class="btn btn-secondary" (click)="goBack()">
+      <i class="fas fa-arrow-left me-2"></i>
+      {{ 'projectDetails.back' | translate }}
+    </button>
+  </div>
+</div>
+
+<!-- Video Preview Modal -->
+<ng-template #videoPreviewModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">{{ 'projectDetails.videoPreview' | translate }}</h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <video controls class="w-100" #videoPreview>
+      <source [src]="currentVideoUrl" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">{{ 'projectDetails.buttons.close' | translate }}</button>
+  </div>
+</ng-template>

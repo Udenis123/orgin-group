@@ -1,0 +1,38 @@
+<div class="feedback-popup" [class.submitted]="submitted">
+  <div class="feedback-content">
+    <button class="close-button" (click)="onClose()">×</button>
+    
+    <div *ngIf="!submitted">
+      <h2>How was your experience?</h2>
+      <div class="star-rating">
+        <span *ngFor="let star of [1,2,3,4,5]" 
+              class="star" 
+              [class.active]="star <= rating"
+              (click)="setRating(star)">
+          ★
+        </span>
+      </div>
+      
+      <div class="feedback-form">
+        <textarea 
+          [(ngModel)]="feedback" 
+          placeholder="Tell us more about your experience (optional)"
+          rows="4">
+        </textarea>
+        
+        <button 
+          class="submit-button" 
+          [disabled]="rating === 0"
+          (click)="onSubmit()">
+          Submit Feedback
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="submitted" class="thank-you">
+      <h2>Thank You!</h2>
+      <p>We appreciate your feedback.</p>
+      <button class="close-button-bottom" (click)="onClose()">Close</button>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,242 @@
+<div class="container mt-5">
+    <h2>{{ 'projectUpdate.title' | translate }}</h2>
+    <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+     
+      <!-- Step 1: Client Information -->
+      <div *ngIf="currentStep === 0" class="card mb-3">
+        <div class="card-header">{{ 'projectOrder.steps.clientInformation' | translate }}</div>
+        <div class="card-body">
+          <small class="text-muted">{{ 'projectOrder.mandatoryFieldsNote' | translate }}</small>
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label for="clientName">{{ 'projectOrder.fields.clientName' | translate }} <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="clientName" formControlName="clientName" required>
+            </div>
+                        
+            <!-- Add other client information fields here -->
+            
+            <div class="col-md-6 form-group">
+              <label for="companyName">{{ 'projectOrder.fields.companyName' | translate }}</label>
+              <input type="text" class="form-control" id="companyName" formControlName="companyName">
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="professionalStatus">{{ 'projectOrder.fields.professionalStatus' | translate }} <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="professionalStatus" formControlName="professionalStatus" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="email">{{ 'projectOrder.fields.email' | translate }} <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" id="email" formControlName="email" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="phone">{{ 'projectOrder.fields.phone' | translate }} <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" id="phone" formControlName="phone" required>
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="linkedin">{{ 'projectOrder.fields.linkedin' | translate }}</label>
+              <input type="url" class="form-control" id="linkedin" formControlName="linkedin" placeholder="https://www.linkedin.com/in/your-profile">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Project Details -->
+      <div *ngIf="currentStep === 1" class="card mb-3">
+        <div class="card-header">{{ 'projectOrder.steps.projectDetails' | translate }}</div>
+        <div class="card-body">
+          <small class="text-muted">{{ 'projectOrder.mandatoryFieldsNote' | translate }}</small>
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label for="projectTitle">{{ 'projectOrder.fields.projectTitle' | translate }} <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="projectTitle" formControlName="projectTitle" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="projectType">{{ 'projectOrder.fields.projectType' | translate }} <span class="text-danger">*</span></label>
+              <select class="form-control" id="projectType" formControlName="projectType" required>
+                <option *ngFor="let type of projectTypes" [value]="type">{{ type | translate }}</option>
+              </select>
+            </div>
+            <div class="col-md-6 form-group" *ngIf="projectForm.get('projectType')?.value === 'Other'">
+              <label for="otherProjectType">{{ 'projectOrder.fields.otherProjectType' | translate }} <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="otherProjectType" formControlName="otherProjectType" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="projectDescription">{{ 'projectOrder.fields.projectDescription' | translate }} <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="projectDescription" formControlName="projectDescription" rows="3" required></textarea>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="targetAudience">{{ 'projectOrder.fields.targetAudience' | translate }}</label>
+              <input type="text" class="form-control" id="targetAudience" formControlName="targetAudience">
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="references">{{ 'projectOrder.fields.references' | translate }}</label>
+              <input type="text" class="form-control" id="references" formControlName="references">
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="location">{{ 'projectOrder.fields.location' | translate }} <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="location" formControlName="location" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="speciality">{{ 'projectOrder.fields.speciality' | translate }} <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="speciality" formControlName="speciality" rows="3" required></textarea>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="status">{{ 'projectOrder.fields.status' | translate }}</label>
+              <select class="form-control" id="status" formControlName="status">
+                <option value="Prototype">Prototype</option>
+                <option value="Operating">Operating</option>
+              </select>
+            </div>
+            <div class="col-md-6 form-group" *ngIf="projectForm.get('status')?.value === 'Prototype'">
+              <label for="prototypeLink">{{ 'projectOrder.fields.prototypeLink' | translate }}</label>
+              <input type="url" class="form-control" id="prototypeLink" formControlName="prototypeLink">
+            </div>
+            <div *ngIf="projectForm.get('status')?.value === 'Operating'">
+              <div class="col-md-6 form-group">
+                <label for="employeesCount">{{ 'projectOrder.fields.employeesCount' | translate }}</label>
+                <input type="number" class="form-control" id="employeesCount" formControlName="employeesCount">
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="monthlyIncome">{{ 'projectOrder.fields.monthlyIncome' | translate }}</label>
+                <input type="number" class="form-control" id="monthlyIncome" formControlName="monthlyIncome">
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="websiteUrl">{{ 'projectOrder.fields.websiteUrl' | translate }}</label>
+                <input type="url" class="form-control" id="websiteUrl" formControlName="websiteUrl">
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="incomeStatement">{{ 'projectOrder.fields.incomeStatement' | translate }}</label>
+                <input type="file" class="form-control" id="incomeStatement" (change)="onFileChange($event, 'incomeStatement')">
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="cashFlowStatement">{{ 'projectOrder.fields.cashFlowStatement' | translate }}</label>
+                <input type="file" class="form-control" id="cashFlowStatement" (change)="onFileChange($event, 'cashFlowStatement')">
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="balanceSheet">{{ 'projectOrder.fields.balanceSheet' | translate }}</label>
+                <input type="file" class="form-control" id="balanceSheet" (change)="onFileChange($event, 'balanceSheet')">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Sponsorship -->
+      <div *ngIf="currentStep === 2" class="card mb-3">
+        <div class="card-header">{{ 'projectOrder.steps.sponsorship' | translate }}</div>
+        <div class="card-body">
+          <small class="text-muted">{{ 'projectOrder.mandatoryFieldsNote' | translate }}</small>
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label for="hasSponsorship">{{ 'projectOrder.fields.hasSponsorship' | translate }} <span class="text-danger">*</span></label>
+              <select class="form-control" id="hasSponsorship" formControlName="hasSponsorship" required>
+                <option value="Yes">{{ 'projectOrder.options.yes' | translate }}</option>
+                <option value="No">{{ 'projectOrder.options.no' | translate }}</option>
+              </select>
+            </div>
+            <div class="col-md-6 form-group" *ngIf="projectForm.get('hasSponsorship')?.value === 'Yes'">
+              <label for="sp sponsorName">{{ 'projectOrder.fields.sponsorName' | translate }} <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="sponsorName" formControlName="sponsorName" required>
+            </div>
+            <div class="col-md-6 form-group" *ngIf="projectForm.get('hasSponsorship')?.value === 'No'">
+              <label for="needsSponsor">{{ 'projectOrder.fields.needsSponsor' | translate }} <span class="text-danger">*</span></label>
+              <select class="form-control" id="needsSponsor" formControlName="needsSponsor" required>
+                <option value="Yes">{{ 'projectOrder.options.yes' | translate }}</option>
+                <option value="No">{{ 'projectOrder.options.no' | translate }}</option>
+              </select>
+            </div>
+            <div class="col-md-6 form-group" *ngIf="projectForm.get('needsSponsor')?.value === 'Yes'">
+              <label for="orginSponsorship">{{ 'projectOrder.fields.orginSponsorship' | translate }} <span class="text-danger">*</span></label>
+              <select class="form-control" id="orginSponsorship" formControlName="orginSponsorship" required>
+                <option value="Yes">{{ 'projectOrder.options.yes' | translate }}</option>
+                <option value="No">{{ 'projectOrder.options.no' | translate }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Intellectual Property -->
+      <div *ngIf="currentStep === 3" class="card mb-3">
+        <div class="card-header">{{ 'projectOrder.steps.intellectualProperty' | translate }}</div>
+        <div class="card-body">
+          <small class="text-muted">{{ 'projectOrder.mardatoryFieldsNote' | translate }}</small>
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label for="wantsIP">{{ 'projectOrder.fields.wantsIP' | translate }} <span class="text-danger">*</span></label>
+              <select class="form-control" id="wantsIP" formControlName="wantsIP" required>
+                <option value="Yes">{{ 'projectOrder.options.yes' | translate }}</option>
+                <option value="No">{{ 'projectOrder.options.no' | translate }}</option>
+              </select>
+            </div>
+            <div class="col-md-6 form-group" *ngIf="projectForm.get('wantsIP')?.value === 'Yes'">
+              <label for="businessPlan">{{ 'projectOrder.fields.businessPlan' | translate }}</label>
+              <input type="file" class="form-control" id="businessPlan" (change)="onFileChange($event, 'businessPlan')">
+            </div>
+            <div class="col-md-6 form-group" *ngIf="projectForm.get('wantsIP')?.value === 'Yes'">
+              <label for="needsBusinessPlan">{{ 'projectOrder.fields.needsBusinessPlan' | translate }} <span class="text-danger">*</span></label>
+              <select class="form-control" id="needsBusinessPlan" formControlName="needsBusinessPlan" required>
+                <option value="Yes">{{ 'projectOrder.options.yes' | translate }}</option>
+                <option value="No">{{ 'projectOrder.options.no' | translate }}</option>
+              </select>
+            </div>
+            <div class="col-md-6 form-group" *ngIf="projectForm.get('wantsIP')?.value === 'Yes'">
+              <label for="businessIdea">{{ 'projectOrder.fields.businessIdea' | translate }} <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="businessIdea" formControlName="businessIdea" rows="3" required></textarea>
+            </div>
+            <div class="col-md-6 form-group" *ngIf="projectForm.get('wantsIP')?.value === 'Yes'">
+              <label for="businessIdeaDocument">{{ 'projectOrder.fields.businessIdeaDocument' | translate }}</label>
+              <input type="file" class="form-control" id="businessIdeaDocument" (change)="onFileChange($event, 'businessIdeaDocument')">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5: Review and Submit -->
+      <div *ngIf="currentStep === 4" class="card mb-3">
+        <div class="card-header">{{ 'projectOrder.steps.reviewAndSubmit' | translate }}</div>
+        <div class="card-body">
+          <h5>{{ 'projectOrder.reviewYourSubmission' | translate }}</h5>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>{{ 'projectOrder.field' | translate }}</th>
+                <th>{{ 'projectOrder.value' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let field of getFormData()">
+                <td>{{ field.label | translate }}</td>
+                <td>{{ field.value }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Confirmation Statement -->
+          <div class="form-group mt-4">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="confirmationCheckbox" formControlName="confirmationCheckbox" required>
+              <label class="form-check-label" for="confirmationCheckbox">
+                {{ 'projectOrder.confirmationStatement' | translate }}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="text-center">
+        <button type="button" class="btn btn-secondary me-2" *ngIf="currentStep > 0" (click)="previousStep()">
+          {{ 'PREVIOUS' | translate }}
+        </button>
+        <button type="button" class="btn btn-success me-2" *ngIf="currentStep < steps.length - 1" (click)="nextStep()">
+          {{ 'SAVE & CONTINUE' | translate }}
+        </button>
+        <button type="button" class="btn btn-danger me-2" (click)="onClear()">
+          {{ 'CLEAR' | translate }}
+        </button>
+        <button type="submit" class="btn btn-success" *ngIf="currentStep === steps.length - 1" [disabled]="!projectForm.valid || isSubmitting">
+          {{ isSubmitting ? 'UPDATING...' : 'UPDATE PROJECT' | translate }}
+        </button>
+      </div>
+    </form>
+</div>

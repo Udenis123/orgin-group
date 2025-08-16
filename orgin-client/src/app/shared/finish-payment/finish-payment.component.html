@@ -1,0 +1,88 @@
+<div class="finish-payment-container">
+  <h1>{{ 'finishPayment.title' | translate }}</h1>
+  
+  <div class="projects-list">
+    <h2>{{ 'finishPayment.projectsPending' | translate }}</h2>
+    <div *ngFor="let project of projects" 
+         class="project-item"
+         [class.selected]="selectedProjectId === project.id"
+         (click)="selectProject(project.id)">
+      <h3>{{ project.name }}</h3>
+      <p>{{ 'finishPayment.amount' | translate }}: {{ project.amount }} {{ project.currency }}</p>
+    </div>
+  </div>
+
+  <div *ngIf="selectedProjectId" class="payment-methods">
+    <h2>{{ 'finishPayment.selectMethod' | translate }}</h2>
+    <div class="method-options">
+      <label>
+        <input type="radio" name="payment-method" value="mtn" [(ngModel)]="selectedPaymentMethod">
+        {{ 'finishPayment.paymentMethods.mtn' | translate }}
+      </label>
+      <label>
+        <input type="radio" name="payment-method" value="airtel" [(ngModel)]="selectedPaymentMethod">
+        {{ 'finishPayment.paymentMethods.airtel' | translate }}
+      </label>
+      <label>
+        <input type="radio" name="payment-method" value="bank" [(ngModel)]="selectedPaymentMethod">
+        {{ 'finishPayment.paymentMethods.bank' | translate }}
+      </label>
+    </div>
+
+    <div *ngIf="selectedPaymentMethod === 'mtn' || selectedPaymentMethod === 'airtel'" class="mobile-payment">
+      <div class="form-group">
+        <label>{{ 'finishPayment.phoneNumber' | translate }}:</label>
+        <div class="phone-input">
+          <select [(ngModel)]="countryCode">
+            <option value="+250">{{ 'finishPayment.countryCodes.rwanda' | translate }}</option>
+            <option value="+254">{{ 'finishPayment.countryCodes.kenya' | translate }}</option>
+            <option value="+255">{{ 'finishPayment.countryCodes.tanzania' | translate }}</option>
+            <option value="+256">{{ 'finishPayment.countryCodes.uganda' | translate }}</option>
+            <option value="+257">{{ 'finishPayment.countryCodes.burundi' | translate }}</option>
+            <option value="+211">{{ 'finishPayment.countryCodes.southSudan' | translate }}</option>
+          </select>
+          <input type="tel" [(ngModel)]="phoneNumber" [placeholder]="'finishPayment.enterPhone' | translate">
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedPaymentMethod === 'bank'" class="bank-payment">
+      <div class="form-group">
+        <label>{{ 'finishPayment.cardNumber' | translate }}:</label>
+        <div class="card-info-icons">
+          <i class="fab fa-cc-visa" *ngIf="!detectedCardType || detectedCardType === 'visa'"></i>
+          <i class="fab fa-cc-mastercard" *ngIf="!detectedCardType || detectedCardType === 'mastercard'"></i>
+          <i class="fab fa-cc-amex" *ngIf="!detectedCardType || detectedCardType === 'amex'"></i>
+          <i class="fab fa-cc-discover" *ngIf="!detectedCardType || detectedCardType === 'discover'"></i>
+        </div>
+        <input type="text" [(ngModel)]="cardNumber" 
+               (input)="validateCardNumber($event)"
+               placeholder="1234 5678 9012 3456">
+      </div>
+
+      <div class="card-details">
+        <div>
+          <label>{{ 'finishPayment.expiryDate' | translate }}:</label>
+          <input type="text" [(ngModel)]="expiryDate" 
+                 (input)="validateExpiryDate($event)"
+                 placeholder="MM/YY">
+        </div>
+        <div>
+          <label>{{ 'finishPayment.cvv' | translate }}:</label>
+          <input type="text" [(ngModel)]="cvv" 
+                 (input)="validateCVV($event)"
+                 placeholder="123">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'finishPayment.cardHolderName' | translate }}:</label>
+        <input type="text" [(ngModel)]="cardHolderName" [placeholder]="'finishPayment.fullName' | translate">
+      </div>
+    </div>
+
+    <button class="complete-payment-btn" (click)="completePayment()">
+      {{ 'finishPayment.completePayment' | translate }}
+    </button>
+  </div>
+</div>

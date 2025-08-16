@@ -1,0 +1,382 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  h2 {
+    color: var(--secondary-color) !important;
+  }
+
+  h5.border-bottom.pb-2.text-secondary {
+    color: var(--secondary-color) !important;
+  }
+
+  animation: fadeInScale 0.5s ease-out;
+  h2 {
+    animation: slideInFromTop 0.6s ease-out;
+  }
+}
+
+.card {
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(var(--secondary-color-rgb), 0.1);
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba(var(--secondary-color-rgb), 0.1);
+
+  animation: fadeInScale 0.5s ease-out;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(var(--secondary-color-rgb), 0.15);
+  }
+}
+
+.card-header {
+  background-color: var(--primary-color);
+  color: var(--text-color-dark);
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid rgba(var(--primary-color-rgb), 0.1);
+
+  transition: all 0.3s ease;
+  
+  h5 {
+    animation: slideInFromLeft 0.5s ease-out;
+  }
+}
+
+.card-body {
+  padding: 1.25rem;
+  color: var(--text-color-light);
+  
+  p {
+    color: inherit;
+  }
+
+  .row {
+    .card {
+      animation: slideInFromTop 0.5s ease-out;
+      animation-fill-mode: both;
+      
+      @for $i from 1 through 4 {
+        &:nth-child(#{$i}) {
+          animation-delay: #{$i * 0.15}s;
+        }
+      }
+      
+      &:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 8px 16px rgba(var(--secondary-color-rgb), 0.2);
+      }
+
+      .h3 {
+        transition: all 0.3s ease;
+        &:hover {
+          transform: scale(1.1);
+          color: var(--primary-color);
+        }
+      }
+    }
+  }
+}
+
+.badge {
+  padding: 0.5em 0.75em;
+  font-size: 0.9em;
+
+  animation: pulseGlow 2s infinite;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+/* Dark mode support */
+:host-context(body.dark-mode) {
+  .card  {
+    background-color: transparent;
+    
+  }
+  .container {
+    h5.border-bottom.pb-2.text-secondary {
+      color: var(--primary-color) !important;
+    }
+  }
+  .card-body{
+    color: var(--text-color-dark);
+    
+    p {
+      color: inherit;
+    }
+  }
+  
+  .card-header {
+    background-color: var(--secondary-color);
+    color: var(--text-color-dark);
+  }
+
+  .card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+  
+  .badge {
+    animation: pulseGlow 2s infinite;
+    &:hover {
+      box-shadow: 0 0 12px rgba(var(--primary-color-rgb), 0.3);
+    }
+  }
+}
+
+a {
+  color: var(--text-color);
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: var(--primary-color);
+  }
+}
+
+.btn-secondary {
+  background-color: var(--primary-color);
+  color: var(--text-color-dark);
+  border: 1px solid rgba(var(--secondary-color-rgb), 0.2);
+  padding: 0.5rem 1.5rem;
+  transition: all 0.3s ease;
+  
+  animation: fadeInScale 0.5s ease-out;
+  
+  &:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  &:active {
+    transform: translateY(1px) scale(0.98);
+  }
+  
+  i {
+    margin-right: 0.5rem;
+  }
+}
+
+/* Dark mode support for button */
+:host-context(body.dark-mode) {
+  .btn-secondary {
+    background-color: rgba(var(--secondary-color-rgb), 0.8);
+    color: var(--text-color-dark);
+    
+    &:hover {
+      background-color: rgba(var(--secondary-color-rgb), 0.9);
+    }
+  }
+  .btn-secondary {
+    background-color: white;
+    color: var(--primary-color);
+    border: 1px solid rgba(var(--secondary-color-rgb), 0.2);
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    &:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+    
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.document-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(var(--secondary-color-rgb), 0.1);
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+}
+
+/* Compact table-like layout */
+.document-table {
+  width: 100%;
+  border: 1px solid rgba(var(--secondary-color-rgb), 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.document-row {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid rgba(var(--secondary-color-rgb), 0.1);
+  transition: background-color 0.2s ease;
+  min-height: 40px;
+
+  animation: slideInFromLeft 0.5s ease-out;
+  animation-fill-mode: both;
+  
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    transform: translateX(10px);
+    background-color: rgba(var(--secondary-color-rgb), 0.1);
+  }
+
+  .document-icon {
+    width: 30px;
+    margin-right: 0.75rem;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .document-name {
+    flex: 1;
+    color: var(--text-color);
+    font-size: 0.85rem;
+    margin-right: 0.5rem;
+  }
+
+  .document-action {
+    .btn {
+      padding: 0.2rem 0.5rem;
+      font-size: 0.75rem;
+      
+      i {
+        margin-right: 0.25rem;
+      }
+    }
+  }
+
+  i {
+    transition: all 0.3s ease;
+    &:hover {
+      transform: scale(1.2) rotate(5deg);
+    }
+  }
+}
+
+/* Add these styles for the thumbnail */
+.project-thumbnail {
+  max-width: 100%;
+  max-height: 300px;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  animation: fadeInScale 0.7s ease-out;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: all 0.5s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// First, let's add some keyframes for our custom animations
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInScale {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 2px 4px rgba(var(--secondary-color-rgb), 0.1);
+  }
+  50% {
+    box-shadow: 0 4px 12px rgba(var(--secondary-color-rgb), 0.2);
+  }
+  100% {
+    box-shadow: 0 2px 4px rgba(var(--secondary-color-rgb), 0.1);
+  }
+}
+
+// Alert animation for feedback
+.alert {
+  animation: fadeInScale 0.5s ease-out;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba(var(--secondary-color-rgb), 0.15);
+  }
+}
+
+// Modal animations
+:host ::ng-deep {
+  .modal {
+    .modal-dialog {
+      animation: slideInFromTop 0.3s ease-out;
+    }
+    
+    .modal-content {
+      animation: fadeInScale 0.3s ease-out;
+    }
+  }
+}

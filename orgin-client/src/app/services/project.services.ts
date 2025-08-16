@@ -1,0 +1,256 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { Project } from '../modules/project/project.module';
+import { CookieService } from 'ngx-cookie-service';
+
+// Helper to fetch a file from a URL and return a File object
+async function urlToFile(
+  url: string,
+  filename: string,
+  mimeType: string
+): Promise<File> {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch file: ${response.statusText}`);
+    }
+    const data = await response.blob();
+    return new File([data], filename, { type: mimeType });
+  } catch (error) {
+    console.warn(`Could not fetch file from ${url}, using empty file instead:`, error);
+    // Return an empty file with the same name and type
+    return new File([], filename, { type: mimeType });
+  }
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ProjectService {
+  private apiUrl = `${environment.apiUrl}/client/project`;
+
+  constructor(private http: HttpClient, private cookieService: CookieService) {}
+
+  async getUserProjects(): Promise<Project[]> {
+    const token = this.cookieService.get('token');
+    const userId = this.cookieService.get('userId');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    const projects = await this.http
+      .get<Project[]>(`${this.apiUrl}/userId?user_id=${userId}`, { headers })
+      .toPromise();
+    return projects || [];
+  }
+
+  async getProjectById(id: string): Promise<Project> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    const project = await this.http
+      .get<Project>(`${this.apiUrl}/${id}`, { headers })
+      .toPromise();
+    if (!project) {
+      throw new Error('Project not found');
+    }
+    return project;
+  }
+
+  async updateProject(
+    id: string,
+    projectData: any,
+    files: { [key: string]: File | null },
+    formValues: any
+  ): Promise<any> {
+    const token = this.cookieService.get('token');
+    const formData = new FormData();
+
+    // Add project details as JSON
+    formData.append(
+      'projectDetails',
+      new Blob([JSON.stringify(projectData)], {
+        type: 'application/json',
+      })
+    );
+
+    // Helper to handle file or URL
+    const handleFileField = async (
+      field: string,
+      formKey: string,
+      defaultName: string,
+      mimeType: string
+    ) => {
+      if (files[field]) {
+        formData.append(formKey, files[field]!);
+      } else if (
+        typeof formValues[field] === 'string' &&
+        formValues[field].startsWith('http')
+      ) {
+        try {
+          // Get filename from URL
+          const filename = decodeURIComponent(
+            formValues[field].split('/').pop() || defaultName
+          );
+          const file = await urlToFile(formValues[field], filename, mimeType);
+          // Only append if the file has content
+          if (file.size > 0) {
+            formData.append(formKey, file);
+          } else {
+            // If file is empty, preserve the URL
+            formData.append(`${formKey}Url`, formValues[field]);
+          }
+        } catch (error) {
+          console.warn(`Error handling file field ${field}:`, error);
+          // Preserve the URL if file fetch fails
+          formData.append(`${formKey}Url`, formValues[field]);
+        }
+      } else if (field === 'projectThumbnail' && formValues[field]) {
+        // Handle case where project thumbnail URL exists but doesn't start with http
+        formData.append('projectPhotoUrl', formValues[field]);
+      }
+    };
+
+    await handleFileField(
+      'businessPlan',
+      'businessPlan',
+      'businessPlan.pdf',
+      'application/pdf'
+    );
+    await handleFileField(
+      'businessIdeaDocument',
+      'businessIdeaDocument',
+      'businessIdeaDocument.pdf',
+      'application/pdf'
+    );
+    await handleFileField(
+      'projectThumbnail',
+      'projectPhoto',
+      'thumbnail.jpg',
+      'image/jpeg'
+    );
+    await handleFileField(
+      'incomeStatement',
+      'incomeStatement',
+      'incomeStatement.pdf',
+      'application/pdf'
+    );
+    await handleFileField(
+      'cashFlowStatement',
+      'cashFlow',
+      'cashFlowStatement.pdf',
+      'application/pdf'
+    );
+    await handleFileField(
+      'balanceSheet',
+      'balanceSheet',
+      'balanceSheet.pdf',
+      'application/pdf'
+    );
+    await handleFileField(
+      'pitchingVideo',
+      'pitchingVideo',
+      'pitchingVideo.mp4',
+      'video/mp4'
+    );
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    const response = await this.http
+      .put(`${this.apiUrl}/update?projectId=${id}`, formData, {
+        headers,
+        responseType: 'text',
+      })
+      .toPromise();
+
+    if (!response) {
+      throw new Error('Update failed: No response from server');
+    }
+    return response;
+  }
+
+  async uploadFile(
+    file: File,
+    fieldName: string,
+    projectId: string
+  ): Promise<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('field', fieldName);
+
+    const response = await this.http
+      .post<{ url: string }>(`${this.apiUrl}/upload`, formData)
+      .toPromise();
+
+    if (!response) {
+      throw new Error('Upload failed: No response from server');
+    }
+
+    return response.url;
+  }
+
+  async launchProject(
+    projectData: any,
+    files: { [key: string]: File | null }
+  ): Promise<any> {
+    const token = this.cookieService.get('token');
+    const userId = this.cookieService.get('userId');
+
+    const formData = new FormData();
+
+    // Add project details as JSON
+    formData.append(
+      'projectDetails',
+      new Blob([JSON.stringify(projectData)], {
+        type: 'application/json',
+      })
+    );
+
+    // Add userId
+    formData.append('userId', userId);
+
+    // Add all files
+    if (files['businessPlan'])
+      formData.append('businessPlan', files['businessPlan']);
+    if (files['businessIdeaDocument'])
+      formData.append('businessIdeaDocument', files['businessIdeaDocument']);
+    if (files['projectThumbnail'])
+      formData.append('projectPhoto', files['projectThumbnail']);
+    if (files['incomeStatement'])
+      formData.append('incomeStatement', files['incomeStatement']);
+    if (files['cashFlowStatement'])
+      formData.append('cashFlow', files['cashFlowStatement']);
+    if (files['balanceSheet'])
+      formData.append('balanceSheet', files['balanceSheet']);
+    if (files['pitchingVideo'])
+      formData.append('pitchingVideo', files['pitchingVideo']);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .post(`${this.apiUrl}/upload`, formData, {
+        headers,
+        responseType: 'text',
+      })
+      .toPromise();
+  }
+
+  async getProjectAnalytics(projectId: string): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .get<any>(`${this.apiUrl}/${projectId}/analytics`, { headers })
+      .toPromise();
+  }
+}

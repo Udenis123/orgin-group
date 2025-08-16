@@ -1,0 +1,80 @@
+.scheduling-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  
+  h1 {
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .scheduling-content {
+    background: rgba(255, 255, 255, 0.112);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    
+    p {
+      margin-bottom: 1.5rem;
+      color: var(--text-color-light);
+    }
+  }
+  
+  .appointment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    
+    mat-form-field {
+      width: 100%;
+      
+      &:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    
+    button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:nth-child(1) {
+        background-color: #dc3545;
+        color: white;
+        
+        &:hover {
+          background-color: #c82333;
+        }
+      }
+      
+      &:nth-child(2) {
+        background-color: #ffc107;
+        color: black;
+        
+        &:hover {
+          background-color: #e0a800;
+        }
+      }
+      
+      &:nth-child(3) {
+        background-color: #28a745;
+        color: white;
+        
+        &:hover {
+          background-color: #218838;
+        }
+      }
+    }
+  }
+}

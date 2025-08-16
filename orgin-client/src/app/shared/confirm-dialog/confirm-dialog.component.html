@@ -1,0 +1,10 @@
+<div class="confirm-dialog">
+  <h2 class="confirm-dialog-title">{{ data.title }}</h2>
+  <div class="confirm-dialog-content">
+    <p>{{ data.message }}</p>
+  </div>
+  <div class="confirm-dialog-actions">
+    <button mat-button (click)="onNoClick()">{{ 'confirmDialog.cancel' | translate }}</button>
+    <button mat-raised-button color="warn" (click)="onConfirm()">{{ 'confirmDialog.confirm' | translate }}</button>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+@use '../project-launch/project-launch.component' as launch;
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: transparent;
+    box-shadow: 0 4px 6px rgba(var(--secondary-color-rgb), 0.1);
+    
+    h2 {
+        color: var(--primary-color) !important;
+    }
+}
+
+.card {
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(var(--secondary-color-rgb), 0.1);
+    border-radius: 0.25rem;
+    background-color: var(--card-background-light);
+    box-shadow: 0 2px 4px rgba(var(--secondary-color-rgb), 0.1);
+}
+
+.card-header {
+    background-color: var(--secondary-color);
+    color: var(--text-color-dark);
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid rgba(var(--secondary-color-rgb), 0.1);
+}
+
+.card-body {
+    padding: 1.25rem;
+    color: var(--text-color-light);
+}
+
+// ... include other styles as needed using @use ...

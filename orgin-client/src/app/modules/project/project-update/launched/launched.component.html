@@ -1,0 +1,735 @@
+<div class="container mt-5">
+  <h2>{{ "projectUpdate.title" | translate }}</h2>
+  <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+    <!-- Step 1: Personal Information -->
+    <div *ngIf="currentStep === 0" class="card mb-3">
+      <div class="card-header">
+        {{ "projectLaunch.steps.personalInformation" | translate }}
+      </div>
+      <div class="card-body">
+        <small class="text-muted">{{
+          "projectLaunch.mandatoryFieldsNote" | translate
+        }}</small>
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="name"
+              >{{ "projectLaunch.fields.fullName" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              formControlName="name"
+              required
+            />
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="professionalStatus"
+              >{{ "projectLaunch.fields.professionalStatus" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="professionalStatus"
+              formControlName="professionalStatus"
+              required
+            />
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="email"
+              >{{ "projectLaunch.fields.email" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              formControlName="email"
+              required
+            />
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="phone"
+              >{{ "projectLaunch.fields.phone" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="tel"
+              class="form-control"
+              id="phone"
+              formControlName="phone"
+              required
+            />
+          </div>
+          <div class="col-md-12 form-group">
+            <label for="linkedin">{{
+              "projectLaunch.fields.linkedin" | translate
+            }}</label>
+            <input
+              type="url"
+              class="form-control"
+              id="linkedin"
+              formControlName="linkedin"
+              placeholder="https://www.linkedin.com/in/your-profile"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Project Information -->
+    <div *ngIf="currentStep === 1" class="card mb-3">
+      <div class="card-header">
+        {{ "projectLaunch.steps.projectInformation" | translate }}
+      </div>
+      <div class="card-body">
+        <small class="text-muted">{{
+          "projectLaunch.mandatoryFieldsNote" | translate
+        }}</small>
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label for="projectThumbnail">{{
+              "projectLaunch.fields.projectThumbnail" | translate
+            }}</label>
+            <div *ngIf="projectForm.get('projectThumbnail')?.value">
+              <span>
+                {{ getFileName("projectThumbnail") }}
+                <button
+                  type="button"
+                  class="btn btn-sm btn-link text-danger"
+                  (click)="removeFile('projectThumbnail')"
+                >
+                  &times;
+                </button>
+              </span>
+            </div>
+            <input
+              *ngIf="!projectForm.get('projectThumbnail')?.value"
+              type="file"
+              class="form-control"
+              id="projectThumbnail"
+              (change)="onFileChange($event, 'projectThumbnail')"
+              accept="image/*"
+            />
+            <small class="text-muted">{{
+              "projectLaunch.notes.projectThumbnail" | translate
+            }}</small>
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="projectName"
+              >{{ "projectLaunch.fields.projectName" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="projectName"
+              formControlName="projectName"
+              required
+            />
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="category"
+              >{{ "projectLaunch.fields.category" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <select
+              class="form-control"
+              id="category"
+              formControlName="category"
+              required
+              (change)="clearHiddenFields()"
+            >
+              <option
+                *ngFor="let category of projectCategories"
+                [value]="category"
+              >
+                {{ category | translate }}
+              </option>
+            </select>
+          </div>
+          <div
+            class="col-md-6 form-group"
+            *ngIf="projectForm.get('category')?.value === 'Other'"
+          >
+            <label for="otherCategory"
+              >{{ "projectLaunch.fields.otherCategory" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="otherCategory"
+              formControlName="otherCategory"
+              required
+            />
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="location"
+              >{{ "projectLaunch.fields.location" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="location"
+              formControlName="location"
+              required
+            />
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="status"
+              >{{ "projectLaunch.fields.status" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <select
+              class="form-control"
+              id="status"
+              formControlName="status"
+              required
+              (change)="clearHiddenFields()"
+            >
+              <option *ngFor="let status of projectStatuses" [value]="status">
+                {{ status | translate }}
+              </option>
+            </select>
+          </div>
+          <div
+            class="col-md-6 form-group"
+            *ngIf="projectForm.get('status')?.value === 'Prototype'"
+          >
+            <label for="prototypeLink">{{
+              "projectLaunch.fields.prototypeLink" | translate
+            }}</label>
+            <input
+              type="url"
+              class="form-control"
+              id="prototypeLink"
+              formControlName="prototypeLink"
+            />
+          </div>
+          <div *ngIf="projectForm.get('status')?.value === 'Operating'">
+            <div class="col-md-6 form-group">
+              <label for="employeesCount">{{
+                "projectLaunch.fields.employeesCount" | translate
+              }}</label>
+              <input
+                type="number"
+                class="form-control"
+                id="employeesCount"
+                formControlName="employeesCount"
+              />
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="monthlyIncome">{{
+                "projectLaunch.fields.monthlyIncome" | translate
+              }}</label>
+              <input
+                type="number"
+                class="form-control"
+                id="monthlyIncome"
+                formControlName="monthlyIncome"
+              />
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="websiteUrl">{{
+                "projectLaunch.fields.websiteUrl" | translate
+              }}</label>
+              <input
+                type="url"
+                class="form-control"
+                id="websiteUrl"
+                formControlName="websiteUrl"
+              />
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="incomeStatement">{{
+                "projectLaunch.fields.incomeStatement" | translate
+              }}</label>
+              <div *ngIf="projectForm.get('incomeStatement')?.value">
+                <span>
+                  {{ getFileName("incomeStatement") }}
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-link text-danger"
+                    (click)="removeFile('incomeStatement')"
+                  >
+                    &times;
+                  </button>
+                </span>
+              </div>
+              <input
+                *ngIf="!projectForm.get('incomeStatement')?.value"
+                type="file"
+                class="form-control"
+                id="incomeStatement"
+                (change)="onFileChange($event, 'incomeStatement')"
+              />
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="cashFlowStatement">{{
+                "projectLaunch.fields.cashFlowStatement" | translate
+              }}</label>
+              <div *ngIf="projectForm.get('cashFlowStatement')?.value">
+                <span>
+                  {{ getFileName("cashFlowStatement") }}
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-link text-danger"
+                    (click)="removeFile('cashFlowStatement')"
+                  >
+                    &times;
+                  </button>
+                </span>
+              </div>
+              <input
+                *ngIf="!projectForm.get('cashFlowStatement')?.value"
+                type="file"
+                class="form-control"
+                id="cashFlowStatement"
+                (change)="onFileChange($event, 'cashFlowStatement')"
+              />
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="balanceSheet">{{
+                "projectLaunch.fields.balanceSheet" | translate
+              }}</label>
+              <div *ngIf="projectForm.get('balanceSheet')?.value">
+                <span>
+                  {{ getFileName("balanceSheet") }}
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-link text-danger"
+                    (click)="removeFile('balanceSheet')"
+                  >
+                    &times;
+                  </button>
+                </span>
+              </div>
+              <input
+                *ngIf="!projectForm.get('balanceSheet')?.value"
+                type="file"
+                class="form-control"
+                id="balanceSheet"
+                (change)="onFileChange($event, 'balanceSheet')"
+              />
+            </div>
+          </div>
+          <div class="col-md-12 form-group">
+            <label for="speciality"
+              >{{ "projectLaunch.fields.speciality" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <textarea
+              class="form-control"
+              id="speciality"
+              formControlName="speciality"
+              rows="3"
+              placeholder="{{
+                'projectLaunch.placeholders.speciality' | translate
+              }}"
+              required
+            ></textarea>
+          </div>
+          <div class="col-md-12 form-group">
+            <label for="projectDescription"
+              >{{ "projectLaunch.fields.projectDescription" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <textarea
+              class="form-control"
+              id="projectDescription"
+              formControlName="projectDescription"
+              rows="5"
+              placeholder="{{
+                'projectLaunch.placeholders.projectDescription' | translate
+              }}"
+              required
+            ></textarea>
+            <small class="text-muted">{{
+              "projectLaunch.notes.projectDescription" | translate
+            }}</small>
+          </div>
+          <div class="col-md-12 form-group">
+            <label for="pitchingVideo">{{
+              "projectLaunch.fields.pitchingVideo" | translate
+            }}</label>
+            <div *ngIf="projectForm.get('pitchingVideo')?.value">
+              <span>
+                {{ getFileName("pitchingVideo") }}
+                <button
+                  type="button"
+                  class="btn btn-sm btn-link text-danger"
+                  (click)="removeFile('pitchingVideo')"
+                >
+                  &times;
+                </button>
+              </span>
+            </div>
+            <input
+              *ngIf="!projectForm.get('pitchingVideo')?.value"
+              type="file"
+              class="form-control"
+              id="pitchingVideo"
+              (change)="onFileChange($event, 'pitchingVideo')"
+              accept="video/*"
+            />
+            <small class="text-muted">{{
+              "projectLaunch.notes.pitchingVideo" | translate
+            }}</small>
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="purpose"
+              >{{ "projectLaunch.fields.purpose" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <select
+              class="form-control"
+              id="purpose"
+              formControlName="purpose"
+              required
+            >
+              <option *ngFor="let purpose of projectPurposes" [value]="purpose">
+                {{ purpose | translate }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Sponsorship -->
+    <div *ngIf="currentStep === 2" class="card mb-3">
+      <div class="card-header">
+        {{ "projectLaunch.steps.sponsorship" | translate }}
+      </div>
+      <div class="card-body">
+        <small class="text-muted">{{
+          "projectLaunch.mandatoryFieldsNote" | translate
+        }}</small>
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="hasSponsorship"
+              >{{ "projectLaunch.fields.hasSponsorship" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <select
+              class="form-control"
+              id="hasSponsorship"
+              formControlName="hasSponsorship"
+              required
+              (change)="clearHiddenFields()"
+            >
+              <option value="Yes">
+                {{ "projectLaunch.options.yes" | translate }}
+              </option>
+              <option value="No">
+                {{ "projectLaunch.options.no" | translate }}
+              </option>
+            </select>
+          </div>
+          <div
+            class="col-md-6 form-group"
+            *ngIf="projectForm.get('hasSponsorship')?.value === 'Yes'"
+          >
+            <label for="sponsorName"
+              >{{ "projectLaunch.fields.sponsorName" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="sponsorName"
+              formControlName="sponsorName"
+              required
+            />
+          </div>
+          <div
+            class="col-md-6 form-group"
+            *ngIf="projectForm.get('hasSponsorship')?.value === 'No'"
+          >
+            <label for="needsSponsor"
+              >{{ "projectLaunch.fields.needsSponsor" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <select
+              class="form-control"
+              id="needsSponsor"
+              formControlName="needsSponsor"
+              required
+              (change)="clearHiddenFields()"
+            >
+              <option value="Yes">
+                {{ "projectLaunch.options.yes" | translate }}
+              </option>
+              <option value="No">
+                {{ "projectLaunch.options.no" | translate }}
+              </option>
+            </select>
+          </div>
+          <div
+            class="col-md-6 form-group"
+            *ngIf="projectForm.get('needsSponsor')?.value === 'Yes'"
+          >
+            <label for="orginSponsorship"
+              >{{ "projectLaunch.fields.orginSponsorship" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <select
+              class="form-control"
+              id="orginSponsorship"
+              formControlName="orginSponsorship"
+              required
+            >
+              <option value="Yes">
+                {{ "projectLaunch.options.yes" | translate }}
+              </option>
+              <option value="No">
+                {{ "projectLaunch.options.no" | translate }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="sellProject"
+              >{{ "projectLaunch.fields.sellProject" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <select
+              class="form-control"
+              id="sellProject"
+              formControlName="sellProject"
+              required
+              (change)="clearHiddenFields()"
+            >
+              <option value="Yes">
+                {{ "projectLaunch.options.yes" | translate }}
+              </option>
+              <option value="No">
+                {{ "projectLaunch.options.no" | translate }}
+              </option>
+            </select>
+          </div>
+          <div
+            class="col-md-6 form-group"
+            *ngIf="projectForm.get('sellProject')?.value === 'Yes'"
+          >
+            <label for="projectInvestment"
+              >{{ "projectLaunch.fields.projectInvestment" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="number"
+              class="form-control"
+              id="projectInvestment"
+              formControlName="projectInvestment"
+              required
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Intellectual Property -->
+    <div *ngIf="currentStep === 3" class="card mb-3">
+      <div class="card-header">
+        {{ "projectLaunch.steps.intellectualProperty" | translate }}
+      </div>
+      <div class="card-body">
+        <small class="text-muted">{{
+          "projectLaunch.mandatoryFieldsNote" | translate
+        }}</small>
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="wantsIP"
+              >{{ "projectLaunch.fields.wantsIP" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <select
+              class="form-control"
+              id="wantsIP"
+              formControlName="wantsIP"
+              required
+              (change)="clearHiddenFields()"
+            >
+              <option value="Yes">
+                {{ "projectLaunch.options.yes" | translate }}
+              </option>
+              <option value="No">
+                {{ "projectLaunch.options.no" | translate }}
+              </option>
+            </select>
+          </div>
+          <div
+            class="col-md-6 form-group"
+            *ngIf="projectForm.get('wantsIP')?.value === 'Yes'"
+          >
+            <label for="businessPlan">{{
+              "projectLaunch.fields.businessPlan" | translate
+            }}</label>
+            <div *ngIf="projectForm.get('businessPlan')?.value">
+              <span>
+                {{ getFileName("businessPlan") }}
+                <button
+                  type="button"
+                  class="btn btn-sm btn-link text-danger"
+                  (click)="removeFile('businessPlan')"
+                >
+                  &times;
+                </button>
+              </span>
+            </div>
+            <input
+              *ngIf="!projectForm.get('businessPlan')?.value"
+              type="file"
+              class="form-control"
+              id="businessPlan"
+              (change)="onFileChange($event, 'businessPlan')"
+            />
+          </div>
+          <div
+            class="col-md-6 form-group"
+            *ngIf="projectForm.get('wantsIP')?.value === 'Yes'"
+          >
+            <label for="needsBusinessPlan"
+              >{{ "projectLaunch.fields.needsBusinessPlan" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <select
+              class="form-control"
+              id="needsBusinessPlan"
+              formControlName="needsBusinessPlan"
+              required
+            >
+              <option value="Yes">
+                {{ "projectLaunch.options.yes" | translate }}
+              </option>
+              <option value="No">
+                {{ "projectLaunch.options.no" | translate }}
+              </option>
+            </select>
+          </div>
+          <div
+            class="col-md-6 form-group"
+            *ngIf="projectForm.get('wantsIP')?.value === 'Yes'"
+          >
+            <label for="businessIdea"
+              >{{ "projectLaunch.fields.businessIdea" | translate }} 300 words
+              minimum <span class="text-danger">*</span></label
+            >
+            <textarea
+              class="form-control"
+              id="businessIdea"
+              formControlName="businessIdea"
+              rows="3"
+              required
+            ></textarea>
+          </div>
+          <div
+            class="col-md-6 form-group"
+            *ngIf="projectForm.get('wantsIP')?.value === 'Yes'"
+          >
+            <label for="businessIdeaDocument">{{
+              "projectLaunch.fields.businessIdeaDocument" | translate
+            }}</label>
+            <div *ngIf="projectForm.get('businessIdeaDocument')?.value">
+              <span>
+                {{ getFileName("businessIdeaDocument") }}
+                <button
+                  type="button"
+                  class="btn btn-sm btn-link text-danger"
+                  (click)="removeFile('businessIdeaDocument')"
+                >
+                  &times;
+                </button>
+              </span>
+            </div>
+            <input
+              *ngIf="!projectForm.get('businessIdeaDocument')?.value"
+              type="file"
+              class="form-control"
+              id="businessIdeaDocument"
+              (change)="onFileChange($event, 'businessIdeaDocument')"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5: Review and Submit -->
+    <div *ngIf="currentStep === 4" class="card mb-3">
+      <div class="card-header">
+        {{ "projectLaunch.steps.reviewAndSubmit" | translate }}
+      </div>
+      <div class="card-body">
+        <h5>{{ "projectLaunch.reviewYourSubmission" | translate }}</h5>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>{{ "projectLaunch.field" | translate }}</th>
+              <th>{{ "projectLaunch.value" | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let field of getFormData()">
+              <td>{{ field.label | translate }}</td>
+              <td [innerHTML]="field.value"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Confirmation Statement -->
+        <div class="form-group mt-4">
+          <div class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="confirmationCheckbox"
+              formControlName="confirmationCheckbox"
+              required
+            />
+            <label class="form-check-label" for="confirmationCheckbox">
+              {{ "projectLaunch.confirmationStatement" | translate }}
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="text-center">
+      <button
+        type="button"
+        class="btn btn-secondary me-2"
+        *ngIf="currentStep > 0"
+        (click)="previousStep()"
+      >
+        {{ "PREVIOUS" | translate }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-success me-2"
+        *ngIf="currentStep < steps.length - 1"
+        (click)="nextStep()"
+      >
+        {{ "SAVE & CONTINUE" | translate }}
+      </button>
+      <button type="button" class="btn btn-danger me-2" (click)="onClear()">
+        {{ "CLEAR" | translate }}
+      </button>
+      <button
+        type="submit"
+        class="btn btn-success"
+        *ngIf="currentStep === steps.length - 1"
+        [disabled]="isSubmitting"
+      >
+        {{
+          isSubmitting
+            ? ("UPDATING..." | translate)
+            : ("UPDATE PROJECT" | translate)
+        }}
+      </button>
+    </div>
+  </form>
+</div>

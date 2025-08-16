@@ -1,0 +1,71 @@
+<div class="subscription-container">
+  <div class="subscription-header">
+    <h1>{{ 'subscription.title' | translate }}</h1>
+    <p>{{ 'subscription.subtitle' | translate }}</p>
+  </div>
+
+  <div class="subscription-plans">
+    <div class="plan basic">
+      <div class="plan-header">
+        <h2>{{ 'subscription.plans.basic.title' | translate }}</h2>
+        <span class="badge">{{ 'subscription.plans.basic.badge' | translate }}</span>
+      </div>
+      <div class="plan-price">
+        <span class="amount">3,000 FRW</span>
+        <span class="period">{{ 'subscription.plans.premium.monthly' | translate }}</span>
+      </div>
+      <div class="plan-price">
+        <span class="amount">20,000 FRW</span>
+        <span class="period">{{ 'subscription.plans.basic.yearly' | translate }}</span>
+      </div>
+      <ul class="plan-features">
+        <li *ngFor="let feature of 'subscription.plans.basic.features' | translate">{{ feature }}</li>
+      </ul>
+      <button class="btn-select" (click)="selectPlan('basic')">
+        {{ 'subscription.plans.basic.button' | translate }}
+      </button>
+    </div>
+
+    <div class="plan premium">
+      <div class="plan-header">
+        <h2>{{ 'subscription.plans.premium.title' | translate }}</h2>
+        <span class="badge">{{ 'subscription.plans.premium.badge' | translate }}</span>
+      </div>
+      <div class="plan-price">
+        <span class="amount">700,000 FRW</span>
+        <span class="period">{{ 'subscription.plans.premium.monthly' | translate }}</span>
+      </div>
+      <div class="plan-price">
+        <span class="amount">7,000,000 FRW</span>
+        <span class="period">{{ 'subscription.plans.premium.yearly' | translate }}</span>
+      </div>
+      <ul class="plan-features">
+        <li *ngFor="let feature of 'subscription.plans.premium.features' | translate">{{ feature }}</li>
+      </ul>
+      <button class="btn-select" (click)="selectPlan('premium')">
+        {{ 'subscription.plans.premium.button' | translate }}
+      </button>
+    </div>
+
+    <div class="plan imena">
+      <div class="plan-header">
+        <h2>{{ 'subscription.plans.imena.title' | translate }}</h2>
+        <span class="badge top-tier">{{ 'subscription.plans.imena.badge' | translate }}</span>
+      </div>
+      <div class="plan-price">
+        <span class="amount">1,500,000 FRW</span>
+        <span class="period">{{ 'subscription.plans.premium.yearly' | translate }}</span>
+      </div>
+      <div class="plan-price">
+        <span class="amount">15,000,000 FRW</span>
+        <span class="period">{{ 'subscription.plans.imena.lifetime' | translate }}</span>
+      </div>
+      <ul class="plan-features">
+        <li *ngFor="let feature of 'subscription.plans.imena.features' | translate">{{ feature }}</li>
+      </ul>
+      <button class="btn-select" (click)="selectPlan('imena')">
+        {{ 'subscription.plans.imena.button' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,172 @@
+<div class="protection-overlay"></div>
+
+<div class="analytics-container">
+    <!-- Page Title -->
+    <div class="title text-center">
+      <h1 style="color: var(--secondary-color);">
+        {{ 'analytics.title' | translate }}
+      </h1>
+    </div>
+  
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="loading-spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  
+    <!-- Project Details -->
+    <div *ngIf="!loading">
+      <!-- Approved Projects with Analytics -->
+      <div *ngIf="projectDetails.status === 'approved'">
+        <!-- Project Header -->
+        <div class="project-header">
+          <h2>{{ projectDetails.name }}</h2>
+          <p>{{ projectDetails.description }}</p>
+        </div>
+  
+        <!-- Metrics Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <h3>{{ 'analytics.totalViews' | translate }}</h3>
+            <p>{{ projectAnalytics?.views | number }}</p>
+          </div>
+          <div class="metric-card">
+            <h3>{{ 'analytics.interactions' | translate }}</h3>
+            <p>{{ projectAnalytics?.interactions | number }}</p>
+          </div>
+          <div class="metric-card">
+            <h3>{{ 'analytics.interestedInvestors' | translate }}</h3>
+            <p>{{ projectAnalytics?.interestedInvestors | number }}</p>
+          </div>
+          <div class="metric-card">
+            <h3>{{ 'analytics.bookmarks' | translate }}</h3>
+            <p>{{ projectAnalytics?.bookmarks | number }}</p>
+          </div>
+          <div class="metric-card">
+            <h3>{{ 'analytics.lastUpdated' | translate }}</h3>
+            <p>{{ projectAnalytics?.lastUpdated }}</p>
+          </div>
+          <div class="metric-card">
+            <h3>{{ 'analytics.feasibility' | translate }}</h3>
+            <p>{{ projectAnalytics?.feasibility.percentage }}%</p>
+            <small>{{ projectAnalytics?.feasibility.location }}</small>
+          </div>
+          <div class="metric-card">
+            <h3>{{ 'analytics.monthlyIncome' | translate }}</h3>
+            <p>{{ projectAnalytics?.income.monthly | currency:'RWF ' }}</p>
+          </div>
+          <div class="metric-card">
+            <h3>{{ 'analytics.annualIncome' | translate }}</h3>
+            <p>{{ projectAnalytics?.income.annual | currency:'RWF ' }}</p>
+          </div>
+          <div class="metric-card">
+            <h3>{{ 'analytics.roi' | translate }}</h3>
+            <p>{{ projectAnalytics?.income.roi }}%</p>
+          </div>
+          <div class="metric-card" *ngIf="projectAnalytics?.price">
+            <h3>{{ 'analytics.price' | translate }}</h3>
+            <p>{{ projectAnalytics?.price | currency:'RWF ' }}</p>
+          </div>
+          <div class="metric-card" *ngIf="projectAnalytics?.costOfDevelopment">
+            <h3>{{ 'analytics.costOfDevelopment' | translate }}</h3>
+            <p>{{ projectAnalytics?.costOfDevelopment | currency:'RWF ' }}</p>
+          </div>
+        </div>
+  
+        <!-- Feasibility Section -->
+        <div class="feasibility-section">
+          <h3>{{ 'analytics.feasibilityAnalysis' | translate }}</h3>
+          <p>{{ projectAnalytics?.feasibility.reason }}</p>
+        </div>
+  
+        <!-- Analytics Document Section -->
+        <div *ngIf="analyticsDocument" class="analytics-document-section" (contextmenu)="$event.preventDefault()">
+          <h3>{{ 'analytics.analyticsDocument' | translate }}</h3>
+          <div class="document-viewer">
+            <p>Click the button below to view the analytics document:</p>
+            <button mat-raised-button color="primary" (click)="openAnalyticsDocument()">
+              <mat-icon>description</mat-icon>
+              View Analytics Document
+            </button>
+          </div>
+        </div>
+  
+        <!-- Income Section -->
+        <div class="income-section">
+          <h3>{{ 'analytics.incomeProjections' | translate }}</h3>
+          <div class="income-grid">
+            <div class="income-card">
+              <h4>{{ 'analytics.monthlyIncome' | translate }}</h4>
+              <p>{{ projectAnalytics?.income.monthly | currency:'RWF ' }}</p>
+            </div>
+            <div class="income-card">
+              <h4>{{ 'analytics.annualIncome' | translate }}</h4>
+              <p>{{ projectAnalytics?.income.annual | currency:'RWF ' }}</p>
+            </div>
+          </div>
+          <p class="income-description">{{ projectAnalytics?.income.description }}</p>
+        </div>
+  
+        <!-- Investment Buttons -->
+        <div class="investment-buttons">
+          <button 
+            *ngIf="projectDetails.purpose === 'invest'"
+            mat-raised-button 
+            color="primary" 
+            class="invest-button"
+            (click)="navigateToInvest()">
+            <mat-icon>attach_money</mat-icon>
+            {{ 'analytics.investInProject' | translate }}
+          </button>
+  
+          <button 
+            *ngIf="projectDetails.purpose === 'buy'"
+            mat-raised-button 
+            color="accent" 
+            class="buy-button"
+            (click)="navigateToBuy()">
+            <mat-icon>shopping_cart</mat-icon>
+            {{ 'analytics.buyProject' | translate }}
+          </button>
+        </div>
+      </div>
+  
+      <!-- Pending Projects -->
+      <div *ngIf="projectDetails.status === 'pending'" class="pending-project">
+        <h2>{{ projectDetails.name }}</h2>
+        <p>{{ projectDetails.description }}</p>
+        <div class="pending-details">
+          <p><strong>{{ 'analytics.owner' | translate }}:</strong> {{ projectDetails.owner || 'Not available' }}</p>
+          <p><strong>{{ 'analytics.purpose' | translate }}:</strong> {{ projectDetails.purpose }}</p>
+          <p><strong>{{ 'analytics.category' | translate }}:</strong> {{ projectDetails.category || 'Not available' }}</p>
+        </div>
+        <div class="pending-message">
+          <p *ngIf="projectDetails.description === 'Analytics not available for this project'">
+            Analytics for this project are coming soon.
+          </p>
+          <p *ngIf="projectDetails.description !== 'Analytics not available for this project'">
+            {{ 'analytics.pendingMessage' | translate }}
+          </p>
+        </div>
+        <!-- Bookmark Button -->
+        <button mat-raised-button class="bookmark-button" (click)="bookmarkProject()">
+          <mat-icon>bookmark</mat-icon>
+          {{ 'analytics.bookmarkProject' | translate }}
+        </button>
+      </div>
+
+      <!-- Non-existing Projects -->
+      <div *ngIf="projectDetails.status === 'not_found'" class="not-found-project">
+        <h2>{{ projectDetails.name }}</h2>
+        <p>{{ projectDetails.description }}</p>
+        <!-- Back to Dashboard Button -->
+        <button mat-raised-button color="primary" class="back-button" (click)="navigateToDashboard()">
+          <mat-icon>arrow_back</mat-icon>
+          Go to Dashboard
+        </button>
+      </div>
+    </div>
+</div>
+
+<div class="blur-warning" *ngIf="isBlurred">
+  <p>Please focus on this window to view the content</p>
+</div>

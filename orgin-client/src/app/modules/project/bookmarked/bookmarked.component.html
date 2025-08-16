@@ -1,0 +1,49 @@
+<div class="bookmarked-container">
+  <h2>{{ "bookmarked.title" | translate }}</h2>
+
+  <div class="project-grid" *ngIf="projects.length; else noProjects">
+    <div *ngFor="let project of projects" class="project-card">
+      <img
+        [src]="project.projectUrl || 'assets/images/default-project.jpg'"
+        [alt]="project.projectName"
+      />
+      <div class="project-details">
+        <h3>{{ project.projectName }}</h3>
+        <p class="description">{{ project.projectDescription }}</p>
+        <div class="project-stats">
+          <div class="stat">
+            <span>{{ "bookmarked.category" | translate }}</span>
+            <strong>{{ project.category }}</strong>
+          </div>
+          <div class="stat">
+            <span>{{ "bookmarked.bookmarkedOn" | translate }}</span>
+            <strong>{{ project.bookmarkedDate | date : "mediumDate" }}</strong>
+          </div>
+          <div class="stat">
+            <span>{{ "bookmarked.status" | translate }}</span>
+            <strong>{{ project.analyticStatus }}</strong>
+          </div>
+          <div class="stat">
+            <span>{{ "bookmarked.purpose" | translate }}</span>
+            <strong>{{ project.projectPurpose }}</strong>
+          </div>
+        </div>
+        <div class="project-actions">
+          <button (click)="viewAnalytics(project.projectId)">
+            {{ "bookmarked.viewAnalytics" | translate }}
+          </button>
+          <button
+            (click)="removeBookmark(project.projectId)"
+            class="remove-btn"
+          >
+            {{ "bookmarked.remove" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noProjects>
+    <p>{{ "bookmarked.noProjects" | translate }}</p>
+  </ng-template>
+</div>

@@ -1,0 +1,117 @@
+<div class="container mt-5">
+    <h2>{{ 'sidenav.links.launch_community_project' | translate }}</h2>
+    <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+        
+        <!-- Step 1: Personal Information -->
+        <div *ngIf="currentStep === 0" class="card mb-3">
+            <div class="card-header">{{ 'launchCommunityProject.steps.personalInformation' | translate }}</div>
+            <div class="card-body">
+                <small class="text-muted">{{ 'launchCommunityProject.mandatoryFieldsNote' | translate }}</small>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="fullName">{{ 'launchCommunityProject.fields.fullName' | translate }} <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="fullName" formControlName="fullName">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="professionalStatus">{{ 'launchCommunityProject.fields.professionalStatus' | translate }} <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="professionalStatus" formControlName="professionalStatus">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="email">{{ 'launchCommunityProject.fields.email' | translate }} <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="email" formControlName="email">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="phone">{{ 'launchCommunityProject.fields.phone' | translate }} <span class="text-danger">*</span></label>
+                        <input type="tel" class="form-control" id="phone" formControlName="phone">
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="linkedin">{{ 'launchCommunityProject.fields.linkedin' | translate }}</label>
+                        <input type="url" class="form-control" id="linkedin" formControlName="linkedin" placeholder="https://www.linkedin.com/in/your-profile">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Project Information -->
+        <div *ngIf="currentStep === 1" class="card mb-3">
+            <div class="card-header">{{ 'launchCommunityProject.steps.projectInformation' | translate }}</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="projectThumbnail">{{ 'launchCommunityProject.fields.projectThumbnail' | translate }}</label>
+                        <input type="file" class="form-control" id="projectThumbnail" (change)="onFileChange($event, 'projectThumbnail')" accept="image/*">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="projectName">{{ 'launchCommunityProject.fields.projectName' | translate }} <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="projectName" formControlName="projectName">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="category">{{ 'launchCommunityProject.fields.category' | translate }} <span class="text-danger">*</span></label>
+                        <select class="form-control" id="category" formControlName="category">
+                            <option *ngFor="let category of projectCategories" [value]="category">{{ category | translate }}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 form-group" *ngIf="projectForm.get('category')?.value === 'Other'">
+                        <label for="otherCategory">{{ 'launchCommunityProject.fields.otherCategory' | translate }} <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="otherCategory" formControlName="otherCategory">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="location">{{ 'launchCommunityProject.fields.location' | translate }} <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="location" formControlName="location">
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="description">{{ 'launchCommunityProject.fields.description' | translate }} <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="description" formControlName="description" rows="5"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Team Requirements -->
+        <div *ngIf="currentStep === 2" class="card mb-3">
+            <div class="card-header">{{ 'launchCommunityProject.steps.teamRequirements' | translate }}</div>
+            <div class="card-body">
+                <div class="row" *ngFor="let memberGroup of requiredMembers.controls; let i = index">
+                    <div class="col-md-6 form-group">
+                        <label>{{ 'launchCommunityProject.fields.' + requiredProfessions[i].toLowerCase() | translate }}</label>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <input type="number" class="form-control" [formControl]="getQuantityControl(i)" min="0" [placeholder]="'launchCommunityProject.placeholders.quantity' | translate">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Review and Submit -->
+        <div *ngIf="currentStep === 3" class="card mb-3">
+            <div class="card-header">{{ 'launchCommunityProject.steps.reviewAndSubmit' | translate }}</div>
+            <div class="card-body">
+                <!-- Review content here -->
+                <div class="form-group mt-4">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="confirmationCheckbox" formControlName="confirmationCheckbox">
+                        <label class="form-check-label" for="confirmationCheckbox">
+                            {{ 'launchCommunityProject.confirmationStatement' | translate }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="text-center">
+            <button type="button" class="btn btn-secondary me-2" *ngIf="currentStep > 0" (click)="previousStep()">
+                {{ 'PREVIOUS' | translate }}
+            </button>
+            <button type="button" class="btn btn-success me-2" *ngIf="currentStep < steps.length - 1" (click)="nextStep()">
+                {{ 'CONTINUE' | translate }}
+            </button>
+            <button type="button" class="btn btn-danger me-2" (click)="onClear()">
+                {{ 'CLEAR' | translate }}
+            </button>
+            <button type="submit" class="btn btn-success" *ngIf="currentStep === steps.length - 1" [disabled]="!projectForm.valid">
+                {{ 'SUBMIT' | translate }}
+            </button>
+        </div>
+    </form>
+</div>

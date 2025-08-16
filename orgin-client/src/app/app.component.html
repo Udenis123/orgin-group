@@ -1,0 +1,6 @@
+<router-outlet></router-outlet>
+<app-feedback-popup
+  *ngIf="feedbackService.showFeedback$ | async"
+  (close)="feedbackService.hideFeedbackPopup()"
+  (submit)="onFeedbackSubmit($event)">
+</app-feedback-popup>

@@ -1,0 +1,88 @@
+<div class="settings-container">
+    <h1>{{ 'settings.title' | translate }}</h1>
+
+    <div class="settings-section">
+        <h2>{{ 'settings.personalInfo' | translate }}</h2>
+        <div class="form-group profile-picture">
+            <label>{{ 'profile.profilePicture' | translate }}</label>
+            <div class="picture-container">
+                <div class="image-wrapper">
+                    <label for="profileUpload">
+                        <img [src]="userData.profilePicture" alt="Profile Picture" class="profile-image">
+                        <div class="edit-overlay">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </label>
+                    <input type="file" (change)="onFileSelected($event)" accept="image/*" class="file-input" id="profileUpload">
+                </div>
+                <button class="btn-update" (click)="uploadImage()" [disabled]="!selectedFile">
+                    {{ 'profile.update' | translate }}
+                </button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{ 'settings.fullName' | translate }}</label>
+            <input type="text" [(ngModel)]="userData.fullName">
+        </div>
+        <div class="form-group">
+            <label>{{ 'settings.phoneNumber' | translate }}</label>
+            <input type="tel" [(ngModel)]="userData.phoneNumber">
+        </div>
+        <div class="form-group">
+            <label>{{ 'settings.profession' | translate }}</label>
+            <input type="text" [(ngModel)]="userData.profession">
+        </div>
+        <button class="btn-save" (click)="saveChanges()">{{ 'settings.saveChanges' | translate }}</button>
+    </div>
+
+    <div class="settings-section">
+        <h2>{{ 'settings.emailVerification' | translate }}</h2>
+        <div class="form-group email-verification">
+            <label>{{ 'settings.email' | translate }}</label>
+            <div class="email-wrapper">
+                <input type="email" [(ngModel)]="userData.email" class="email-input" (input)="onEmailChange()">
+                <button *ngIf="!userData.emailVerified" class="btn-verify" (click)="verifyEmail()" [disabled]="resendDisabled">
+                    {{ resendDisabled ? ('Verifying in ' + countdown) : 'Verify Now' }}
+                </button>
+            </div>
+            <span *ngIf="!userData.emailVerified" class="verification-status">
+                {{ 'settings.notVerified' | translate }}
+            </span>
+            <span *ngIf="userData.emailVerified" class="verification-status verified">
+                {{ 'settings.verified' | translate }}
+            </span>
+            <div *ngIf="showOtpField && !userData.emailVerified" class="otp-section">
+                <div class="form-group">
+                    <label>Enter OTP</label>
+                    <div class="otp-wrapper">
+                        <input type="text" [(ngModel)]="otp" maxlength="6" class="otp-input">
+                        <button class="btn-verify-otp" (click)="verifyOtp()">Verify OTP</button>
+                    </div>
+                </div>
+                <div class="resend-section">
+                    <p>Didn't receive the code?</p>
+                    <button (click)="resendOtp()" [disabled]="resendDisabled">
+                        Resend OTP {{ resendDisabled ? 'in ' + countdown : '' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings-section">
+        <h2>{{ 'settings.security' | translate }}</h2>
+        <div class="form-group">
+            <label>{{ 'settings.currentPassword' | translate }}</label>
+            <input type="password" [(ngModel)]="currentPassword" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <label>{{ 'settings.newPassword' | translate }}</label>
+            <input type="password" [(ngModel)]="newPassword" autocomplete="new-password">
+        </div>
+        <div class="form-group">
+            <label>{{ 'settings.confirmPassword' | translate }}</label>
+            <input type="password" [(ngModel)]="confirmPassword" autocomplete="new-password">
+        </div>
+        <button class="btn-save" (click)="updatePassword()">{{ 'settings.updatePassword' | translate }}</button>
+    </div>
+</div>

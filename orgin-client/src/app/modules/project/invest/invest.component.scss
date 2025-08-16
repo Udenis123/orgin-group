@@ -1,0 +1,82 @@
+.invest-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+
+  .loading, .error {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+  }
+
+  .error {
+    color: red;
+  }
+
+  .project-details {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+
+  .project-header {
+    position: relative;
+    
+    .project-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    h1 {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.6);
+      color: var(--secondary-color);
+      padding: 15px;
+      margin: 0;
+    }
+  }
+
+  .project-info {
+    padding: 20px;
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+
+      .info-item {
+        padding: 10px;
+        border-radius: 4px;
+      }
+    }
+
+    .project-description {
+      line-height: 1.6;
+     
+    }
+
+    .project-actions {
+      margin-top: 20px;
+      text-align: center;
+
+      .invest-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
+}

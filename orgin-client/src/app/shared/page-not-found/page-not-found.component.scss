@@ -1,0 +1,31 @@
+.page-not-found {
+  text-align: center;
+  margin-top: 50px;
+  padding: 20px;
+
+  h2 {
+    font-size: 2rem;
+    color: #d32f2f;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #444; // Slightly improved contrast
+  }
+
+  a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #1976d2; // Button-like background
+    color: white; // Text should be white for better visibility
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background-color: #1558a5; // Darker blue on hover
+    }
+  }
+}

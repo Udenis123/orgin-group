@@ -1,0 +1,22 @@
+<div class="join-project-container">
+  
+
+  <div *ngIf="isJoined" class="success-section">
+    <h2>Project Joined Successfully!</h2>
+    <p>You will receive a confirmation email soon.</p>
+    
+    <div class="contact-info">
+      <h3>Contact Information</h3>
+      <p><strong>ORGIN Group Support:</strong></p>
+      <ul class="contact-list">
+        <li class="contact-detail">origingroup299&#64;gmail.com</li>
+        <li class="contact-detail">+250 793 077 088</li>
+      </ul>
+      <p><strong>Project Owner:</strong></p>
+      <ul class="contact-list">
+        <li class="contact-detail">{{ projectOwner.name }}</li>
+        <li class="contact-detail">{{ projectOwner.email }}</li>
+      </ul>
+    </div>
+  </div>
+</div>

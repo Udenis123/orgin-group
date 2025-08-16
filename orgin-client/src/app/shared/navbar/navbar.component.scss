@@ -1,0 +1,169 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #162856;
+    color: white;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    z-index: 101;
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
+
+    body.dark-mode & {
+        background-color: #333;
+    }
+}
+
+.navbar-left {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+
+    @media (max-width: 768px) {
+        text-align: left;
+        position: absolute;
+        left: 20px;
+        font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+        left: 10px;
+        max-width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    @media (min-width: 769px) {
+        left: 50%;
+        transform: translateX(-50%);
+        position: absolute;
+    }
+}
+
+.navbar-right {
+    display: flex;
+    gap: 15px;
+    position: absolute;
+    right: 20px;
+    align-items: center;
+
+    @media (max-width: 480px) {
+        right: 10px;
+        gap: 8px;
+    }
+
+    select {
+        padding: 5px;
+        border-radius: 5px;
+        border: none;
+    }
+}
+
+.theme-btn, .account-btn, .language-selector, .theme-toggle {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+
+    &:hover {
+        color: rgb(202, 86, 8);
+    }
+}
+
+.lang-select {
+    background: #162447; // ✅ Dark background for better visibility
+    color: white; // Ensures contrast
+    border: 1px solid white;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    
+    &:focus {
+      outline: none;
+      border-color: rgb(202, 86, 8); // Highlight border when selected
+    }
+  
+    option {
+      background: #1f4068;
+      color: white;
+    }
+  }
+
+.account-menu {
+    position: relative;
+    display: inline-block;
+
+    .dropdown-menu {
+        position: absolute;
+        right: 0;
+        background: #162447;
+        list-style: none;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        display: none;
+        z-index: 102;
+        min-width: 150px;
+
+        @media (max-width: 480px) {
+            right: -10px;
+        }
+
+        body.dark-mode & {
+            background: #444;
+        }
+
+        li {
+            padding: 8px 15px;
+            cursor: pointer;
+            color: white;
+            
+            &:hover {
+                background: #1f4068;
+            }
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            display: block;
+
+            &:hover {
+                background: #1f4068;
+            }
+        }
+
+        .logout-btn {
+            background-color: rgb(202, 86, 8);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            width: 100%;
+            text-align: center;
+
+            &:hover {
+                background-color: rgb(235, 130, 10);
+            }
+        }
+    }
+
+    &.open .dropdown-menu {
+        display: block;
+    }
+}

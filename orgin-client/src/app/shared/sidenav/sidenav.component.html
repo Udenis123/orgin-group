@@ -1,0 +1,37 @@
+<div class="sidenav" [class.closed]="!isOpen">
+    <!-- Profile Container -->
+    <div class="profile-container">
+        <div class="profile-picture">
+            <img [src]="userProfile?.profilePicture || 'assets/images/logo.png'" alt="Profile">
+        </div>
+        <div class="profile-info">
+            <span class="fullname">{{ userProfile?.fullname || 'Full Name' }}</span>
+            <span class="username">{{ userProfile?.email || 'Email Address' }}</span>
+        </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <ul>
+        <li class="nested-menu" [class.open]="isInitiatingProjectOpen">
+            <div class="menu-header" (click)="toggleInitiatingProject()">
+                <span>{{ 'sidenav.links.initiating_project' | translate }}</span>
+                <div class="arrow" [class.open]="isInitiatingProjectOpen"></div>
+            </div>
+            <ul class="sub-menu">
+                <li><a routerLink="/dashboard/project/order">{{ 'sidenav.links.order_project' | translate }}</a></li>
+                <li><a routerLink="/dashboard/project/launch">{{ 'sidenav.links.launch_project' | translate }}</a></li>
+                <li><a routerLink="/dashboard/project/launch-community">{{ 'sidenav.links.launch_community_project' | translate }}</a></li>
+            </ul>
+        </li>
+        <li><a routerLink="/dashboard/subscription/plan">{{ 'sidenav.links.subscription_plan' | translate }}</a></li>
+        <li><a [routerLink]="['/dashboard/project/bookmarked']">{{ 'sidenav.links.bookmarked' | translate }}</a></li>
+        <li><a routerLink="/dashboard/project/my-projects">{{ 'sidenav.links.my_projects' | translate }}</a></li>
+        <li><a routerLink="/dashboard/appointments">{{ 'sidenav.links.appointments' | translate }}</a></li>
+        <li><a routerLink="/dashboard/finish-payment">{{ 'sidenav.links.finish_payment' | translate }}</a></li>
+    </ul>
+
+    <!-- Toggle Button -->
+    <button (click)="toggleSidenav()" class="toggle-btn">
+        {{ isOpen ? '<' : '>' }}
+    </button>
+</div>

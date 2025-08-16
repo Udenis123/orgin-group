@@ -1,0 +1,153 @@
+.appointments-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: var(--text-color);
+  overflow-x: auto;
+  width: max-content;
+  min-width: 100%;
+
+  h1 {
+    color: var(--secondary-color);
+    margin-bottom: 2rem;
+    width: 100%;
+  }
+
+  table {
+    width: 100%;
+    min-width: 600px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: transparent;
+    color: var(--text-color);
+    
+
+    th {
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    
+
+    td {
+      padding: 1rem;
+      color: var(--text-color);
+      white-space: nowrap;
+    }
+
+    .status-scheduled {
+      color: #ffa500;
+    }
+
+    .status-completed {
+      color: #28a745;
+    }
+
+    .status-cancelled {
+      color: #dc3545;
+    }
+
+    .status-pending {
+      color: #ffc107;
+    }
+
+    button {
+      margin: 0 0.25rem;
+    }
+  }
+}
+
+
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+
+  th {
+    font-weight: 500;
+    background-color: var(--primary-color);
+    color: white;
+  }
+
+  tr:hover {
+    background-color: #d1500037;
+  }
+
+  .icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: #3f51b5;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #283593;
+    }
+
+    &.cancel-button {
+      color: #f44336;
+
+      &:hover {
+        color: #c62828;
+      }
+    }
+  }
+}
+
+/* Add dark mode support */
+:host-context(body.dark-mode) {
+  .appointments-table {
+    th {
+      background-color: var(--secondary-color);
+      color: var(--text-color-dark);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .appointments-container {
+    padding: 0.5rem;
+    margin: 1rem 0;
+    width: max-content;
+    min-width: 100%;
+    
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    table {
+      th, td {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
+      
+      .icon-button {
+        padding: 0.25rem;
+        margin: 0 0.125rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .appointments-container {
+    margin: 0.5rem 0;
+    padding: 0.5rem 0;
+    width: max-content;
+    min-width: 100%;
+    
+    table {
+      th, td {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+      }
+    }
+  }
+}

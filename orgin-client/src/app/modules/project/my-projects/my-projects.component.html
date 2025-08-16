@@ -1,0 +1,153 @@
+<div class="container">
+  <h1>{{ "myProjects.title" | translate }}</h1>
+
+  <div class="projects-section">
+    <h2>{{ "myProjects.launchedProjects" | translate }}</h2>
+    <div *ngIf="launchedProjects.length > 0; else noLaunchedProjects">
+      <table class="projects-table">
+        <thead>
+          <tr>
+            <th>{{ "myProjects.tableHeaders.number" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.name" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.description" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.submissionDate" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.lastUpdated" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.status" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.actions" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of launchedProjects; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ project.projectName }}</td>
+            <td>{{ project.description }}</td>
+            <td>{{ project.submittedOn | date }}</td>
+            <td>{{ project.updatedOn | date }}</td>
+            <td [ngClass]="'status-' + project.status.toLowerCase()">
+              {{ project.status }}
+            </td>
+            <td>
+              <button class="icon-button" (click)="viewProjectDetails(project)">
+                <i class="material-icons">visibility</i>
+              </button>
+              <button
+                *ngIf="
+                  project.status === 'PENDING' || project.status === 'DECLINED'
+                "
+                class="icon-button"
+                (click)="editProject(project)"
+              >
+                <i class="material-icons">edit</i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noLaunchedProjects>
+      <div class="no-projects-card">
+        {{ "myProjects.noLaunchedProjects" | translate }}
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="projects-section">
+    <h2>{{ "myProjects.orderedProjects" | translate }}</h2>
+    <div *ngIf="orderedProjects.length > 0; else noOrderedProjects">
+      <table class="projects-table">
+        <thead>
+          <tr>
+            <th>{{ "myProjects.tableHeaders.number" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.name" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.description" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.submissionDate" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.lastUpdated" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.status" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.actions" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of orderedProjects; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ project.projectName }}</td>
+            <td>{{ project.description }}</td>
+            <td>{{ project.submittedOn | date }}</td>
+            <td>{{ project.updatedOn | date }}</td>
+            <td [ngClass]="'status-' + project.status.toLowerCase()">
+              {{ project.status }}
+            </td>
+            <td>
+              <button class="icon-button" (click)="viewProjectDetails(project)">
+                <i class="material-icons">visibility</i>
+              </button>
+              <button
+                *ngIf="
+                  project.status === 'PENDING' || project.status === 'DECLINED'
+                "
+                class="icon-button"
+                (click)="editProject(project)"
+              >
+                <i class="material-icons">edit</i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noOrderedProjects>
+      <div class="no-projects-card">
+        {{ "myProjects.noOrderedProjects" | translate }}
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="projects-section">
+    <h2>{{ "myProjects.communityProjects" | translate }}</h2>
+    <div *ngIf="communityProjects.length > 0; else noCommunityProjects">
+      <table class="projects-table">
+        <thead>
+          <tr>
+            <th>{{ "myProjects.tableHeaders.number" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.name" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.description" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.submissionDate" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.lastUpdated" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.status" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.actions" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of communityProjects; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ project.projectName }}</td>
+            <td>{{ project.description }}</td>
+            <td>{{ project.submittedOn | date }}</td>
+            <td>{{ project.updatedOn | date }}</td>
+            <td [ngClass]="'status-' + project.status.toLowerCase()">
+              {{ project.status }}
+            </td>
+            <td>
+              <button class="icon-button" (click)="viewProjectDetails(project)">
+                <i class="material-icons">visibility</i>
+              </button>
+              <button
+                *ngIf="
+                  project.status === 'PENDING' || project.status === 'DECLINED'
+                "
+                class="icon-button"
+                (click)="editProject(project)"
+              >
+                <i class="material-icons">edit</i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noCommunityProjects>
+      <div class="no-projects-card">
+        {{ "myProjects.noCommunityProjects" | translate }}
+      </div>
+    </ng-template>
+  </div>
+</div>

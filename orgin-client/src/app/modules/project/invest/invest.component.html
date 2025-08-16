@@ -1,0 +1,48 @@
+<div class="invest-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    <p>{{ 'invest.loading' | translate }}</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Project Details -->
+  <div *ngIf="project && !loading" class="project-details">
+    <div class="project-header">
+      <img [src]="project.image" [alt]="project.title" class="project-image">
+      <h1>{{ project.title }}</h1>
+    </div>
+    
+    <div class="project-info">
+      <div class="info-grid">
+        <div class="info-item">
+          <strong>{{ 'invest.type' | translate }}:</strong> {{ project.type }}
+        </div>
+        <div class="info-item">
+          <strong>{{ 'invest.category' | translate }}:</strong> {{ project.category }}
+        </div>
+        <div class="info-item">
+          <strong>{{ 'invest.status' | translate }}:</strong> {{ project.status }}
+        </div>
+        <div class="info-item">
+          <strong>{{ 'invest.owner' | translate }}:</strong> {{ project.owner }}
+        </div>
+      </div>
+      
+      <p class="project-description">{{ project.description }}</p>
+      
+      <div class="project-actions">
+        <button 
+          *ngIf="project.isInvestment" 
+          class="invest-btn"
+          (click)="investNow()"
+        >
+          {{ 'invest.investNow' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
