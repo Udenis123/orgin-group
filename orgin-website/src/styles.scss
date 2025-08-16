@@ -1,0 +1,248 @@
+@use 'bootstrap';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;600&family=Bebas+Neue&display=swap');
+
+
+// === Global Variables === //
+:root {
+  --primary-color: #162447; // Purple-blue
+  --secondary-color: #ca5608; // Almost orange
+  --text-color-light: #000000; // Dark text for light mode
+  --text-color-dark: #ffffff; // Light text for dark mode
+  --background-light: #ffffff; // Light background
+  --background-dark: #162447; // Dark background for dark mode
+  --card-background-light: #ffffff; // Light mode card background
+  --card-background-dark: #14254e; // Dark mode card background
+  --success-color: #2d8830; // Green color for success
+}
+
+// === Global Styles === //
+body {
+  margin: 0;
+  padding: 0;
+  padding-top: 100px; // Prevents content from being hidden behind both navbars
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: 1.3rem;  // Adjust font size for lead text
+  line-height: 1.6;  // Adjust line height for better readability
+  font-family: 'sans-serif'; // Change font style for lead text
+  overflow-x: hidden; // Ensure proper scroll behavior
+  position: relative; // Ensure proper positioning
+  
+  // Adjust padding for small screens where lower navbar is hidden
+  @media (max-width: 991.98px) {
+    padding-top: 70px; // Only upper navbar height on small screens
+  }
+}
+
+// Ensure html element also has proper positioning
+html {
+  position: relative;
+  z-index: 1;
+}
+.bpoint {
+  width: 49%;
+  height: auto;
+  font-size: 1.3rem;  // Adjust font size for lead text
+  line-height: 1.6;  // Adjust line height for better readability
+  font-family: 'sans-serif';  // Change font style for lead text
+}
+.main-content {
+  padding-bottom: 80px;
+  min-height: calc(100vh - 200px); // Adjusted for both navbars
+  overflow-y: auto;
+  font-size: 1.3rem;  // Adjust font size for lead text
+  line-height: 1.6;  // Adjust line height for better readability
+  font-family: 'sans-serif'; // Change font style for lead text
+  position: relative;
+  z-index: 1; // Ensure content is below navbar layers
+  
+  // Adjust for small screens where lower navbar is hidden
+  @media (max-width: 991.98px) {
+    min-height: calc(100vh - 150px); // Adjusted for only upper navbar
+  }
+}
+
+// === Global Dark Mode Styling === //
+body.dark-mode {
+  background-color: var(--background-dark);
+  color: var(--text-color-dark);
+}
+
+// Apply dark mode styles globally to elements
+body.dark-mode .navbar a,
+body.dark-mode .navbar button,
+body.dark-mode .lead-text,
+body.dark-mode .projects-container,
+
+body.dark-mode .title {
+  color: var(--text-color-dark);
+}
+body.contact-card {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--background-dark);
+  border-radius: 8px;
+  box-shadow: 0 8px 12px var(--secondary-color);
+}
+body.dark-mode .project-card{
+  background: var(--card-background-dark);
+  color: var(--text-color);
+  .h1 .h2{
+    color: var(--secondary-color);
+  }
+}
+body.dark-mode .business-points .card {
+  background: var(--card-background-dark);
+  border-left: 5px solid var(--secondary-color);
+  color: var(--text-color-dark);
+}
+
+// === Navbar Styling === //
+.navbar a,
+.navbar button {
+  color: var(--text-color-light);
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover,
+.navbar .active {
+  color: var(--secondary-color);
+}
+
+// Ensure all content stays below navbar
+.container,
+.container-fluid,
+.row,
+.col,
+[class*="col-"] {
+  position: relative;
+  z-index: 1;
+}
+
+// Ensure page content starts below navbar
+.page-content,
+.about-content,
+.business-projects-content,
+.community-projects-content,
+.i2v-program-content,
+.contact-content,
+.legal-content {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+// === Buttons === //
+.btn-lg {
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-begin {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #0f1c35;
+    transform: scale(1.05);
+  }
+}
+
+.btn-explore {
+  background-color: var(--secondary-color);
+  color: white;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #a84907;
+    transform: scale(1.05);
+  }
+}
+
+// ✅ Dark Mode Buttons
+body.dark-mode .btn-begin {
+  background-color: #0f1c35;
+
+  &:hover {
+    background-color: #0a1324;
+  }
+}
+
+body.dark-mode .btn-explore {
+  background-color: #a84907;
+
+  &:hover {
+    background-color: #903e06;
+  }
+}
+
+// === Responsive Navbar === //
+@media (max-width: 768px) {
+  .navbar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: var(--primary-color);
+    position: absolute;
+    width: 100%;
+    top: 60px;
+    left: 0;
+    padding: 1rem;
+  }
+}
+
+// === Business Section Global Styling === //
+.business-points .card {
+  border-left: 5px solid var(--primary-color);
+  border-radius: 10px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+body.dark-mode .business-points .card {
+  background: var(--card-background-dark);
+  border-left: 5px solid var(--secondary-color);
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .business-points {
+    flex-direction: column;
+  }
+
+  .business-points .card {
+    border-left: none;
+    border-top: 5px solid var(--primary-color);
+  }
+
+  body.dark-mode .business-points .card {
+    border-top: 5px solid var(--secondary-color);
+  }
+  .bpoint{
+    width: 100%;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  .business-points {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+}
+/* Hide scrollbar for all browsers */
+::-webkit-scrollbar {
+  display: none; /* ✅ Hides scrollbar in Webkit browsers (Chrome, Safari, Edge) */
+}
+
+body {
+  scrollbar-width: none; /* ✅ Hides scrollbar in Firefox */
+  -ms-overflow-style: none; /* ✅ Hides scrollbar in Internet Explorer */
+  overflow-y: auto; /* ✅ Ensures scrolling still works */
+}

@@ -1,0 +1,55 @@
+<div class="container">
+  <h1>{{ 'appointments.scheduled.title' | translate }}</h1>
+
+  <mat-form-field appearance="outline">
+    <mat-label>{{ 'common.search' | translate }}</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="{{ 'appointments.scheduled.searchPlaceholder' | translate }}">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <div class="table-container">
+    <table class="animated-table">
+      <thead>
+        <tr>
+          <th>{{ 'appointments.scheduled.tableHeaders.no' | translate }}</th>
+          <th>{{ 'appointments.scheduled.tableHeaders.clientName' | translate }}</th>
+          <th>{{ 'appointments.scheduled.tableHeaders.date' | translate }}</th>
+          <th>{{ 'appointments.scheduled.tableHeaders.time' | translate }}</th>
+          <th>{{ 'appointments.scheduled.tableHeaders.status' | translate }}</th>
+          <th>{{ 'appointments.scheduled.tableHeaders.actions' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let appointment of paginatedData; let i = index">
+          <td>{{ (currentPage * pageSize) + i + 1 }}</td>
+          <td>{{ appointment.clientName }}</td>
+          <td>{{ appointment.date }}</td>
+          <td>{{ appointment.time }}</td>
+          <td>{{ getTranslatedStatus(appointment.status) }}</td>
+          <td class="actions">
+            <button mat-icon-button (click)="viewAppointment(appointment)" matTooltip="{{ 'appointments.scheduled.actions.view' | translate }}">
+              <mat-icon>visibility</mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="cancelAppointment(appointment)" matTooltip="{{ 'appointments.scheduled.actions.cancel' | translate }}" class="cancel-btn">
+              <mat-icon>close</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="currentPage === 0">
+      <i class="material-icons">chevron_left</i>
+    </button>
+    <span>{{ currentPage + 1 }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
+      <i class="material-icons">chevron_right</i>
+    </button>
+    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+</div>

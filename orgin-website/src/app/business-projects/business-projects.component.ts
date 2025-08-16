@@ -1,0 +1,1 @@
+groupedBrokeredProjects = this.chunkProjects(this.brokeredProjects, 4); 

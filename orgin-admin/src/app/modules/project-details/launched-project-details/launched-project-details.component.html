@@ -1,0 +1,275 @@
+<div class="container">
+  <h1>{{ 'PROJECT_DETAILS.TITLE' | translate }}</h1>
+  
+  <div class="details-container">
+    <!-- Personal Information Section -->
+    <div class="details-section">
+      <h3>{{ 'PROJECT_DETAILS.SECTIONS.PERSONAL_INFO' | translate }}</h3>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.FULL_NAME' | translate }}:</strong>
+        <span>{{ project.fullName }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.PROFESSIONAL_STATUS' | translate }}:</strong>
+        <span>{{ project.professionalStatus }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.EMAIL' | translate }}:</strong>
+        <span>{{ project.email }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.PHONE' | translate }}:</strong>
+        <span>{{ project.phone }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.LINKEDIN' | translate }}:</strong>
+        <a [href]="project.linkedin" target="_blank" class="social-link">{{ project.linkedin }}</a>
+      </div>
+    </div>
+
+    <!-- Project Information Section -->
+    <div class="details-section">
+      <h3>{{ 'PROJECT_DETAILS.SECTIONS.PROJECT_INFO' | translate }}</h3>
+      <!-- Project Thumbnail -->
+      <div class="thumbnail-container" *ngIf="project.thumbnail">
+        <img [src]="project.thumbnail" alt="Project Thumbnail" class="project-thumbnail">
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.PROJECT_NAME' | translate }}:</strong>
+        <span>{{ project.projectName }}</span>
+      </div>
+      <div class="detail-row description-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.PROJECT_DESCRIPTION' | translate }}:</strong>
+        <span>{{ project.description }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.CATEGORY' | translate }}:</strong>
+        <span>{{ project.category }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.LOCATION' | translate }}:</strong>
+        <span>{{ project.location }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.STATUS' | translate }}:</strong>
+        <span class="status-badge" [ngClass]="project.projectStatus.toLowerCase()">
+          {{ project.projectStatus }}
+        </span>
+      </div>
+      <div class="detail-row" *ngIf="project.prototypeLink">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.PROTOTYPE_LINK' | translate }}:</strong>
+        <a [href]="project.prototypeLink" target="_blank" class="external-link">{{ project.prototypeLink }}</a>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.EMPLOYEES' | translate }}:</strong>
+        <span>{{ project.employeesCount }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.MONTHLY_INCOME' | translate }}:</strong>
+        <span class="currency-value">{{ project.monthlyIncome | currency }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.WEBSITE_URL' | translate }}:</strong>
+        <a [href]="project.websiteUrl" target="_blank" class="external-link">{{ project.websiteUrl }}</a>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.SPECIALITY' | translate }}:</strong>
+        <span>{{ project.speciality }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.PROJECT_PURPOSE' | translate }}:</strong>
+        <span class="purpose-badge">{{ project.purpose }}</span>
+      </div>
+    </div>
+
+    <!-- Sponsorship Section -->
+    <div class="details-section">
+      <h3>{{ 'PROJECT_DETAILS.SECTIONS.SPONSORSHIP_INFO' | translate }}</h3>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.HAS_SPONSORSHIP' | translate }}:</strong>
+        <span class="badge" [ngClass]="project.hasSponsorship === 'Yes' ? 'badge-success' : 'badge-secondary'">
+          {{ project.hasSponsorship }}
+        </span>
+      </div>
+      <div class="detail-row" *ngIf="project.hasSponsorship === 'Yes'">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.SPONSOR_NAME' | translate }}:</strong>
+        <span>{{ project.sponsorName }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.NEEDS_SPONSOR' | translate }}:</strong>
+        <span class="badge" [ngClass]="project.needsSponsor === 'Yes' ? 'badge-warning' : 'badge-secondary'">
+          {{ project.needsSponsor }}
+        </span>
+      </div>
+      <div class="detail-row" *ngIf="project.hasSponsorship === 'Yes'">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.SPONSORSHIP_ORIGIN' | translate }}:</strong>
+        <span>{{ project.originSponsorship }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.SELL_PROJECT' | translate }}:</strong>
+        <span class="badge" [ngClass]="project.sellProject === 'Yes' ? 'badge-info' : 'badge-secondary'">
+          {{ project.sellProject }}
+        </span>
+      </div>
+      <div class="detail-row" *ngIf="project.sellProject === 'Yes'">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.PROJECT_INVESTMENT' | translate }}:</strong>
+        <span class="currency-value">{{ project.projectInvestment | currency }}</span>
+      </div>
+    </div>
+
+    <!-- Intellectual Property Section -->
+    <div class="details-section">
+      <h3>{{ 'PROJECT_DETAILS.SECTIONS.INTELLECTUAL_PROPERTY' | translate }}</h3>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.WANTS_IP' | translate }}:</strong>
+        <span class="badge" [ngClass]="project.wantsIP === 'Yes' ? 'badge-success' : 'badge-secondary'">
+          {{ project.wantsIP }}
+        </span>
+      </div>
+      <div class="detail-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.NEEDS_BUSINESS_PLAN' | translate }}:</strong>
+        <span class="badge" [ngClass]="project.needsBusinessPlan === 'Yes' ? 'badge-warning' : 'badge-secondary'">
+          {{ project.needsBusinessPlan }}
+        </span>
+      </div>
+      <div class="detail-row description-row">
+        <strong>{{ 'PROJECT_DETAILS.FIELDS.BUSINESS_IDEA' | translate }}:</strong>
+        <span>{{ project.businessIdea }}</span>
+      </div>
+    </div>
+
+    <!-- Documents Section -->
+    <div class="details-section">
+      <h3>{{ 'PROJECT_DETAILS.SECTIONS.DOCUMENTS' | translate }}</h3>
+      <div class="documents-grid">
+        <div class="document-card" *ngIf="project.incomeStatement">
+          <div class="document-icon">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <div class="document-info">
+            <div class="document-name">{{ 'PROJECT_DETAILS.FIELDS.INCOME_STATEMENT' | translate }}</div>
+            <a [href]="project.incomeStatement" target="_blank" class="btn btn-secondary">
+              <i class="fas fa-download"></i> {{ 'COMMON.DOWNLOAD' | translate }}
+            </a>
+          </div>
+        </div>
+        <div class="document-card" *ngIf="project.businessPlan">
+          <div class="document-icon">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <div class="document-info">
+            <div class="document-name">{{ 'PROJECT_DETAILS.FIELDS.BUSINESS_PLAN' | translate }}</div>
+            <a [href]="project.businessPlan" target="_blank" class="btn btn-secondary">
+              <i class="fas fa-download"></i> {{ 'COMMON.DOWNLOAD' | translate }}
+            </a>
+          </div>
+        </div>
+        <div class="document-card" *ngIf="project.businessIdeaDocument">
+          <div class="document-icon">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <div class="document-info">
+            <div class="document-name">{{ 'PROJECT_DETAILS.FIELDS.BUSINESS_IDEA_DOCUMENT' | translate }}</div>
+            <a [href]="project.businessIdeaDocument" target="_blank" class="btn btn-secondary">
+              <i class="fas fa-download"></i> {{ 'COMMON.DOWNLOAD' | translate }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status-specific sections -->
+    <ng-container [ngSwitch]="project.projectStatus">
+      <!-- Analytics Section for Approved Projects -->
+      <div class="details-section" *ngSwitchCase="'Approved'" [class.has-analytics]="project.analytics">
+        <h3>{{ 'PROJECT_DETAILS.SECTIONS.ANALYTICS' | translate }}</h3>
+        <div class="document-card analytics" *ngIf="project.analytics">
+          <div class="document-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="document-info">
+            <div class="document-name">{{ 'PROJECT_DETAILS.FIELDS.BUSINESS_ANALYTICS' | translate }}</div>
+            <a [href]="project.analytics" target="_blank" class="btn btn-primary">
+              <i class="fas fa-download"></i> {{ 'COMMON.DOWNLOAD' | translate }}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Declined Feedback Section -->
+      <div class="details-section feedback-section" *ngSwitchCase="'Declined'">
+        <h3>{{ 'PROJECT_DETAILS.SECTIONS.DECLINED_FEEDBACK' | translate }}</h3>
+        <div class="feedback-content">
+          <div class="feedback-message">
+            <i class="fas fa-info-circle"></i>
+            <p>{{ project.declinedFeedback }}</p>
+          </div>
+          <div class="feedback-meta">
+            <div class="declined-by">
+              <strong>{{ 'PROJECT_DETAILS.FIELDS.DECLINED_BY' | translate }}:</strong>
+              <span>{{ project.declinedBy }}</span>
+            </div>
+            <div class="declined-date">
+              <strong>{{ 'PROJECT_DETAILS.FIELDS.DECLINED_DATE' | translate }}:</strong>
+              <span>{{ project.declinedDate | date }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assigned Analyzers Section -->
+      <div class="details-section analyzers-section" *ngSwitchCase="'Pending'">
+        <h3>{{ 'PROJECT_DETAILS.SECTIONS.ASSIGNED_ANALYZERS' | translate }}</h3>
+        <div class="analyzers-grid">
+          <div class="analyzer-card" *ngFor="let analyzer of project.assignedAnalyzers">
+            <div class="analyzer-header">
+              <i class="fas fa-user-tie"></i>
+              <h4>{{ analyzer.name }}</h4>
+            </div>
+            <div class="analyzer-body">
+              <div class="expertise">
+                <strong>{{ 'PROJECT_DETAILS.FIELDS.EXPERTISE' | translate }}:</strong>
+                <span>{{ analyzer.expertise }}</span>
+              </div>
+              <div class="assigned-date">
+                <strong>{{ 'PROJECT_DETAILS.FIELDS.ASSIGNED_DATE' | translate }}:</strong>
+                <span>{{ analyzer.assignedDate | date }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Assignment Status -->
+  <div class="assignment-status" *ngIf="project?.isAssigned && project.projectStatus !== 'Pending'">
+    <i class="fas fa-check-circle"></i>
+    <h3>{{ 'PROJECT_DETAILS.ASSIGNED_TO' | translate }} {{ project.assignedAnalyzerName }}</h3>
+  </div>
+
+  <!-- Assignment Section -->
+  <div class="assignment-section" *ngIf="project && !project.isAssigned && project.projectStatus === 'Pending'">
+    <h3>{{ 'PROJECT_DETAILS.ASSIGN_PROJECT' | translate }}</h3>
+    <div class="assignment-form">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'PROJECT_DETAILS.SELECT_ANALYZER' | translate }}</mat-label>
+        <mat-select [(ngModel)]="selectedAnalyzer">
+          <mat-option *ngFor="let analyzer of analyzers" [value]="analyzer">
+            <div class="analyzer-option">
+              <div class="name">{{ analyzer.name }}</div>
+              <div class="expertise">{{ analyzer.expertise }}</div>
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <app-custom-button
+          buttonClass="btn-save"
+          type="button"
+          (onClick)="assignProject()"
+        >
+          {{ 'COMMON.SAVE_CONTINUE' | translate }}
+      </app-custom-button>
+    </div>
+  </div>
+</div>

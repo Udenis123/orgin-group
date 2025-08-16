@@ -1,0 +1,47 @@
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+     /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  }
+  
+  .dashboard-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: var(--background);
+    color: var(--text-color);
+    margin-top: 7%;
+    margin-left: 270px; /* Add this line */
+    transition: margin-left 0.3s ease-in-out; /* Add this line */
+     /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+  
+  @media (max-width: 768px) {
+    .dashboard-container {
+      flex-direction: column;
+      margin-top: 50px;
+    }
+    .dashboard-content {
+      padding: 10px;
+      margin-left: 0; /* Add this line for mobile */
+  }
+  }
+  .dashboard-content.sidenav-closed {
+    margin-left: 0;
+}
+  

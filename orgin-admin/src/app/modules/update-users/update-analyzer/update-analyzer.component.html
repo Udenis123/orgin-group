@@ -1,0 +1,114 @@
+<div class="container">
+  <h2>{{ 'update_analyzer.title' | translate }}</h2>
+  
+  <div class="stepper">
+    <div *ngFor="let step of steps; let i = index" 
+         [class.active]="currentStep === i"
+         (click)="goToStep(i)">
+      {{ step | translate }}
+    </div>
+  </div>
+
+  <form (ngSubmit)="submitForm()">
+    <!-- Personal Information Step -->
+    <div *ngIf="currentStep === 0" class="card">
+      <div class="card-header">{{ 'update_analyzer.steps.personal_info' | translate }}</div>
+      <div class="card-body" [formGroup]="firstFormGroup">
+        <div class="form-group">
+          <label>{{ 'update_analyzer.form.full_name' | translate }}</label>
+          <input type="text" formControlName="fullName">
+        </div>
+        <div class="form-group">
+          <label>{{ 'update_analyzer.form.national_id' | translate }}</label>
+          <input type="text" formControlName="nationalId">
+        </div>
+        <div class="form-group">
+          <label>{{ 'update_analyzer.form.nationality' | translate }}</label>
+          <input type="text" formControlName="nationality">
+        </div>
+        <div class="form-group">
+          <label>{{ 'update_analyzer.form.expertise' | translate }}</label>
+          <input type="text" formControlName="expertise">
+        </div>
+      </div>
+    </div>
+
+    <!-- Account Details Step -->
+    <div *ngIf="currentStep === 1" class="card">
+      <div class="card-header">{{ 'update_analyzer.steps.account_details' | translate }}</div>
+      <div class="card-body" [formGroup]="secondFormGroup">
+        <div class="form-group">
+          <label>{{ 'update_analyzer.form.email' | translate }}</label>
+          <input type="email" formControlName="email" autocomplete="email">
+        </div>
+        <div class="phone-input">
+          <div class="form-group">
+            <label>{{ 'update_analyzer.form.country' | translate }}</label>
+            <select formControlName="country" (change)="onCountryChange($event)" required autocomplete="country">
+              <option *ngIf="loadingCountries" value="" disabled>{{ 'update_analyzer.form.select_country' | translate }}</option>
+              <option *ngFor="let country of countries" 
+                      [value]="country.code">
+                {{ country.name }} ({{ getCountryCode(country.code) }})
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>{{ 'update_analyzer.form.phone_number' | translate }}</label>
+            <input type="tel" formControlName="phoneNumber" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review Step -->
+    <div *ngIf="currentStep === 2" class="card">
+      <div class="card-header">{{ 'update_analyzer.steps.review' | translate }}</div>
+      <div class="card-body">
+        <h5>{{ 'update_analyzer.review.title' | translate }}</h5>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>{{ 'update_analyzer.review.field' | translate }}</th>
+              <th>{{ 'update_analyzer.review.value' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let field of getFormData()">
+              <td>{{ field.label | translate }}</td>
+              <td>{{ field.value }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="text-center">
+      <app-custom-button
+        *ngIf="currentStep > 0"
+        buttonClass="btn-prev"
+        (onClick)="previousStep()"
+      >
+        {{ 'update_analyzer.buttons.previous' | translate }}
+      </app-custom-button>
+
+      <app-custom-button
+        *ngIf="currentStep < steps.length - 1"
+        buttonClass="btn-save"
+        type="button"
+        (onClick)="nextStep()"
+      >
+        {{ 'update_analyzer.buttons.save_continue' | translate }}
+      </app-custom-button>
+
+      <app-custom-button
+        *ngIf="currentStep === steps.length - 1"
+        buttonClass="btn-submit"
+        [disabled]="(firstFormGroup.invalid || secondFormGroup.invalid) || isSubmitting"
+        (onClick)="submitForm()"
+      >
+        {{ isSubmitting ? ('update_analyzer.buttons.updating' | translate) : ('update_analyzer.buttons.update' | translate) }}
+      </app-custom-button>
+    </div>
+  </form>
+</div>

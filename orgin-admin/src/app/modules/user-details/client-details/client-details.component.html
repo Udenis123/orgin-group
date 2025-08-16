@@ -1,0 +1,95 @@
+<div class="container">
+  <h2>{{ 'client_details.title' | translate }}</h2>
+
+  <div *ngIf="clientDetails" class="details-section">
+    <h3>{{ 'client_details.sections.personal_info' | translate }}</h3>
+    <div class="detail-item">
+      <label>{{ 'client_details.fields.full_name' | translate }}:</label>
+      <span>{{ clientDetails.fullName }}</span>
+    </div>
+    <div class="detail-item">
+      <label>{{ 'client_details.fields.national_id' | translate }}:</label>
+      <span>{{ clientDetails.nationalId }}</span>
+    </div>
+    <div class="detail-item">
+      <label>{{ 'client_details.fields.email' | translate }}:</label>
+      <span>{{ clientDetails.email }}</span>
+    </div>
+    <div class="detail-item">
+      <label>{{ 'client_details.fields.phone' | translate }}:</label>
+      <span>{{ clientDetails.phoneNumber }}</span>
+    </div>
+    <div class="detail-item">
+      <label>{{ 'client_details.fields.nationality' | translate }}:</label>
+      <span>{{ clientDetails.nationality }}</span>
+    </div>
+    <div class="detail-item">
+      <label>{{ 'client_details.fields.profession' | translate }}:</label>
+      <span>{{ clientDetails.profession }}</span>
+    </div>
+  </div>
+
+  <div class="account-section">
+    <h3>{{ 'client_details.sections.account_info' | translate }}</h3>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <label>{{ 'client_details.fields.subscription_plan' | translate }}</label>
+        <span>{{ clientDetails?.subscriptionPlan }}</span>
+      </div>
+      <div class="stat-item">
+        <label>{{ 'client_details.fields.subscription_status' | translate }}</label>
+        <span [class.active]="clientDetails?.subscriptionStatus === 'ACTIVE'"
+              [class.expired]="clientDetails?.subscriptionStatus === 'EXPIRED'">
+          {{ (clientDetails?.subscriptionStatus ?? '') | translate }}
+        </span>
+      </div>
+      <div class="stat-item">
+        <label>{{ 'client_details.fields.account_status' | translate }}</label>
+        <span [class.active]="clientDetails?.accountStatus === 'ACTIVE'"
+              [class.disabled]="clientDetails?.accountStatus === 'DISABLED'">
+          {{ (clientDetails?.accountStatus ?? '') | translate }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="interactions-section">
+    <h3>{{ 'client_details.sections.interactions' | translate }}</h3>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <label>{{ 'client_details.interactions.projects_launched' | translate }}</label>
+        <span>{{ clientInteractions.projectsLaunched }}</span>
+      </div>
+      <div class="stat-item">
+        <label>{{ 'client_details.interactions.projects_ordered' | translate }}</label>
+        <span>{{ clientInteractions.projectsOrdered }}</span>
+      </div>
+      <div class="stat-item">
+        <label>{{ 'client_details.interactions.projects_joined' | translate }}</label>
+        <span>{{ clientInteractions.projectsJoined }}</span>
+      </div>
+      <div class="stat-item">
+        <label>{{ 'client_details.interactions.community_projects' | translate }}</label>
+        <span>{{ clientInteractions.communityProjects }}</span>
+      </div>
+      <div class="stat-item">
+        <label>{{ 'client_details.interactions.projects_declined' | translate }}</label>
+        <span>{{ clientInteractions.projectsDeclined }}</span>
+      </div>
+      <div class="stat-item">
+        <label>{{ 'client_details.interactions.projects_pending' | translate }}</label>
+        <span>{{ clientInteractions.projectsPending }}</span>
+      </div>
+      <div class="stat-item">
+        <label>{{ 'client_details.interactions.projects_invested' | translate }}</label>
+        <span>{{ clientInteractions.projectsInvested }}</span>
+      </div>
+      <div class="stat-item">
+        <label>{{ 'client_details.interactions.projects_bought' | translate }}</label>
+        <span>{{ clientInteractions.projectsBought }}</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="go-back-button" (click)="goBack()">{{ 'client_details.buttons.go_back' | translate }}</button>
+</div>

@@ -1,0 +1,238 @@
+@use 'sass:color';
+@use '../../../styles.scss' as *;
+
+.terms-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 50px 20px;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  animation: fadeIn 1s ease-in-out;
+
+  h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    animation: fadeIn 3s ease-in-out;
+    align-self: center;
+    padding-bottom: 3%;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  animation: slideUp 1s ease-in-out;
+}
+
+.last-updated {
+  color: #777;
+  font-style: italic;
+  font-family: 'Poppins', sans-serif;
+}
+
+.table-of-contents {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  animation: fadeIn 1.5s ease-in-out;
+
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    color: var(--secondary-color);
+    margin-top: 0;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 10px;
+    margin: 0;
+  }
+
+  a {
+    color: var(--primary-color);
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    padding: 4px 0;
+    transition: color 0.2s ease;
+    font-family: 'Poppins', sans-serif;
+
+    &:hover {
+      color: var(--secondary-color);
+      text-decoration: underline;
+    }
+  }
+}
+
+.intro {
+  margin-bottom: 30px;
+  font-family: 'Poppins', sans-serif;
+  animation: slideUp 2s ease-in-out;
+}
+
+.section {
+  margin: 40px 0;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  animation: fadeIn 2s ease-in-out;
+
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    color: var(--secondary-color);
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+  }
+
+  h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--primary-color);
+    margin-top: 20px;
+    margin-bottom: 12px;
+  }
+
+  ul, ol {
+    padding-left: 25px;
+    margin-bottom: 15px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+
+    ul, ol {
+      margin-top: 8px;
+    }
+  }
+}
+
+.signature-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding: 20px;
+  border-top: 1px solid #eee;
+  font-family: 'Poppins', sans-serif;
+  animation: fadeIn 2s ease-in-out;
+
+  .company-signature, 
+  .user-signature {
+    width: 45%;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+  }
+  to { 
+    opacity: 1; 
+  }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Dark mode styles
+:host-context(body.dark-mode) {
+  .terms-container {
+    background-color: var(--background-dark);
+    color: var(--text-color-dark);
+  }
+
+  .section {
+    background-color: var(--card-background-dark);
+    
+    h3 {
+      color: var(--secondary-color);
+    }
+  }
+
+  .table-of-contents {
+    background-color: var(--card-background-dark);
+    
+    a {
+      color: var(--secondary-color);
+      
+      &:hover {
+        color: var(--secondary-color);
+        filter: brightness(120%);
+      }
+    }
+  }
+
+  .signature-section {
+    .company-signature,
+    .user-signature {
+      background-color: var(--card-background-dark);
+    }
+  }
+
+  a {
+    color: var(--secondary-color);
+    
+    &:hover {
+      color: var(--secondary-color);
+      filter: brightness(120%);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .terms-container {
+    padding: 30px 15px;
+
+    h1 {
+      font-size: 2rem;
+      padding-top: 20%;
+    }
+  }
+
+  .section {
+    padding: 15px;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+    
+    h3 {
+      font-size: 1.2rem;
+    }
+  }
+
+  .signature-section {
+    flex-direction: column;
+    
+    .company-signature,
+    .user-signature {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+}

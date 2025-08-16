@@ -1,0 +1,63 @@
+<div class="container">
+  <h2>{{ 'analyzer_details.title' | translate }}</h2>
+
+  <div *ngIf="analyzerDetails" class="details-section">
+    <h3>{{ 'analyzer_details.sections.personal_info' | translate }}</h3>
+    <div class="detail-item">
+      <label>{{ 'analyzer_details.fields.full_name' | translate }}:</label>
+      <span>{{ analyzerDetails.fullName }}</span>
+    </div>
+    <div class="detail-item">
+      <label>{{ 'analyzer_details.fields.national_id' | translate }}:</label>
+      <span>{{ analyzerDetails.nationalId }}</span>
+    </div>
+    <div class="detail-item">
+      <label>{{ 'analyzer_details.fields.nationality' | translate }}:</label>
+      <span>{{ analyzerDetails.nationality }}</span>
+    </div>
+    <div class="detail-item">
+      <label>{{ 'analyzer_details.fields.email' | translate }}:</label>
+      <span>{{ analyzerDetails.email }}</span>
+    </div>
+    <div class="detail-item">
+      <label>{{ 'analyzer_details.fields.country' | translate }}:</label>
+      <span>{{ analyzerDetails.country }}</span>
+    </div>
+    <div class="detail-item">
+      <label>{{ 'analyzer_details.fields.phone_number' | translate }}:</label>
+      <span>{{ analyzerDetails.phoneNumber }}</span>
+    </div>
+    <div class="detail-item">
+      <label>{{ 'analyzer_details.fields.expertise' | translate }}:</label>
+      <span>{{ analyzerDetails.expertise }}</span>
+    </div>
+  </div>
+
+  <div class="work-stats-section">
+    <h3>{{ 'analyzer_details.sections.work_stats' | translate }}</h3>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <label>{{ 'analyzer_details.stats.projects_analyzed' | translate }}</label>
+        <span>{{ analyzerWorkStats.projectsAnalyzed }}</span>
+      </div>
+      <div class="stat-item">
+        <label>{{ 'analyzer_details.stats.projects_approved' | translate }}</label>
+        <span>{{ analyzerWorkStats.projectsApproved }}</span>
+      </div>
+      <div class="stat-item">
+        <label>{{ 'analyzer_details.stats.projects_declined' | translate }}</label>
+        <span>{{ analyzerWorkStats.projectsDeclined }}</span>
+      </div>
+      <div class="stat-item">
+        <label>{{ 'analyzer_details.stats.total_projects_assigned' | translate }}</label>
+        <span>{{ analyzerWorkStats.totalProjectsAssigned }}</span>
+      </div>
+      <div class="stat-item">
+        <label>{{ 'analyzer_details.stats.current_assigned_projects' | translate }}</label>
+        <span>{{ analyzerWorkStats.currentAssignedProjects }}</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="go-back-button" (click)="goBack()">{{ 'analyzer_details.buttons.go_back' | translate }}</button>
+</div>

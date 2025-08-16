@@ -1,0 +1,187 @@
+<div class="container">
+  <h2>{{ 'new_analyzer.title' | translate }}</h2>
+  
+  <div class="stepper">
+    <div *ngFor="let step of steps; let i = index" 
+         [class.active]="currentStep === i"
+         (click)="goToStep(i)">
+      {{ step | translate }}
+    </div>
+  </div>
+
+  <form (ngSubmit)="submitForm()">
+    <!-- Personal Information Step -->
+    <div *ngIf="currentStep === 0" class="card">
+      <div class="card-header">{{ 'new_analyzer.steps.personal_info' | translate }}</div>
+      <div class="card-body" [formGroup]="firstFormGroup">
+        <div class="form-group">
+          <label>{{ 'new_analyzer.form.name' | translate }}</label>
+          <input type="text" formControlName="name">
+          <div *ngIf="firstFormGroup.get('name')?.errors?.['required'] && firstFormGroup.get('name')?.touched" class="error-message">
+            {{ 'new_analyzer.messages.validation.required' | translate }}
+          </div>
+          <div *ngIf="firstFormGroup.get('name')?.errors?.['minlength'] && firstFormGroup.get('name')?.touched" class="error-message">
+            {{ 'new_analyzer.messages.validation.required' | translate }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>{{ 'new_analyzer.form.national_id' | translate }}</label>
+          <input type="text" formControlName="nationalId">
+          <div *ngIf="firstFormGroup.get('nationalId')?.errors?.['required'] && firstFormGroup.get('nationalId')?.touched" class="error-message">
+            {{ 'new_analyzer.messages.validation.required' | translate }}
+          </div>
+          <div *ngIf="firstFormGroup.get('nationalId')?.errors?.['pattern'] && firstFormGroup.get('nationalId')?.touched" class="error-message">
+            {{ 'new_analyzer.messages.validation.required' | translate }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>{{ 'new_analyzer.form.nationality' | translate }}</label>
+          <input type="text" formControlName="nationality">
+          <div *ngIf="firstFormGroup.get('nationality')?.errors?.['required'] && firstFormGroup.get('nationality')?.touched" class="error-message">
+            {{ 'new_analyzer.messages.validation.required' | translate }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>{{ 'new_analyzer.form.expertise' | translate }}</label>
+          <input type="text" formControlName="expertise">
+          <div *ngIf="firstFormGroup.get('expertise')?.errors?.['required'] && firstFormGroup.get('expertise')?.touched" class="error-message">
+            {{ 'new_analyzer.messages.validation.required' | translate }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>{{ 'new_analyzer.form.gender' | translate }}</label>
+          <select formControlName="gender">
+            <option value="">{{ 'new_analyzer.form.select_gender' | translate }}</option>
+            <option *ngFor="let option of genderOptions" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+          <div *ngIf="firstFormGroup.get('gender')?.errors?.['required'] && firstFormGroup.get('gender')?.touched" class="error-message">
+            {{ 'new_analyzer.messages.validation.required' | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Account Details Step -->
+    <div *ngIf="currentStep === 1" class="card">
+      <div class="card-header">{{ 'new_analyzer.steps.account_details' | translate }}</div>
+      <div class="card-body" [formGroup]="secondFormGroup">
+        <div class="form-group">
+          <label>{{ 'new_analyzer.form.email' | translate }}</label>
+          <input type="email" formControlName="email" autocomplete="email">
+          <div *ngIf="secondFormGroup.get('email')?.errors?.['required'] && secondFormGroup.get('email')?.touched" class="error-message">
+            {{ 'new_analyzer.messages.validation.required' | translate }}
+          </div>
+          <div *ngIf="secondFormGroup.get('email')?.errors?.['email'] && secondFormGroup.get('email')?.touched" class="error-message">
+            {{ 'new_analyzer.messages.validation.email' | translate }}
+          </div>
+        </div>
+        <div class="phone-input">
+          <div class="form-group">
+            <label>{{ 'new_analyzer.form.country_code' | translate }}</label>
+            <select formControlName="countryCode" required>
+              <option *ngIf="loadingCountries" value="" disabled>{{ 'new_analyzer.form.select_country' | translate }}</option>
+              <option *ngFor="let country of countries" 
+                      [value]="country.code">
+                {{ country.name }} ({{ getCountryCode(country.code) }})
+              </option>
+            </select>
+            <div *ngIf="secondFormGroup.get('countryCode')?.errors?.['required'] && secondFormGroup.get('countryCode')?.touched" class="error-message">
+              {{ 'new_analyzer.messages.validation.required' | translate }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label>{{ 'new_analyzer.form.phone_number' | translate }}</label>
+            <input type="tel" formControlName="phoneNumber" autocomplete="tel">
+            <div *ngIf="secondFormGroup.get('phoneNumber')?.errors?.['required'] && secondFormGroup.get('phoneNumber')?.touched" class="error-message">
+              {{ 'new_analyzer.messages.validation.required' | translate }}
+            </div>
+            <div *ngIf="secondFormGroup.get('phoneNumber')?.errors?.['pattern'] && secondFormGroup.get('phoneNumber')?.touched" class="error-message">
+              {{ 'new_analyzer.messages.validation.phone' | translate }}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>{{ 'new_analyzer.form.password' | translate }}</label>
+          <input type="password" formControlName="password">
+          <div *ngIf="secondFormGroup.get('password')?.errors?.['required'] && secondFormGroup.get('password')?.touched" class="error-message">
+            {{ 'new_analyzer.messages.validation.required' | translate }}
+          </div>
+          <div *ngIf="secondFormGroup.get('password')?.errors?.['pattern'] && secondFormGroup.get('password')?.touched" class="error-message">
+            {{ 'new_analyzer.messages.validation.password' | translate }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>{{ 'new_analyzer.form.confirm_password' | translate }}</label>
+          <input type="password" formControlName="confirmPassword">
+          <div *ngIf="secondFormGroup.get('confirmPassword')?.errors?.['required'] && secondFormGroup.get('confirmPassword')?.touched" class="error-message">
+            {{ 'new_analyzer.messages.validation.required' | translate }}
+          </div>
+          <div *ngIf="secondFormGroup.get('confirmPassword')?.errors?.['passwordMismatch'] && secondFormGroup.get('confirmPassword')?.touched" class="error-message">
+            {{ 'new_analyzer.messages.validation.confirm_password' | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review Step -->
+    <div *ngIf="currentStep === 2" class="card">
+      <div class="card-header">{{ 'new_analyzer.steps.review' | translate }}</div>
+      <div class="card-body">
+        <h5>{{ 'new_analyzer.review.title' | translate }}</h5>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>{{ 'new_analyzer.review.field' | translate }}</th>
+              <th>{{ 'new_analyzer.review.value' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let field of getFormData()">
+              <td>{{ field.label | translate }}</td>
+              <td>{{ field.value }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="text-center">
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+        {{ errorMessage | translate }}
+      </div>
+
+      <div *ngIf="showSuccessMessage" class="alert alert-success mt-3">
+        {{ successMessage | translate }}
+      </div>
+
+      <app-custom-button
+        *ngIf="currentStep > 0"
+        buttonClass="btn-prev"
+        (onClick)="previousStep()"
+      >
+        {{ 'new_analyzer.buttons.previous' | translate }}
+      </app-custom-button>
+
+      <app-custom-button
+        *ngIf="currentStep < steps.length - 1"
+        buttonClass="btn-save"
+        type="button"
+        (onClick)="nextStep()"
+      >
+        {{ 'new_analyzer.buttons.save_continue' | translate }}
+      </app-custom-button>
+
+      <app-custom-button
+        *ngIf="currentStep === steps.length - 1"
+        buttonClass="btn-submit"
+        [disabled]="(firstFormGroup.invalid || secondFormGroup.invalid) || isSubmitting"
+        (onClick)="submitForm()"
+      >
+        {{ isSubmitting ? ('new_analyzer.buttons.submitting' | translate) : ('new_analyzer.buttons.submit' | translate) }}
+      </app-custom-button>
+    </div>
+  </form>
+</div>

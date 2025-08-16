@@ -1,0 +1,80 @@
+<div class="appointment-details">
+  <div class="profile-section">
+    <img [src]="currentAppointment.profilePicture" [alt]="'appointments.details.fields.profilePicture' | translate" class="profile-picture">
+    <div class="profile-info">
+      <h2>{{ currentAppointment.name }}</h2>
+      <p>{{ currentAppointment.email }}</p>
+      <p>{{ currentAppointment.phone }}</p>
+    </div>
+  </div>
+
+  <div class="details-section">
+    <div class="detail-row">
+      <label>{{ 'appointments.details.fields.representing' | translate }}:</label>
+      <span>{{ getRepresentingTranslation(currentAppointment.representing) }}</span>
+    </div>
+
+    <div class="detail-row">
+      <label>{{ 'appointments.details.fields.name' | translate }}:</label>
+      <span>{{ currentAppointment.representing === 'company' ? currentAppointment.companyName : currentAppointment.individualName }}</span>
+    </div>
+
+    <div class="detail-row">
+      <label>{{ 'appointments.details.fields.role' | translate }}:</label>
+      <span>{{ currentAppointment.role }}</span>
+    </div>
+
+    <div class="detail-row">
+      <label>{{ 'appointments.details.fields.type' | translate }}:</label>
+      <span>{{ getTypeTranslation(currentAppointment.type) }}</span>
+    </div>
+
+    <div class="detail-row">
+      <label>{{ 'appointments.details.fields.preferredLanguage' | translate }}:</label>
+      <span>{{ getLanguageTranslation(currentAppointment.preferredLanguage) }}</span>
+    </div>
+
+    <div class="detail-row">
+      <label>{{ 'appointments.details.fields.project' | translate }}:</label>
+      <span>{{ currentAppointment.project }}</span>
+    </div>
+
+    <div class="detail-row">
+      <label>{{ 'appointments.details.fields.date' | translate }}:</label>
+      <span>{{ currentAppointment.date }}</span>
+    </div>
+
+    <div class="detail-row">
+      <label>{{ 'appointments.details.fields.time' | translate }}:</label>
+      <span>{{ currentAppointment.time }}</span>
+    </div>
+
+    <div class="detail-row">
+      <label>{{ 'appointments.details.fields.status' | translate }}:</label>
+      <span>{{ getStatusTranslation(currentAppointment.status) }}</span>
+    </div>
+  </div>
+
+  <div class="actions-section">
+    <button (click)="goBack()" class="btn btn-back">
+      {{ 'appointments.details.buttons.back' | translate }}
+    </button>
+    <button *ngIf="currentAppointment.status === 'pending'" (click)="approveAppointment()" class="btn btn-approve">
+      {{ 'appointments.details.buttons.approve' | translate }}
+    </button>
+    <button *ngIf="currentAppointment.status === 'pending'" (click)="declineAppointment()" class="btn btn-decline">
+      {{ 'appointments.details.buttons.decline' | translate }}
+    </button>
+  </div>
+</div>
+
+<style>
+.detail-row {
+  margin-bottom: 10px;
+}
+
+.detail-row label {
+  font-weight: bold;
+  margin-right: 8px;
+}
+</style>

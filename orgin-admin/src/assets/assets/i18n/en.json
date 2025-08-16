@@ -1,0 +1,504 @@
+{
+  "WELCOME": "Welcome",
+  "ACCOUNT": "Account",
+  "PROFILE": "Profile",
+  "SETTINGS": "Settings",
+  "BACK_TO_WEBSITE": "Back To Website",
+  "LOGOUT": "Logout",
+  "PREVIOUS": "Previous",
+  "CONTINUE": "Continue",
+  "CLEAR": "Clear",
+  "SUBMIT": "Submit",
+
+  "sidenav": {
+      "profile": {
+          "name": "John Doe",
+          "email": "johndoe@example.com"
+      },
+      "links": {
+          "buy": "Buy",
+          "invest": "Invest",
+          "bookmarked": "Bookmarked Projects",
+          "project_details": "Project Details",
+          "launch_project": "Launch Project",
+          "order_project": "Order Project",
+          "subscription_plan": "Subscription Plan",
+          "exhibitions": "Exhibitions",
+          "my_projects": "My Projects",
+          "appointments": "Appointments",
+          "finish_payment": "Finish Payment",
+          "initiating_project": "Initiating Project",
+          "launch_community_project": "Launch Community Project",
+          "submitted_projects": "Submitted Projects",
+          "launched_projects": "Launched Projects",
+          "ordered_projects": "Ordered Projects",
+          "community_projects": "Community Projects",
+          "assigned_projects": "Assigned Projects",
+          "all_projects": "All Projects",
+          "users": "Users",
+          "add_analyzer": "Add Analyzer",
+          "clients": "Clients",
+          "analyzers": "Analyzers",
+          "feedback_approval": "Feedback Approval",
+          "appointment_management": "Appointment Management",
+          "incoming_appointments": "Incoming Appointments",
+          "scheduled_appointments": "Scheduled Appointments",
+          "analytics": "Analytics"
+      }
+  },
+    
+    
+         
+    "profile": {
+      "title": "Profile Information",
+      "fullName": "Full Name",
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "idNumber": "ID Number",
+      "gender": "Gender",
+      "nationality": "Nationality",
+      "profession": "Profession",
+      "country": "Country",
+      "profilePicture": "Profile Picture",
+      "change": "Change"
+    },
+    "settings": {
+      "title": "Settings",
+      "personalInfo": "Personal Information",
+      "security": "Security",
+      "fullName": "Full Name",
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "verified": "Verified",
+      "notVerified": "Not Verified",
+      "verificationSent": "Verification email sent. Please check your inbox.",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "saveChanges": "Save Changes",
+      "updatePassword": "Update Password"
+    },
+    "pageNotFound": {
+      "title": "404 - Page Not Found",
+      "message": "The page you are looking for does not exist.",
+      "homeLink": "Go to Home"
+    },
+    "submittedProjects": {
+      "title": "Submitted Projects",
+      "launchedProjects": "Launched Projects",
+      "orderedProjects": "Ordered Projects",
+      "communityProjects": "Community Projects",
+      "assignedProjects": "Assigned Projects",
+      "assignedLaunchedProjects": "Launched Projects",
+      "assignedOrderedProjects": "Ordered Projects",
+      "assignedCommunityProjects": "Community Projects",
+      "noLaunchedProjects": "No launched projects found",
+      "noOrderedProjects": "No ordered projects found",
+      "noCommunityProjects": "No community projects found",
+      "tableHeaders": {
+        "number": "#",
+        "title": "Title",
+        "description": "Description",
+        "dateOfSubmission": "Date of Submission",
+        "submissionDate": "Submission Date",
+        "lastUpdated": "Last Updated",
+        "status": "Status",
+        "actions": "Actions"
+      }
+    },
+    "common": {
+      "search": "Search",
+      "searchPlaceholder": "Search projects...",
+      "DOWNLOAD": "Download",
+      "SAVE_CONTINUE": "Save & Continue",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "users": {
+      "clients": {
+        "title": "Clients",
+        "searchPlaceholder": "Search clients...",
+        "tableHeaders": {
+          "number": "No.",
+          "name": "Name",
+          "email": "Email",
+          "nationalId": "National ID",
+          "phone": "Phone Number",
+          "status": "Status",
+          "actions": "Actions"
+        },
+        "status": {
+          "active": "Active",
+          "terminated": "Terminated",
+          "disabled": "Disabled"
+        },
+        "actions": {
+          "update": "Update",
+          "terminate": "Terminate",
+          "disable": "Disable",
+          "enable": "Enable",
+          "view": "View"
+        }
+      },
+      "analyzers": {
+        "title": "Analyzers",
+        "searchPlaceholder": "Search analyzers...",
+        "tableHeaders": {
+          "number": "No.",
+          "name": "Name",
+          "email": "Email",
+          "nationalId": "National ID",
+          "phone": "Phone Number",
+          "status": "Status",
+          "actions": "Actions"
+        },
+        "status": {
+          "active": "Active",
+          "terminated": "Terminated"
+        },
+        "actions": {
+          "update": "Update",
+          "terminate": "Terminate",
+          "view": "View"
+        }
+      }
+    },
+    "PROJECT_DETAILS": {
+      "TITLE": "Project Details",
+      "ASSIGNED_TO": "Assigned to",
+      "ASSIGN_PROJECT": "Assign Project",
+      "SELECT_ANALYZER": "Select Analyzer",
+      "SECTIONS": {
+        "PERSONAL_INFO": "Personal Information",
+        "PROJECT_INFO": "Project Information",
+        "SPONSORSHIP_INFO": "Sponsorship Information",
+        "DOCUMENTS": "Documents",
+        "INTELLECTUAL_PROPERTY": "Intellectual Property",
+        "ANALYTICS": "Business Analytics",
+        "DECLINED_FEEDBACK": "Decline Feedback",
+        "ASSIGNED_ANALYZERS": "Assigned Analyzers"
+      },
+      "FIELDS": {
+        "FULL_NAME": "Full Name",
+        "PROJECT_NAME": "Project Name",
+        "PROJECT_DESCRIPTION": "Project Description",
+        "CATEGORY": "Category",
+        "LOCATION": "Location",
+        "SPECIALITY": "Speciality",
+        "PROFESSIONAL_STATUS": "Professional Status",
+        "STATUS": "Status",
+        "PROTOTYPE_LINK": "Prototype Link",
+        "BUSINESS_IDEA": "Business Idea",
+        "WEBSITE_URL": "Website URL",
+        "EMPLOYEES": "Employees",
+        "MONTHLY_INCOME": "Monthly Income",
+        "PROJECT_INVESTMENT": "Project Investment",
+        "NEEDS_SPONSOR": "Needs Sponsor",
+        "HAS_SPONSORSHIP": "Has Sponsorship",
+        "SELL_PROJECT": "Sell Project",
+        "EMAIL": "Email",
+        "PHONE": "Phone",
+        "LINKEDIN": "LinkedIn",
+        "SPONSOR_NAME": "Sponsor Name",
+        "SPONSORSHIP_ORIGIN": "Sponsorship Origin",
+        "INCOME_STATEMENT": "Income Statement",
+        "BUSINESS_ANALYTICS": "Business Analytics",
+        "BUSINESS_PLAN": "Business Plan",
+        "BUSINESS_IDEA_DOCUMENT": "Business Idea Document",
+        "PROJECT_PURPOSE": "Project Purpose",
+        "WANTS_IP": "Wants IP Protection",
+        "NEEDS_BUSINESS_PLAN": "Needs Business Plan",
+        "FEEDBACK": "Feedback",
+        "DECLINED_BY": "Declined By",
+        "DECLINED_DATE": "Declined Date",
+        "ANALYZER_NAME": "Analyzer Name",
+        "EXPERTISE": "Expertise",
+        "ASSIGNED_DATE": "Assigned Date"
+      }
+    },
+    "COMMON": {
+      "DOWNLOAD": "Download",
+      "SAVE_CONTINUE": "Save & Continue"
+    },
+    "new_analyzer": {
+      "title": "New Analyzer Registration",
+      "steps": {
+        "personal_info": "Personal Information",
+        "account_details": "Account Details",
+        "review": "Review and Submit"
+      },
+      "form": {
+        "name": "Full Name",
+        "national_id": "National ID",
+        "nationality": "Nationality",
+        "expertise": "Expertise",
+        "gender": "Gender",
+        "select_gender": "Select Gender",
+        "email": "Email",
+        "country_code": "Country Code",
+        "select_country": "Select Country",
+        "phone_number": "Phone Number",
+        "password": "Password",
+        "confirm_password": "Confirm Password"
+      },
+      "review": {
+        "title": "Review Your Submission",
+        "field": "Field",
+        "value": "Value"
+      },
+      "buttons": {
+        "previous": "Previous",
+        "save_continue": "Save & Continue",
+        "submit": "Submit",
+        "submitting": "Submitting..."
+      },
+      "messages": {
+        "success": "Analyzer registered successfully! Redirecting to dashboard...",
+        "error": "Registration failed. Please try again.",
+        "validation": {
+          "required": "This field is required",
+          "email": "Please enter a valid email address",
+          "phone": "Please enter a valid phone number",
+          "password": "Password must be 8-20 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+          "confirm_password": "Passwords do not match"
+        }
+      }
+    },
+    "client_details": {
+      "title": "Client Details",
+      "sections": {
+        "personal_info": "Personal Information",
+        "account_info": "Account Information",
+        "interactions": "Interactions"
+      },
+      "fields": {
+        "full_name": "Full Name",
+        "national_id": "National ID",
+        "email": "Email",
+        "phone": "Phone",
+        "nationality": "Nationality",
+        "profession": "Profession",
+        "subscription_plan": "Subscription Plan",
+        "subscription_status": "Subscription Status",
+        "account_status": "Account Status"
+      },
+      "interactions": {
+        "projects_launched": "Projects Launched",
+        "projects_ordered": "Projects Ordered",
+        "projects_joined": "Projects Joined",
+        "community_projects": "Community Projects",
+        "projects_declined": "Projects Declined",
+        "projects_pending": "Projects Pending",
+        "projects_invested": "Projects Invested In",
+        "projects_bought": "Projects Bought"
+      },
+      "status": {
+        "active": "ACTIVE",
+        "expired": "EXPIRED",
+        "disabled": "DISABLED"
+      },
+      "buttons": {
+        "go_back": "Go Back"
+      }
+    },
+    "analyzer_details": {
+      "title": "Analyzer Details",
+      "sections": {
+        "personal_info": "Personal Information",
+        "work_stats": "Work Statistics"
+      },
+      "fields": {
+        "full_name": "Full Name",
+        "national_id": "National ID",
+        "nationality": "Nationality",
+        "email": "Email",
+        "country": "Country",
+        "phone_number": "Phone Number",
+        "expertise": "Expertise"
+      },
+      "stats": {
+        "projects_analyzed": "Projects Analyzed",
+        "projects_approved": "Projects Approved",
+        "projects_declined": "Projects Declined",
+        "total_projects_assigned": "Total Projects Assigned",
+        "current_assigned_projects": "Current Assigned Projects"
+      },
+      "buttons": {
+        "go_back": "Go Back"
+      }
+    },
+    "update_analyzer": {
+      "title": "Update Analyzer",
+      "steps": {
+        "personal_info": "Personal Information",
+        "account_details": "Account Details",
+        "review": "Review and Submit"
+      },
+      "form": {
+        "full_name": "Full Name",
+        "national_id": "National ID",
+        "nationality": "Nationality",
+        "expertise": "Expertise",
+        "email": "Email",
+        "country": "Country",
+        "select_country": "Select country",
+        "phone_number": "Phone Number"
+      },
+      "review": {
+        "title": "Review Your Changes",
+        "field": "Field",
+        "value": "Value"
+      },
+      "buttons": {
+        "previous": "Previous",
+        "save_continue": "Save & Continue",
+        "update": "Update",
+        "updating": "Updating..."
+      }
+    },
+    "feedback": {
+      "approval": {
+        "title": "Feedback Approval",
+        "searchPlaceholder": "Search feedback...",
+        "tableHeaders": {
+          "no": "No.",
+          "name": "Client Name",
+          "rating": "Rating",
+          "submittedOn": "Submitted On",
+          "actions": "Actions"
+        },
+        "actions": {
+          "view": "View Feedback",
+          "approve": "Approve Feedback",
+          "decline": "Decline Feedback"
+        }
+      },
+      "details": {
+        "fields": {
+          "email": "Email",
+          "submittedOn": "Submitted On",
+          "subscriptionStatus": "Subscription Status",
+          "subscriptionType": "Subscription Type",
+          "rating": "Rating",
+          "message": "Feedback Message"
+        },
+        "statuses": {
+          "active": "Active",
+          "expired": "Expired"
+        },
+        "subscriptionTypes": {
+          "premium": "Premium",
+          "standard": "Standard",
+          "basic": "Basic"
+        }
+      }
+    },
+    "appointments": {
+      "incoming": {
+        "title": "Incoming Appointments",
+        "searchPlaceholder": "Search appointments...",
+        "tableHeaders": {
+          "name": "Name",
+          "type": "Type",
+          "date": "Date",
+          "representing": "Representing",
+          "project": "Project",
+          "actions": "Actions"
+        },
+        "actions": {
+          "view": "View Appointment",
+          "approve": "Approve Appointment",
+          "decline": "Decline Appointment"
+        },
+        "types": {
+          "virtual": "Virtual",
+          "face-to-face": "Face to Face"
+        },
+        "representing": {
+          "self": "Self",
+          "individual": "Individual",
+          "company": "Company"
+        }
+      },
+      "scheduled": {
+        "title": "Scheduled Appointments",
+        "searchPlaceholder": "Search scheduled appointments...",
+        "tableHeaders": {
+          "no": "No.",
+          "clientName": "Client Name",
+          "date": "Date",
+          "time": "Time",
+          "status": "Status",
+          "actions": "Actions"
+        },
+        "actions": {
+          "view": "View Appointment",
+          "cancel": "Cancel Appointment"
+        },
+        "status": {
+          "confirmed": "Confirmed",
+          "cancelled": "Cancelled",
+          "completed": "Completed"
+        }
+      },
+      "details": {
+        "fields": {
+          "representing": "Representing",
+          "name": "Name",
+          "role": "Role",
+          "type": "Type",
+          "preferredLanguage": "Preferred Language",
+          "project": "Project",
+          "date": "Date",
+          "time": "Time",
+          "status": "Status",
+          "profilePicture": "Profile Picture"
+        },
+        "languages": {
+          "english": "English",
+          "french": "French",
+          "kinyarwanda": "Kinyarwanda"
+        },
+        "buttons": {
+          "back": "Back",
+          "approve": "Approve",
+          "decline": "Decline"
+        }
+      }
+    },
+    "analytics": {
+      "title": "Analytics",
+      "searchPlaceholder": "Search analytics...",
+      "tableHeaders": {
+        "number": "No.",
+        "projectName": "Project Name",
+        "submittedOn": "Submitted On",
+        "submittedBy": "Submitted By",
+        "actions": "Actions"
+      },
+      "actions": {
+        "view": "View Analytics",
+        "approve": "Approve Analytics",
+        "deny": "Deny Analytics"
+      },
+      "feasibilityPercentage": "Feasibility Percentage",
+      "monthlyIncome": "Monthly Income",
+      "annualIncome": "Annual Income",
+      "roi": "Return on Investment",
+      "price": "Price",
+      "feasibilityReason": "Feasibility Analysis",
+      "incomeDescription": "Income Analysis",
+      "analyticsDocument": "Analytics Document",
+      "loadingDocument": "Loading document...",
+      "denial": {
+        "title": "Deny Analytics",
+        "reason": "Reason for Denial",
+        "placeholder": "Please provide a reason for denying these analytics..."
+      },
+      "openExternally": "Open Externally",
+      "download": "Download",
+      "documentLoadError": "Error loading document",
+      "documentNotAvailable": "Document not available"
+    }
+}
+

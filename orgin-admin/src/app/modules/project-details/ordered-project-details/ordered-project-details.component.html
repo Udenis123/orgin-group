@@ -1,0 +1,20 @@
+<div class="container">
+  <h1>Ordered Project Details</h1>
+  
+  <div *ngIf="projectDetails" class="details-card">
+    <div *ngFor="let field of projectDetails" class="detail-row">
+      <strong>{{ field.label }}:</strong>
+      <span>{{ field.value }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="!isCompleted" class="completion-section">
+    <button mat-raised-button color="primary" (click)="markAsCompleted()">
+      Mark as Completed
+    </button>
+  </div>
+
+  <div *ngIf="isCompleted" class="completion-status">
+    <h3>Project Completed</h3>
+  </div>
+</div>

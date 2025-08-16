@@ -1,0 +1,11 @@
+/* Ensure 4 cards per row in brokered projects carousel */
+.brokered-carousel .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.brokered-carousel .col-md-3 {
+  flex: 0 0 25% !important;
+  max-width: 25%;
+  margin-bottom: 20px;
+} 

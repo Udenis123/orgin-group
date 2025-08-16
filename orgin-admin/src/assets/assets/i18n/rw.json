@@ -1,0 +1,483 @@
+{
+  "WELCOME": "Murakaza neza",
+  "ACCOUNT": "Konti",
+  "PROFILE": "Umwirondoro",
+  "SETTINGS": "Igenamiterere",
+  "BACK_TO_WEBSITE": "Subira ku rubuga",
+  "LOGOUT": "Gusohoka",
+  "PREVIOUS": "Subira Inyuma",
+  "CONTINUE": "Komeza",
+  "CLEAR": "Siba",
+  "SUBMIT": "Tanga",
+  "sidenav": {
+      "links": {
+          "submitted_projects": "Imishinga Yatanzwe",
+          "launched_projects": "Imishinga Yatangijwe",
+          "ordered_projects": "Imishinga Yasabwe",
+          "community_projects": "Imishinga Y'Umuryango",
+          "assigned_projects": "Imishinga indiho",
+          "all_projects": "Imishinga Yose",
+          "users": "Abakoresha",
+          "add_analyzer": "Ongeraho umugenzuzi",
+          "clients": "Abakiriya",
+          "analyzers": "Abasuzuma",
+          "feedback_approval": "Kemera Ibisubizo",
+          "appointment_management": "Gukurikirana Amahuriro",
+          "incoming_appointments": "Amahuriro Ariza",
+          "scheduled_appointments": "Amahuriro Yagenwe",
+          "analytics": "Isuzuma"
+      }
+  },
+
+"profile": {
+  "title": "Amakuru y'Umwirondoro",
+  "fullName": "Izina Ryuzuye",
+  "email": "Imeri",
+  "phoneNumber": "Numero ya Telefone",
+  "idNumber": "Numero y'Indangamuntu",
+  "gender": "Igitsina",
+  "nationality": "Ubwenegihugu",
+  "profession": "Umwuga",
+  "country": "Igihugu",
+  "profilePicture": "Ifoto y'Umwirondoro",
+  "change": "Hindura"
+},
+"settings": {
+  "title": "Igenamiterere",
+  "personalInfo": "Amakuru y'umuntu",
+  "security": "Umutekano",
+  "fullName": "Izina Ryuzuye",
+  "email": "Imeri",
+  "phoneNumber": "Numero ya Telefone",
+  "verified": "Yemejwe",
+  "notVerified": "Ntayemejwe",
+  "verificationSent": "Email yo kugenzura yoherejwe. Nyamuneka reba muri inbox yawe.",
+  "currentPassword": "Ijambo ry'ibanga ririho",
+  "newPassword": "Ijambo ry'ibanga rishya",
+  "confirmPassword": "Emeza ijambo ry'ibanga rishya",
+  "saveChanges": "Bika Amahinduka",
+  "updatePassword": "Hindura ijambo ry'ibanga"
+},
+"pageNotFound": {
+  "title": "404 - Urupapuro Rutabonetse",
+  "message": "Urupapuro ushaka ntirubaho.",
+  "homeLink": "Subira Ahabanza"
+},
+"submittedProjects": {
+  "title": "Imishinga Yatanzwe",
+  "launchedProjects": "Imishinga Yatangijwe",
+  "orderedProjects": "Imishinga Yasabwe",
+  "communityProjects": "Imishinga Y'Umuryango",
+  "assignedProjects": "Imishinga indiho",
+  "assignedLaunchedProjects": "Imishinga Yatangijwe",
+  "assignedOrderedProjects": "Imishinga Yasabwe",
+  "assignedCommunityProjects": "Imishinga Y'Umuryango",
+  "noLaunchedProjects": "Nta mishinga yatangijwe yabonetse",
+  "noOrderedProjects": "Nta mishinga Yasabwe yabonetse",
+  "noCommunityProjects": "Nta mishinga y'umuryango yabonetse",
+  "tableHeaders": {
+    "number": "#",
+    "title": "Umutwe",
+    "description": "Ibisobanuro",
+    "dateOfSubmission": "Itariki yo Gushyiraho",
+    "submissionDate": "Itariki yo Gushyiraho",
+    "lastUpdated": "Guhindurwa Bwa Nyuma",
+    "status": "Imiterere",
+    "actions": "Ibikorwa"
+  }
+},
+"common": {
+  "search": "Shakisha",
+  "searchPlaceholder": "Shakisha Umushinga...",
+  "DOWNLOAD": "Kuramo",
+  "SAVE_CONTINUE": "Bika & Komeza",
+  "cancel": "Hagarika",
+  "confirm": "Emeza"
+},
+"users": {
+  "clients": {
+    "title": "Abakiriya",
+    "searchPlaceholder": "Shakisha abakiriya...",
+    "tableHeaders": {
+      "number": "No.",
+      "name": "Izina",
+      "email": "Imeri",
+      "nationalId": "Indangamuntu",
+      "phone": "Numero ya Telefone",
+      "status": "Imiterere",
+      "actions": "Ibikorwa"
+    },
+    "status": {
+      "active": "Arakora",
+      "terminated": "Byarangiye",
+      "disabled": "Yahagaritswe"
+    },
+    "actions": {
+      "update": "Hindura",
+      "terminate": "Reka",
+      "disable": "Hagarika",
+      "enable": "Koresha",
+      "view": "Reba"
+    }
+  },
+  "analyzers": {
+    "title": "Abasuzuma",
+    "searchPlaceholder": "Shakisha abasuzuma...",
+    "tableHeaders": {
+      "number": "No.",
+      "name": "Izina",
+      "email": "Imeri",
+      "nationalId": "Indangamuntu",
+      "phone": "Numero ya Telefone",
+      "status": "Imiterere",
+      "actions": "Ibikorwa"
+    },
+    "status": {
+      "active": "Arakora",
+      "terminated": "Yirukanwe"
+    },
+    "actions": {
+      "update": "Hindura",
+      "terminate": "Irukana",
+      "view": "Reba"
+    }
+  }
+},
+"PROJECT_DETAILS": {
+  "TITLE": "Ibisobanuro by'Umushinga",
+  "ASSIGNED_TO": "Yahariwe",
+  "ASSIGN_PROJECT": "Harira Umushinga",
+  "SELECT_ANALYZER": "Hitamo Umunyeshuzuma",
+  "SECTIONS": {
+    "PERSONAL_INFO": "Amakuru Bwite",
+    "PROJECT_INFO": "Amakuru y'Umushinga",
+    "SPONSORSHIP_INFO": "Amakuru y'Ubufasha",
+    "DOCUMENTS": "Inyandiko",
+    "INTELLECTUAL_PROPERTY": "Uburenganzira bw'Igitekerezo",
+    "ANALYTICS": "Isuzuma ry'Ubucuruzi",
+    "DECLINED_FEEDBACK": "Ibisobanuro byo Kwanga",
+    "ASSIGNED_ANALYZERS": "Abasuzuma Bahariwe"
+  },
+  "FIELDS": {
+    "FULL_NAME": "Izina Ryuzuye",
+    "PROJECT_NAME": "Izina ry'Umushinga",
+    "PROJECT_DESCRIPTION": "Ibisobanuro by'Umushinga",
+    "CATEGORY": "Icyiciro",
+    "LOCATION": "Aho biherereye",
+    "SPECIALITY": "Ubumenyi bwihariye",
+    "PROFESSIONAL_STATUS": "Imiterere y'Umwuga",
+    "STATUS": "Imiterere",
+    "PROTOTYPE_LINK": "Ihuza ry'Igishushanyo",
+    "BUSINESS_IDEA": "Igitekerezo cy'Ubucuruzi",
+    "WEBSITE_URL": "URL y'Urubuga",
+    "EMPLOYEES": "Abakozi",
+    "MONTHLY_INCOME": "Amafaranga y'Ukwezi",
+    "PROJECT_INVESTMENT": "Ishoramari ry'Umushinga",
+    "NEEDS_SPONSOR": "Hakenewe Umufasha",
+    "HAS_SPONSORSHIP": "Afite Ubufasha",
+    "SELL_PROJECT": "Kugurisha Umushinga",
+    "EMAIL": "Imeri",
+    "PHONE": "Telefone",
+    "LINKEDIN": "LinkedIn",
+    "SPONSOR_NAME": "Izina ry'Umufasha",
+    "SPONSORSHIP_ORIGIN": "Inkomoko y'Ubufasha",
+    "INCOME_STATEMENT": "Inyandiko y'Amafaranga",
+    "BUSINESS_ANALYTICS": "Isuzuma ry'Ubucuruzi",
+    "BUSINESS_PLAN": "Gahunda y'Ubucuruzi",
+    "BUSINESS_IDEA_DOCUMENT": "Inyandiko y'Igitekerezo cy'Ubucuruzi",
+    "PROJECT_PURPOSE": "Intego y'Umushinga",
+    "WANTS_IP": "Ashaka Kurindwa Igitekerezo",
+    "NEEDS_BUSINESS_PLAN": "Akeneye Gahunda y'Ubucuruzi",
+    "FEEDBACK": "Ibisubizo",
+    "DECLINED_BY": "Byanzwe Na",
+    "DECLINED_DATE": "Itariki Byanzweho",
+    "ANALYZER_NAME": "Izina ry'Umusuzuma",
+    "EXPERTISE": "Ubumenyi",
+    "ASSIGNED_DATE": "Itariki Yahariweho"
+  }
+},
+"COMMON": {
+  "DOWNLOAD": "Kuramo",
+  "SAVE_CONTINUE": "Bika & Komeza"
+},
+"new_analyzer": {
+  "title": "Kwiyandikisha Umunyeshuzuma Mushya",
+  "steps": {
+    "personal_info": "Amakuru Yihariye",
+    "account_details": "Amakuru ya Konti",
+    "review": "Reba no Kohereza"
+  },
+  "form": {
+    "name": "Izina Ryuzuye",
+    "national_id": "Indangamuntu",
+    "nationality": "Ubwenegihugu",
+    "expertise": "Ubumenyi",
+    "gender": "Igitsina",
+    "select_gender": "Hitamo Igitsina",
+    "email": "Imeri",
+    "country_code": "Kode y'Igihugu",
+    "select_country": "Hitamo Igihugu",
+    "phone_number": "Numero ya Telefone",
+    "password": "Ijambo ry'ibanga",
+    "confirm_password": "Emeza ijambo ry'ibanga"
+  },
+  "review": {
+    "title": "Reba Ibisobanuro Byawe",
+    "field": "Umwanya",
+    "value": "Agaciro"
+  },
+  "buttons": {
+    "previous": "Subira Inyuma",
+    "save_continue": "Bika & Komeza",
+    "submit": "Kohereza",
+    "submitting": "Kohereza..."
+  },
+  "messages": {
+    "success": "Umunyeshuzuma yiyandikishije neza! Doreba kohereza ku dashboard...",
+    "error": "Kwiyandikisha byanze. Nyamuneka ongera ugerageze.",
+    "validation": {
+      "required": "Iki gice gikenewe",
+      "email": "Nyamuneka andika imeri nziza",
+      "phone": "Nyamuneka andika numero ya telefoni nziza",
+      "password": "Ijambo ry'ibanga rigomba kuba riri hagati ya 8 na 20, rikaba rifite inyuguti nkuru, inyuguti nto, umubare, n'inyuguti yihariye",
+      "confirm_password": "Amajambo y'ibanga atari amwe"
+    }
+  }
+},
+"client_details": {
+  "title": "Ibisobanuro by'Umukiriya",
+  "sections": {
+    "personal_info": "Amakuru Yihariye",
+    "account_info": "Amakuru ya Konti",
+    "interactions": "Ibikorwa"
+  },
+  "fields": {
+    "full_name": "Izina Ryuzuye",
+    "national_id": "Indangamuntu",
+    "email": "Imeri",
+    "phone": "Telefone",
+    "nationality": "Ubwenegihugu",
+    "profession": "Umwuga",
+    "subscription_plan": "Gahunda y'Abiyandikishije",
+    "subscription_status": "Imiterere y'Abiyandikishije",
+    "account_status": "Imiterere ya Konti"
+  },
+  "interactions": {
+    "projects_launched": "Imishinga Yatangijwe",
+    "projects_ordered": "Imishinga Yasabwe",
+    "projects_joined": "Imishinga Yiyunze",
+    "community_projects": "Imishinga Y'Umuryango",
+    "projects_declined": "Imishinga Yanzwe",
+    "projects_pending": "Imishinga Zitegerezwa",
+    "projects_invested": "Imishinga Zishoramariwe",
+    "projects_bought": "Imishinga Zagurishijwe"
+  },
+  "status": {
+    "active": "AKORA",
+    "expired": "YARANGIYE",
+    "disabled": "YAHAGARITSWE"
+  },
+  "buttons": {
+    "go_back": "Subira Inyuma"
+  }
+},
+"analyzer_details": {
+  "title": "Ibisobanuro by'Umunyeshuzuma",
+  "sections": {
+    "personal_info": "Amakuru Yihariye",
+    "work_stats": "Ibisubizo by'Umushinga"
+  },
+  "fields": {
+    "full_name": "Izina Ryuzuye",
+    "national_id": "Indangamuntu",
+    "nationality": "Ubwenegihugu",
+    "email": "Imeri",
+    "country": "Igihugu",
+    "phone_number": "Numero ya Telefone",
+    "expertise": "Ubumenyi"
+  },
+  "stats": {
+    "projects_analyzed": "Imishinga Yasuzumwe",
+    "projects_approved": "Imishinga Zemejwe",
+    "projects_declined": "Imishinga Zanze",
+    "total_projects_assigned": "Imishinga Zose Zihariwe",
+    "current_assigned_projects": "Imishinga Zihariwe Ubu"
+  },
+  "buttons": {
+    "go_back": "Subira Inyuma"
+  }
+},
+"update_analyzer": {
+  "title": "Hindura Umunyeshuzuma",
+  "steps": {
+    "personal_info": "Amakuru Yihariye",
+    "account_details": "Amakuru ya Konti",
+    "review": "Reba no Kohereza"
+  },
+  "form": {
+    "full_name": "Izina Ryuzuye",
+    "national_id": "Indangamuntu",
+    "nationality": "Ubwenegihugu",
+    "expertise": "Ubumenyi",
+    "email": "Imeri",
+    "country": "Igihugu",
+    "select_country": "Hitamo igihugu",
+    "phone_number": "Numero ya Telefone"
+  },
+  "review": {
+    "title": "Reba Amahinduka Yawe",
+    "field": "Umwanya",
+    "value": "Agaciro"
+  },
+  "buttons": {
+    "previous": "Subira Inyuma",
+    "save_continue": "Bika & Komeza",
+    "update": "Hindura",
+    "updating": "Hindura..."
+  }
+},
+"feedback": {
+  "approval": {
+    "title": "Kwemeza Ibisubizo",
+    "searchPlaceholder": "Shakisha ibisubizo...",
+    "tableHeaders": {
+      "no": "No.",
+      "name": "Izina ry'Umukiriya",
+      "rating": "Amanota",
+      "submittedOn": "Yatanzwe ku",
+      "actions": "Ibikorwa"
+    },
+    "actions": {
+      "view": "Reba Igisubizo",
+      "approve": "Emeza Igisubizo",
+      "decline": "Anga Igisubizo"
+    }
+  },
+  "details": {
+    "fields": {
+      "email": "Imeri",
+      "submittedOn": "Yatanzwe ku",
+      "subscriptionStatus": "Uko Kwiyandikisha Bihagaze",
+      "subscriptionType": "Ubwoko bwo Kwiyandikisha",
+      "rating": "Amanota",
+      "message": "Ubutumwa bw'Igisubizo"
+    },
+    "statuses": {
+      "active": "Birakora",
+      "expired": "Byarangiye"
+    },
+    "subscriptionTypes": {
+      "premium": "Premium",
+      "standard": "Standard",
+      "basic": "Basic"
+    }
+  }
+},
+"appointments": {
+  "incoming": {
+    "title": "Gahunda Zitegerejwe",
+    "searchPlaceholder": "Shakisha gahunda...",
+    "tableHeaders": {
+      "name": "Izina",
+      "type": "Ubwoko",
+      "date": "Itariki",
+      "representing": "Ahagarariye",
+      "project": "Umushinga",
+      "actions": "Ibikorwa"
+    },
+    "actions": {
+      "view": "Reba Gahunda",
+      "approve": "Emeza Gahunda",
+      "decline": "Anga Gahunda"
+    },
+    "types": {
+      "virtual": "Kuri interineti",
+      "face-to-face": "Imbonankubone"
+    },
+    "representing": {
+      "self": "Wenyine",
+      "individual": "Umuntu ku giti cye",
+      "company": "Sosiyete"
+    }
+  },
+  "scheduled": {
+    "title": "Gahunda Zemejwe",
+    "searchPlaceholder": "Shakisha gahunda zemejwe...",
+    "tableHeaders": {
+      "no": "No.",
+      "clientName": "Izina ry'Umukiriya",
+      "date": "Itariki",
+      "time": "Isaha",
+      "status": "Imiterere",
+      "actions": "Ibikorwa"
+    },
+    "actions": {
+      "view": "Reba Gahunda",
+      "cancel": "Hagarika Gahunda"
+    },
+    "status": {
+      "confirmed": "Yemejwe",
+      "cancelled": "Yahagaritswe",
+      "completed": "Yarangiye"
+    }
+  },
+  "details": {
+    "fields": {
+      "representing": "Ahagarariye",
+      "name": "Izina",
+      "role": "Uruhare",
+      "type": "Ubwoko",
+      "preferredLanguage": "Ururimi Rukunda",
+      "project": "Umushinga",
+      "date": "Itariki",
+      "time": "Isaha",
+      "status": "Imiterere",
+      "profilePicture": "Ifoto y'Umwirondoro"
+    },
+    "languages": {
+      "english": "Icyongereza",
+      "french": "Igifaransa",
+      "kinyarwanda": "Ikinyarwanda"
+    },
+    "buttons": {
+      "back": "Subira Inyuma",
+      "approve": "Emeza",
+      "decline": "Anga"
+    }
+  }
+},
+"analytics": {
+  "title": "Isuzuma",
+  "searchPlaceholder": "Shakisha isuzuma...",
+  "tableHeaders": {
+    "number": "No.",
+    "projectName": "Izina ry'Umushinga",
+    "submittedOn": "Yatanzwe ku",
+    "submittedBy": "Yatanzwe na",
+    "actions": "Ibikorwa"
+  },
+  "actions": {
+    "view": "Reba Isuzuma",
+    "approve": "Emeza Isuzuma",
+    "deny": "Anga Isuzuma"
+  },
+  "feasibilityPercentage": "Igereranywa ry'Ubushobozi",
+  "monthlyIncome": "Amafaranga y'Ukwezi",
+  "annualIncome": "Amafaranga y'Umwaka",
+  "roi": "Isubizo ry'Ishoramari",
+  "price": "Igiciro",
+  "feasibilityReason": "Isuzuma ry'Ubushobozi",
+  "incomeDescription": "Isuzuma ry'Amafaranga",
+  "analyticsDocument": "Inyandiko y'Isuzuma",
+  "loadingDocument": "Inyandiko irimo...",
+  "denial": {
+    "title": "Anga Isuzuma",
+    "reason": "Impamvu yo Kwanga",
+    "placeholder": "Nyamuneka tanga impamvu yo kwanga isuzuma..."
+  },
+  "openExternally": "Fungurira Hanze",
+  "download": "Kuramo",
+  "documentLoadError": "Ikibazo mu Gukuraho Inyandiko",
+  "documentNotAvailable": "Inyandiko Ntiyabonetse"
+}
+}

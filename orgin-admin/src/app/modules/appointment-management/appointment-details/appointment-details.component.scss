@@ -1,0 +1,85 @@
+.appointment-details {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  .profile-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    .profile-picture {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 1.5rem;
+    }
+
+    .profile-info {
+      h2 {
+        margin: 0 0 0.5rem 0;
+      }
+
+      p {
+        margin: 0.25rem 0;
+        color: #666;
+      }
+    }
+  }
+
+  .details-section {
+    p {
+      margin: 0.75rem 0;
+
+      strong {
+        display: inline-block;
+        width: 150px;
+      }
+    }
+  }
+
+  .actions-section {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+
+      &-back {
+        background-color: #f0f0f0;
+        color: #333;
+
+        &:hover {
+          background-color: #e0e0e0;
+        }
+      }
+
+      &-approve {
+        background-color: #4caf50;
+        color: white;
+
+        &:hover {
+          background-color: #3d8b40;
+        }
+      }
+
+      &-decline {
+        background-color: #f44336;
+        color: white;
+
+        &:hover {
+          background-color: #d32f2f;
+        }
+      }
+    }
+  }
+}

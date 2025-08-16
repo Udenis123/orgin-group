@@ -1,0 +1,55 @@
+<div class="container">
+  <h1>{{ 'analytics.title' | translate }}</h1>
+  
+  <mat-form-field appearance="outline">
+    <mat-label>{{ 'common.search' | translate }}</mat-label>
+    <input style="color: var(--text-color);" matInput (keyup)="applyFilter($event)" placeholder="{{ 'analytics.searchPlaceholder' | translate }}">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <div class="table-container">
+    <table class="animated-table">
+      <thead>
+        <tr>
+          <th>{{ 'analytics.tableHeaders.number' | translate }}</th>
+          <th>{{ 'analytics.tableHeaders.projectName' | translate }}</th>
+          <th>{{ 'analytics.tableHeaders.submittedOn' | translate }}</th>
+          <th>{{ 'analytics.tableHeaders.submittedBy' | translate }}</th>
+          <th>{{ 'analytics.tableHeaders.actions' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of paginatedData; let i = index">
+          <td>{{ (currentPage * pageSize) + i + 1 }}</td>
+          <td>{{ item.projectName }}</td>
+          <td>{{ item.submittedOn }}</td>
+          <td>{{ item.submittedBy }}</td>
+          <td class="actions">
+            <button class="icon-button" (click)="viewAnalytics(item)" matTooltip="{{ 'analytics.actions.view' | translate }}">
+              <i class="material-icons">visibility</i>
+            </button>
+            <button class="icon-button approve-btn" (click)="approveAnalytics(item)" [disabled]="item.status === 'Approved'" matTooltip="{{ 'analytics.actions.approve' | translate }}">
+              <i class="material-icons">check_circle</i>
+            </button>
+            <button class="icon-button deny-btn" (click)="denyAnalytics(item)" [disabled]="item.status === 'Denied'" matTooltip="{{ 'analytics.actions.deny' | translate }}">
+              <i class="material-icons">cancel</i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="currentPage === 0">
+      <i class="material-icons">chevron_left</i>
+    </button>
+    <span>{{ currentPage + 1 }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
+      <i class="material-icons">chevron_right</i>
+    </button>
+    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+</div>

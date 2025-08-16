@@ -1,0 +1,33 @@
+<nav class="navbar">
+  <div class="navbar-left">
+    {{ 'WELCOME' | translate }}, {{ username || 'Guest' }}
+  </div>
+
+  <div class="navbar-right">
+    <!-- Language Selector -->
+    <select (change)="switchLanguage($event)" class="lang-select">
+      <option value="en" [selected]="selectedLanguage === 'en'"> EN</option>
+      <option value="fr" [selected]="selectedLanguage === 'fr'"> FR</option>
+      <option value="rw" [selected]="selectedLanguage === 'rw'"> RW</option>
+    </select>
+    
+
+    <!-- Dark Mode Toggle -->
+    <button (click)="toggleDarkMode()" class="theme-toggle">
+      {{ isDarkMode ? '☀️' : '🌙' }}
+    </button>
+
+    <!-- Account Menu -->
+    <div class="account-menu" [class.open]="isAccountMenuOpen">
+      <button (click)="toggleAccountMenu()" class="account-btn">
+        {{ 'ACCOUNT' | translate }} ⏬
+      </button>
+      <ul class="dropdown-menu">
+        <li><a (click)="navigateToProfile()">{{ 'PROFILE' | translate }}</a></li>
+        <li><a (click)="navigateToSettings()">{{ 'SETTINGS' | translate }}</a></li>
+        <li><a href="http://localhost:4200">{{ 'BACK_TO_WEBSITE' | translate }}</a></li>
+        <li><button (click)="logout()" class="logout-btn">{{ 'LOGOUT' | translate }}</button></li>
+      </ul>
+    </div>
+  </div>
+</nav>

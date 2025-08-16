@@ -1,0 +1,23 @@
+{
+  "extends": "stylelint-config-standard-scss",
+  "rules": {
+    "selector-combinator-space-before": null,
+    "selector-combinator-space-after": null,
+    "selector-descendant-combinator-no-non-space": null,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global"]
+      }
+    ],
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": ["ng-deep"]
+      }
+    ],
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": true,
+    "scss/selector-no-redundant-nesting-selector": null
+  }
+}

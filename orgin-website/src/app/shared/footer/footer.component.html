@@ -1,0 +1,88 @@
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h6>{{ 'IMPORTANT_LINKS' | translate }}</h6>
+      <ul>
+        <li><a href="/about">{{ 'ABOUT_US' | translate }}</a></li>
+        <li><a href="/services">{{ 'OUR_SERVICES' | translate }}</a></li>
+        <li><a href="/contact">{{ 'CONTACT' | translate }}</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h6>{{ 'OTHERS' | translate }}</h6>
+      <ul>
+        <li><a [routerLink]="['/legal/terms-and-conditions']">{{ 'TERMS_CONDITIONS' | translate }}</a></li>
+        <li><a [routerLink]="['/legal/privacy-policy']">{{ 'PRIVACY_POLICY' | translate }}</a></li>
+        <li><a href="#">{{ 'FAQ' | translate }}</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h6>{{ 'CONNECT_WITH_US' | translate }}</h6>
+      <ul class="social-icons">
+        <li>
+          <a href="https://www.instagram.com/origin.rw?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+            <i class="fab fa-instagram"></i> Instagram
+          </a>
+        </li>
+        <li>
+          <a href="https://wa.me/250793077088" target="_blank">
+            <i class="fab fa-whatsapp"></i> +250 793 077 088
+          </a>
+        </li>
+        <li>
+          <a href="mailto:origingroup299&#64;gmail.com" target="_blank">
+            <i class="far fa-envelope"></i> origingroup299&#64;gmail.com
+          </a>
+        </li>
+        <li>
+          <a href="https://www.facebook.com/ORGINGROUP" target="_blank">
+            <i class="fab fa-facebook-f"></i> Facebook
+          </a>
+        </li>
+        <li>
+          <a href="https://x.com/originltdrw" target="_blank">
+            <i class="fab fa-x-twitter"></i> X
+          </a>
+        </li>
+        <li>
+          <a href="#" target="_blank">
+            <i class="fab fa-linkedin-in"></i> LinkedIn
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/NDEKWECLEVER?tab=repositories" target="_blank">
+            <i class="fab fa-github"></i> GitHub
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h6>Our Other Services</h6>
+      <ul class="social-icons">
+        <li>
+          <a href="https://www.orinest.rw/" target="_blank">
+             ORINEST
+          </a>
+        </li>
+        <li>
+          <a href="#" target="_blank">
+            DINEHUB
+          </a>
+        </li>
+        <li>
+          <a href="#" target="_blank">
+           ORITRAVEL
+          </a>
+        </li>
+      </ul>
+    </div>
+    
+  </div>
+  
+  <div class="footer-bottom">
+    <p>© {{ currentYear }} {{ 'FOOTER_COPYRIGHT' | translate }}</p>
+  </div>
+</footer>

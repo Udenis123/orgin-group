@@ -1,0 +1,262 @@
+@use '../../../styles.scss' as *;
+@use 'bootstrap';
+
+.privacy-policy-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  animation: fadeIn 1s ease-in-out;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  animation: slideUp 1s ease-in-out;
+}
+
+.header h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  color: var(--secondary-color);
+  margin: 0;
+  padding: 20px;
+  font-size: 2.5rem;
+}
+
+.last-updated {
+  color: #777;
+  font-style: italic;
+  margin-top: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.table-of-contents {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.table-of-contents h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  color: var(--secondary-color);
+  margin-top: 0;
+}
+
+.table-of-contents ul {
+  list-style-type: none;
+  padding-left: 10px;
+  margin: 0;
+}
+
+.table-of-contents a {
+  color: var(--primary-color);
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  padding: 4px 0;
+  transition: color 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.table-of-contents a:hover {
+  color: var(--secondary-color);
+  text-decoration: underline;
+}
+
+.section {
+  margin: 40px 0;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  animation: fadeIn 2s ease-in-out;
+}
+
+.section h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  color: var(--secondary-color);
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+  margin-top: 0;
+}
+
+.section h3 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--primary-color);
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+
+.section h4 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--primary-color);
+  margin-top: 15px;
+  margin-bottom: 8px;
+}
+
+.section ul, .section ol {
+  padding-left: 25px;
+  margin-bottom: 15px;
+}
+
+.section li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+  font-family: 'Poppins', sans-serif;
+}
+
+.section li ul, .section li ol {
+  margin-top: 8px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.data-table th, .data-table td {
+  padding: 12px;
+  text-align: left;
+}
+
+.data-table th {
+  font-weight: 600;
+}
+
+
+
+a {
+  color: #0066cc;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #004999;
+  text-decoration: underline;
+}
+
+// Animations
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Dark mode support
+:host-context(body.dark-mode) {
+  .privacy-policy-container {
+    background-color: var(--background-dark);
+    color: var(--text-color-dark);
+  }
+
+  .section {
+    background-color: var(--card-background-dark);
+
+    h3, h4 {
+      color: var(--secondary-color);
+    }
+  }
+
+  .table-of-contents {
+    background-color: var(--card-background-dark);
+
+    a {
+      color: var(--secondary-color);
+      
+      &:hover {
+        color: var(--secondary-color);
+        filter: brightness(120%);
+      }
+    }
+  }
+
+  a {
+    color: var(--secondary-color);
+    
+    &:hover {
+      color: var(--secondary-color);
+      filter: brightness(120%);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .privacy-policy-container {
+    margin: 1rem;
+    padding: 15px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+    padding: 10px;
+  }
+
+  .section {
+    padding: 15px;
+  }
+
+  .section h2 {
+    font-size: 1.5rem;
+  }
+  
+  .section h3 {
+    font-size: 1.2rem;
+  }
+  
+  .data-table th, .data-table td {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .table-of-contents {
+    padding: 15px;
+  }
+}
+
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
+.test-content {
+  border: 3px solid purple;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+h1 {
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}

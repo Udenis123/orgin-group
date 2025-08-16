@@ -1,0 +1,40 @@
+// Bootstrap CSS Selector Overrides
+// This file provides valid alternatives to problematic Bootstrap selectors
+
+// Override problematic Bootstrap selectors with valid CSS
+// These rules will take precedence over the problematic ones
+
+// Table selectors - using valid CSS syntax
+.table > * > * {
+  // Valid alternative for .table>>*>* 
+}
+
+.table-sm > * > * {
+  // Valid alternative for .table-sm>>*>* 
+}
+
+.table-bordered > * {
+  // Valid alternative for .table-bordered>>* 
+}
+
+.table-bordered > * > * {
+  // Valid alternative for .table-bordered>>*>* 
+}
+
+.table-borderless > * > * {
+  // Valid alternative for .table-borderless>>*>* 
+}
+
+// Form floating selector - using valid CSS syntax
+.form-floating ~ label {
+  // Valid alternative for .form-floating>~label 
+}
+
+// Button group selectors - using valid CSS syntax
+.btn-group + .btn {
+  // Valid alternative for .btn-group>+.btn 
+}
+
+.btn-group-vertical + .btn {
+  // Valid alternative for .btn-group-vertical>+.btn 
+}

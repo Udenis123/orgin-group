@@ -1,0 +1,31 @@
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.details-card {
+  background: var(--card-background-light);
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.completion-section, .completion-status {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: var(--card-background-light);
+  border-radius: 8px;
+  text-align: center;
+}

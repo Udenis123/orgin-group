@@ -1,0 +1,272 @@
+<div class="add-analytics-container">
+  <h1>{{ "analytics.addAnalytics" | translate }}</h1>
+
+  <div *ngIf="loading && !submitted" class="loading-container">
+    <div class="spinner"></div>
+    <p>{{ "analytics.loadingData" | translate }}</p>
+  </div>
+
+  <form
+    [formGroup]="analyticsForm"
+    (ngSubmit)="onSubmit()"
+    *ngIf="!loading || submitted"
+  >
+
+
+    <div class="error-container" *ngIf="errorMessage">
+      <p class="error-message">{{ errorMessage }}</p>
+    </div>
+
+    <!-- Document Preview Section -->
+    <div class="document-section" *ngIf="hasDocument()">
+      <h3>{{ "analytics.documentSection" | translate }}</h3>
+      <div class="document-actions">
+        <div class="document-info">
+          <span class="document-name">{{
+            "analytics.analyticsDocument" | translate
+          }}</span>
+        </div>
+        <div class="document-buttons">
+          <button
+            type="button"
+            class="btn-document btn-preview"
+            (click)="previewDocument()"
+          >
+            <i class="fas fa-eye"></i> {{ "analytics.preview" | translate }}
+          </button>
+          <button
+            type="button"
+            class="btn-document btn-download"
+            (click)="downloadDocument()"
+          >
+            <i class="fas fa-download"></i>
+            {{ "analytics.download" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <!-- Feasibility Percentage -->
+      <div class="form-group">
+        <label class="required"
+          >{{ "analytics.feasibilityPercentage" | translate }} %</label
+        >
+        <input
+          type="number"
+          formControlName="feasibilityPercentage"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            submitted && analyticsForm.get('feasibilityPercentage')?.invalid
+          "
+          class="error-message"
+        >
+          {{ "validation.percentage" | translate }}
+        </div>
+      </div>
+
+      <!-- Monthly Income -->
+      <div class="form-group">
+        <label class="required"
+          >{{ "analytics.monthlyIncome" | translate }} $</label
+        >
+        <input
+          type="number"
+          formControlName="monthlyIncome"
+          class="form-control"
+        />
+        <div
+          *ngIf="submitted && analyticsForm.get('monthlyIncome')?.invalid"
+          class="error-message"
+        >
+          {{ "validation.requiredNumber" | translate }}
+        </div>
+      </div>
+
+      <!-- Feasibility Reason -->
+      <div class="form-group">
+        <label class="required">{{
+          "analytics.feasibilityReason" | translate
+        }}</label>
+        <textarea
+          formControlName="feasibilityReason"
+          class="form-control"
+          rows="4"
+        ></textarea>
+        <div
+          *ngIf="submitted && analyticsForm.get('feasibilityReason')?.invalid"
+          class="error-message"
+        >
+          {{ "validation.required" | translate }}
+        </div>
+      </div>
+
+      <!-- Annual Income -->
+      <div class="form-group">
+        <label class="required"
+          >{{ "analytics.annualIncome" | translate }} $</label
+        >
+        <div class="input-group">
+          <input
+            type="number"
+            formControlName="annualIncome"
+            class="form-control"
+          />
+        </div>
+        <div
+          *ngIf="submitted && analyticsForm.get('annualIncome')?.invalid"
+          class="error-message"
+        >
+          {{ "validation.requiredNumber" | translate }}
+        </div>
+      </div>
+
+      <!-- ROI -->
+      <div class="form-group">
+        <label class="required">{{ "analytics.roi" | translate }} %</label>
+        <input type="number" formControlName="roi" class="form-control" />
+        <div
+          *ngIf="submitted && analyticsForm.get('roi')?.invalid"
+          class="error-message"
+        >
+          {{ "validation.percentage" | translate }}
+        </div>
+      </div>
+
+      <!-- Income Description -->
+      <div class="form-group">
+        <label class="required">{{
+          "analytics.incomeDescription" | translate
+        }}</label>
+        <textarea
+          formControlName="incomeDescription"
+          class="form-control"
+          rows="4"
+        ></textarea>
+        <div
+          *ngIf="submitted && analyticsForm.get('incomeDescription')?.invalid"
+          class="error-message"
+        >
+          {{ "validation.required" | translate }}
+        </div>
+      </div>
+
+      <!-- Price Field -->
+      <div class="form-group">
+        <label class="required">{{ "analytics.price" | translate }} $</label>
+        <input type="number" formControlName="price" class="form-control" />
+        <div
+          *ngIf="submitted && analyticsForm.get('price')?.invalid"
+          class="error-message"
+        >
+          {{ "validation.requiredNumber" | translate }}
+        </div>
+      </div>
+
+      <!-- Cost of Development Field -->
+      <div class="form-group">
+        <label class="required"
+          >{{ "analytics.costOfDevelopment" | translate }} $</label
+        >
+        <input
+          type="number"
+          formControlName="costOfDevelopment"
+          class="form-control"
+        />
+        <div
+          *ngIf="submitted && analyticsForm.get('costOfDevelopment')?.invalid"
+          class="error-message"
+        >
+          {{ "validation.requiredNumber" | translate }}
+        </div>
+      </div>
+
+      <!-- File Upload Section -->
+      <div class="form-group">
+        <label [class.required]="!hasDocument()">{{
+          "analytics.uploadDocument" | translate
+        }}</label>
+        <input
+          type="file"
+          (change)="onFileChange($event)"
+          class="form-control"
+          accept=".pdf,.doc,.docx"
+        />
+        <div *ngIf="existingAnalytics && hasDocument()" class="info-message">
+          {{ "analytics.replaceDocument" | translate }}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <app-custom-button buttonClass="btn-reset" (click)="onCancel()">
+        {{ "common.cancel" | translate }}
+      </app-custom-button>
+
+      <app-custom-button
+        *ngIf="!showDeclineFeedback"
+        buttonClass="btn-reset"
+        (click)="onDecline()"
+      >
+        {{ "common.decline" | translate }}
+      </app-custom-button>
+
+      <app-custom-button
+        buttonClass="btn-submit"
+        type="submit"
+        [disabled]="!hasFormChanges || loading"
+      >
+        {{
+          existingAnalytics ? "common.update" : ("common.submit" | translate)
+        }}
+        <div *ngIf="loading && submitted" class="spinner"></div>
+      </app-custom-button>
+
+      <app-custom-button
+        buttonClass="btn-approve"
+        (click)="onApproveProject()"
+        [disabled]="!isFormValidForApproval() || loading"
+      >
+        {{ "common.approveProject" | translate }}
+      </app-custom-button>
+    </div>
+
+    <div *ngIf="showDeclineFeedback" class="decline-feedback">
+      <form [formGroup]="declineForm">
+        <div class="form-group">
+          <label class="required">{{
+            "analytics.declineFeedback" | translate
+          }}</label>
+          <textarea
+            formControlName="feedback"
+            class="form-control"
+            rows="4"
+            required
+          ></textarea>
+          <div
+            *ngIf="submitted && declineForm.get('feedback')?.invalid"
+            class="error-message"
+          >
+            {{ "validation.required" | translate }}
+          </div>
+        </div>
+
+        <div class="feedback-actions">
+          <app-custom-button buttonClass="btn-reset" (click)="cancelDecline()">
+            {{ "common.cancel" | translate }}
+          </app-custom-button>
+
+          <app-custom-button
+            buttonClass="btn-submit"
+            (click)="confirmDecline()"
+            [disabled]="declineForm.invalid"
+          >
+            {{ "common.confirmDecline" | translate }}
+          </app-custom-button>
+        </div>
+      </form>
+    </div>
+  </form>
+</div>

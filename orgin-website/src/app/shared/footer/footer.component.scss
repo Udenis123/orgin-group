@@ -1,0 +1,109 @@
+.footer {
+  text-align: center;
+  background-color: #162447;
+  color: white;
+  padding: 2rem 0;
+  width: 100%;
+  margin-top: auto;
+
+  .footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+
+    .footer-section {
+      margin: 1rem;
+      min-width: 200px;
+      text-align: left;
+
+      h6 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+      }
+
+      ul {
+        text-align: left;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          margin-bottom: 0.5rem;
+          
+
+          a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+
+            &:hover {
+              color: #e1e1e1;
+            }
+
+            i {
+              margin-right: 0.5rem;
+            }
+          }
+        }
+      }
+
+      .social-icons {
+        li {
+          a {
+            display: flex;
+            align-items: center;
+            
+            i {
+              width: 20px;
+              font-size: 1.1rem;
+              margin-right: 0.5rem;
+            }
+
+            &:hover {
+              i.fa-facebook-f { color: #3b5998; }
+              i.fa-x-twitter { color: #000000; }
+              i.fa-instagram { color: #e1306c; }
+              i.fa-linkedin-in { color: #0077b5; }
+              i.fa-github { color: #6e5494; }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    .footer-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      .footer-section {
+        margin: 1rem 0;
+      }
+    }
+  }
+}
+:host-context(body.dark-mode) {
+  .footer {
+    border-top: 1px solid var(--secondary-color) !important;
+  }
+}

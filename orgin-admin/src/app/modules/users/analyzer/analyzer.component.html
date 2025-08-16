@@ -1,0 +1,48 @@
+<div class="container">
+  <h1>{{ 'users.analyzers.title' | translate }}</h1>
+  
+  <mat-form-field appearance="outline">
+    <mat-label>{{ 'common.search' | translate }}</mat-label>
+    <input style="color: var(--text-color);" matInput (keyup)="applyFilter($event)" placeholder="{{ 'users.analyzers.searchPlaceholder' | translate }}">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <div class="table-container">
+    <table class="analyzer-table">
+      <thead>
+        <tr>
+          <th>{{ 'users.analyzers.tableHeaders.number' | translate }}</th>
+          <th>{{ 'users.analyzers.tableHeaders.name' | translate }}</th>
+          <th>{{ 'users.analyzers.tableHeaders.nationalId' | translate }}</th>
+          <th>{{ 'users.analyzers.tableHeaders.phone' | translate }}</th>
+          <th>{{ 'users.analyzers.tableHeaders.status' | translate }}</th>
+          <th>{{ 'users.analyzers.tableHeaders.actions' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of dataSource.filteredData; let i = index">
+          <td>{{ (currentPage * pageSize) + i + 1 }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.nationalId }}</td>
+          <td>{{ user.phone }}</td>
+          <td [class.status-disabled]="user.status === 'Terminated'">
+            {{ 'users.analyzers.status.' + user.status.toLowerCase() | translate }}
+          </td>
+          <td class="actions">
+            <button class="icon-button" (click)="viewUserDetails(user)" matTooltip="{{ 'users.analyzers.actions.view' | translate }}">
+              <i class="material-icons">visibility</i>
+            </button>
+            <button class="icon-button" (click)="updateUser(user)" [disabled]="isTerminated(user.status)" matTooltip="{{ 'users.analyzers.actions.update' | translate }}">
+              <i class="material-icons">edit</i>
+            </button>
+            <button class="icon-button terminate-btn" (click)="terminateUser(user)" [disabled]="isTerminated(user.status)" matTooltip="{{ 'users.analyzers.actions.terminate' | translate }}">
+              <i class="material-icons">close</i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ... existing pagination code ... -->
+</div>

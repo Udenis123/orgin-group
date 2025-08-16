@@ -1,0 +1,20 @@
+<div class="container">
+  <h1>Community Project Details</h1>
+  
+  <div *ngIf="projectDetails" class="details-card">
+    <div *ngFor="let field of projectDetails" class="detail-row">
+      <strong>{{ field.label }}:</strong>
+      <span>{{ field.value }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="!isApproved" class="approval-section">
+    <button mat-raised-button color="primary" (click)="approveProject()">
+      Approve Project
+    </button>
+  </div>
+
+  <div *ngIf="isApproved" class="approval-status">
+    <h3>Project Approved</h3>
+  </div>
+</div>

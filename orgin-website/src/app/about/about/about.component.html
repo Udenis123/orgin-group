@@ -1,0 +1,26 @@
+<div class="about-container">
+  <h1>{{ 'ABOUT_ORIGIN_GROUP' | translate }}</h1>
+  <p class="intro-text">
+    {{ 'ABOUT_INTRO_TEXT' | translate }}
+  </p>
+
+  <h2>{{ 'OUR_VISION' | translate }}</h2>
+  <p>
+    {{ 'VISION_TEXT' | translate }}
+  </p>
+
+  <h2>{{ 'OUR_MISSION' | translate }}</h2>
+  <p>
+    {{ 'MISSION_TEXT' | translate }}
+  </p>
+  
+  <!-- Slogan (unchanged) -->
+  <div class="slogan">
+    CONNECT TO YOUR FATE
+  </div>
+
+  <!-- Call to Action -->
+  <div class="cta">
+    <a [href]="clientUrl + '/auth/0/signup'" class="btn primary">{{ 'JOIN_US' | translate }}</a>
+  </div>
+</div>

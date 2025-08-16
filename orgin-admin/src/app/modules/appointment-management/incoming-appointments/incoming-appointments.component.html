@@ -1,0 +1,57 @@
+<div class="container">
+  <h1>{{ 'appointments.incoming.title' | translate }}</h1>
+
+  <mat-form-field appearance="outline">
+    <mat-label>{{ 'common.search' | translate }}</mat-label>
+    <input style="color: var(--text-color);" matInput (keyup)="applyFilter($event)" placeholder="{{ 'appointments.incoming.searchPlaceholder' | translate }}">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <div class="table-container">
+    <table class="animated-table">
+      <thead>
+        <tr>
+          <th>{{ 'appointments.incoming.tableHeaders.name' | translate }}</th>
+          <th>{{ 'appointments.incoming.tableHeaders.type' | translate }}</th>
+          <th>{{ 'appointments.incoming.tableHeaders.date' | translate }}</th>
+          <th>{{ 'appointments.incoming.tableHeaders.representing' | translate }}</th>
+          <th>{{ 'appointments.incoming.tableHeaders.project' | translate }}</th>
+          <th>{{ 'appointments.incoming.tableHeaders.actions' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let appointment of paginatedData; let i = index">
+          <td>{{ appointment.name }}</td>
+          <td>{{ getTranslatedType(appointment.type) }}</td>
+          <td>{{ appointment.date | date }}</td>
+          <td>{{ getTranslatedRepresenting(appointment.representing) }}</td>
+          <td>{{ appointment.project }}</td>
+          <td class="actions">
+            <button class="icon-button" (click)="viewAppointment(appointment)" matTooltip="{{ 'appointments.incoming.actions.view' | translate }}">
+              <i class="material-icons">visibility</i>
+            </button>
+            <button class="icon-button" (click)="approveAppointment(appointment)" matTooltip="{{ 'appointments.incoming.actions.approve' | translate }}">
+              <i class="material-icons">check</i>
+            </button>
+            <button class="icon-button terminate-btn" (click)="declineAppointment(appointment)" matTooltip="{{ 'appointments.incoming.actions.decline' | translate }}">
+              <i class="material-icons">close</i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="currentPage === 0">
+      <i class="material-icons">chevron_left</i>
+    </button>
+    <span>{{ currentPage + 1 }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
+      <i class="material-icons">chevron_right</i>
+    </button>
+    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+</div>

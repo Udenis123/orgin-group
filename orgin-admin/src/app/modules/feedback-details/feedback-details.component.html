@@ -1,0 +1,64 @@
+<!-- Loading State -->
+<div *ngIf="loading" class="loading-container">
+  <mat-spinner></mat-spinner>
+  <p>{{ 'common.loading' | translate }}</p>
+</div>
+
+<!-- Error State -->
+<div *ngIf="error && !loading" class="error-container">
+  <mat-icon>error</mat-icon>
+  <p>{{ 'feedback.details.noData' | translate }}</p>
+  <button mat-raised-button color="primary" (click)="router.navigate(['/dashboard/feedback-approval'])">
+    {{ 'common.backToList' | translate }}
+  </button>
+</div>
+
+<!-- Feedback Details -->
+<div class="feedback-details" *ngIf="feedback && !loading">
+  <div class="profile-header">
+    <img [src]="feedback.profilePicture" [alt]="feedback.clientName" class="profile-picture">
+    <h2>{{ feedback.clientName }}</h2>
+  </div>
+  
+  <div class="detail-row">
+    <span class="label">📧 {{ 'feedback.details.fields.email' | translate }}:</span>
+    <span class="value">{{ feedback.email || 'N/A' }}</span>
+  </div>
+  
+  <div class="detail-row">
+    <span class="label">📅 {{ 'feedback.details.fields.submittedOn' | translate }}:</span>
+    <span class="value">{{ feedback.submittedOn }}</span>
+  </div>
+  
+  <div class="detail-row">
+    <span class="label">🔄 {{ 'feedback.details.fields.subscriptionStatus' | translate }}:</span>
+    <span class="value">{{ getTranslatedStatus(feedback.subscriptionStatus) }}</span>
+  </div>
+  
+  <div class="detail-row">
+    <span class="label">🏷️ {{ 'feedback.details.fields.subscriptionType' | translate }}:</span>
+    <span class="value">{{ getTranslatedSubscriptionType(feedback.subscriptionType) }}</span>
+  </div>
+  
+  <div class="detail-row">
+    <span class="label">⭐ {{ 'feedback.details.fields.rating' | translate }}:</span>
+    <div class="rating-stars">
+      <span *ngFor="let star of [1,2,3,4,5]">
+        {{ star <= feedback.rating ? '★' : '☆' }}
+      </span>
+    </div>
+  </div>
+  
+  <div class="feedback-message">
+    <h3>💬 {{ 'feedback.details.fields.message' | translate }}</h3>
+    <p>{{ feedback.feedbackMessage }}</p>
+  </div>
+
+  <!-- Back Button -->
+  <div class="action-buttons">
+    <button mat-raised-button color="primary" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      {{ 'common.back' | translate }}
+    </button>
+  </div>
+</div> 

@@ -1,0 +1,79 @@
+<div class="sidenav" [class.closed]="!isOpen">
+    <!-- Profile Container -->
+    <div class="profile-container">
+        <div class="profile-picture">
+            <img [src]="userProfile?.profilePicture || 'assets/images/logo.png'" alt="Profile">
+        </div>
+        <div class="profile-info">
+            <span class="fullname">{{ userProfile?.fullname || 'Full Name' }}</span>
+            <span class="username">{{ userProfile?.email || 'Email Address' }}</span>
+        </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <ul>
+        <!-- Submitted Projects Menu -->
+        <li class="nested-menu" [class.open]="isSubmittedProjectsOpen">
+            <div class="menu-header" (click)="toggleSubmittedProjects()">
+                <span>{{ 'sidenav.links.submitted_projects' | translate }}</span>
+                <div class="arrow" [class.open]="isSubmittedProjectsOpen"></div>
+            </div>
+            <ul class="sub-menu">
+                <li><a routerLink="/dashboard/projects/submitted/ordered">{{ 'sidenav.links.ordered_projects' | translate }}</a></li>
+                <li><a routerLink="/dashboard/projects/submitted/community">{{ 'sidenav.links.community_projects' | translate }}</a></li>
+            </ul>
+        </li>
+
+        <li class="nested-menu" [class.open]="isAllProjectsOpen">
+            <div class="menu-header" (click)="toggleAllProjects()">
+                <span>{{ 'sidenav.links.all_projects' | translate }}</span>
+                <div class="arrow" [class.open]="isAllProjectsOpen"></div>
+            </div>
+            <ul class="sub-menu">
+                <li><a routerLink="/dashboard/projects/launched">{{ 'sidenav.links.launched_projects' | translate }}</a></li>
+                <li><a routerLink="/dashboard/projects/ordered">{{ 'sidenav.links.ordered_projects' | translate }}</a></li>
+                <li><a routerLink="/dashboard/projects/community">{{ 'sidenav.links.community_projects' | translate }}</a></li>
+            </ul>
+        </li>
+
+      
+
+        <li class="nested-menu" [class.open]="isUsersOpen">
+            <div class="menu-header" (click)="toggleUsers()">
+                <span>{{ 'sidenav.links.users' | translate }}</span>
+                <div class="arrow" [class.open]="isUsersOpen"></div>
+            </div>
+            <ul class="sub-menu">
+                <li><a routerLink="/dashboard/users/new/analyzer">{{ 'sidenav.links.add_analyzer' | translate }}</a></li>
+                <li><a routerLink="/dashboard/users/all/clients">{{ 'sidenav.links.clients' | translate }}</a></li>
+                <li><a routerLink="/dashboard/users/all/analyzers">{{ 'sidenav.links.analyzers' | translate }}</a></li>
+            </ul>
+        </li>
+
+        <!-- Add new menu items -->
+        <li>
+            <a routerLink="/dashboard/feedback-approval">{{ 'sidenav.links.feedback_approval' | translate }}</a>
+        </li>
+        
+        <li class="nested-menu" [class.open]="isAppointmentManagementOpen">
+            <div class="menu-header" (click)="toggleAppointmentManagement()">
+                <span>{{ 'sidenav.links.appointment_management' | translate }}</span>
+                <div class="arrow" [class.open]="isAppointmentManagementOpen"></div>
+            </div>
+            <ul class="sub-menu">
+                <li><a routerLink="/dashboard/appointments/incoming">{{ 'sidenav.links.incoming_appointments' | translate }}</a></li>
+                <li><a routerLink="/dashboard/appointments/scheduled">{{ 'sidenav.links.scheduled_appointments' | translate }}</a></li>
+            </ul>
+        </li>
+
+        <!-- Analytics Link -->
+        <li>
+            <a routerLink="/dashboard/analytics">{{ 'sidenav.links.analytics' | translate }}</a>
+        </li>
+    </ul>
+
+    <!-- Toggle Button -->
+    <button (click)="toggleSidenav()" class="toggle-btn">
+        {{ isOpen ? '<' : '>' }}
+    </button>
+</div>

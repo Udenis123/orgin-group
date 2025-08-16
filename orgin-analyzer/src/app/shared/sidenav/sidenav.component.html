@@ -1,0 +1,23 @@
+<div class="sidenav" [class.closed]="!isOpen">
+    <!-- Profile Container -->
+    <div class="profile-container">
+        <div class="profile-picture">
+            <img [src]="userProfile?.profilePicture || 'assets/images/logo.png'" alt="Profile">
+        </div>
+        <div class="profile-info">
+            <span class="fullname">{{ userProfile?.fullname || 'Full Name' }}</span>
+            <span class="username">{{ userProfile?.email || 'Email Address' }}</span>
+        </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <ul>
+        <li><a routerLink="/dashboard/projects/submitted/launched">{{ 'sidenav.links.submitted_projects' | translate }}</a></li>
+        <li><a routerLink="/dashboard/projects/assigned/launched">{{ 'sidenav.links.assigned_projects' | translate }}</a></li>
+    </ul>
+
+    <!-- Toggle Button -->
+    <button (click)="toggleSidenav()" class="toggle-btn">
+        {{ isOpen ? '<' : '>' }}
+    </button>
+</div>

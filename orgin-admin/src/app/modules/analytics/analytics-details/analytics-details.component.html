@@ -1,0 +1,102 @@
+<div class="analytics-container">
+  <!-- Page Title -->
+  <div class="title text-center">
+    <h1>{{ 'analytics.title' | translate }}</h1>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Project Not Found Message -->
+  <div *ngIf="!loading && !projectFound" class="project-header">
+    <h2>{{ projectDetails.name }}</h2>
+    <p>{{ projectDetails.description }}</p>
+  </div>
+
+  <!-- Project Details - Only shown when project is found -->
+  <div *ngIf="!loading && projectFound">
+    <!-- Project Header -->
+    <div class="project-header">
+      <h2>{{ projectDetails.name }}</h2>
+      <p>{{ projectDetails.description }}</p>
+    </div>
+
+    <!-- Metrics Grid -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <h3>{{ 'analytics.feasibilityPercentage' | translate }}</h3>
+        <p>{{ projectAnalytics?.feasibilityPercentage }}%</p>
+      </div>
+      <div class="metric-card">
+        <h3>{{ 'analytics.monthlyIncome' | translate }}</h3>
+        <p>{{ projectAnalytics?.monthlyIncome | currency:'RWF ' }}</p>
+      </div>
+      <div class="metric-card">
+        <h3>{{ 'analytics.annualIncome' | translate }}</h3>
+        <p>{{ projectAnalytics?.annualIncome | currency:'RWF ' }}</p>
+      </div>
+      <div class="metric-card">
+        <h3>{{ 'analytics.roi' | translate }}</h3>
+        <p>{{ projectAnalytics?.roi }}%</p>
+      </div>
+      <div class="metric-card">
+        <h3>{{ 'analytics.price' | translate }}</h3>
+        <p>{{ projectAnalytics?.price | currency:'RWF ' }}</p>
+      </div>
+    </div>
+
+    <!-- Feasibility Section -->
+    <div class="feasibility-section">
+      <h3>{{ 'analytics.feasibilityReason' | translate }}</h3>
+      <p>{{ projectAnalytics?.feasibilityReason }}</p>
+    </div>
+
+    <!-- Income Description Section -->
+    <div class="income-section">
+      <h3>{{ 'analytics.incomeDescription' | translate }}</h3>
+      <p>{{ projectAnalytics?.incomeDescription }}</p>
+    </div>
+
+    <!-- Analytics Document Section -->
+    <div *ngIf="!pdfError && (analyticsDocument || pdfLoading)" class="analytics-document-section" (contextmenu)="$event.preventDefault()">
+      <div class="document-header">
+        <h3>{{ 'analytics.analyticsDocument' | translate }}</h3>
+        <div class="document-actions">
+          <button mat-button color="primary" (click)="openPdfExternally()">
+            <mat-icon>open_in_new</mat-icon>
+            {{ 'analytics.openExternally' | translate }}
+          </button>
+          <button mat-button color="primary" (click)="downloadPdf()">
+            <mat-icon>download</mat-icon>
+            {{ 'analytics.download' | translate }}
+          </button>
+        </div>
+      </div>
+      
+      <!-- Loading state -->
+      <div *ngIf="pdfLoading" class="pdf-loading">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>{{ 'analytics.loadingDocument' | translate }}</p>
+      </div>
+
+      <!-- PDF Viewer -->
+      <iframe 
+        *ngIf="!pdfLoading && analyticsDocument"
+        [src]="analyticsDocument | safeUrl" 
+        width="100%" 
+        height="600px" 
+        frameborder="0"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <!-- Error state -->
+    <div *ngIf="pdfError" class="analytics-document-error">
+      <mat-icon color="warn">error_outline</mat-icon>
+      <p>{{ pdfError }}</p>
+    </div>
+  </div>
+</div>

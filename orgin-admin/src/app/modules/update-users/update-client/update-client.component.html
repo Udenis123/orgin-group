@@ -1,0 +1,42 @@
+<div class="container">
+  <h2>Update Client</h2>
+  
+  <div class="stepper">
+    <div *ngFor="let step of steps; let i = index" 
+         [class.active]="currentStep === i">
+      {{ step }}
+    </div>
+  </div>
+
+  <form>
+    <!-- Client Information Step -->
+    <div class="card">
+      <div class="card-header">Client Information</div>
+      <div class="card-body" [formGroup]="firstFormGroup">
+        <div class="form-group">
+          <label>National ID</label>
+          <input type="text" formControlName="nationalId">
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="text-center">
+      <app-custom-button
+        buttonClass="btn-reset"
+        [disabled]="isSubmitting"
+        (onClick)="resetPassword()"
+      >
+        {{ isSubmitting ? 'Resetting...' : 'Reset Password' }}
+      </app-custom-button>
+
+      <app-custom-button
+        buttonClass="btn-submit"
+        [disabled]="firstFormGroup.invalid || isSubmitting"
+        (onClick)="submitForm()"
+      >
+        {{ isSubmitting ? 'Updating...' : 'Update' }}
+      </app-custom-button>
+    </div>
+  </form>
+</div>

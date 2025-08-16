@@ -1,0 +1,85 @@
+<div class="container">
+  <h1>{{ 'feedback.approval.title' | translate }}</h1>
+
+  <mat-form-field appearance="outline">
+    <mat-label>{{ 'common.search' | translate }}</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="{{ 'feedback.approval.searchPlaceholder' | translate }}">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>{{ 'common.loading' | translate }}</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!loading && feedbackList.length === 0" class="error-container">
+    <mat-icon>error</mat-icon>
+    <p>{{ 'feedback.approval.noData' | translate }}</p>
+  </div>
+
+  <!-- Data Table -->
+  <div class="table-container" *ngIf="!loading && feedbackList.length > 0">
+    <table class="animated-table">
+      <thead>
+        <tr>
+          <th>{{ 'feedback.approval.tableHeaders.no' | translate }}</th>
+          <th>{{ 'feedback.approval.tableHeaders.name' | translate }}</th>
+          <th>{{ 'feedback.approval.tableHeaders.rating' | translate }}</th>
+          <th>{{ 'feedback.approval.tableHeaders.submittedOn' | translate }}</th>
+          <th>{{ 'feedback.approval.tableHeaders.actions' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let feedback of paginatedData; let i = index">
+          <td>{{ (currentPage * pageSize) + i + 1 }}</td>
+          <td>{{ feedback.clientName }}</td>
+          <td>
+            <div class="rating-stars">
+              <span *ngFor="let star of [1,2,3,4,5]">
+                {{ star <= feedback.rating ? '★' : '☆' }}
+              </span>
+            </div>
+          </td>
+          <td>{{ feedback.submittedOn }}</td>
+          <td class="actions">
+            <button mat-icon-button (click)="viewFeedback(feedback)" matTooltip="{{ 'feedback.approval.actions.view' | translate }}">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button 
+                    (click)="approveFeedback(feedback)" 
+                    matTooltip="{{ 'feedback.approval.actions.approve' | translate }}" 
+                    class="approve-btn"
+                    [disabled]="feedback.isApproving || feedback.isDeclining">
+              <mat-icon *ngIf="!feedback.isApproving">check</mat-icon>
+              <mat-spinner *ngIf="feedback.isApproving" diameter="20"></mat-spinner>
+            </button>
+            <button mat-icon-button 
+                    (click)="declineFeedback(feedback)" 
+                    matTooltip="{{ 'feedback.approval.actions.decline' | translate }}" 
+                    class="decline-btn"
+                    [disabled]="feedback.isApproving || feedback.isDeclining">
+              <mat-icon *ngIf="!feedback.isDeclining">close</mat-icon>
+              <mat-spinner *ngIf="feedback.isDeclining" diameter="20"></mat-spinner>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="!loading && feedbackList.length > 0">
+    <button (click)="previousPage()" [disabled]="currentPage === 0">
+      <i class="material-icons">chevron_left</i>
+    </button>
+    <span>{{ currentPage + 1 }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
+      <i class="material-icons">chevron_right</i>
+    </button>
+    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+</div>

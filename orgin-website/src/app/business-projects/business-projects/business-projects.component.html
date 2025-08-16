@@ -1,0 +1,406 @@
+<!-- Notification -->
+<div *ngIf="notification" [class]="'notification ' + notification.type">
+  {{ notification.message }}
+</div>
+<!-- Full-screen Carousel -->
+<div id="homeCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <!-- First Slide -->
+    <div class="carousel-item active">
+      <div class="carousel-overlay"></div>
+      <img src="../../../assets/images/1.webp" class="d-block w-100 full-screen-image" alt="{{ 'PROJECT_IDEA' | translate }}">
+      <div class="carousel-caption left-align animate-text">
+        <h2>{{ 'LOOKING_TO_BUY_OR_SELL' | translate }}</h2>
+        <p>{{ 'JOIN_NETWORK_OF_INVESTORS' | translate }}</p>
+        <a [href]="clientUrl" class="btn btn-transparent">{{ 'SIGN_UP' | translate }}</a>
+      </div>
+    </div>
+
+     <!-- Second Slide -->
+     <div class="carousel-item">
+      <div class="carousel-overlay"></div>
+      <img src="../../../assets/images/4.jpg" class="d-block w-100 full-screen-image" alt="{{ 'CUSTOMIZED_PROJECTS' | translate }}">
+      <div class="carousel-caption right-align animate-text">
+        <h2>{{ 'ORDER_CUSTOMIZED_PROJECT' | translate }}</h2>
+        <p>{{ 'TAILORED_TO_YOUR_NEEDS' | translate }}</p>
+        <a [href]="clientUrl + '/dashboard/project/order'" target="_blank" class="btn btn-transparent">{{ 'ORDER_NOW' | translate }}</a>
+      </div>
+    </div>
+
+    <!-- Third Slide -->
+    <div class="carousel-item">
+      
+      
+      <div class="carousel-overlay"></div>
+      <img src="../../../assets/images/2.webp" class="d-block w-100 full-screen-image" alt="{{ 'PROJECT_EXHIBITION' | translate }}">
+      <div class="carousel-caption right-align animate-text">
+        <h2>{{ 'EXPLORE_PROJECT_EXHIBITION' | translate }}</h2>
+        <p>{{ 'FIND_GROUND_BREAKING_PROJECTS' | translate }}</p>
+      </div>
+    </div>
+
+    <!-- fourth Slide -->
+    <div class="carousel-item">
+      <div class="carousel-overlay"></div>
+      <img src="../../../assets/images/3.jpg" class="d-block w-100 full-screen-image" alt="{{ 'DEALT_PROJECTS' | translate }}">
+      <div class="carousel-caption left-align animate-text">
+        <h2>{{ 'EXPLORE_COMPLETED_PROJECTS' | translate }}</h2>
+        <p>{{ 'BROWSE_SUCCESSFUL_DEALS' | translate }}</p>
+      </div>
+    </div>
+
+    <!-- Fith Slide -->
+    <div class="carousel-item">
+      <div class="carousel-overlay"></div>
+      <img src="../../../assets/images/4.jpg" class="d-block w-100 full-screen-image" alt="{{ 'SUBMIT_PROJECT' | translate }}">
+      <div class="carousel-caption right-align animate-text">
+        <h2>{{ 'SUBMIT_YOUR_PROJECT' | translate }}</h2>
+        <p>{{ 'SHOWCASE_YOUR_IDEA' | translate }}</p>
+        <a [href]="clientUrl + '/dashboard/project/launch'" target="_blank" class="btn btn-transparent">{{ 'SUBMIT_NOW' | translate }}</a>
+      </div>
+    </div>
+
+    <!-- Sixth Slide -->
+    <div class="carousel-item">
+      <div class="carousel-overlay"></div>
+      <img src="../../../assets/images/5.webp" class="d-block w-100 full-screen-image" alt="{{ 'SUBSCRIPTION_PLANS' | translate }}">
+      <div class="carousel-caption left-align animate-text">
+        <h2>{{ 'UNLOCK_FULL_FEATURES' | translate }}</h2>
+        <p>{{ 'SUBSCRIBE_FOR_EXCLUSIVE_ACCESS' | translate }}</p>
+        <a [href]="clientUrl + '/dashboard/subscription/plan'" target="_blank" class="btn btn-transparent">{{ 'VIEW_PLANS' | translate }}</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carousel Controls -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">{{ 'PREVIOUS' | translate }}</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">{{ 'NEXT' | translate }}</span>
+  </button>
+</div>
+<!-- Search Form -->
+<section class="search-section">
+  <div class="search-header">
+    <h2>{{ 'SEARCH_TITLE' | translate }}</h2>
+    <div class="search-nav">
+      <button (click)="selectOption('all')" [class.active]="selectedOption === 'all'">{{ 'ALL' | translate }}</button>
+      <button (click)="selectOption('buying')" [class.active]="selectedOption === 'buying'">{{ 'BUYING' | translate }}</button>
+      <button (click)="selectOption('investing')" [class.active]="selectedOption === 'investing'">{{ 'INVESTING' | translate }}</button>
+    </div>
+  </div>
+
+  <div *ngIf="showForm" class="search-form">
+    <form (submit)="searchProjects()">
+      <div class="form-group">
+        <label for="category">{{ 'CATEGORY' | translate }}</label>
+        <select id="category" [(ngModel)]="searchCriteria.category" name="category">
+          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="owner">{{ 'OWNER' | translate }}</label>
+        <input type="text" id="owner" [(ngModel)]="searchCriteria.owner" name="owner" 
+               placeholder="{{ 'OWNER_PLACEHOLDER' | translate }}"
+               (input)="onOwnerInput($event)">
+      </div>
+
+      <div class="form-group">
+        <label for="financialCategory">{{ 'FINANCIAL_CATEGORY' | translate }}:</label>
+        <select id="financialCategory" [(ngModel)]="searchCriteria.financialCategory" name="financialCategory">
+          <option value="">{{ 'ALL' | translate }}</option>
+          <option *ngFor="let category of financialCategories" [value]="category">{{ category }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="feasibilityLocation">{{ 'FEASIBILITY_LOCATION' | translate }}:</label>
+        <select id="feasibilityLocation" [(ngModel)]="searchCriteria.feasibilityLocation" name="feasibilityLocation">
+          <option value=""></option>
+          <option *ngFor="let location of feasibilityLocations" [value]="location.city">{{ location.city }}, {{ location.country }}</option>
+        </select>
+      </div>
+
+    
+
+      <div class="form-buttons">
+        <button type="submit" class="btn btn-primary">{{ 'SEARCH' | translate }}</button>
+        <button type="button" class="btn btn-secondary" (click)="clearSearch()">{{ 'CLEAR' | translate }}</button>
+      </div>
+    </form>
+  </div>
+
+  <h2 style="color: var(--secondary-color);">{{ displayTitle }}</h2>  <div *ngIf="showResults || !showResults" class="search-results">
+    <div class="project-list row">
+      <div *ngFor="let project of filteredProjects | slice:0:20" class="col-md-3 project-card">
+        <div class="d-flex align-items-start position-relative">
+          <img [src]="project.image" class="project-image me-3" alt="{{ project.name }}" style="width: 70px; height: auto;">
+          <div class="project-details">
+            <h3>{{ project.name }}</h3>
+            <p *ngIf="!project.description">{{ 'LOADING_DESCRIPTION' | translate }}</p>
+            <p *ngIf="project.description" [lang]="currentLang === 'en' ? 'en' : 'auto'">
+              {{ project.description }}
+            </p>
+            <div *ngIf="currentLang !== 'en'" class="translation-hint">
+              {{ 'USE_BROWSER_TRANSLATION' | translate }}
+            </div>
+            <p><strong>{{ 'OWNER' | translate }}:</strong> {{ project.owner }}</p>
+            <p><strong>{{ 'PURPOSE' | translate }}:</strong> {{ project.purpose }}</p>
+            <p><strong>{{ 'CATEGORY' | translate }}:</strong> {{ project.category }}</p>
+            <p *ngIf="project.status !== 'pending'"><strong>{{ 'FINANCIAL_CATEGORY' | translate }}:</strong> {{ project.financialCategory }}</p>
+            <p *ngIf="project.linkedin">
+              <strong>{{ 'LINKEDIN' | translate }}:</strong> 
+              <a [href]="project.linkedin" target="_blank" rel="noopener noreferrer">
+                {{ 'VIEW_LINKEDIN' | translate }}
+              </a>
+            </p>
+            <a [href]="getAnalyticsUrl(project.id)" class="btn-project">
+              {{ 'ANALYTICS' | translate }}
+            </a>
+            <button class="bookmark-icon-btn" (click)="bookmarkProject(project.id)" title="Bookmark">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+            </button>
+          </div>
+          <div *ngIf="project.status" 
+               class="status-badge" 
+               [ngClass]="{'approved': project.status === 'approved', 'pending': project.status === 'pending'}">
+            {{ project.status | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Brokered Projects Section -->
+<section class="search-section">
+  <h2 style="color: var(--secondary-color);">Brokered Projects</h2>
+  <p>{{ 'DISCOVER_PROJECTS' | translate }}</p>
+  <ngb-carousel *ngIf="groupedBrokeredProjects.length" class="brokered-carousel">
+    <ng-template ngbSlide *ngFor="let group of groupedBrokeredProjects">
+      <div class="project-list row" >
+        <div class="col-md-3 project-card" *ngFor="let project of group">
+          <div class="d-flex align-items-start position-relative">
+            <img [src]="project.image" class="project-image me-3" [alt]="project.title" style="width: 70px; height: auto;">
+            <div class="project-details">
+              <h3>{{ project.title }}</h3>
+              <p *ngIf="!project.description">{{ 'LOADING_DESCRIPTION' | translate }}</p>
+              <p *ngIf="project.description">{{ project.description }}</p>
+              <p><strong>{{ 'PROJECT_TYPE' | translate }}:</strong> {{ project.type }}</p>
+              <p>
+                <strong>
+                  {{ project.isInvestment ? ('INVESTOR' | translate) : ('BUYER' | translate) }}:
+                </strong>
+                {{ project.buyer }}
+              </p>
+              <p>
+                <strong>
+                  {{ project.isInvestment ? ('OWNER' | translate) : ('SELLER' | translate) }}:
+                </strong>
+                {{ project.seller }}
+              </p>
+              <p *ngIf="project.website">
+                <strong>{{ 'PROJECT_WEBSITE' | translate }}:</strong>
+                <a [href]="project.website" target="_blank" class="website-link">{{ 'VISIT_SITE' | translate }}</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-carousel>
+</section>
+
+<!-- Article Section -->
+<section class="article-section">
+  <h2>{{ 'LATEST_ARTICLES' | translate }}</h2>
+  <p>{{ 'DISCOVER_ARTICLES' | translate }}</p>
+  
+  <ngb-carousel *ngIf="groupedArticles.length" [interval]="5000">
+    <ng-template ngbSlide *ngFor="let group of groupedArticles">
+      <div class="row article-row">
+        <div class="col-md-4" *ngFor="let article of group">
+          <div class="article-card" (click)="openArticle(article.url)">
+            <div class="article-image">
+              <img [src]="article.imageUrl" [alt]="article.title">
+            </div>
+            <div class="article-content">
+              <h3>{{ article.title }}</h3>
+              <p class="article-summary">{{ article.summary }}</p>
+              <div class="article-meta">
+                <span class="date">{{ article.date | date:'mediumDate' }}</span>
+                <span class="separator">•</span>
+                <span class="read-time">{{ article.readTime }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-carousel>
+</section>
+
+<!-- Subscription Plans Section -->
+<section class="subscription-section">
+  <h2 class="text-left">{{ 'CHOOSE_SUBSCRIPTION_PLAN' | translate }}</h2>
+  <div class="subscription-container">
+    
+    <!-- Subscription Plan Cards -->
+    <div class="subscription-card-container">
+      <div class="subscription-card free">
+        <h3>{{ 'BASIC_PLAN' | translate }}</h3>
+        <p>{{ 'BASIC_PLAN_DESCRIPTION' | translate }}</p>
+        <div class="button-container">
+          <a [href]="clientUrl + '/dashboard/checkout/basic'" target="_blank" class="btn btn-primary">{{ 'SUBSCRIBE_NOW' | translate }}</a>
+        </div>
+      </div>
+
+      <div class="subscription-card premium">
+        <h3>{{ 'PREMIUM_PLAN' | translate }}</h3>
+        <p>{{ 'PREMIUM_PLAN_DESCRIPTION' | translate }}</p>
+        <div class="button-container">
+          <a [href]="clientUrl + '/dashboard/checkout/premium'" target="_blank" class="btn btn-primary">{{ 'SUBSCRIBE_NOW' | translate }}</a>
+        </div>
+      </div>
+
+      <div class="subscription-card imena">
+        <h3>{{ 'IMENA_PLAN' | translate }}</h3>
+        <p>{{ 'IMENA_PLAN_DESCRIPTION' | translate }}</p>
+        <div class="button-container">
+          <a [href]="clientUrl + '/dashboard/checkout/imena'" target="_blank" class="btn btn-primary">{{ 'SUBSCRIBE_NOW' | translate }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+        <!-- Plan Comparison Table -->
+        <div class="plan-comparison-table mt-4">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">{{ 'FEATURE' | translate }}</th>
+                <th scope="col">{{ 'BASIC_PLAN' | translate }}</th>
+                <th scope="col">{{ 'PREMIUM_PLAN' | translate }}</th>
+                <th scope="col">{{ 'IMENA_PLAN' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ 'PROJECT_LAUNCH_ACCESS' | translate }}</td>
+                <td>✔</td>
+                <td>✔</td>
+                <td>✔</td>
+              </tr>
+              <tr>
+                <td>{{ 'COMMUNITY_ACCESS' | translate }}</td>
+                <td>✔</td>
+                <td>✔</td>
+                <td>✔</td>
+              </tr>
+              <tr>
+                <td>{{ 'PRIORITY_UPDATES' | translate }}</td>
+                <td>✘</td>
+                <td>✔</td>
+                <td>✔</td>
+              </tr>
+              <tr>
+                <td>{{ 'FULL_PROJECT_INSIGHT_ACCESS' | translate }}</td>
+                <td>✘</td>
+                <td>✔</td>
+                <td>✔</td>
+              </tr>
+              <tr>
+                <td>{{ 'PENDING_PROJECT_ACCESS' | translate }}</td>
+                <td>✘</td>
+                <td>✔</td>
+                <td>✔</td>
+              </tr>
+              <tr>
+                <td>{{ 'APPOINTMENT_PRIORITY' | translate }}</td>
+                <td>✘</td>
+                <td>✔</td>
+                <td>✔</td>
+              </tr>
+              <tr>
+                <td>{{ 'INVESTOR_CLUB_MEMBERSHIP' | translate }}</td>
+                <td>✘</td>
+                <td>✘</td>
+                <td>✔</td>
+              </tr>
+              <tr>
+                <td>{{ 'FAMILY_MEMBERSHIP_ACADEMY' | translate }}</td>
+                <td>✘</td>
+                <td>✘</td>
+                <td>✔</td>
+              </tr>
+              <tr>
+                <td>{{ 'MONTHLY_BUSINESS_ANALYTICS' | translate }}</td>
+                <td>✘</td>
+                <td>✔</td>
+                <td>✔</td>
+              </tr>
+              <tr>
+                <td>{{ 'QUARTERLY_PERFORMANCE_TRANSCRIPT' | translate }}</td>
+                <td>✘</td>
+                <td>✘</td>
+                <td>✔</td>
+              </tr>
+              <tr>
+                <td>{{ 'PERSONALIZED_INVESTMENT_TIPS' | translate }}</td>
+                <td>✘</td>
+                <td>✘</td>
+                <td>✔</td>
+              </tr>
+              <tr>
+                <td>{{ 'IMENA_PRIVILEGE' | translate }}</td>
+                <td>✘</td>
+                <td>✘</td>
+                <td>✔</td>
+              </tr>
+             
+            </tbody>
+          </table>
+        </div>
+
+  
+
+
+
+<!-- Feedback Section -->
+<section class="feedback-section">
+  <h2>{{ 'CLIENT_FEEDBACKS' | translate }}</h2>
+  
+  
+  <div class="projects-container">
+    <ngb-carousel *ngIf="feedbackChunks.length">
+      <ng-template ngbSlide *ngFor="let group of feedbackChunks">
+        <div class="row">
+          <div class="col-md-4" *ngFor="let feedback of group">
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="feedback-header">
+                  <img [src]="feedback.userPhoto" class="profile-pic" [alt]="feedback.userName">
+                  <div class="feedback-info">
+                    <h2 class="card-title">{{ feedback.userName }}</h2>
+                    <div class="stars">
+                      <span *ngFor="let star of getStars(feedback.starNumber)" [innerHTML]="star"></span>
+                    </div>
+                  </div>
+                </div>
+                <p class="card-text">{{ feedback.message }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-carousel>
+  </div>
+</section>
+
+  

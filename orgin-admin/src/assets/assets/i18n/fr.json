@@ -1,0 +1,484 @@
+{
+  "WELCOME": "Bienvenue",
+  "ACCOUNT": "Compte",
+  "PROFILE": "Profil",
+  "SETTINGS": "Paramètres",
+  "BACK_TO_WEBSITE": "Retour au site Web",
+  "LOGOUT": "Se Déconnecter",
+  "PREVIOUS": "Précédent",
+  "CONTINUE": "Continuer",
+  "CLEAR": "Effacer",
+  "SUBMIT": "Soumettre",
+  "sidenav": {
+      "links": {
+          "submitted_projects": "Projets Soumis",
+          "launched_projects": "Projets Lancés",
+          "ordered_projects": "Projets Commandés",
+          "community_projects": "Projets Communautaires",
+          "assigned_projects": "Projets Assignés",
+          "all_projects": "Tous les Projets",
+          "users": "Utilisateurs",
+          "add_analyzer": "Ajouter un Analyste",
+          "clients": "Clients",
+          "analyzers": "Analystes",
+          "feedback_approval": "Approbation des Retours",
+          "appointment_management": "Gestion des Rendez-vous",
+          "incoming_appointments": "Rendez-vous Entrants",
+          "scheduled_appointments": "Rendez-vous Planifiés",
+          "analytics": "Analytiques"
+      }
+  },
+ 
+"profile": {
+  "title": "Informations du Profil",
+  "fullName": "Nom Complet",
+  "email": "Email",
+  "phoneNumber": "Numéro de Téléphone",
+  "idNumber": "Numéro d'Identification",
+  "gender": "Genre",
+  "nationality": "Nationalité",
+  "profession": "Profession",
+  "country": "Pays",
+  "profilePicture": "Photo de Profil",
+  "upload": "Télécharger",
+  "change": "Changer"
+},
+"settings": {
+  "title": "Paramètres",
+  "personalInfo": "Informations Personnelles",
+  "security": "Sécurité",
+  "fullName": "Nom Complet",
+  "email": "Email",
+  "phoneNumber": "Numéro de Téléphone",
+  "verified": "Vérifié",
+  "notVerified": "Non Vérifié",
+  "verificationSent": "Email de vérification envoyé. Veuillez vérifier votre boîte de réception.",
+  "currentPassword": "Mot de Passe Actuel",
+  "newPassword": "Nouveau Mot de Passe",
+  "confirmPassword": "Confirmer le Nouveau Mot de Passe",
+  "saveChanges": "Enregistrer les Modifications",
+  "updatePassword": "Mettre à Jour le Mot de Passe"
+},
+"pageNotFound": {
+  "title": "404 - Page Non Trouvée",
+  "message": "La page que vous recherchez n'existe pas.",
+  "homeLink": "Retour à l'Accueil"
+},
+"submittedProjects": {
+  "title": "Projets Soumis",
+  "launchedProjects": "Projets Lancés",
+  "orderedProjects": "Projets Commandés",
+  "communityProjects": "Projets Communautaires",
+  "assignedProjects": "Projets Assignés",
+  "assignedLaunchedProjects": "Projets Lancés",
+  "assignedOrderedProjects": "Projets Commandés",
+  "assignedCommunityProjects": "Projets Communautaires",
+  "noLaunchedProjects": "Aucun projet lancé trouvé",
+  "noOrderedProjects": "Aucun projet commandé trouvé",
+  "noCommunityProjects": "Aucun projet communautaire trouvé",
+  "tableHeaders": {
+    "number": "#",
+    "title": "Titre",
+    "description": "Description",
+    "dateOfSubmission": "Date de Soumission",
+    "submissionDate": "Date de Soumission",
+    "lastUpdated": "Dernière Mise à Jour",
+    "status": "Statut",
+    "actions": "Actions"
+  }
+},
+"common": {
+  "search": "Rechercher",
+  "searchPlaceholder": "Rechercher des projets...",
+  "DOWNLOAD": "Télécharger",
+  "SAVE_CONTINUE": "Enregistrer & Continuer",
+  "cancel": "Annuler",
+  "confirm": "Confirmer"
+},
+"users": {
+  "clients": {
+    "title": "Clients",
+    "searchPlaceholder": "Rechercher des clients...",
+    "tableHeaders": {
+      "number": "No.",
+      "name": "Nom",
+      "email": "Email",
+      "nationalId": "ID National",
+      "phone": "Numéro de Téléphone",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Actif",
+      "terminated": "Terminé",
+      "disabled": "Désactivé"
+    },
+    "actions": {
+      "update": "Mettre à Jour",
+      "terminate": "Terminer",
+      "disable": "Désactiver",
+      "enable": "Activer",
+      "view": "Voir"
+    }
+  },
+  "analyzers": {
+    "title": "Analystes",
+    "searchPlaceholder": "Rechercher des analystes...",
+    "tableHeaders": {
+      "number": "No.",
+      "name": "Nom",
+      "email": "Email",
+      "nationalId": "ID National",
+      "phone": "Numéro de Téléphone",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Actif",
+      "terminated": "Terminé"
+    },
+    "actions": {
+      "update": "Mettre à Jour",
+      "terminate": "Terminer",
+      "view": "Voir"
+    }
+  }
+},
+"PROJECT_DETAILS": {
+  "TITLE": "Détails du Projet",
+  "ASSIGNED_TO": "Assigné à",
+  "ASSIGN_PROJECT": "Assigner le Projet",
+  "SELECT_ANALYZER": "Sélectionner un Analyste",
+  "SECTIONS": {
+    "PERSONAL_INFO": "Informations Personnelles",
+    "PROJECT_INFO": "Informations du Projet",
+    "SPONSORSHIP_INFO": "Informations de Parrainage",
+    "DOCUMENTS": "Documents",
+    "INTELLECTUAL_PROPERTY": "Propriété Intellectuelle",
+    "ANALYTICS": "Analyses Commerciales",
+    "DECLINED_FEEDBACK": "Retour de Refus",
+    "ASSIGNED_ANALYZERS": "Analystes Assignés"
+  },
+  "FIELDS": {
+    "FULL_NAME": "Nom Complet",
+    "PROJECT_NAME": "Nom du Projet",
+    "PROJECT_DESCRIPTION": "Description du Projet",
+    "CATEGORY": "Catégorie",
+    "LOCATION": "Localisation",
+    "SPECIALITY": "Spécialité",
+    "PROFESSIONAL_STATUS": "Statut Professionnel",
+    "STATUS": "Statut",
+    "PROTOTYPE_LINK": "Lien du Prototype",
+    "BUSINESS_IDEA": "Idée Commerciale",
+    "WEBSITE_URL": "URL du Site Web",
+    "EMPLOYEES": "Employés",
+    "MONTHLY_INCOME": "Revenu Mensuel",
+    "PROJECT_INVESTMENT": "Investissement du Projet",
+    "NEEDS_SPONSOR": "Besoin de Parrainage",
+    "HAS_SPONSORSHIP": "A un Parrainage",
+    "SELL_PROJECT": "Vendre le Projet",
+    "EMAIL": "Email",
+    "PHONE": "Téléphone",
+    "LINKEDIN": "LinkedIn",
+    "SPONSOR_NAME": "Nom du Parrain",
+    "SPONSORSHIP_ORIGIN": "Origine du Parrainage",
+    "INCOME_STATEMENT": "État des Revenus",
+    "BUSINESS_ANALYTICS": "Analyses Commerciales",
+    "BUSINESS_PLAN": "Plan d'Affaires",
+    "BUSINESS_IDEA_DOCUMENT": "Document d'Idée Commerciale",
+    "PROJECT_PURPOSE": "Objectif du Projet",
+    "WANTS_IP": "Souhaite Protection PI",
+    "NEEDS_BUSINESS_PLAN": "Besoin d'un Plan d'Affaires",
+    "FEEDBACK": "Retour",
+    "DECLINED_BY": "Refusé Par",
+    "DECLINED_DATE": "Date de Refus",
+    "ANALYZER_NAME": "Nom de l'Analyste",
+    "EXPERTISE": "Expertise",
+    "ASSIGNED_DATE": "Date d'Attribution"
+  }
+},
+"COMMON": {
+  "DOWNLOAD": "Télécharger",
+  "SAVE_CONTINUE": "Enregistrer & Continuer"
+},
+"new_analyzer": {
+  "title": "Inscription du Nouvel Analyste",
+  "steps": {
+    "personal_info": "Informations Personnelles",
+    "account_details": "Détails du Compte",
+    "review": "Vérification et Soumission"
+  },
+  "form": {
+    "name": "Nom Complet",
+    "national_id": "Numéro National",
+    "nationality": "Nationalité",
+    "expertise": "Expertise",
+    "gender": "Genre",
+    "select_gender": "Sélectionner le Genre",
+    "email": "Email",
+    "country_code": "Indicatif Pays",
+    "select_country": "Sélectionner le Pays",
+    "phone_number": "Numéro de Téléphone",
+    "password": "Mot de Passe",
+    "confirm_password": "Confirmer le Mot de Passe"
+  },
+  "review": {
+    "title": "Vérifier Votre Soumission",
+    "field": "Champ",
+    "value": "Valeur"
+  },
+  "buttons": {
+    "previous": "Précédent",
+    "save_continue": "Enregistrer & Continuer",
+    "submit": "Soumettre",
+    "submitting": "Soumission en cours..."
+  },
+  "messages": {
+    "success": "Analyste inscrit avec succès ! Redirection vers le tableau de bord...",
+    "error": "L'inscription a échoué. Veuillez réessayer.",
+    "validation": {
+      "required": "Ce champ est obligatoire",
+      "email": "Veuillez entrer une adresse email valide",
+      "phone": "Veuillez entrer un numéro de téléphone valide",
+      "password": "Le mot de passe doit contenir entre 8 et 20 caractères, au moins une majuscule, une minuscule, un chiffre et un caractère spécial",
+      "confirm_password": "Les mots de passe ne correspondent pas"
+    }
+  }
+},
+"client_details": {
+  "title": "Détails du Client",
+  "sections": {
+    "personal_info": "Informations Personnelles",
+    "account_info": "Informations du Compte",
+    "interactions": "Interactions"
+  },
+  "fields": {
+    "full_name": "Nom Complet",
+    "national_id": "Numéro National",
+    "email": "Email",
+    "phone": "Téléphone",
+    "nationality": "Nationalité",
+    "profession": "Profession",
+    "subscription_plan": "Plan d'Abonnement",
+    "subscription_status": "Statut d'Abonnement",
+    "account_status": "Statut du Compte"
+  },
+  "interactions": {
+    "projects_launched": "Projets Lancés",
+    "projects_ordered": "Projets Commandés",
+    "projects_joined": "Projets Rejoints",
+    "community_projects": "Projets Communautaires",
+    "projects_declined": "Projets Refusés",
+    "projects_pending": "Projets en Attente",
+    "projects_invested": "Projets Investis",
+    "projects_bought": "Projets Achetés"
+  },
+  "status": {
+    "active": "ACTIF",
+    "expired": "EXPIRÉ",
+    "disabled": "DÉSACTIVÉ"
+  },
+  "buttons": {
+    "go_back": "Retour"
+  }
+},
+"analyzer_details": {
+  "title": "Détails de l'Analyste",
+  "sections": {
+    "personal_info": "Informations Personnelles",
+    "work_stats": "Statistiques de Travail"
+  },
+  "fields": {
+    "full_name": "Nom Complet",
+    "national_id": "Numéro National",
+    "nationality": "Nationalité",
+    "email": "Email",
+    "country": "Pays",
+    "phone_number": "Numéro de Téléphone",
+    "expertise": "Expertise"
+  },
+  "stats": {
+    "projects_analyzed": "Projets Analysés",
+    "projects_approved": "Projets Approuvés",
+    "projects_declined": "Projets Refusés",
+    "total_projects_assigned": "Total des Projets Assignés",
+    "current_assigned_projects": "Projets Actuellement Assignés"
+  },
+  "buttons": {
+    "go_back": "Retour"
+  }
+},
+"update_analyzer": {
+  "title": "Mettre à Jour l'Analyste",
+  "steps": {
+    "personal_info": "Informations Personnelles",
+    "account_details": "Détails du Compte",
+    "review": "Vérification et Soumission"
+  },
+  "form": {
+    "full_name": "Nom Complet",
+    "national_id": "Numéro National",
+    "nationality": "Nationalité",
+    "expertise": "Expertise",
+    "email": "Email",
+    "country": "Pays",
+    "select_country": "Sélectionner le pays",
+    "phone_number": "Numéro de Téléphone"
+  },
+  "review": {
+    "title": "Vérifier Vos Modifications",
+    "field": "Champ",
+    "value": "Valeur"
+  },
+  "buttons": {
+    "previous": "Précédent",
+    "save_continue": "Enregistrer & Continuer",
+    "update": "Mettre à Jour",
+    "updating": "Mise à jour en cours..."
+  }
+},
+"feedback": {
+  "approval": {
+    "title": "Approbation des Retours",
+    "searchPlaceholder": "Rechercher des retours...",
+    "tableHeaders": {
+      "no": "No.",
+      "name": "Nom du Client",
+      "rating": "Évaluation",
+      "submittedOn": "Soumis le",
+      "actions": "Actions"
+    },
+    "actions": {
+      "view": "Voir le Retour",
+      "approve": "Approuver le Retour",
+      "decline": "Refuser le Retour"
+    }
+  },
+  "details": {
+    "fields": {
+      "email": "Email",
+      "submittedOn": "Soumis le",
+      "subscriptionStatus": "Statut d'Abonnement",
+      "subscriptionType": "Type d'Abonnement",
+      "rating": "Évaluation",
+      "message": "Message de Retour"
+    },
+    "statuses": {
+      "active": "Actif",
+      "expired": "Expiré"
+    },
+    "subscriptionTypes": {
+      "premium": "Premium",
+      "standard": "Standard",
+      "basic": "Basique"
+    }
+  }
+},
+"appointments": {
+  "incoming": {
+    "title": "Rendez-vous Entrants",
+    "searchPlaceholder": "Rechercher des rendez-vous...",
+    "tableHeaders": {
+      "name": "Nom",
+      "type": "Type",
+      "date": "Date",
+      "representing": "Représentant",
+      "project": "Projet",
+      "actions": "Actions"
+    },
+    "actions": {
+      "view": "Voir le Rendez-vous",
+      "approve": "Approuver le Rendez-vous",
+      "decline": "Refuser le Rendez-vous"
+    },
+    "types": {
+      "virtual": "Virtuel",
+      "face-to-face": "En Personne"
+    },
+    "representing": {
+      "self": "Soi-même",
+      "individual": "Individu",
+      "company": "Entreprise"
+    }
+  },
+  "scheduled": {
+    "title": "Rendez-vous Programmés",
+    "searchPlaceholder": "Rechercher des rendez-vous programmés...",
+    "tableHeaders": {
+      "no": "No.",
+      "clientName": "Nom du Client",
+      "date": "Date",
+      "time": "Heure",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "actions": {
+      "view": "Voir le Rendez-vous",
+      "cancel": "Annuler le Rendez-vous"
+    },
+    "status": {
+      "confirmed": "Confirmé",
+      "cancelled": "Annulé",
+      "completed": "Terminé"
+    }
+  },
+  "details": {
+    "fields": {
+      "representing": "Représentant",
+      "name": "Nom",
+      "role": "Rôle",
+      "type": "Type",
+      "preferredLanguage": "Langue Préférée",
+      "project": "Projet",
+      "date": "Date",
+      "time": "Heure",
+      "status": "Statut",
+      "profilePicture": "Photo de Profil"
+    },
+    "languages": {
+      "english": "Anglais",
+      "french": "Français",
+      "kinyarwanda": "Kinyarwanda"
+    },
+    "buttons": {
+      "back": "Retour",
+      "approve": "Approuver",
+      "decline": "Refuser"
+    }
+  }
+},
+"analytics": {
+  "title": "Analytiques",
+  "searchPlaceholder": "Rechercher des analytiques...",
+  "tableHeaders": {
+    "number": "No.",
+    "projectName": "Nom du Projet",
+    "submittedOn": "Soumis le",
+    "submittedBy": "Soumis par",
+    "actions": "Actions"
+  },
+  "actions": {
+    "view": "Voir les Analytiques",
+    "approve": "Approuver les Analytiques",
+    "deny": "Refuser les Analytiques"
+  },
+  "feasibilityPercentage": "Pourcentage de Faisabilité",
+  "monthlyIncome": "Revenu Mensuel",
+  "annualIncome": "Revenu Annuel",
+  "roi": "Retour sur Investissement",
+  "price": "Prix",
+  "feasibilityReason": "Analyse de Faisabilité",
+  "incomeDescription": "Analyse des Revenus",
+  "analyticsDocument": "Document d'Analytiques",
+  "loadingDocument": "Chargement du document...",
+  "denial": {
+    "title": "Refuser les Analytiques",
+    "reason": "Raison du Refus",
+    "placeholder": "Veuillez fournir une raison pour refuser ces analytiques..."
+  },
+  "openExternally": "Ouvrir Externement",
+  "download": "Télécharger",
+  "documentLoadError": "Erreur de chargement du document",
+  "documentNotAvailable": "Document non disponible"
+}
+}

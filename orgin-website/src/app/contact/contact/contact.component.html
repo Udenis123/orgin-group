@@ -1,0 +1,36 @@
+<div class="main-content">
+  <section class="contact">
+    <h1>{{ 'CONTACT_US' | translate }}</h1>
+    <div class="contact-card">
+      <p>{{ 'NEED_ASSISTANCE' | translate }}</p>
+
+      <p>📧 {{ 'EMAIL' | translate }}: <a href="mailto:origingroup299&#64;gmail.com">origingroup299&#64;gmail.com</a></p>
+      <p>📞 {{ 'PHONE' | translate }}: +250 795 580 462</p>
+      <p>📍 {{ 'ADDRESS' | translate }}: Kigali, Rwanda</p>
+
+      <form (ngSubmit)="onSubmit()">
+        <input
+          type="text"
+          [(ngModel)]="name"
+          name="name"
+          [placeholder]="'YOUR_NAME' | translate"
+          required
+        />
+        <input
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          [placeholder]="'YOUR_EMAIL' | translate"
+          required
+        />
+        <textarea
+          [(ngModel)]="message"
+          name="message"
+          [placeholder]="'YOUR_MESSAGE' | translate"
+          required
+        ></textarea>
+        <button type="submit" class="btn secondary">{{ 'SEND_MESSAGE' | translate }}</button>
+      </form>
+    </div>
+  </section>
+</div>

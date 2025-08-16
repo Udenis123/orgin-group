@@ -1,0 +1,81 @@
+.i2v-program-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+}
+
+.main-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #2a2a40;
+}
+
+.intro {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 2.5rem;
+}
+
+.program-card {
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(44,62,80,0.07);
+  padding: 2rem 1.5rem;
+  margin-bottom: 2.5rem;
+  transition: box-shadow 0.2s;
+}
+.program-card:hover {
+  box-shadow: 0 6px 24px rgba(44,62,80,0.13);
+}
+
+.program-card h2 {
+  color: #1a237e;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.section-desc {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+.program-list, .advanced-list {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+.program-list li, .advanced-list > li {
+  margin-bottom: 1.1rem;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: #222;
+}
+.program-list li strong, .advanced-list > li > strong {
+  color: #1976d2;
+}
+.advanced-list ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+}
+.advanced-list ul li {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 0.4rem;
+}
+
+@media (max-width: 600px) {
+  .i2v-program-container {
+    padding: 0.5rem;
+  }
+  .program-card {
+    padding: 1rem 0.5rem;
+  }
+  .main-title {
+    font-size: 2rem;
+  }
+  .program-card h2 {
+    font-size: 1.3rem;
+  }
+} 

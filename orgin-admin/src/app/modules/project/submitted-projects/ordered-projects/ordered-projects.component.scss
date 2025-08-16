@@ -1,0 +1,204 @@
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: var(--text-color);
+
+  h1 {
+    color: var(--secondary-color);
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+}
+
+.projects-table {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  table {
+    width: 100%;
+    min-width: 800px; // Ensure table has a minimum width to force scrolling
+
+    th{
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      color: var(--text-color-dark);
+      
+      &:nth-child(1) { width: 5%; }  // No
+      &:nth-child(2) { width: 15%; } // Title
+      &:nth-child(3) { width: 25%; } // Description
+      &:nth-child(4) { width: 15%; } // Date of Submission
+      &:nth-child(5) { width: 15%; } // Last Updated
+      &:nth-child(6) { width: 10%; } // Status
+      &:nth-child(7) { width: 15%; } // Actions
+      
+      @media (max-width: 768px) {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+      }
+      
+      @media (max-width: 480px) {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+      }
+    }
+     td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      color: var(--text-color);
+      
+      &:nth-child(1) { width: 5%; }  // No
+      &:nth-child(2) { width: 15%; } // Title
+      &:nth-child(3) { width: 25%; } // Description
+      &:nth-child(4) { width: 15%; } // Date of Submission
+      &:nth-child(5) { width: 15%; } // Last Updated
+      &:nth-child(6) { width: 10%; } // Status
+      &:nth-child(7) { width: 15%; } // Actions
+      
+      @media (max-width: 768px) {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+      }
+      
+      @media (max-width: 480px) {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  th {
+    font-weight: 500;
+    background-color: var(--primary-color);
+    color: white;
+  }
+
+  tr:hover {
+    background-color: #d1500037;
+  }
+
+  .icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: #3f51b5;
+    transition: color 0.3s;
+    margin: 0 0.25rem;
+
+    &:hover {
+      color: #283593;
+    }
+
+    &[disabled] {
+      color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+}
+
+/* Dark mode support */
+:host-context(body.dark-mode) {
+  .projects-table {
+    th {
+      background-color: var(--secondary-color);
+      color: var(--text-color-dark);
+    }
+  }
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+mat-paginator {
+  margin-top: 20px;
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+.status-pending {
+  color: #ffc107;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  color: var(--text-color);
+  gap: 1rem;
+
+  select {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0);
+    color: var(--text-color);
+    
+    &:focus, &:active {
+      color: var(--primary-color) !important;
+    }
+  }
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: #3f51b5;
+    transition: color 0.3s;
+
+    &:hover:not([disabled]) {
+      color: #283593;
+    }
+
+    &[disabled] {
+      color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+
+  span {
+    margin: 0 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .projects-table {
+    table {
+      th, td {
+        &:nth-child(1) { width: 5%; }
+        &:nth-child(2) { width: 25%; }
+        &:nth-child(3) { width: 20%; }
+        &:nth-child(4) { width: 20%; }
+        &:nth-child(5) { width: 15%; }
+        &:nth-child(6) { width: 10%; }
+        &:nth-child(7) { width: 5%; }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-table {
+    table {
+      th, td {
+        &:nth-child(1) { width: 10%; }
+        &:nth-child(2) { width: 30%; }
+        &:nth-child(3) { width: 20%; }
+        &:nth-child(4) { width: 20%; }
+        &:nth-child(5) { width: 10%; }
+        &:nth-child(6) { width: 5%; }
+        &:nth-child(7) { width: 5%; }
+      }
+    }
+  }
+}

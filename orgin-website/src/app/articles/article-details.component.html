@@ -1,0 +1,13 @@
+<section class="article-details-section">
+  <div class="article-details-container" *ngIf="article">
+    <img class="article-details-image" [src]="article.imageUrl" [alt]="article.title">
+    <h1 class="article-details-title">{{ article.title }}</h1>
+    <div class="article-details-meta">
+      <span class="article-details-date">{{ article.date | date:'longDate' }}</span>
+    </div>
+    <div class="article-details-content" [innerHTML]="article.content"></div>
+  </div>
+  <div *ngIf="!article" class="article-not-found">
+    <h2>Article not found</h2>
+  </div>
+</section> 

@@ -1,0 +1,116 @@
+/* Contact Page Styles */
+.main-content{
+  padding-top: 30px;
+}
+.contact {
+  text-align: center;
+
+  /* Animation for sliding up */
+  animation: slideUp 1s ease-out; /* This will apply the sliding-up animation */
+
+  h1 {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  .contact-card {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    
+    border-radius: 8px;
+    box-shadow: 0 8px 12px var(--secondary-color);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+  }
+
+  input,
+  textarea {
+    width: 80%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+
+    &:focus {
+      border-color: var(--secondary-color);
+      outline: none;
+    }
+  }
+
+  button {
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    background-color: rgb(202, 86, 8);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgb(155, 67, 6);
+    }
+  }
+
+  /* Sliding-up animation for the contact page */
+  @keyframes slideUp {
+    0% {
+      transform: translateY(50px); /* Start below the original position */
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0); /* End at the original position */
+      opacity: 1;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .contact {
+    min-height: 300px; /* Smaller height for mobile screens */
+    padding: 15px;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Smaller shadow on mobile */
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-top: 10%;
+
+  }
+
+  p {
+    font-size: 1.1rem;
+  }
+}
+@media (max-width: 1000px) {
+  .contact {
+    min-height: 300px; /* Smaller height for mobile screens */
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Smaller shadow on mobile */
+  }
+
+  h1 {
+    margin-top: 10%;
+
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+  }
+}

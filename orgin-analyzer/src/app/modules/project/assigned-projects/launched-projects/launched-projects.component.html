@@ -1,0 +1,56 @@
+<div class="container">
+  <h1>{{ 'submittedProjects.assignedLaunchedProjects' | translate }}</h1>
+
+  <mat-form-field appearance="outline">
+    <mat-label>{{ 'common.search' | translate }}</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="{{ 'common.searchPlaceholder' | translate }}">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <div class="projects-table">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>{{ 'submittedProjects.tableHeaders.title' | translate }}</th>
+          <th>{{ 'submittedProjects.tableHeaders.description' | translate }}</th>
+          <th>{{ 'submittedProjects.tableHeaders.submissionDate' | translate }}</th>
+          <th>{{ 'submittedProjects.tableHeaders.lastUpdated' | translate }}</th>
+          <th>{{ 'submittedProjects.tableHeaders.status' | translate }}</th>
+          <th>{{ 'submittedProjects.tableHeaders.actions' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let project of paginatedData; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ project.projectName }}</td>
+          <td>{{ project.description }}</td>
+          <td>{{ project.submittedOn| date }}</td>
+          <td>{{ project.updatedOn | date }}</td>
+          <td class="status-pending">{{ project.status }}</td>
+          <td>
+            <button class="icon-button" (click)="viewProjectDetails(project)">
+              <i class="material-icons">visibility</i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="paginatedData.length === 0" class="no-data-message">
+      {{ 'submittedProjects.noAssignedProjects' | translate }}
+    </div>
+  </div>
+
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="currentPage === 0">
+      <i class="material-icons">chevron_left</i>
+    </button>
+    <span>{{ currentPage + 1 }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
+      <i class="material-icons">chevron_right</i>
+    </button>
+    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+</div>

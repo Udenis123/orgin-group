@@ -1,0 +1,402 @@
+<div class="container mt-5">
+  <h2 style="text-align: center; color: var(--secondary-color)">
+    {{ "projectDetails.title" | translate }}
+  </h2>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="alert alert-danger mt-3">
+    {{ error }}
+  </div>
+
+  <!-- Add this at the top of the file, after the error alert -->
+  <div *ngIf="downloadError" class="alert alert-danger mt-3">
+    {{ downloadError }}
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="text-center mt-5">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">{{ "projectDetails.loading" | translate }}</p>
+  </div>
+
+  <div *ngIf="project && !loading" class="card">
+    <div class="card-header">
+      {{ project.projectName }}
+      <div class="status-group">
+        <span
+          class="badge"
+          [ngClass]="{
+            'bg-warning': project.status === 'PENDING',
+            'bg-success': project.status === 'APPROVED',
+            'bg-danger': project.status === 'DECLINED'
+          }"
+        >
+          {{ "status." + project.status | translate }}
+        </span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="project-thumbnail mb-4" *ngIf="project.projectPhotoUrl">
+        <img
+          [src]="project.projectPhotoUrl"
+          [alt]="project.projectName + ' thumbnail'"
+          class="img-fluid rounded"
+        />
+      </div>
+      <div class="row">
+        <!-- Personal Information Section -->
+        <div class="col-md-6" *ngIf="hasBasicInfo()">
+          <h5>{{ "projectDetails.personalInfo" | translate }}</h5>
+          <div class="mb-3" *ngIf="project.clientName">
+            <strong>{{ "projectDetails.fullName" | translate }}:</strong>
+            {{ project.clientName }}
+          </div>
+          <div class="mb-3" *ngIf="project.professionalStatus">
+            <strong
+              >{{ "projectDetails.professionalStatus" | translate }}:</strong
+            >
+            {{ project.professionalStatus }}
+          </div>
+          <div class="mb-3" *ngIf="project.email">
+            <strong>{{ "projectDetails.email" | translate }}:</strong>
+            {{ project.email }}
+          </div>
+          <div class="mb-3" *ngIf="project.phone">
+            <strong>{{ "projectDetails.phone" | translate }}:</strong>
+            {{ project.phone }}
+          </div>
+          <div class="mb-3" *ngIf="project.linkedIn">
+            <strong>{{ "projectDetails.linkedin" | translate }}:</strong>
+            <a [href]="project.linkedIn" target="_blank">{{
+              project.linkedIn
+            }}</a>
+          </div>
+        </div>
+
+        <!-- Project Information Section -->
+        <div class="col-md-6" *ngIf="hasProjectInfo()">
+          <h5>{{ "projectDetails.projectInfo" | translate }}</h5>
+          <div class="mb-3">
+            <strong
+              >{{
+                "projectLaunch.fields.projectDescription" | translate
+              }}:</strong
+            >
+            {{ project.description }}
+          </div>
+          <div class="mb-3" *ngIf="project.projectLocation">
+            <strong>{{ "projectLaunch.fields.location" | translate }}:</strong>
+            {{ project.projectLocation }}
+          </div>
+          <div class="mb-3" *ngIf="project.projectPurpose">
+            <strong>{{ "projectLaunch.fields.purpose" | translate }}:</strong>
+            {{ project.projectPurpose }}
+          </div>
+          <div class="mb-3" *ngIf="project.specialityOfProject">
+            <strong
+              >{{ "projectLaunch.fields.speciality" | translate }}:</strong
+            >
+            {{ project.specialityOfProject }}
+          </div>
+          <div class="mb-3" *ngIf="project.businessIdea">
+            <strong
+              >{{ "projectLaunch.fields.businessIdea" | translate }}:</strong
+            >
+            {{ project.businessIdea }}
+          </div>
+          <div class="mb-3" *ngIf="project.wantOriginToBusinessPlanQ">
+            <strong
+              >{{
+                "projectLaunch.fields.needsBusinessPlan" | translate
+              }}:</strong
+            >
+            {{ project.wantOriginToBusinessPlanQ }}
+          </div>
+          <div class="mb-3" *ngIf="project.intellectualProjectQ">
+            <strong>{{ "projectLaunch.fields.wantsIP" | translate }}:</strong>
+            {{ project.intellectualProjectQ }}
+          </div>
+          <div class="mb-3">
+            <strong
+              >{{
+                "myProjects.tableHeaders.submissionDate" | translate
+              }}:</strong
+            >
+            {{ project.submittedOn | date : "medium" }}
+          </div>
+          <div class="mb-3">
+            <strong
+              >{{ "myProjects.tableHeaders.lastUpdated" | translate }}:</strong
+            >
+            {{ project.updatedOn | date : "medium" }}
+          </div>
+          <div class="mb-3" *ngIf="project.category">
+            <strong>{{ "projectLaunch.fields.category" | translate }}:</strong>
+            {{ project.category }}
+          </div>
+          <div class="mb-3" *ngIf="project.projectStatus">
+            <strong>{{ "projectLaunch.fields.status" | translate }}:</strong>
+            {{ project.projectStatus }}
+          </div>
+          <div class="mb-3" *ngIf="project.prototypeLink">
+            <strong
+              >{{ "projectLaunch.fields.prototypeLink" | translate }}:</strong
+            >
+            <a [href]="project.prototypeLink" target="_blank">{{
+              project.prototypeLink
+            }}</a>
+          </div>
+          <div class="mb-3" *ngIf="project.numberOfEmp">
+            <strong
+              >{{ "projectLaunch.fields.employeesCount" | translate }}:</strong
+            >
+            {{ project.numberOfEmp }}
+          </div>
+          <div class="mb-3" *ngIf="project.monthlyIncome">
+            <strong
+              >{{ "projectLaunch.fields.monthlyIncome" | translate }}:</strong
+            >
+            {{ project.monthlyIncome | currency }}
+          </div>
+          <div class="mb-3" *ngIf="project.website">
+            <strong
+              >{{ "projectLaunch.fields.websiteUrl" | translate }}:</strong
+            >
+            <a [href]="project.website" target="_blank">{{
+              project.website
+            }}</a>
+          </div>
+          <div class="mb-3" *ngIf="project.haveSponsorQ">
+            <strong
+              >{{ "projectLaunch.fields.hasSponsorship" | translate }}:</strong
+            >
+            {{ project.haveSponsorQ }}
+          </div>
+          <div class="mb-3" *ngIf="project.sponsorName">
+            <strong
+              >{{ "projectLaunch.fields.sponsorName" | translate }}:</strong
+            >
+            {{ project.sponsorName }}
+          </div>
+          <div class="mb-3" *ngIf="project.needSponsorQ">
+            <strong
+              >{{ "projectLaunch.fields.needsSponsor" | translate }}:</strong
+            >
+            {{ project.needSponsorQ }}
+          </div>
+          <div class="mb-3" *ngIf="project.needOrgQ">
+            <strong
+              >{{
+                "projectLaunch.fields.orginSponsorship" | translate
+              }}:</strong
+            >
+            {{ project.needOrgQ }}
+          </div>
+          <div class="mb-3" *ngIf="project.doSellProjectQ">
+            <strong
+              >{{ "projectLaunch.fields.sellProject" | translate }}:</strong
+            >
+            {{ project.doSellProjectQ }}
+          </div>
+          <div class="mb-3" *ngIf="project.projectAmount">
+            <strong
+              >{{
+                "projectLaunch.fields.projectInvestment" | translate
+              }}:</strong
+            >
+            {{ project.projectAmount | currency }}
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-4" />
+
+      <!-- Documents Section -->
+      <div class="row mt-3">
+        <div class="col-12">
+          <h5 class="mb-2">{{ "projectDetails.documents" | translate }}</h5>
+          <div class="document-table">
+            <!-- Income Statement -->
+            <div *ngIf="project.incomeStatementUrl" class="document-row">
+              <div class="col-1">
+                <i class="far fa-file-pdf text-danger fa-2x"></i>
+              </div>
+              <div class="document-name">
+                {{ "projectLaunch.fields.incomeStatement" | translate }}
+              </div>
+              <div class="document-action">
+                <button
+                  class="btn btn-sm btn-secondary"
+                  (click)="downloadFile(project.incomeStatementUrl, 'income-statement.pdf')"
+                  [disabled]="downloadingFile"
+                >
+                  <i class="fas" [ngClass]="downloadingFile ? 'fa-spinner fa-spin' : 'fa-download'"></i>
+                  {{ downloadingFile ? ('projectDetails.buttons.downloading' | translate) : downloadText }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Cash Flow Statement -->
+            <div *ngIf="project.cashFlowUrl" class="document-row">
+              <div class="col-1">
+                <i class="far fa-file-pdf text-danger fa-2x"></i>
+              </div>
+              <div class="document-name">
+                {{ "projectLaunch.fields.cashFlowStatement" | translate }}
+              </div>
+              <div class="document-action">
+                <button
+                  class="btn btn-sm btn-secondary"
+                  (click)="downloadFile(project.cashFlowUrl, 'cash-flow-statement.pdf')"
+                  [disabled]="downloadingFile"
+                >
+                  <i class="fas" [ngClass]="downloadingFile ? 'fa-spinner fa-spin' : 'fa-download'"></i>
+                  {{ downloadingFile ? ('projectDetails.buttons.downloading' | translate) : downloadText }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Balance Sheet -->
+            <div *ngIf="project.balanceSheetUrl" class="document-row">
+              <div class="col-1">
+                <i class="far fa-file-pdf text-danger fa-2x"></i>
+              </div>
+              <div class="document-name">
+                {{ "projectLaunch.fields.balanceSheet" | translate }}
+              </div>
+              <div class="document-action">
+                <button
+                  class="btn btn-sm btn-secondary"
+                  (click)="downloadFile(project.balanceSheetUrl, 'balance-sheet.pdf')"
+                  [disabled]="downloadingFile"
+                >
+                  <i class="fas" [ngClass]="downloadingFile ? 'fa-spinner fa-spin' : 'fa-download'"></i>
+                  {{ downloadingFile ? ('projectDetails.buttons.downloading' | translate) : downloadText }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Pitching Video -->
+            <div *ngIf="project.pitchingVideoUrl" class="document-row">
+              <div class="col-1">
+                <i class="far fa-file-video text-primary fa-2x"></i>
+              </div>
+              <div class="document-name">
+                {{ "projectDetails.pitchingVideo" | translate }}
+              </div>
+              <div class="document-action">
+                <button
+                  class="btn btn-sm btn-secondary me-2"
+                  (click)="previewVideo(project.pitchingVideoUrl)"
+                  [disabled]="downloadingFile"
+                >
+                  <i class="fas fa-eye"></i> {{ previewText }}
+                </button>
+                <button
+                  class="btn btn-sm btn-secondary"
+                  (click)="downloadFile(project.pitchingVideoUrl, 'pitching-video.mp4')"
+                  [disabled]="downloadingFile"
+                >
+                  <i class="fas" [ngClass]="downloadingFile ? 'fa-spinner fa-spin' : 'fa-download'"></i>
+                  {{ downloadingFile ? ('projectDetails.buttons.downloading' | translate) : downloadText }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Business Plan -->
+            <div *ngIf="project.businessPlanUrl" class="document-row">
+              <div class="col-1">
+                <i class="far fa-file-pdf text-danger fa-2x"></i>
+              </div>
+              <div class="document-name">
+                {{ "projectLaunch.fields.businessPlan" | translate }}
+              </div>
+              <div class="document-action">
+                <button
+                  class="btn btn-sm btn-secondary"
+                  (click)="downloadFile(project.businessPlanUrl, 'business-plan.pdf')"
+                  [disabled]="downloadingFile"
+                >
+                  <i class="fas" [ngClass]="downloadingFile ? 'fa-spinner fa-spin' : 'fa-download'"></i>
+                  {{ downloadingFile ? ('projectDetails.buttons.downloading' | translate) : downloadText }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Business Idea Document -->
+            <div *ngIf="project.businessIdeaDocumentUrl" class="document-row">
+              <div class="col-1">
+                <i class="far fa-file-pdf text-danger fa-2x"></i>
+              </div>
+              <div class="document-name">
+                {{ "projectLaunch.fields.businessIdeaDocument" | translate }}
+              </div>
+              <div class="document-action">
+                <button
+                  class="btn btn-sm btn-secondary"
+                  (click)="downloadFile(project.businessIdeaDocumentUrl, 'business-idea.pdf')"
+                  [disabled]="downloadingFile"
+                >
+                  <i class="fas" [ngClass]="downloadingFile ? 'fa-spinner fa-spin' : 'fa-download'"></i>
+                  {{ downloadingFile ? ('projectDetails.buttons.downloading' | translate) : downloadText }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feedback Section -->
+      <div
+        *ngIf="project.status === 'DECLINED' && project.feedback"
+        class="mt-4"
+      >
+        <h5>{{ "projectDetails.feedback" | translate }}</h5>
+        <div class="alert alert-danger">
+          <p>{{ project.feedback }}</p>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <button class="btn btn-secondary me-2" (click)="goBack()">
+          <i class="fas fa-arrow-left me-2"></i>
+          {{ "projectDetails.back" | translate }}
+        </button>
+        <button
+          class="btn btn-primary"
+          (click)="selfAssignProject()"
+          *ngIf="project?.status === 'PENDING'"
+          [disabled]="assigning"
+        >
+          <i
+            class="fas"
+            [ngClass]="assigning ? 'fa-spinner fa-spin' : 'fa-user-check'"
+          ></i>
+          {{
+            (assigning
+              ? "projectDetails.assigning"
+              : "projectDetails.selfAssign"
+            ) | translate
+          }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Player Modal -->
+  <div class="video-modal" *ngIf="showVideoModal" (click)="closeVideoModal()">
+    <div class="video-modal-content" (click)="$event.stopPropagation()">
+      <button class="close-button" (click)="closeVideoModal()">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="video-container">
+        <video *ngIf="currentVideoUrl" controls>
+          <source [src]="currentVideoUrl" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </div>
+</div>

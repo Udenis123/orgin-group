@@ -1,0 +1,112 @@
+<section class="search-section">
+  <div class="search-header">
+    <h2>{{ 'SEARCH_TITLE' | translate }}</h2>
+    
+  </div>
+
+  <div *ngIf="showForm" class="search-form">
+    <form (submit)="searchProjects()">
+      <div class="form-group">
+        <label for="category">{{ 'CATEGORY' | translate }}</label>
+        <select id="category" [(ngModel)]="searchCriteria.category" name="category">
+          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="owner">{{ 'OWNER' | translate }}</label>
+        <input type="text" id="owner" [(ngModel)]="searchCriteria.owner" name="owner" 
+               placeholder="{{ 'OWNER_PLACEHOLDER' | translate }}"
+               (input)="onOwnerInput($event)">
+      </div>
+
+      <div class="form-group">
+        <label for="financialCategory">{{ 'FINANCIAL_CATEGORY' | translate }}:</label>
+        <select id="financialCategory" [(ngModel)]="searchCriteria.financialCategory" name="financialCategory">
+          <option value="">{{ 'ALL' | translate }}</option>
+          <option *ngFor="let category of financialCategories" [value]="category">{{ category }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="feasibilityLocation">{{ 'FEASIBILITY_LOCATION' | translate }}:</label>
+        <select id="feasibilityLocation" [(ngModel)]="searchCriteria.feasibilityLocation" name="feasibilityLocation">
+          <option value=""></option>
+          <option *ngFor="let location of feasibilityLocations" [value]="location.city">{{ location.city }}, {{ location.country }}</option>
+        </select>
+      </div>
+
+    
+
+      <div class="form-buttons">
+        <button type="submit" class="btn btn-primary">{{ 'SEARCH' | translate }}</button>
+        <button type="button" class="btn btn-secondary" (click)="clearSearch()">{{ 'CLEAR' | translate }}</button>
+      </div>
+    </form>
+  </div>
+
+  <h2 style="color: var(--secondary-color);">{{ displayTitle }}</h2>  <div *ngIf="showResults || !showResults" class="search-results">
+    <div class="project-list row">
+      <div *ngFor="let project of filteredProjects | slice:0:20" class="col-md-3 project-card">
+        <div class="d-flex align-items-start position-relative">
+          <img [src]="project.image" class="project-image me-3" alt="{{ project.name }}" style="width: 70px; height: auto;">
+          <div class="project-details">
+            <h3>{{ project.name }}</h3>
+            <p *ngIf="!project.description">{{ 'LOADING_DESCRIPTION' | translate }}</p>
+            <p *ngIf="project.description" [lang]="currentLang === 'en' ? 'en' : 'auto'">
+              {{ project.description }}
+            </p>
+            <div *ngIf="currentLang !== 'en'" class="translation-hint">
+              {{ 'USE_BROWSER_TRANSLATION' | translate }}
+            </div>
+            <p><strong>{{ 'OWNER' | translate }}:</strong> {{ project.owner }}</p>
+            <p><strong>{{ 'PURPOSE' | translate }}:</strong> {{ project.purpose }}</p>
+            <p><strong>{{ 'CATEGORY' | translate }}:</strong> {{ project.category }}</p>
+            <p *ngIf="project.status !== 'pending'"><strong>{{ 'FINANCIAL_CATEGORY' | translate }}:</strong> {{ project.financialCategory }}</p>
+            <p *ngIf="project.linkedin">
+              <strong>{{ 'LINKEDIN' | translate }}:</strong> 
+              <a [href]="project.linkedin" target="_blank" rel="noopener noreferrer">
+                {{ 'VIEW_LINKEDIN' | translate }}
+              </a>
+            </p>
+           
+          </div>
+          <div *ngIf="project.status" 
+               class="status-badge" 
+               [ngClass]="{'approved': project.status === 'approved', 'pending': project.status === 'pending'}">
+            {{ project.status | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Article Section -->
+<section class="article-section">
+  <h2>{{ 'LATEST_ARTICLES' | translate }}</h2>
+  <p>{{ 'DISCOVER_ARTICLES' | translate }}</p>
+  
+  <ngb-carousel *ngIf="groupedArticles.length" [interval]="5000">
+    <ng-template ngbSlide *ngFor="let group of groupedArticles">
+      <div class="row article-row">
+        <div class="col-md-4" *ngFor="let article of group">
+          <div class="article-card" (click)="openArticle(article.url)">
+            <div class="article-image">
+              <img [src]="article.imageUrl" [alt]="article.title">
+            </div>
+            <div class="article-content">
+              <h3>{{ article.title }}</h3>
+              <p class="article-summary">{{ article.summary }}</p>
+              <div class="article-meta">
+                <span class="date">{{ article.date | date:'mediumDate' }}</span>
+                <span class="separator">•</span>
+                <span class="read-time">{{ article.readTime }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-carousel>
+</section>
