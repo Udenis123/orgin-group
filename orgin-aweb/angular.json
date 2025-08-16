@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "orgin-website": {
+    "orgin-aweb": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -24,37 +24,32 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/orgin-website",
+            "outputPath": "dist/orgin-aweb",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js",
-              "@angular/localize/init"
-            ],
+            "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-  {
-    "glob": "**/*",
-    "input": "src/assets"
-  },
-  {
-    "glob": "favicon.ico",
-    "input": "src"
-  }
-],
-
-           "styles": [
-  "node_modules/bootstrap/dist/css/bootstrap.min.css",
-  "src/styles.scss",
-  "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
-],
-            "scripts": [
-  "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-],
-            "allowedCommonJsDependencies": [
-              "bootstrap"
+              {
+                "glob": "**/*",
+                "input": "src/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "src"
+              }
             ],
+
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.scss",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+            ],
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ],
+            "allowedCommonJsDependencies": ["bootstrap"],
             "preserveSymlinks": true,
             "optimization": {
               "styles": {
@@ -87,7 +82,7 @@
           },
           "defaultConfiguration": "production"
         },
-        
+
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
