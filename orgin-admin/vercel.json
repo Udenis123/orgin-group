@@ -1,21 +1,12 @@
 {
+  "version": 2,
   "buildCommand": "npm run build:vercel",
   "outputDirectory": "dist/orgin-admin",
   "rewrites": [
     {
-      "source": "/((?!api/.*).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
-  "headers": [
-    {
-      "source": "/index.html",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-cache"
-        }
-      ]
-    }
-  ]
+  "cleanUrls": true
 }
