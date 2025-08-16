@@ -1,6 +1,6 @@
 {
   "buildCommand": "npm run build:vercel",
-  "outputDirectory": "dist/orgin-aweb",
+  "outputDirectory": "dist/orgin-aweb/browser",
   "rewrites": [
     {
       "source": "/(.*)",
