@@ -1,6 +1,6 @@
 {
   "buildCommand": "npm run build:vercel",
-  "outputDirectory": "dist/orgin-analyzer/browser",
+  "outputDirectory": "dist/orgin-analyzer",
   "rewrites": [
     {
       "source": "/(.*)",
