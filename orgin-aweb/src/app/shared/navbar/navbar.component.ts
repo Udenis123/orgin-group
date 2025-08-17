@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -31,11 +31,38 @@ export class NavbarComponent {
     this.isDarkMode = this.themeService.isDarkTheme();
   }
 
-  toggleMenu() {
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    // Check if click is outside both menus
+    const target = event.target as HTMLElement;
+    
+    // Check if click is on menu buttons (don't close if clicking on buttons)
+    const isMenuButton = target.closest('.center-menu-btn') || 
+                        target.closest('.mobile-menu-btn') ||
+                        target.closest('.navbar-toggler');
+    
+    // Check if click is inside the menus
+    const isInsideCenterMenu = target.closest('.center-menu-options');
+    const isInsideMobileMenu = target.closest('.mobile-menu');
+    
+    // Close menus if clicking outside and not on menu buttons
+    if (!isMenuButton && !isInsideCenterMenu && !isInsideMobileMenu) {
+      this.menuOpen = false;
+      this.centerMenuOpen = false;
+    }
+  }
+
+  toggleMenu(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
     this.menuOpen = !this.menuOpen;
   }
 
-  toggleCenterMenu() {
+  toggleCenterMenu(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
     this.centerMenuOpen = !this.centerMenuOpen;
   }
 

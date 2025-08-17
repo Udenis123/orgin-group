@@ -6,6 +6,7 @@
     "start": "ng serve --port 4200",
     "build": "ng build",
     "build:vercel": "ng build --configuration production",
+    "serve:prod": "npm run build:vercel && npx serve dist/orgin-aweb/browser -p 5000",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

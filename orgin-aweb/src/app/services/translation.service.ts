@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { forkJoin, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
   })
   export class TranslationService {
-    private apiUrl = 'https://api.mymemory.translated.net/get';
+    private apiUrl = environment.apiUrl + '/translate';
   
     constructor(private http: HttpClient) {}
   

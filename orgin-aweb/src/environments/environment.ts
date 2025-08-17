@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  clientUrl: 'http://localhost:4202',
-  websiteUrl: 'http://localhost:4200',
+  clientUrl: 'https://orgin-group-client.vercel.app',
+  websiteUrl: 'https://orgin-group-website.vercel.app',
   apiUrl: 'https://origin-group-backend.onrender.com',
 }; 

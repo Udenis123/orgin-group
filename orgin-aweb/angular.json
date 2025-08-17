@@ -91,10 +91,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "orgin-website:build:production"
+              "buildTarget": "orgin-aweb:build:production"
             },
             "development": {
-              "buildTarget": "orgin-website:build:development"
+              "buildTarget": "orgin-aweb:build:development"
             }
           },
           "defaultConfiguration": "development"

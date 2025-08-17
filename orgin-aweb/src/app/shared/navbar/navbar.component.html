@@ -9,7 +9,7 @@
 
     <!-- Center Menu Icon (visible only on small screens) -->
     <div class="center-menu-icon d-lg-none" *ngIf="!centerMenuOpen">
-      <button class="btn center-menu-btn" (click)="toggleCenterMenu()">
+      <button class="btn center-menu-btn" (click)="toggleCenterMenu($event)">
         <i class="fas fa-bars"></i>
       </button>
     </div>
@@ -71,7 +71,7 @@
     </div>
 
     <!-- Mobile Menu Button -->
-    <button class="navbar-toggler mobile-menu-btn" type="button" (click)="toggleMenu()">
+    <button class="navbar-toggler mobile-menu-btn" type="button" (click)="toggleMenu($event)">
       <span class="navbar-toggler-icon"></span>
     </button>
 
