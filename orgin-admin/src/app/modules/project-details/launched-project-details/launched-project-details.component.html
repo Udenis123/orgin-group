@@ -1,13 +1,24 @@
 <div class="container">
   <h1>{{ 'PROJECT_DETAILS.TITLE' | translate }}</h1>
   
-  <div class="details-container">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-state">
+    <p>Loading project details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-state">
+    <p>Error loading project details. Project not found.</p>
+  </div>
+
+  <!-- Project Details -->
+  <div *ngIf="!isLoading && !error && project" class="details-container">
     <!-- Personal Information Section -->
     <div class="details-section">
       <h3>{{ 'PROJECT_DETAILS.SECTIONS.PERSONAL_INFO' | translate }}</h3>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.FULL_NAME' | translate }}:</strong>
-        <span>{{ project.fullName }}</span>
+        <span>{{ project.clientName }}</span>
       </div>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.PROFESSIONAL_STATUS' | translate }}:</strong>
@@ -21,9 +32,9 @@
         <strong>{{ 'PROJECT_DETAILS.FIELDS.PHONE' | translate }}:</strong>
         <span>{{ project.phone }}</span>
       </div>
-      <div class="detail-row">
+      <div class="detail-row" *ngIf="project.linkedIn">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.LINKEDIN' | translate }}:</strong>
-        <a [href]="project.linkedin" target="_blank" class="social-link">{{ project.linkedin }}</a>
+        <a [href]="project.linkedIn" target="_blank" class="social-link">{{ project.linkedIn }}</a>
       </div>
     </div>
 
@@ -31,8 +42,8 @@
     <div class="details-section">
       <h3>{{ 'PROJECT_DETAILS.SECTIONS.PROJECT_INFO' | translate }}</h3>
       <!-- Project Thumbnail -->
-      <div class="thumbnail-container" *ngIf="project.thumbnail">
-        <img [src]="project.thumbnail" alt="Project Thumbnail" class="project-thumbnail">
+      <div class="thumbnail-container" *ngIf="project.projectPhotoUrl">
+        <img [src]="project.projectPhotoUrl" alt="Project Thumbnail" class="project-thumbnail">
       </div>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.PROJECT_NAME' | translate }}:</strong>
@@ -48,12 +59,12 @@
       </div>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.LOCATION' | translate }}:</strong>
-        <span>{{ project.location }}</span>
+        <span>{{ project.projectLocation }}</span>
       </div>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.STATUS' | translate }}:</strong>
-        <span class="status-badge" [ngClass]="project.projectStatus.toLowerCase()">
-          {{ project.projectStatus }}
+        <span class="status-badge" [ngClass]="project.status.toLowerCase()">
+          {{ project.status }}
         </span>
       </div>
       <div class="detail-row" *ngIf="project.prototypeLink">
@@ -62,23 +73,23 @@
       </div>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.EMPLOYEES' | translate }}:</strong>
-        <span>{{ project.employeesCount }}</span>
+        <span>{{ project.numberOfEmp }}</span>
       </div>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.MONTHLY_INCOME' | translate }}:</strong>
         <span class="currency-value">{{ project.monthlyIncome | currency }}</span>
       </div>
-      <div class="detail-row">
+      <div class="detail-row" *ngIf="project.website">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.WEBSITE_URL' | translate }}:</strong>
-        <a [href]="project.websiteUrl" target="_blank" class="external-link">{{ project.websiteUrl }}</a>
+        <a [href]="project.website" target="_blank" class="external-link">{{ project.website }}</a>
       </div>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.SPECIALITY' | translate }}:</strong>
-        <span>{{ project.speciality }}</span>
+        <span>{{ project.specialityOfProject }}</span>
       </div>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.PROJECT_PURPOSE' | translate }}:</strong>
-        <span class="purpose-badge">{{ project.purpose }}</span>
+        <span class="purpose-badge">{{ project.projectPurpose }}</span>
       </div>
     </div>
 
@@ -87,33 +98,29 @@
       <h3>{{ 'PROJECT_DETAILS.SECTIONS.SPONSORSHIP_INFO' | translate }}</h3>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.HAS_SPONSORSHIP' | translate }}:</strong>
-        <span class="badge" [ngClass]="project.hasSponsorship === 'Yes' ? 'badge-success' : 'badge-secondary'">
-          {{ project.hasSponsorship }}
+        <span class="badge" [ngClass]="project.haveSponsorQ === 'Yes' ? 'badge-success' : 'badge-secondary'">
+          {{ project.haveSponsorQ }}
         </span>
       </div>
-      <div class="detail-row" *ngIf="project.hasSponsorship === 'Yes'">
+      <div class="detail-row" *ngIf="project.haveSponsorQ === 'Yes'">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.SPONSOR_NAME' | translate }}:</strong>
         <span>{{ project.sponsorName }}</span>
       </div>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.NEEDS_SPONSOR' | translate }}:</strong>
-        <span class="badge" [ngClass]="project.needsSponsor === 'Yes' ? 'badge-warning' : 'badge-secondary'">
-          {{ project.needsSponsor }}
+        <span class="badge" [ngClass]="project.needSponsorQ === 'Yes' ? 'badge-warning' : 'badge-secondary'">
+          {{ project.needSponsorQ }}
         </span>
-      </div>
-      <div class="detail-row" *ngIf="project.hasSponsorship === 'Yes'">
-        <strong>{{ 'PROJECT_DETAILS.FIELDS.SPONSORSHIP_ORIGIN' | translate }}:</strong>
-        <span>{{ project.originSponsorship }}</span>
       </div>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.SELL_PROJECT' | translate }}:</strong>
-        <span class="badge" [ngClass]="project.sellProject === 'Yes' ? 'badge-info' : 'badge-secondary'">
-          {{ project.sellProject }}
+        <span class="badge" [ngClass]="project.doSellProjectQ === 'Yes' ? 'badge-info' : 'badge-secondary'">
+          {{ project.doSellProjectQ }}
         </span>
       </div>
-      <div class="detail-row" *ngIf="project.sellProject === 'Yes'">
+      <div class="detail-row" *ngIf="project.doSellProjectQ === 'Yes'">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.PROJECT_INVESTMENT' | translate }}:</strong>
-        <span class="currency-value">{{ project.projectInvestment | currency }}</span>
+        <span class="currency-value">{{ project.projectAmount | currency }}</span>
       </div>
     </div>
 
@@ -122,14 +129,14 @@
       <h3>{{ 'PROJECT_DETAILS.SECTIONS.INTELLECTUAL_PROPERTY' | translate }}</h3>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.WANTS_IP' | translate }}:</strong>
-        <span class="badge" [ngClass]="project.wantsIP === 'Yes' ? 'badge-success' : 'badge-secondary'">
-          {{ project.wantsIP }}
+        <span class="badge" [ngClass]="project.intellectualProjectQ === 'Yes' ? 'badge-success' : 'badge-secondary'">
+          {{ project.intellectualProjectQ }}
         </span>
       </div>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.NEEDS_BUSINESS_PLAN' | translate }}:</strong>
-        <span class="badge" [ngClass]="project.needsBusinessPlan === 'Yes' ? 'badge-warning' : 'badge-secondary'">
-          {{ project.needsBusinessPlan }}
+        <span class="badge" [ngClass]="project.wantOriginToBusinessPlanQ === 'Yes' ? 'badge-warning' : 'badge-secondary'">
+          {{ project.wantOriginToBusinessPlanQ }}
         </span>
       </div>
       <div class="detail-row description-row">
@@ -142,35 +149,57 @@
     <div class="details-section">
       <h3>{{ 'PROJECT_DETAILS.SECTIONS.DOCUMENTS' | translate }}</h3>
       <div class="documents-grid">
-        <div class="document-card" *ngIf="project.incomeStatement">
+        <div class="document-card" *ngIf="project.incomeStatementUrl">
           <div class="document-icon">
             <i class="fas fa-file-pdf"></i>
           </div>
           <div class="document-info">
             <div class="document-name">{{ 'PROJECT_DETAILS.FIELDS.INCOME_STATEMENT' | translate }}</div>
-            <a [href]="project.incomeStatement" target="_blank" class="btn btn-secondary">
+            <a [href]="project.incomeStatementUrl" target="_blank" class="btn btn-secondary">
               <i class="fas fa-download"></i> {{ 'COMMON.DOWNLOAD' | translate }}
             </a>
           </div>
         </div>
-        <div class="document-card" *ngIf="project.businessPlan">
+        <div class="document-card" *ngIf="project.businessPlanUrl">
           <div class="document-icon">
             <i class="fas fa-file-pdf"></i>
           </div>
           <div class="document-info">
             <div class="document-name">{{ 'PROJECT_DETAILS.FIELDS.BUSINESS_PLAN' | translate }}</div>
-            <a [href]="project.businessPlan" target="_blank" class="btn btn-secondary">
+            <a [href]="project.businessPlanUrl" target="_blank" class="btn btn-secondary">
               <i class="fas fa-download"></i> {{ 'COMMON.DOWNLOAD' | translate }}
             </a>
           </div>
         </div>
-        <div class="document-card" *ngIf="project.businessIdeaDocument">
+        <div class="document-card" *ngIf="project.businessIdeaDocumentUrl">
           <div class="document-icon">
             <i class="fas fa-file-pdf"></i>
           </div>
           <div class="document-info">
             <div class="document-name">{{ 'PROJECT_DETAILS.FIELDS.BUSINESS_IDEA_DOCUMENT' | translate }}</div>
-            <a [href]="project.businessIdeaDocument" target="_blank" class="btn btn-secondary">
+            <a [href]="project.businessIdeaDocumentUrl" target="_blank" class="btn btn-secondary">
+              <i class="fas fa-download"></i> {{ 'COMMON.DOWNLOAD' | translate }}
+            </a>
+          </div>
+        </div>
+        <div class="document-card" *ngIf="project.cashFlowUrl">
+          <div class="document-icon">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <div class="document-info">
+            <div class="document-name">Cash Flow Statement</div>
+            <a [href]="project.cashFlowUrl" target="_blank" class="btn btn-secondary">
+              <i class="fas fa-download"></i> {{ 'COMMON.DOWNLOAD' | translate }}
+            </a>
+          </div>
+        </div>
+        <div class="document-card" *ngIf="project.balanceSheetUrl">
+          <div class="document-icon">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <div class="document-info">
+            <div class="document-name">Balance Sheet</div>
+            <a [href]="project.balanceSheetUrl" target="_blank" class="btn btn-secondary">
               <i class="fas fa-download"></i> {{ 'COMMON.DOWNLOAD' | translate }}
             </a>
           </div>
@@ -179,49 +208,37 @@
     </div>
 
     <!-- Status-specific sections -->
-    <ng-container [ngSwitch]="project.projectStatus">
+    <ng-container [ngSwitch]="project.status">
       <!-- Analytics Section for Approved Projects -->
-      <div class="details-section" *ngSwitchCase="'Approved'" [class.has-analytics]="project.analytics">
+      <div class="details-section" *ngSwitchCase="'APPROVED'">
         <h3>{{ 'PROJECT_DETAILS.SECTIONS.ANALYTICS' | translate }}</h3>
-        <div class="document-card analytics" *ngIf="project.analytics">
+        <div class="document-card analytics">
           <div class="document-icon">
             <i class="fas fa-chart-line"></i>
           </div>
           <div class="document-info">
             <div class="document-name">{{ 'PROJECT_DETAILS.FIELDS.BUSINESS_ANALYTICS' | translate }}</div>
-            <a [href]="project.analytics" target="_blank" class="btn btn-primary">
-              <i class="fas fa-download"></i> {{ 'COMMON.DOWNLOAD' | translate }}
-            </a>
+            <p>Analytics data will be available when the project is fully processed.</p>
           </div>
         </div>
       </div>
 
       <!-- Declined Feedback Section -->
-      <div class="details-section feedback-section" *ngSwitchCase="'Declined'">
+      <div class="details-section feedback-section" *ngSwitchCase="'DECLINED'">
         <h3>{{ 'PROJECT_DETAILS.SECTIONS.DECLINED_FEEDBACK' | translate }}</h3>
         <div class="feedback-content">
           <div class="feedback-message">
             <i class="fas fa-info-circle"></i>
-            <p>{{ project.declinedFeedback }}</p>
-          </div>
-          <div class="feedback-meta">
-            <div class="declined-by">
-              <strong>{{ 'PROJECT_DETAILS.FIELDS.DECLINED_BY' | translate }}:</strong>
-              <span>{{ project.declinedBy }}</span>
-            </div>
-            <div class="declined-date">
-              <strong>{{ 'PROJECT_DETAILS.FIELDS.DECLINED_DATE' | translate }}:</strong>
-              <span>{{ project.declinedDate | date }}</span>
-            </div>
+            <p>{{ project.feedback }}</p>
           </div>
         </div>
       </div>
 
       <!-- Assigned Analyzers Section -->
-      <div class="details-section analyzers-section" *ngSwitchCase="'Pending'">
+      <div class="details-section analyzers-section" *ngSwitchCase="'PENDING'">
         <h3>{{ 'PROJECT_DETAILS.SECTIONS.ASSIGNED_ANALYZERS' | translate }}</h3>
         <div class="analyzers-grid">
-          <div class="analyzer-card" *ngFor="let analyzer of project.assignedAnalyzers">
+          <div class="analyzer-card" *ngFor="let analyzer of analyzers">
             <div class="analyzer-header">
               <i class="fas fa-user-tie"></i>
               <h4>{{ analyzer.name }}</h4>
@@ -231,10 +248,6 @@
                 <strong>{{ 'PROJECT_DETAILS.FIELDS.EXPERTISE' | translate }}:</strong>
                 <span>{{ analyzer.expertise }}</span>
               </div>
-              <div class="assigned-date">
-                <strong>{{ 'PROJECT_DETAILS.FIELDS.ASSIGNED_DATE' | translate }}:</strong>
-                <span>{{ analyzer.assignedDate | date }}</span>
-              </div>
             </div>
           </div>
         </div>
@@ -242,14 +255,8 @@
     </ng-container>
   </div>
 
-  <!-- Assignment Status -->
-  <div class="assignment-status" *ngIf="project?.isAssigned && project.projectStatus !== 'Pending'">
-    <i class="fas fa-check-circle"></i>
-    <h3>{{ 'PROJECT_DETAILS.ASSIGNED_TO' | translate }} {{ project.assignedAnalyzerName }}</h3>
-  </div>
-
   <!-- Assignment Section -->
-  <div class="assignment-section" *ngIf="project && !project.isAssigned && project.projectStatus === 'Pending'">
+  <div class="assignment-section" *ngIf="project && project.status === 'PENDING'">
     <h3>{{ 'PROJECT_DETAILS.ASSIGN_PROJECT' | translate }}</h3>
     <div class="assignment-form">
       <mat-form-field appearance="outline">

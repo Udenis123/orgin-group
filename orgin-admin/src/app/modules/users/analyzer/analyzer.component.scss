@@ -1,3 +1,44 @@
+/* Loading and Error States */
+.loading-state, .error-state {
+  text-align: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin-top: 2rem;
+
+  p {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    margin: 0;
+  }
+}
+
+.error-state {
+  background: rgba(234, 84, 85, 0.05);
+  border: 1px solid rgba(234, 84, 85, 0.2);
+
+  p {
+    color: #ea5455;
+  }
+}
+
+.loading-state {
+  background: rgba(0, 207, 232, 0.05);
+  border: 1px solid rgba(0, 207, 232, 0.2);
+
+  p {
+    color: #00cfe8;
+  }
+}
+
+/* Dark mode support for loading/error states */
+:host-context(body.dark-mode) {
+  .loading-state, .error-state {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
 .container {
   padding: 2rem;
   

@@ -12,7 +12,7 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>{{ 'submittedProjects.tableHeaders.title' | translate }}</th>
+          <th>{{ 'submittedProjects.tableHeaders.projectName' | translate }}</th>
           <th>{{ 'submittedProjects.tableHeaders.description' | translate }}</th>
           <th>{{ 'submittedProjects.tableHeaders.submissionDate' | translate }}</th>
           <th>{{ 'submittedProjects.tableHeaders.lastUpdated' | translate }}</th>
@@ -23,14 +23,14 @@
       <tbody>
         <tr *ngFor="let project of paginatedData; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ project.title }}</td>
+          <td>{{ project.projectName }}</td>
           <td>{{ project.description }}</td>
-          <td>{{ project.dateOfSubmission | date }}</td>
-          <td>{{ project.lastUpdated | date }}</td>
+          <td>{{ project.submittedOn | date }}</td>
+          <td>{{ project.updatedOn | date }}</td>
           <td [ngClass]="{
-            'status-pending': project.status === 'Pending',
-            'status-approved': project.status === 'Approved',
-            'status-declined': project.status === 'Declined'
+            'status-pending': project.status === 'PENDING',
+            'status-approved': project.status === 'APPROVED',
+            'status-declined': project.status === 'DECLINED'
           }">{{ project.status }}</td>
           <td>
             <button class="icon-button" (click)="viewProjectDetails(project)">

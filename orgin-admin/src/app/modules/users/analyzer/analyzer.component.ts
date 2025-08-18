@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,15 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
-
-interface AnalyzerUser {
-  id: number;
-  name: string;
-  nationalId: string;
-  phone: string;
-  status: 'Active' | 'Terminated';
-  [key: string]: any;
-}
+import { AnalyzerService, Analyzer } from '../../../services/analyzer.service';
 
 @Component({
   selector: 'app-analyzer',
@@ -34,47 +26,61 @@ interface AnalyzerUser {
   templateUrl: './analyzer.component.html',
   styleUrl: './analyzer.component.scss'
 })
-export class AnalyzerComponent {
+export class AnalyzerComponent implements OnInit {
   currentPage = 0;
-  pageSize = 10; // or your preferred default page size
+  pageSize = 10;
   displayedColumns: string[] = ['no', 'name', 'nationalId', 'phone', 'status', 'actions'];
-  analyzerUsers: AnalyzerUser[] = [
-    {
-      id: 1,
-      name: 'John Doe',
-      nationalId: '123456789',
-      phone: '0712345678',
-      status: 'Active'
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      nationalId: '987654321',
-      phone: '0723456789',
-      status: 'Terminated'
-    }
-    // Add more users as needed
-  ];
-
-  dataSource = new MatTableDataSource(this.analyzerUsers);
+  analyzerUsers: Analyzer[] = [];
+  dataSource = new MatTableDataSource<Analyzer>([]);
+  isLoading = true;
+  error = false;
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private analyzerService: AnalyzerService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadAnalyzers();
+  }
+
+  loadAnalyzers(): void {
+    this.isLoading = true;
+    this.error = false;
+
+    this.analyzerService.getAnalyzers().subscribe({
+      next: (analyzers) => {
+        this.analyzerUsers = analyzers;
+        this.dataSource.data = this.analyzerUsers;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading analyzers:', error);
+        this.error = true;
+        this.isLoading = false;
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
         case 'name': return item.name.toLowerCase();
-        case 'status': return item.status.toLowerCase();
-        default: return item[property];
+        case 'status': return item.enabled ? 'active' : 'terminated';
+        default: return (item as any)[property];
       }
     };
   }
 
-  isTerminated(status: string): boolean {
-    return status === 'Terminated';
+  getStatusText(enabled: boolean): string {
+    return enabled ? 'Active' : 'Terminated';
+  }
+
+  isTerminated(enabled: boolean): boolean {
+    return !enabled;
   }
 
   applyFilter(event: Event) {
@@ -82,15 +88,15 @@ export class AnalyzerComponent {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  viewUserDetails(user: AnalyzerUser) {
+  viewUserDetails(user: Analyzer) {
     this.router.navigate(['/dashboard/details/users/analyzer', user.id]);
   }
 
-  updateUser(user: AnalyzerUser) {
+  updateUser(user: Analyzer) {
     this.router.navigate(['/dashboard/update/users/analyzer', user.id]);
   }
 
-  terminateUser(user: AnalyzerUser) {
+  terminateUser(user: Analyzer) {
     // Add your terminate logic here
     console.log('Terminate user:', user);
   }

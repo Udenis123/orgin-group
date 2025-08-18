@@ -1,11 +1,22 @@
 <div class="container">
   <h2>{{ 'analyzer_details.title' | translate }}</h2>
 
-  <div *ngIf="analyzerDetails" class="details-section">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-state">
+    <p>Loading analyzer details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-state">
+    <p>Error loading analyzer details. Please try again.</p>
+  </div>
+
+  <!-- Analyzer Details -->
+  <div *ngIf="!isLoading && !error && analyzerDetails" class="details-section">
     <h3>{{ 'analyzer_details.sections.personal_info' | translate }}</h3>
     <div class="detail-item">
       <label>{{ 'analyzer_details.fields.full_name' | translate }}:</label>
-      <span>{{ analyzerDetails.fullName }}</span>
+      <span>{{ analyzerDetails.name }}</span>
     </div>
     <div class="detail-item">
       <label>{{ 'analyzer_details.fields.national_id' | translate }}:</label>
@@ -20,20 +31,26 @@
       <span>{{ analyzerDetails.email }}</span>
     </div>
     <div class="detail-item">
-      <label>{{ 'analyzer_details.fields.country' | translate }}:</label>
-      <span>{{ analyzerDetails.country }}</span>
+      <label>{{ 'analyzer_details.fields.gender' | translate }}:</label>
+      <span>{{ analyzerDetails.gender }}</span>
     </div>
     <div class="detail-item">
       <label>{{ 'analyzer_details.fields.phone_number' | translate }}:</label>
-      <span>{{ analyzerDetails.phoneNumber }}</span>
+      <span>{{ analyzerDetails.phone }}</span>
     </div>
     <div class="detail-item">
       <label>{{ 'analyzer_details.fields.expertise' | translate }}:</label>
       <span>{{ analyzerDetails.expertise }}</span>
     </div>
+    <div class="detail-item">
+      <label>{{ 'analyzer_details.fields.status' | translate }}:</label>
+      <span [class.status-disabled]="!analyzerDetails.enabled">
+        {{ analyzerDetails.enabled ? 'Active' : 'Terminated' }}
+      </span>
+    </div>
   </div>
 
-  <div class="work-stats-section">
+  <div *ngIf="!isLoading && !error" class="work-stats-section">
     <h3>{{ 'analyzer_details.sections.work_stats' | translate }}</h3>
     <div class="stats-grid">
       <div class="stat-item">

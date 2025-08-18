@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { SafeUrlPipe } from '../../../shared/pipes/safe-url.pipe';
+import { AnalyticsService, AnalyticsDetails } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-analytics-details',
@@ -29,38 +30,20 @@ export class AnalyticsDetailsComponent implements OnInit {
   loading: boolean = true;
   projectId: string | null = null;
   projectDetails: any = null;
-  projectAnalytics: any = null;
+  projectAnalytics: AnalyticsDetails | null = null;
   analyticsDocument: string | null = null;
   projectFound: boolean = false;
   pdfLoading: boolean = false;
   pdfError: string | null = null;
   private pdfBlob: Blob | null = null;
 
-  // Dummy data with sample PDF
-  dummyProjects: any[] = [
-    {
-      id: '1',
-      name: 'Project Alpha',
-      description: 'A groundbreaking project in technology.',
-      analytics: {
-        feasibilityPercentage: 80,
-        feasibilityReason: 'High feasibility due to strong market demand and technological advancement',
-        monthlyIncome: 100000000,
-        annualIncome: 1200000000,
-        incomeDescription: 'Projected profits based on current market trends and competitive analysis',
-        roi: 25,
-        price: 5000000,
-        document: 'assets/docs/test.pdf'
-      }
-    }
-  ];
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
     public translate: TranslateService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private analyticsService: AnalyticsService
   ) {}
 
   ngOnInit(): void {
@@ -74,37 +57,57 @@ export class AnalyticsDetailsComponent implements OnInit {
   }
 
   private loadProjectDetails(): void {
-    const project = this.dummyProjects.find(p => p.id === this.projectId);
-
-    if (project) {
-      this.projectFound = true;
-      this.projectDetails = project;
-      this.projectAnalytics = project.analytics;
-      this.loadAnalyticsDocument();
-    } else {
+    if (!this.projectId) {
       this.projectFound = false;
       this.projectDetails = {
         id: this.projectId,
         name: 'Project Not Found',
         description: 'The requested project could not be found.'
       };
+      this.loading = false;
+      return;
     }
-    this.loading = false;
+
+    this.analyticsService.getAnalyticsDetails(this.projectId).subscribe({
+      next: (analytics) => {
+        this.projectFound = true;
+        this.projectAnalytics = analytics;
+        this.projectDetails = {
+          id: this.projectId,
+          name: `Project ${this.projectId}`,
+          description: 'Project analytics details'
+        };
+        this.loadAnalyticsDocument();
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading analytics details:', error);
+        this.projectFound = false;
+        this.projectDetails = {
+          id: this.projectId,
+          name: 'Project Not Found',
+          description: 'The requested project could not be found or analytics are not available.'
+        };
+        this.loading = false;
+      }
+    });
   }
 
   private loadAnalyticsDocument(): void {
-    const project = this.dummyProjects.find(p => p.id === this.projectId);
-    if (project && project.analytics.document) {
+    if (this.projectAnalytics && this.projectAnalytics.analyticsDocumentUrl) {
       this.pdfLoading = true;
       this.pdfError = null;
       
-      const documentUrl = project.analytics.document.startsWith('http') ?
-        project.analytics.document :
-        `/assets/${project.analytics.document.split('assets/')[1]}`;
+      const documentUrl = this.projectAnalytics.analyticsDocumentUrl;
 
       // Fetch the document as a Blob
       fetch(documentUrl)
-        .then(response => response.blob())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.blob();
+        })
         .then(blob => {
           this.pdfBlob = blob; // Store the blob for download
           // Create a Blob URL with scrolling enabled
@@ -166,7 +169,7 @@ export class AnalyticsDetailsComponent implements OnInit {
       const url = window.URL.createObjectURL(this.pdfBlob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `${this.projectDetails?.name || 'document'}.pdf`;
+      link.download = `analytics-${this.projectId || 'document'}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

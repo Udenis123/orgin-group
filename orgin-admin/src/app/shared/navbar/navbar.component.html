@@ -25,7 +25,7 @@
       <ul class="dropdown-menu">
         <li><a (click)="navigateToProfile()">{{ 'PROFILE' | translate }}</a></li>
         <li><a (click)="navigateToSettings()">{{ 'SETTINGS' | translate }}</a></li>
-        <li><a href="http://localhost:4200">{{ 'BACK_TO_WEBSITE' | translate }}</a></li>
+        <li><a [href]="analyzerUrl">{{ 'LOGIN_AS_ANALYZER' | translate }}</a></li>
         <li><button (click)="logout()" class="logout-btn">{{ 'LOGOUT' | translate }}</button></li>
       </ul>
     </div>

@@ -5,6 +5,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ThemeService } from '../../core/theme.service';
 import { CookieService } from '../../services/cookie.service';
 import { UserService } from '../../services/user.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -17,6 +18,7 @@ export class NavbarComponent implements OnInit {
   username = ''; // Initialize as empty
   isAccountMenuOpen = false; // Track if account menu is open
   selectedLanguage = 'en'; // Add this line
+  analyzerUrl = environment.analyzerUrl; // Add analyzer URL from environment
 
   constructor(
     private router: Router, 

@@ -22,8 +22,8 @@
         <tr *ngFor="let item of paginatedData; let i = index">
           <td>{{ (currentPage * pageSize) + i + 1 }}</td>
           <td>{{ item.projectName }}</td>
-          <td>{{ item.submittedOn }}</td>
-          <td>{{ item.submittedBy }}</td>
+          <td>{{ item.submittedOn | date:'short' }}</td>
+          <td>{{ item.clientName }}</td>
           <td class="actions">
             <button class="icon-button" (click)="viewAnalytics(item)" matTooltip="{{ 'analytics.actions.view' | translate }}">
               <i class="material-icons">visibility</i>

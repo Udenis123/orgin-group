@@ -2,17 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-
-interface AnalyzerDetails {
-  id: string;
-  fullName: string;
-  nationalId: string;
-  nationality: string;
-  email: string;
-  country: string;
-  phoneNumber: string;
-  expertise: string;
-}
+import { AnalyzerService, AnalyzerDetails } from '../../../services/analyzer.service';
 
 interface AnalyzerWorkStats {
   projectsAnalyzed: number;
@@ -39,72 +29,94 @@ export class AnalyzerDetailsComponent implements OnInit {
     totalProjectsAssigned: 0,
     currentAssignedProjects: 0
   };
+  isLoading = true;
+  error = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private router: Router,
+    private analyzerService: AnalyzerService
+  ) {}
 
   ngOnInit(): void {
     this.analyzerId = this.route.snapshot.paramMap.get('id');
-    this.loadAnalyzerDetails();
-    this.loadAnalyzerWorkStats();
+    if (this.analyzerId) {
+      this.loadAnalyzerDetails();
+    } else {
+      this.error = true;
+      this.isLoading = false;
+    }
   }
 
   loadAnalyzerDetails(): void {
-    // Dummy data for testing
-    const dummyData: AnalyzerDetails[] = [
-      {
-        id: '1',
-        fullName: 'John Doe',
-        nationalId: '123456789',
-        nationality: 'Kenyan',
-        email: 'john.doe@example.com',
-        country: 'KE',
-        phoneNumber: '712345678',
-        expertise: 'Soil Analysis'
-      },
-      {
-        id: '2',
-        fullName: 'Jane Smith',
-        nationalId: '987654321',
-        nationality: 'Ugandan',
-        email: 'jane.smith@example.com',
-        country: 'UG',
-        phoneNumber: '712345679',
-        expertise: 'Water Quality'
-      }
-    ];
+    this.isLoading = true;
+    this.error = false;
 
-    this.analyzerDetails = dummyData.find(data => data.id === this.analyzerId) || null;
+    this.analyzerService.getAnalyzerDetails(this.analyzerId!).subscribe({
+      next: (details) => {
+        this.analyzerDetails = details;
+        this.calculateWorkStats();
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading analyzer details:', error);
+        this.error = true;
+        this.isLoading = false;
+      }
+    });
   }
 
-  loadAnalyzerWorkStats(): void {
-    // Dummy data for testing
-    const dummyStats = [
-      { 
-        id: '1', 
-        projectsAnalyzed: 15, 
-        projectsApproved: 10, 
-        projectsDeclined: 5,
-        totalProjectsAssigned: 20,
-        currentAssignedProjects: 3
-      },
-      { 
-        id: '2', 
-        projectsAnalyzed: 8, 
-        projectsApproved: 6, 
-        projectsDeclined: 2,
-        totalProjectsAssigned: 12,
-        currentAssignedProjects: 2
-      }
-    ];
+  calculateWorkStats(): void {
+    if (!this.analyzerDetails?.assignment) {
+      console.log('No assignments found for analyzer');
+      return;
+    }
 
-    const stats = dummyStats.find(data => data.id === this.analyzerId);
-    this.analyzerWorkStats = stats || {
-      projectsAnalyzed: 0,
-      projectsApproved: 0,
-      projectsDeclined: 0,
-      totalProjectsAssigned: 0,
-      currentAssignedProjects: 0
-    };
+    const assignments = this.analyzerDetails.assignment;
+    console.log('All assignments:', assignments);
+    console.log('Total assignments count:', assignments.length);
+    
+    // Log each assignment with its project status
+    assignments.forEach((assignment, index) => {
+      console.log(`Assignment ${index + 1}:`, {
+        assignmentId: assignment.id,
+        projectId: assignment.project.projectId,
+        projectName: assignment.project.projectName,
+        projectStatus: assignment.project.status,
+        analyzerId: assignment.analyzer
+      });
+    });
+    
+    // Total projects assigned to this analyzer
+    this.analyzerWorkStats.totalProjectsAssigned = assignments.length;
+    console.log('Total projects assigned:', this.analyzerWorkStats.totalProjectsAssigned);
+    
+    // Current assigned projects (projects with PENDING status assigned to this analyzer)
+    const pendingAssignments = assignments.filter(
+      assignment => assignment.project.status === 'PENDING'
+    );
+    console.log('Pending assignments:', pendingAssignments);
+    console.log('Pending assignments count:', pendingAssignments.length);
+    
+    this.analyzerWorkStats.currentAssignedProjects = pendingAssignments.length;
+    console.log('Current assigned projects (final):', this.analyzerWorkStats.currentAssignedProjects);
+    
+    // Projects analyzed by this analyzer (projects with APPROVED or DECLINED status)
+    const analyzedProjects = assignments.filter(
+      assignment => assignment.project.status === 'APPROVED' || assignment.project.status === 'DECLINED'
+    );
+    
+    this.analyzerWorkStats.projectsAnalyzed = analyzedProjects.length;
+    
+    // Projects approved by this analyzer
+    this.analyzerWorkStats.projectsApproved = assignments.filter(
+      assignment => assignment.project.status === 'APPROVED'
+    ).length;
+    
+    // Projects declined by this analyzer
+    this.analyzerWorkStats.projectsDeclined = assignments.filter(
+      assignment => assignment.project.status === 'DECLINED'
+    ).length;
   }
 
   goBack(): void {

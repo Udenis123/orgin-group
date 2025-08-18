@@ -3,7 +3,7 @@
   "ACCOUNT": "Compte",
   "PROFILE": "Profil",
   "SETTINGS": "Paramètres",
-  "BACK_TO_WEBSITE": "Retour au site Web",
+  "LOGIN_AS_ANALYZER": "Se connecter comme Analyste",
   "LOGOUT": "Se Déconnecter",
   "PREVIOUS": "Précédent",
   "CONTINUE": "Continuer",
@@ -79,6 +79,7 @@
   "tableHeaders": {
     "number": "#",
     "title": "Titre",
+    "projectName": "Nom du Projet",
     "description": "Description",
     "dateOfSubmission": "Date de Soumission",
     "submissionDate": "Date de Soumission",

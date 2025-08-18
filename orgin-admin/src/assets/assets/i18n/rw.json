@@ -3,7 +3,7 @@
   "ACCOUNT": "Konti",
   "PROFILE": "Umwirondoro",
   "SETTINGS": "Igenamiterere",
-  "BACK_TO_WEBSITE": "Subira ku rubuga",
+  "LOGIN_AS_ANALYZER": "Kwinjira nk'umugenzuzi",
   "LOGOUT": "Gusohoka",
   "PREVIOUS": "Subira Inyuma",
   "CONTINUE": "Komeza",
@@ -78,6 +78,7 @@
   "tableHeaders": {
     "number": "#",
     "title": "Umutwe",
+    "projectName": "Izina ry'Umushinga",
     "description": "Ibisobanuro",
     "dateOfSubmission": "Itariki yo Gushyiraho",
     "submissionDate": "Itariki yo Gushyiraho",

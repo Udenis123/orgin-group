@@ -13,14 +13,46 @@ import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { ProjectService } from '../../../../services/project.services';
 
 export interface Project {
-  id: number;
-  title: string;
+  balanceSheetUrl: string;
+  projectId: string;
+  businessIdea: string;
+  businessPlanUrl: string;
+  businessIdeaDocumentUrl: string;
+  clientName: string;
+  category: string;
   description: string;
-  dateOfSubmission: Date;
-  lastUpdated: Date;
-  status: 'Pending' | 'Approved' | 'Declined';
+  cashFlowUrl: string;
+  status: string;
+  professionalStatus: string;
+  projectName: string;
+  haveSponsorQ: string;
+  projectPurpose: string;
+  projectLocation: string;
+  projectPhotoUrl: string;
+  doSellProjectQ: string;
+  submittedOn: string;
+  projectAmount: number;
+  needOrgQ: string;
+  pitchingVideoUrl: string;
+  sponsorName: string;
+  website: string;
+  incomeStatementUrl: string;
+  prototypeLink: string;
+  projectStatus: string;
+  updatedOn: string;
+  linkedIn: string;
+  monthlyIncome: number;
+  specialityOfProject: string;
+  phone: string;
+  needSponsorQ: string;
+  numberOfEmp: number;
+  wantOriginToBusinessPlanQ: string;
+  intellectualProjectQ: string;
+  email: string;
+  feedback: string;
 }
 
 @Component({
@@ -51,28 +83,121 @@ export class ProjectsLaunchedComponent implements OnInit {
 
   projects: Project[] = [
     {
-      id: 1,
-      title: 'AI Chatbot Platform',
+      balanceSheetUrl: '',
+      projectId: '1',
+      businessIdea: 'AI Chatbot Platform',
+      businessPlanUrl: '',
+      businessIdeaDocumentUrl: '',
+      clientName: 'John Doe',
+      category: 'Technology',
       description: 'An intelligent chatbot solution for businesses',
-      dateOfSubmission: new Date('2024-01-10'),
-      lastUpdated: new Date('2024-01-15'),
-      status: 'Approved'
+      cashFlowUrl: '',
+      status: 'APPROVED',
+      professionalStatus: 'Entrepreneur',
+      projectName: 'AI Chatbot Platform',
+      haveSponsorQ: 'No',
+      projectPurpose: 'Business Solution',
+      projectLocation: 'Kigali',
+      projectPhotoUrl: '',
+      doSellProjectQ: 'No',
+      submittedOn: '2024-01-10T00:00:00.000Z',
+      projectAmount: 5000000,
+      needOrgQ: 'No',
+      pitchingVideoUrl: '',
+      sponsorName: '',
+      website: 'https://example.com',
+      incomeStatementUrl: '',
+      prototypeLink: 'https://prototype.example.com',
+      projectStatus: 'Active',
+      updatedOn: '2024-01-15T00:00:00.000Z',
+      linkedIn: 'https://linkedin.com/in/johndoe',
+      monthlyIncome: 1000000,
+      specialityOfProject: 'AI/ML',
+      phone: '+250123456789',
+      needSponsorQ: 'No',
+      numberOfEmp: 5,
+      wantOriginToBusinessPlanQ: 'Yes',
+      intellectualProjectQ: 'Yes',
+      email: 'john@example.com',
+      feedback: 'Great project with high potential'
     },
     {
-      id: 2,
-      title: 'Eco-Friendly Packaging',
+      balanceSheetUrl: '',
+      projectId: '2',
+      businessIdea: 'Eco-Friendly Packaging',
+      businessPlanUrl: '',
+      businessIdeaDocumentUrl: '',
+      clientName: 'Jane Smith',
+      category: 'Environment',
       description: 'Sustainable packaging solutions',
-      dateOfSubmission: new Date('2024-01-05'),
-      lastUpdated: new Date('2024-01-10'),
-      status: 'Declined'
+      cashFlowUrl: '',
+      status: 'DECLINED',
+      professionalStatus: 'Business Owner',
+      projectName: 'Eco-Friendly Packaging',
+      haveSponsorQ: 'Yes',
+      projectPurpose: 'Environmental Impact',
+      projectLocation: 'Nairobi',
+      projectPhotoUrl: '',
+      doSellProjectQ: 'No',
+      submittedOn: '2024-01-05T00:00:00.000Z',
+      projectAmount: 3000000,
+      needOrgQ: 'Yes',
+      pitchingVideoUrl: '',
+      sponsorName: 'Green Fund',
+      website: 'https://eco.example.com',
+      incomeStatementUrl: '',
+      prototypeLink: 'https://prototype.eco.com',
+      projectStatus: 'Inactive',
+      updatedOn: '2024-01-10T00:00:00.000Z',
+      linkedIn: 'https://linkedin.com/in/janesmith',
+      monthlyIncome: 500000,
+      specialityOfProject: 'Sustainability',
+      phone: '+254123456789',
+      needSponsorQ: 'Yes',
+      numberOfEmp: 3,
+      wantOriginToBusinessPlanQ: 'No',
+      intellectualProjectQ: 'No',
+      email: 'jane@example.com',
+      feedback: 'Project needs more market research'
     },
     {
-      id: 3,
-      title: 'Smart Home Automation',
+      balanceSheetUrl: '',
+      projectId: '3',
+      businessIdea: 'Smart Home Automation',
+      businessPlanUrl: '',
+      businessIdeaDocumentUrl: '',
+      clientName: 'Mike Johnson',
+      category: 'IoT',
       description: 'IoT-based home automation system',
-      dateOfSubmission: new Date('2024-02-01'),
-      lastUpdated: new Date('2024-02-05'),
-      status: 'Pending'
+      cashFlowUrl: '',
+      status: 'PENDING',
+      professionalStatus: 'Engineer',
+      projectName: 'Smart Home Automation',
+      haveSponsorQ: 'No',
+      projectPurpose: 'Home Improvement',
+      projectLocation: 'Kampala',
+      projectPhotoUrl: '',
+      doSellProjectQ: 'Yes',
+      submittedOn: '2024-02-01T00:00:00.000Z',
+      projectAmount: 8000000,
+      needOrgQ: 'No',
+      pitchingVideoUrl: '',
+      sponsorName: '',
+      website: 'https://smart.example.com',
+      incomeStatementUrl: '',
+      prototypeLink: 'https://prototype.smart.com',
+      projectStatus: 'Under Review',
+      updatedOn: '2024-02-05T00:00:00.000Z',
+      linkedIn: 'https://linkedin.com/in/mikejohnson',
+      monthlyIncome: 2000000,
+      specialityOfProject: 'IoT',
+      phone: '+256123456789',
+      needSponsorQ: 'No',
+      numberOfEmp: 8,
+      wantOriginToBusinessPlanQ: 'Yes',
+      intellectualProjectQ: 'Yes',
+      email: 'mike@example.com',
+      feedback: 'Under review'
     }
   ];
 
@@ -84,12 +209,28 @@ export class ProjectsLaunchedComponent implements OnInit {
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private projectService: ProjectService
   ) {}
 
   ngOnInit(): void {
-    this.dataSource.data = this.projects;
-    this.calculateTotalPages();
+    this.loadLaunchedProjects();
+  }
+
+  loadLaunchedProjects(): void {
+    this.projectService.getAllLaunchedProjects().subscribe({
+      next: (projects) => {
+        this.projects = projects;
+        this.dataSource.data = this.projects;
+        this.calculateTotalPages();
+      },
+      error: (error) => {
+        console.error('Error loading launched projects:', error);
+        // Fallback to hardcoded data if API fails
+        this.dataSource.data = this.projects;
+        this.calculateTotalPages();
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -105,7 +246,7 @@ export class ProjectsLaunchedComponent implements OnInit {
   }
 
   viewProjectDetails(project: Project): void {
-    this.router.navigate(['dashboard/project/details', project.id]);
+    this.router.navigate(['dashboard/project/details', project.projectId]);
   }
 
   previousPage(): void {

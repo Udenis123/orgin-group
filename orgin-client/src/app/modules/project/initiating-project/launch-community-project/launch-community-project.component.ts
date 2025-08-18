@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-launch-community-project',
@@ -17,6 +18,7 @@ export class LaunchCommunityProjectComponent {
   requiredProfessions = ['Developer', 'Designer', 'Marketer', 'BusinessAnalyst', 'ProjectManager', 'Other'];
   steps = ['Personal Information', 'Project Information', 'Team Requirements', 'Review and Submit'];
   currentStep = 0;
+  externalServiceUrl = environment.externalServiceUrl;
 
   constructor(private fb: FormBuilder) {
     this.projectForm = this.fb.group({
@@ -88,7 +90,7 @@ export class LaunchCommunityProjectComponent {
     if (this.projectForm.valid) {
       console.log(this.projectForm.value);
       alert('Your community project has been submitted successfully!');
-      window.location.href = 'http://localhost:4202';
+      window.location.href = this.externalServiceUrl;
     }
   }
 

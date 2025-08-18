@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ChangeDetectorRef, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,6 +17,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { DenialReasonDialogComponent } from '../denial-reason-dialog/denial-reason-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
+import { AnalyticsService, AnalyticsProject } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-analytics',
@@ -38,9 +39,9 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './analytics.component.html',
   styleUrl: './analytics.component.scss'
 })
-export class AnalyticsComponent implements AfterViewInit {
+export class AnalyticsComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['no', 'projectName', 'submittedOn', 'submittedBy', 'actions'];
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<AnalyticsProject>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -50,32 +51,37 @@ export class AnalyticsComponent implements AfterViewInit {
   pageSize = this.pageSizeOptions[0];
   totalPages = 0;
 
-  // Sample data
-  analytics = [
-    {
-      id: 1,
-      projectName: 'Project Alpha',
-      submittedOn: '2024-03-15',
-      submittedBy: 'John Doe',
-      status: 'Pending'
-    },
-    {
-      id: 2,
-      projectName: 'Project Beta',
-      submittedOn: '2024-03-14',
-      submittedBy: 'Jane Smith',
-      status: 'Pending'
-    }
-  ];
+  analytics: AnalyticsProject[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
     private router: Router,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private analyticsService: AnalyticsService
   ) {
     this.dataSource = new MatTableDataSource(this.analytics);
+  }
+
+  ngOnInit(): void {
+    this.loadAnalytics();
+  }
+
+  loadAnalytics(): void {
+    this.analyticsService.getAnalytics().subscribe({
+      next: (analytics) => {
+        this.analytics = analytics;
+        this.dataSource.data = this.analytics;
+        this.calculateTotalPages();
+      },
+      error: (error) => {
+        console.error('Error loading analytics:', error);
+        // Keep empty array if API fails
+        this.dataSource.data = this.analytics;
+        this.calculateTotalPages();
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -119,18 +125,18 @@ export class AnalyticsComponent implements AfterViewInit {
     this.calculateTotalPages();
   }
 
-  viewAnalytics(item: any) {
-    this.router.navigate(['/dashboard/analytics/details', item.id]);
+  viewAnalytics(item: AnalyticsProject) {
+    this.router.navigate(['/dashboard/analytics/details', item.projectId]);
   }
 
-  approveAnalytics(item: any) {
+  approveAnalytics(item: AnalyticsProject) {
     // Here you would typically make an API call to approve the project
     // For now, we'll just remove it from the table
     this.removeFromTable(item);
     this.showNotification('analytics.notifications.approved');
   }
 
-  denyAnalytics(item: any) {
+  denyAnalytics(item: AnalyticsProject) {
     const dialogRef = this.dialog.open(DenialReasonDialogComponent, {
       data: { reason: '' }
     });
@@ -145,8 +151,8 @@ export class AnalyticsComponent implements AfterViewInit {
     });
   }
 
-  private removeFromTable(item: any) {
-    const index = this.analytics.findIndex(i => i.id === item.id);
+  private removeFromTable(item: AnalyticsProject) {
+    const index = this.analytics.findIndex(i => i.projectId === item.projectId);
     if (index > -1) {
       this.analytics.splice(index, 1);
       this.dataSource.data = this.analytics;

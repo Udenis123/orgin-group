@@ -27,7 +27,7 @@
     <div class="metrics-grid">
       <div class="metric-card">
         <h3>{{ 'analytics.feasibilityPercentage' | translate }}</h3>
-        <p>{{ projectAnalytics?.feasibilityPercentage }}%</p>
+        <p>{{ projectAnalytics?.feasibility }}%</p>
       </div>
       <div class="metric-card">
         <h3>{{ 'analytics.monthlyIncome' | translate }}</h3>
@@ -44,6 +44,10 @@
       <div class="metric-card">
         <h3>{{ 'analytics.price' | translate }}</h3>
         <p>{{ projectAnalytics?.price | currency:'RWF ' }}</p>
+      </div>
+      <div class="metric-card">
+        <h3>{{ 'analytics.costOfDevelopment' | translate }}</h3>
+        <p>{{ projectAnalytics?.costOfDevelopment | currency:'RWF ' }}</p>
       </div>
     </div>
 
