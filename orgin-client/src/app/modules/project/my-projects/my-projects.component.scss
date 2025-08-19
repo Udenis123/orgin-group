@@ -11,6 +11,24 @@
   }
 }
 
+.loading-state {
+  text-align: center;
+  padding: 3rem;
+  
+  p {
+    margin-top: 1rem;
+    color: var(--text-color-secondary);
+  }
+}
+
+.error-state {
+  margin-bottom: 2rem;
+  
+  .alert {
+    border-radius: 8px;
+  }
+}
+
 .projects-table {
   width: 100%;
   border-collapse: collapse;

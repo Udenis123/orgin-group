@@ -1,6 +1,21 @@
 <div class="container mt-5">
     <h2>{{ 'projectUpdate.title' | translate }}</h2>
-    <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Error state -->
+    <div *ngIf="error" class="alert alert-danger" role="alert">
+      {{ error }}
+    </div>
+
+    <!-- Loading state -->
+    <div *ngIf="isLoading" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">{{ 'projectUpdate.loading' | translate }}</p>
+    </div>
+
+    <!-- Form content when not loading -->
+    <form *ngIf="!isLoading" [formGroup]="projectForm" (ngSubmit)="onSubmit()">
      
       <!-- Step 1: Client Information -->
       <div *ngIf="currentStep === 0" class="card mb-3">
@@ -10,30 +25,55 @@
           <div class="row">
             <div class="col-md-6 form-group">
               <label for="clientName">{{ 'projectOrder.fields.clientName' | translate }} <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="clientName" formControlName="clientName" required>
+              <input type="text" class="form-control" id="clientName" formControlName="clientName" 
+                     [ngClass]="{'is-invalid': projectForm.get('clientName')?.invalid && projectForm.get('clientName')?.touched}">
+              <div class="invalid-feedback" *ngIf="projectForm.get('clientName')?.invalid && projectForm.get('clientName')?.touched">
+                <span *ngIf="projectForm.get('clientName')?.errors?.['required']">{{ 'projectOrder.validation.clientNameRequired' | translate }}</span>
+                <span *ngIf="projectForm.get('clientName')?.errors?.['maxlength']">{{ 'projectOrder.validation.maxLength' | translate }}</span>
+              </div>
             </div>
-                        
-            <!-- Add other client information fields here -->
-            
             <div class="col-md-6 form-group">
               <label for="companyName">{{ 'projectOrder.fields.companyName' | translate }}</label>
-              <input type="text" class="form-control" id="companyName" formControlName="companyName">
+              <input type="text" class="form-control" id="companyName" formControlName="companyName"
+                     [ngClass]="{'is-invalid': projectForm.get('companyName')?.invalid && projectForm.get('companyName')?.touched}">
+              <div class="invalid-feedback" *ngIf="projectForm.get('companyName')?.invalid && projectForm.get('companyName')?.touched">
+                <span *ngIf="projectForm.get('companyName')?.errors?.['maxlength']">{{ 'projectOrder.validation.maxLength' | translate }}</span>
+              </div>
             </div>
             <div class="col-md-6 form-group">
               <label for="professionalStatus">{{ 'projectOrder.fields.professionalStatus' | translate }} <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="professionalStatus" formControlName="professionalStatus" required>
+              <input type="text" class="form-control" id="professionalStatus" formControlName="professionalStatus"
+                     [ngClass]="{'is-invalid': projectForm.get('professionalStatus')?.invalid && projectForm.get('professionalStatus')?.touched}">
+              <div class="invalid-feedback" *ngIf="projectForm.get('professionalStatus')?.invalid && projectForm.get('professionalStatus')?.touched">
+                <span *ngIf="projectForm.get('professionalStatus')?.errors?.['required']">{{ 'projectOrder.validation.professionalStatusRequired' | translate }}</span>
+                <span *ngIf="projectForm.get('professionalStatus')?.errors?.['maxlength']">{{ 'projectOrder.validation.maxLength' | translate }}</span>
+              </div>
             </div>
             <div class="col-md-6 form-group">
               <label for="email">{{ 'projectOrder.fields.email' | translate }} <span class="text-danger">*</span></label>
-              <input type="email" class="form-control" id="email" formControlName="email" required>
+              <input type="email" class="form-control" id="email" formControlName="email"
+                     [ngClass]="{'is-invalid': projectForm.get('email')?.invalid && projectForm.get('email')?.touched}">
+              <div class="invalid-feedback" *ngIf="projectForm.get('email')?.invalid && projectForm.get('email')?.touched">
+                <span *ngIf="projectForm.get('email')?.errors?.['required']">{{ 'projectOrder.validation.emailRequired' | translate }}</span>
+                <span *ngIf="projectForm.get('email')?.errors?.['email']">{{ 'projectOrder.validation.emailInvalid' | translate }}</span>
+              </div>
             </div>
             <div class="col-md-6 form-group">
               <label for="phone">{{ 'projectOrder.fields.phone' | translate }} <span class="text-danger">*</span></label>
-              <input type="tel" class="form-control" id="phone" formControlName="phone" required>
+              <input type="tel" class="form-control" id="phone" formControlName="phone"
+                     [ngClass]="{'is-invalid': projectForm.get('phone')?.invalid && projectForm.get('phone')?.touched}">
+              <div class="invalid-feedback" *ngIf="projectForm.get('phone')?.invalid && projectForm.get('phone')?.touched">
+                <span *ngIf="projectForm.get('phone')?.errors?.['required']">{{ 'projectOrder.validation.phoneRequired' | translate }}</span>
+                <span *ngIf="projectForm.get('phone')?.errors?.['maxlength']">{{ 'projectOrder.validation.maxLength' | translate }}</span>
+              </div>
             </div>
             <div class="col-md-12 form-group">
               <label for="linkedin">{{ 'projectOrder.fields.linkedin' | translate }}</label>
-              <input type="url" class="form-control" id="linkedin" formControlName="linkedin" placeholder="https://www.linkedin.com/in/your-profile">
+              <input type="url" class="form-control" id="linkedin" formControlName="linkedin" placeholder="https://www.linkedin.com/in/your-profile"
+                     [ngClass]="{'is-invalid': projectForm.get('linkedin')?.invalid && projectForm.get('linkedin')?.touched}">
+              <div class="invalid-feedback" *ngIf="projectForm.get('linkedin')?.invalid && projectForm.get('linkedin')?.touched">
+                <span *ngIf="projectForm.get('linkedin')?.errors?.['maxlength']">{{ 'projectOrder.validation.maxLength' | translate }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -47,74 +87,75 @@
           <div class="row">
             <div class="col-md-6 form-group">
               <label for="projectTitle">{{ 'projectOrder.fields.projectTitle' | translate }} <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="projectTitle" formControlName="projectTitle" required>
+              <input type="text" class="form-control" id="projectTitle" formControlName="projectTitle"
+                     [ngClass]="{'is-invalid': projectForm.get('projectTitle')?.invalid && projectForm.get('projectTitle')?.touched}">
+              <div class="invalid-feedback" *ngIf="projectForm.get('projectTitle')?.invalid && projectForm.get('projectTitle')?.touched">
+                <span *ngIf="projectForm.get('projectTitle')?.errors?.['required']">{{ 'projectOrder.validation.projectTitleRequired' | translate }}</span>
+                <span *ngIf="projectForm.get('projectTitle')?.errors?.['maxlength']">{{ 'projectOrder.validation.maxLength' | translate }}</span>
+              </div>
             </div>
             <div class="col-md-6 form-group">
               <label for="projectType">{{ 'projectOrder.fields.projectType' | translate }} <span class="text-danger">*</span></label>
-              <select class="form-control" id="projectType" formControlName="projectType" required>
+              <select class="form-control" id="projectType" formControlName="projectType">
                 <option *ngFor="let type of projectTypes" [value]="type">{{ type | translate }}</option>
               </select>
             </div>
             <div class="col-md-6 form-group" *ngIf="projectForm.get('projectType')?.value === 'Other'">
               <label for="otherProjectType">{{ 'projectOrder.fields.otherProjectType' | translate }} <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="otherProjectType" formControlName="otherProjectType" required>
+              <input type="text" class="form-control" id="otherProjectType" formControlName="otherProjectType"
+                     [ngClass]="{'is-invalid': projectForm.get('otherProjectType')?.invalid && projectForm.get('otherProjectType')?.touched}">
+              <div class="invalid-feedback" *ngIf="projectForm.get('otherProjectType')?.invalid && projectForm.get('otherProjectType')?.touched">
+                {{ 'projectOrder.validation.otherProjectTypeRequired' | translate }}
+              </div>
             </div>
             <div class="col-md-6 form-group">
               <label for="projectDescription">{{ 'projectOrder.fields.projectDescription' | translate }} <span class="text-danger">*</span></label>
-              <textarea class="form-control" id="projectDescription" formControlName="projectDescription" rows="3" required></textarea>
+              <textarea class="form-control" id="projectDescription" formControlName="projectDescription" rows="3" placeholder="{{ 'projectOrder.placeholders.projectDescription' | translate }}"
+                        [ngClass]="{'is-invalid': projectForm.get('projectDescription')?.invalid && projectForm.get('projectDescription')?.touched}"></textarea>
+              <div class="invalid-feedback" *ngIf="projectForm.get('projectDescription')?.invalid && projectForm.get('projectDescription')?.touched">
+                <span *ngIf="projectForm.get('projectDescription')?.errors?.['required']">{{ 'projectOrder.validation.projectDescriptionRequired' | translate }}</span>
+                <span *ngIf="projectForm.get('projectDescription')?.errors?.['maxlength']">{{ 'projectOrder.validation.maxLength' | translate }}</span>
+              </div>
+              <small class="form-text text-muted">
+                {{ (projectForm.get('projectDescription')?.value?.length || 0) }}/255 characters
+              </small>
             </div>
             <div class="col-md-6 form-group">
               <label for="targetAudience">{{ 'projectOrder.fields.targetAudience' | translate }}</label>
-              <input type="text" class="form-control" id="targetAudience" formControlName="targetAudience">
+              <input type="text" class="form-control" id="targetAudience" formControlName="targetAudience" placeholder="{{ 'projectOrder.placeholders.targetAudience' | translate }}"
+                     [ngClass]="{'is-invalid': projectForm.get('targetAudience')?.invalid && projectForm.get('targetAudience')?.touched}">
+              <div class="invalid-feedback" *ngIf="projectForm.get('targetAudience')?.invalid && projectForm.get('targetAudience')?.touched">
+                <span *ngIf="projectForm.get('targetAudience')?.errors?.['maxlength']">{{ 'projectOrder.validation.maxLength' | translate }}</span>
+              </div>
             </div>
             <div class="col-md-6 form-group">
               <label for="references">{{ 'projectOrder.fields.references' | translate }}</label>
-              <input type="text" class="form-control" id="references" formControlName="references">
+              <input type="text" class="form-control" id="references" formControlName="references" placeholder="{{ 'projectOrder.placeholders.references' | translate }}"
+                     [ngClass]="{'is-invalid': projectForm.get('references')?.invalid && projectForm.get('references')?.touched}">
+              <div class="invalid-feedback" *ngIf="projectForm.get('references')?.invalid && projectForm.get('references')?.touched">
+                <span *ngIf="projectForm.get('references')?.errors?.['maxlength']">{{ 'projectOrder.validation.maxLength' | translate }}</span>
+              </div>
             </div>
             <div class="col-md-6 form-group">
               <label for="location">{{ 'projectOrder.fields.location' | translate }} <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="location" formControlName="location" required>
+              <input type="text" class="form-control" id="location" formControlName="location"
+                     [ngClass]="{'is-invalid': projectForm.get('location')?.invalid && projectForm.get('location')?.touched}">
+              <div class="invalid-feedback" *ngIf="projectForm.get('location')?.invalid && projectForm.get('location')?.touched">
+                <span *ngIf="projectForm.get('location')?.errors?.['required']">{{ 'projectOrder.validation.locationRequired' | translate }}</span>
+                <span *ngIf="projectForm.get('location')?.errors?.['maxlength']">{{ 'projectOrder.validation.maxLength' | translate }}</span>
+              </div>
             </div>
-            <div class="col-md-6 form-group">
+            <div class="col-md-12 form-group">
               <label for="speciality">{{ 'projectOrder.fields.speciality' | translate }} <span class="text-danger">*</span></label>
-              <textarea class="form-control" id="speciality" formControlName="speciality" rows="3" required></textarea>
-            </div>
-            <div class="col-md-6 form-group">
-              <label for="status">{{ 'projectOrder.fields.status' | translate }}</label>
-              <select class="form-control" id="status" formControlName="status">
-                <option value="Prototype">Prototype</option>
-                <option value="Operating">Operating</option>
-              </select>
-            </div>
-            <div class="col-md-6 form-group" *ngIf="projectForm.get('status')?.value === 'Prototype'">
-              <label for="prototypeLink">{{ 'projectOrder.fields.prototypeLink' | translate }}</label>
-              <input type="url" class="form-control" id="prototypeLink" formControlName="prototypeLink">
-            </div>
-            <div *ngIf="projectForm.get('status')?.value === 'Operating'">
-              <div class="col-md-6 form-group">
-                <label for="employeesCount">{{ 'projectOrder.fields.employeesCount' | translate }}</label>
-                <input type="number" class="form-control" id="employeesCount" formControlName="employeesCount">
+              <textarea class="form-control" id="speciality" formControlName="speciality" rows="3" placeholder="{{ 'projectOrder.placeholders.speciality' | translate }}"
+                        [ngClass]="{'is-invalid': projectForm.get('speciality')?.invalid && projectForm.get('speciality')?.touched}"></textarea>
+              <div class="invalid-feedback" *ngIf="projectForm.get('speciality')?.invalid && projectForm.get('speciality')?.touched">
+                <span *ngIf="projectForm.get('speciality')?.errors?.['required']">{{ 'projectOrder.validation.specialityRequired' | translate }}</span>
+                <span *ngIf="projectForm.get('speciality')?.errors?.['maxlength']">{{ 'projectOrder.validation.maxLength' | translate }}</span>
               </div>
-              <div class="col-md-6 form-group">
-                <label for="monthlyIncome">{{ 'projectOrder.fields.monthlyIncome' | translate }}</label>
-                <input type="number" class="form-control" id="monthlyIncome" formControlName="monthlyIncome">
-              </div>
-              <div class="col-md-6 form-group">
-                <label for="websiteUrl">{{ 'projectOrder.fields.websiteUrl' | translate }}</label>
-                <input type="url" class="form-control" id="websiteUrl" formControlName="websiteUrl">
-              </div>
-              <div class="col-md-6 form-group">
-                <label for="incomeStatement">{{ 'projectOrder.fields.incomeStatement' | translate }}</label>
-                <input type="file" class="form-control" id="incomeStatement" (change)="onFileChange($event, 'incomeStatement')">
-              </div>
-              <div class="col-md-6 form-group">
-                <label for="cashFlowStatement">{{ 'projectOrder.fields.cashFlowStatement' | translate }}</label>
-                <input type="file" class="form-control" id="cashFlowStatement" (change)="onFileChange($event, 'cashFlowStatement')">
-              </div>
-              <div class="col-md-6 form-group">
-                <label for="balanceSheet">{{ 'projectOrder.fields.balanceSheet' | translate }}</label>
-                <input type="file" class="form-control" id="balanceSheet" (change)="onFileChange($event, 'balanceSheet')">
-              </div>
+              <small class="form-text text-muted">
+                {{ (projectForm.get('speciality')?.value?.length || 0) }}/255 characters
+              </small>
             </div>
           </div>
         </div>
@@ -128,28 +169,18 @@
           <div class="row">
             <div class="col-md-6 form-group">
               <label for="hasSponsorship">{{ 'projectOrder.fields.hasSponsorship' | translate }} <span class="text-danger">*</span></label>
-              <select class="form-control" id="hasSponsorship" formControlName="hasSponsorship" required>
+              <select class="form-control" id="hasSponsorship" formControlName="hasSponsorship">
                 <option value="Yes">{{ 'projectOrder.options.yes' | translate }}</option>
                 <option value="No">{{ 'projectOrder.options.no' | translate }}</option>
               </select>
             </div>
             <div class="col-md-6 form-group" *ngIf="projectForm.get('hasSponsorship')?.value === 'Yes'">
-              <label for="sp sponsorName">{{ 'projectOrder.fields.sponsorName' | translate }} <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="sponsorName" formControlName="sponsorName" required>
-            </div>
-            <div class="col-md-6 form-group" *ngIf="projectForm.get('hasSponsorship')?.value === 'No'">
-              <label for="needsSponsor">{{ 'projectOrder.fields.needsSponsor' | translate }} <span class="text-danger">*</span></label>
-              <select class="form-control" id="needsSponsor" formControlName="needsSponsor" required>
-                <option value="Yes">{{ 'projectOrder.options.yes' | translate }}</option>
-                <option value="No">{{ 'projectOrder.options.no' | translate }}</option>
-              </select>
-            </div>
-            <div class="col-md-6 form-group" *ngIf="projectForm.get('needsSponsor')?.value === 'Yes'">
-              <label for="orginSponsorship">{{ 'projectOrder.fields.orginSponsorship' | translate }} <span class="text-danger">*</span></label>
-              <select class="form-control" id="orginSponsorship" formControlName="orginSponsorship" required>
-                <option value="Yes">{{ 'projectOrder.options.yes' | translate }}</option>
-                <option value="No">{{ 'projectOrder.options.no' | translate }}</option>
-              </select>
+              <label for="sponsorName">{{ 'projectOrder.fields.sponsorName' | translate }} <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="sponsorName" formControlName="sponsorName"
+                     [ngClass]="{'is-invalid': projectForm.get('sponsorName')?.invalid && projectForm.get('sponsorName')?.touched}">
+              <div class="invalid-feedback" *ngIf="projectForm.get('sponsorName')?.invalid && projectForm.get('sponsorName')?.touched">
+                {{ 'projectOrder.validation.sponsorNameRequired' | translate }}
+              </div>
             </div>
           </div>
         </div>
@@ -159,33 +190,55 @@
       <div *ngIf="currentStep === 3" class="card mb-3">
         <div class="card-header">{{ 'projectOrder.steps.intellectualProperty' | translate }}</div>
         <div class="card-body">
-          <small class="text-muted">{{ 'projectOrder.mardatoryFieldsNote' | translate }}</small>
+          <small class="text-muted">{{ 'projectOrder.mandatoryFieldsNote' | translate }}</small>
           <div class="row">
             <div class="col-md-6 form-group">
               <label for="wantsIP">{{ 'projectOrder.fields.wantsIP' | translate }} <span class="text-danger">*</span></label>
-              <select class="form-control" id="wantsIP" formControlName="wantsIP" required>
+              <select class="form-control" id="wantsIP" formControlName="wantsIP">
                 <option value="Yes">{{ 'projectOrder.options.yes' | translate }}</option>
                 <option value="No">{{ 'projectOrder.options.no' | translate }}</option>
               </select>
             </div>
             <div class="col-md-6 form-group" *ngIf="projectForm.get('wantsIP')?.value === 'Yes'">
               <label for="businessPlan">{{ 'projectOrder.fields.businessPlan' | translate }}</label>
-              <input type="file" class="form-control" id="businessPlan" (change)="onFileChange($event, 'businessPlan')">
+              <div *ngIf="existingBusinessPlanUrl" class="mb-2">
+                <small class="text-muted">Current document: </small>
+                <a [href]="existingBusinessPlanUrl" target="_blank" class="text-primary">View existing document</a>
+              </div>
+              <input type="file" class="form-control" id="businessPlan" (change)="onFileChange($event, 'businessPlan')" accept=".pdf,.doc,.docx">
+              <small class="form-text text-muted">Leave empty to keep existing document</small>
             </div>
             <div class="col-md-6 form-group" *ngIf="projectForm.get('wantsIP')?.value === 'Yes'">
               <label for="needsBusinessPlan">{{ 'projectOrder.fields.needsBusinessPlan' | translate }} <span class="text-danger">*</span></label>
-              <select class="form-control" id="needsBusinessPlan" formControlName="needsBusinessPlan" required>
+              <select class="form-control" id="needsBusinessPlan" formControlName="needsBusinessPlan"
+                      [ngClass]="{'is-invalid': projectForm.get('needsBusinessPlan')?.invalid && projectForm.get('needsBusinessPlan')?.touched}">
                 <option value="Yes">{{ 'projectOrder.options.yes' | translate }}</option>
                 <option value="No">{{ 'projectOrder.options.no' | translate }}</option>
               </select>
+              <div class="invalid-feedback" *ngIf="projectForm.get('needsBusinessPlan')?.invalid && projectForm.get('needsBusinessPlan')?.touched">
+                {{ 'projectOrder.validation.needsBusinessPlanRequired' | translate }}
+              </div>
             </div>
             <div class="col-md-6 form-group" *ngIf="projectForm.get('wantsIP')?.value === 'Yes'">
               <label for="businessIdea">{{ 'projectOrder.fields.businessIdea' | translate }} <span class="text-danger">*</span></label>
-              <textarea class="form-control" id="businessIdea" formControlName="businessIdea" rows="3" required></textarea>
+              <textarea class="form-control" id="businessIdea" formControlName="businessIdea" rows="3"
+                        [ngClass]="{'is-invalid': projectForm.get('businessIdea')?.invalid && projectForm.get('businessIdea')?.touched}"></textarea>
+              <div class="invalid-feedback" *ngIf="projectForm.get('businessIdea')?.invalid && projectForm.get('businessIdea')?.touched">
+                <span *ngIf="projectForm.get('businessIdea')?.errors?.['required']">{{ 'projectOrder.validation.businessIdeaRequired' | translate }}</span>
+                <span *ngIf="projectForm.get('businessIdea')?.errors?.['maxlength']">{{ 'projectOrder.validation.maxLength' | translate }}</span>
+              </div>
+              <small class="form-text text-muted">
+                {{ (projectForm.get('businessIdea')?.value?.length || 0) }}/255 characters
+              </small>
             </div>
             <div class="col-md-6 form-group" *ngIf="projectForm.get('wantsIP')?.value === 'Yes'">
               <label for="businessIdeaDocument">{{ 'projectOrder.fields.businessIdeaDocument' | translate }}</label>
-              <input type="file" class="form-control" id="businessIdeaDocument" (change)="onFileChange($event, 'businessIdeaDocument')">
+              <div *ngIf="existingBusinessIdeaDocumentUrl" class="mb-2">
+                <small class="text-muted">Current document: </small>
+                <a [href]="existingBusinessIdeaDocumentUrl" target="_blank" class="text-primary">View existing document</a>
+              </div>
+              <input type="file" class="form-control" id="businessIdeaDocument" (change)="onFileChange($event, 'businessIdeaDocument')" accept=".pdf,.doc,.docx">
+              <small class="form-text text-muted">Leave empty to keep existing document</small>
             </div>
           </div>
         </div>
@@ -214,7 +267,7 @@
           <!-- Confirmation Statement -->
           <div class="form-group mt-4">
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="confirmationCheckbox" formControlName="confirmationCheckbox" required>
+              <input type="checkbox" class="form-check-input" id="confirmationCheckbox" formControlName="confirmationCheckbox">
               <label class="form-check-label" for="confirmationCheckbox">
                 {{ 'projectOrder.confirmationStatement' | translate }}
               </label>
@@ -235,6 +288,7 @@
           {{ 'CLEAR' | translate }}
         </button>
         <button type="submit" class="btn btn-success" *ngIf="currentStep === steps.length - 1" [disabled]="!projectForm.valid || isSubmitting">
+          <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           {{ isSubmitting ? 'UPDATING...' : 'UPDATE PROJECT' | translate }}
         </button>
       </div>

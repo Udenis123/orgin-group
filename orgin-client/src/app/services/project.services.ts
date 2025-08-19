@@ -253,4 +253,120 @@ export class ProjectService {
       .get<any>(`${this.apiUrl}/${projectId}/analytics`, { headers })
       .toPromise();
   }
+
+  // Ordered Project Methods
+  async createOrderedProject(
+    projectData: any,
+    files: { [key: string]: File | null }
+  ): Promise<any> {
+    const token = this.cookieService.get('token');
+    const userId = this.cookieService.get('userId');
+
+    const formData = new FormData();
+
+    // Add userId
+    formData.append('userId', userId);
+
+    // Add project details as JSON
+    formData.append(
+      'dto',
+      new Blob([JSON.stringify(projectData)], {
+        type: 'application/json',
+      })
+    );
+
+    // Add files if they exist
+    if (files['businessIdeaDocument']) {
+      formData.append('businessIdeaDocument', files['businessIdeaDocument']);
+    }
+    if (files['businessPlanDocument']) {
+      formData.append('businessPlanDocument', files['businessPlanDocument']);
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .post(`${environment.apiUrl}/api/ordered-projects`, formData, {
+        headers,
+      })
+      .toPromise();
+  }
+
+  async getUserOrderedProjects(): Promise<any[]> {
+    const token = this.cookieService.get('token');
+    const userId = this.cookieService.get('userId');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    const projects = await this.http
+      .get<any[]>(`${environment.apiUrl}/api/ordered-projects/user?userId=${userId}`, { headers })
+      .toPromise();
+    return projects || [];
+  }
+
+  async getOrderedProjectById(projectId: string): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    const project = await this.http
+      .get<any>(`${environment.apiUrl}/api/ordered-projects/${projectId}`, { headers })
+      .toPromise();
+    if (!project) {
+      throw new Error('Ordered project not found');
+    }
+    return project;
+  }
+
+  async updateOrderedProject(
+    projectId: string,
+    projectData: any,
+    files: { [key: string]: File | null }
+  ): Promise<any> {
+    const token = this.cookieService.get('token');
+    const formData = new FormData();
+
+    // Add project details as JSON
+    formData.append(
+      'dto',
+      new Blob([JSON.stringify(projectData)], {
+        type: 'application/json',
+      })
+    );
+
+    // Add files if they exist
+    if (files['businessIdeaDocument']) {
+      formData.append('businessIdeaDocument', files['businessIdeaDocument']);
+    }
+    if (files['businessPlanDocument']) {
+      formData.append('businessPlanDocument', files['businessPlanDocument']);
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .put(`${environment.apiUrl}/api/ordered-projects/${projectId}`, formData, {
+        headers,
+        responseType: 'text',
+      })
+      .toPromise();
+  }
+
+  async deleteOrderedProject(projectId: string): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .delete(`${environment.apiUrl}/api/ordered-projects/${projectId}`, { headers })
+      .toPromise();
+  }
 }
