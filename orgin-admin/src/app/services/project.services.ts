@@ -44,6 +44,33 @@ export interface Project {
   feedback: string;
 }
 
+export interface OrderedProject {
+  projectId: string;
+  userId: string;
+  clientName: string;
+  companyName: string;
+  professionalStatus: string;
+  email: string;
+  phone: string;
+  linkedIn: string;
+  projectTitle: string;
+  projectType: string;
+  projectDescription: string;
+  targetAudience: string;
+  references: string;
+  projectLocation: string;
+  specialityOfProject: string;
+  doYouHaveSponsorship: string;
+  sponsorName: string;
+  doYouNeedIntellectualProject: string;
+  doYouNeedBusinessPlan: string;
+  businessIdea: string;
+  businessIdeaDocumentUrl: string;
+  businessPlanDocumentUrl: string;
+  status: 'PENDING' | 'APPROVED' | 'DECLINED' | 'PRODUCTION' | 'COMPLETED';
+  reasons: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -108,6 +135,45 @@ export class ProjectService {
         userId: userId
       },
       headers: this.getHeaders()
+    });
+  }
+
+  // Get pending ordered projects (for submitted projects page)
+  getPendingOrderedProjects(): Observable<OrderedProject[]> {
+    return this.http.get<OrderedProject[]>(`${environment.apiUrl}/admin/ordered_project/pending`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // Get all ordered projects (for all projects page)
+  getAllOrderedProjects(): Observable<OrderedProject[]> {
+    return this.http.get<OrderedProject[]>(`${environment.apiUrl}/api/ordered-projects`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // Get ordered project by ID
+  getOrderedProjectById(projectId: string): Observable<OrderedProject> {
+    return this.http.get<OrderedProject>(`${environment.apiUrl}/api/ordered-projects/${projectId}`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // Update ordered project status
+  updateOrderedProjectStatus(projectId: string, status: string, reason?: string): Observable<any> {
+    const params: any = {
+      projectId: projectId,
+      status: status
+    };
+    
+    if (reason) {
+      params.reason = reason;
+    }
+
+    return this.http.patch(`${environment.apiUrl}/admin/ordered/status/update`, null, {
+      params: params,
+      headers: this.getHeaders(),
+      responseType: 'text' // Handle text response instead of JSON
     });
   }
 }

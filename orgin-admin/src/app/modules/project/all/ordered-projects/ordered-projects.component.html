@@ -1,53 +1,101 @@
 <div class="container">
   <h1>{{ 'submittedProjects.assignedOrderedProjects' | translate }}</h1>
   
-  <mat-form-field appearance="outline">
-    <mat-label>{{ 'common.search' | translate }}</mat-label>
-    <input style="color: var(--text-color);" matInput (keyup)="applyFilter($event)" placeholder="{{ 'common.searchPlaceholder' | translate }}">
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
-
-  <div class="projects-table">
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>{{ 'submittedProjects.tableHeaders.title' | translate }}</th>
-          <th>{{ 'submittedProjects.tableHeaders.description' | translate }}</th>
-          <th>{{ 'submittedProjects.tableHeaders.submissionDate' | translate }}</th>
-          <th>{{ 'submittedProjects.tableHeaders.lastUpdated' | translate }}</th>
-          <th>{{ 'submittedProjects.tableHeaders.status' | translate }}</th>
-          <th>{{ 'submittedProjects.tableHeaders.actions' | translate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let project of paginatedData; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ project.title }}</td>
-          <td>{{ project.description }}</td>
-          <td>{{ project.dateOfSubmission | date }}</td>
-          <td>{{ project.lastUpdated | date }}</td>
-          <td class="status-pending">{{ project.status }}</td>
-          <td>
-            <button class="icon-button" (click)="viewProjectDetails(project)">
-              <i class="material-icons">visibility</i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Loading state -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>{{ 'common.loading' | translate }}</p>
   </div>
-  
-  <div class="pagination">
-    <button (click)="previousPage()" [disabled]="currentPage === 0">
-      <i class="material-icons">chevron_left</i>
+
+  <!-- Error state -->
+  <div *ngIf="error && !loading" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button (click)="loadAllProjects()" class="retry-button">
+      {{ 'common.retry' | translate }}
     </button>
-    <span>{{ currentPage + 1 }} / {{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
-      <i class="material-icons">chevron_right</i>
-    </button>
-    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
-      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
-    </select>
+  </div>
+
+  <!-- Content when not loading and no error -->
+  <div *ngIf="!loading && !error">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'common.search' | translate }}</mat-label>
+      <input style="color: var(--text-color);" matInput (keyup)="applyFilter($event)" placeholder="{{ 'common.searchPlaceholder' | translate }}">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="projects-table">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>{{ 'submittedProjects.tableHeaders.title' | translate }}</th>
+            <th>{{ 'submittedProjects.tableHeaders.description' | translate }}</th>
+            <th>{{ 'submittedProjects.tableHeaders.submissionDate' | translate }}</th>
+            <th>{{ 'submittedProjects.tableHeaders.lastUpdated' | translate }}</th>
+            <th>{{ 'submittedProjects.tableHeaders.status' | translate }}</th>
+            <th>{{ 'submittedProjects.tableHeaders.actions' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of paginatedData; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>
+              <span *ngIf="!shouldTruncate(project.title)">{{ project.title }}</span>
+              <span *ngIf="shouldTruncate(project.title)">
+                {{ getTruncatedText(project.title) }}
+                <button class="view-more-btn" (click)="showFullTextPopup(project.title, 'title')">
+                  {{ 'projectDetails.actions.viewMore' | translate }}
+                </button>
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!shouldTruncate(project.description)">{{ project.description }}</span>
+              <span *ngIf="shouldTruncate(project.description)">
+                {{ getTruncatedText(project.description) }}
+                <button class="view-more-btn" (click)="showFullTextPopup(project.description, 'description')">
+                  {{ 'projectDetails.actions.viewMore' | translate }}
+                </button>
+              </span>
+            </td>
+            <td>{{ project.dateOfSubmission | date }}</td>
+            <td>{{ project.lastUpdated | date }}</td>
+            <td [ngClass]="'status-' + project.status.toLowerCase()" [title]="'Status: ' + project.status + ' | Class: status-' + project.status.toLowerCase()">{{ project.status }}</td>
+            <td>
+              <button class="icon-button" (click)="viewProjectDetails(project)">
+                <i class="material-icons">visibility</i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="pagination">
+      <button (click)="previousPage()" [disabled]="currentPage === 0">
+        <i class="material-icons">chevron_left</i>
+      </button>
+      <span>{{ currentPage + 1 }} / {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
+        <i class="material-icons">chevron_right</i>
+      </button>
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Full Text Popup Modal -->
+  <div class="modal-overlay" *ngIf="showFullText" (click)="closeFullTextPopup()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ expandedField | titlecase }}</h3>
+        <button class="close-btn" (click)="closeFullTextPopup()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ expandedText }}</p>
+      </div>
+    </div>
   </div>
 </div>

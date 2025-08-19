@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AnalyzerService } from '../../../services/analyzer.service';
+import { AnalyzerService, Analyzer } from '../../../services/analyzer.service';
 import { ProjectService, Project } from '../../../services/project.services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -28,10 +28,17 @@ import { CustomButtonComponent } from '../../../shared/components/custom-button/
 export class LaunchedProjectDetailsComponent implements OnInit {
   projectId!: string;
   project!: Project;
-  analyzers: any[] = [];
-  selectedAnalyzer: any;
+  analyzers: Analyzer[] = [];
+  selectedAnalyzer: string = '';
   isLoading = true;
   error = false;
+  analyzersLoading = false;
+  analyzersError = false;
+
+  // Text truncation properties
+  showFullText = false;
+  expandedField = '';
+  expandedText = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -69,22 +76,59 @@ export class LaunchedProjectDetailsComponent implements OnInit {
   }
 
   loadAnalyzers(): void {
-    // Dummy analyzers data
-    this.analyzers = [
-      { id: 1, name: 'John Doe', expertise: 'AI & Machine Learning' },
-      { id: 2, name: 'Jane Smith', expertise: 'Data Analytics' },
-      { id: 3, name: 'Michael Johnson', expertise: 'Software Architecture' },
-      { id: 4, name: 'Emily Davis', expertise: 'Cloud Computing' },
-      { id: 5, name: 'David Wilson', expertise: 'Cybersecurity' }
-    ];
+    this.analyzersLoading = true;
+    this.analyzersError = false;
+    
+    this.analyzerService.getAnalyzers().subscribe({
+      next: (analyzers) => {
+        this.analyzers = analyzers;
+        this.analyzersLoading = false;
+        console.log('Loaded analyzers:', analyzers);
+      },
+      error: (error) => {
+        console.error('Error loading analyzers:', error);
+        this.analyzersError = true;
+        this.analyzersLoading = false;
+        // Keep empty array if API fails
+        this.analyzers = [];
+      }
+    });
   }
 
   assignProject(): void {
     if (this.selectedAnalyzer) {
-      // Note: The Project interface doesn't have isAssigned and assignedAnalyzerName properties
-      // These would need to be added to the backend response or handled differently
-      console.log(`Project ${this.project.projectId} would be assigned to: ${this.selectedAnalyzer.name}`);
-      // TODO: Implement actual assignment logic when backend supports it
+      const analyzer = this.getSelectedAnalyzer();
+      if (analyzer) {
+        console.log(`Project ${this.project.projectId} would be assigned to: ${analyzer.name} (ID: ${analyzer.id})`);
+        // TODO: Implement actual assignment logic when backend endpoint is available
+        // The analyzer.id will be used for the API call
+      }
     }
+  }
+
+  getSelectedAnalyzer(): Analyzer | null {
+    return this.analyzers.find(a => a.id === this.selectedAnalyzer) || null;
+  }
+
+  // Text truncation functionality
+  shouldTruncate(text: string): boolean {
+    return Boolean(text && text.length > 25);
+  }
+
+  getTruncatedText(text: string): string {
+    if (!text) return '';
+    return text.length > 25 ? text.substring(0, 25) + '...' : text;
+  }
+
+  showFullTextPopup(text: string, fieldName: string): void {
+    this.expandedField = fieldName;
+    this.expandedText = text;
+    this.showFullText = true;
+  }
+
+  closeFullTextPopup(): void {
+    this.showFullText = false;
+    this.expandedField = '';
+    this.expandedText = '';
   }
 }

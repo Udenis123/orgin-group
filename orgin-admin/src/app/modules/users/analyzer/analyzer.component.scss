@@ -116,6 +116,14 @@
         color: #ccc;
       }
     }
+
+    .terminate-btn.enable-btn {
+      color: #4caf50;
+      
+      &:hover {
+        color: #45a049;
+      }
+    }
   }
 }
 

@@ -18,7 +18,7 @@ export class AuthService {
       'Accept': 'application/json'
     });
     
-    console.log('Auth service sending data:', JSON.stringify(userData));
+
     
     return this.http.post(`${this.apiUrl}/auth/signup`, userData, { 
       headers: headers,
@@ -84,7 +84,7 @@ export class AuthService {
       password: credentials.password
     };
     
-    console.log('Sending login request:', loginData); // Debug log
+
     
     return this.http.post(`${this.apiUrl}/admin/login/admin`, loginData, { 
       headers: headers,

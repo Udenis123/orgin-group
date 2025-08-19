@@ -3,12 +3,12 @@
 
   <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-state">
-    <p>Loading analyzer details...</p>
+    <p>{{ 'analyzer_details.loading' | translate }}</p>
   </div>
 
   <!-- Error State -->
   <div *ngIf="error" class="error-state">
-    <p>Error loading analyzer details. Please try again.</p>
+    <p>{{ 'analyzer_details.error' | translate }}</p>
   </div>
 
   <!-- Analyzer Details -->
@@ -45,7 +45,7 @@
     <div class="detail-item">
       <label>{{ 'analyzer_details.fields.status' | translate }}:</label>
       <span [class.status-disabled]="!analyzerDetails.enabled">
-        {{ analyzerDetails.enabled ? 'Active' : 'Terminated' }}
+        {{ analyzerDetails.enabled ? ('analyzer_details.status.active' | translate) : ('analyzer_details.status.terminated' | translate) }}
       </span>
     </div>
   </div>

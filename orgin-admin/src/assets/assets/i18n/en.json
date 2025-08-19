@@ -9,6 +9,8 @@
   "CONTINUE": "Continue",
   "CLEAR": "Clear",
   "SUBMIT": "Submit",
+  "LOGGING_IN": "Logging in...",
+  "GUEST": "Guest",
 
   "sidenav": {
       "profile": {
@@ -110,6 +112,8 @@
     "common": {
       "search": "Search",
       "searchPlaceholder": "Search projects...",
+      "loading": "Loading...",
+      "retry": "Retry",
       "DOWNLOAD": "Download",
       "SAVE_CONTINUE": "Save & Continue",
       "cancel": "Cancel",
@@ -141,28 +145,31 @@
           "view": "View"
         }
       },
-      "analyzers": {
-        "title": "Analyzers",
-        "searchPlaceholder": "Search analyzers...",
-        "tableHeaders": {
-          "number": "No.",
-          "name": "Name",
-          "email": "Email",
-          "nationalId": "National ID",
-          "phone": "Phone Number",
-          "status": "Status",
-          "actions": "Actions"
-        },
-        "status": {
-          "active": "Active",
-          "terminated": "Terminated"
-        },
-        "actions": {
-          "update": "Update",
-          "terminate": "Terminate",
-          "view": "View"
-        }
+          "analyzers": {
+      "title": "Analyzers",
+      "searchPlaceholder": "Search analyzers...",
+      "loading": "Loading analyzers...",
+      "error": "Error loading analyzers. Please try again.",
+      "tableHeaders": {
+        "number": "No.",
+        "name": "Name",
+        "email": "Email",
+        "nationalId": "National ID",
+        "phone": "Phone Number",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "status": {
+        "active": "Active",
+        "terminated": "Terminated"
+      },
+      "actions": {
+        "update": "Update",
+        "terminate": "Terminate",
+        "view": "View",
+        "enable": "Enable"
       }
+    }
     },
     "PROJECT_DETAILS": {
       "TITLE": "Project Details",
@@ -315,7 +322,9 @@
         "email": "Email",
         "country": "Country",
         "phone_number": "Phone Number",
-        "expertise": "Expertise"
+        "expertise": "Expertise",
+        "gender": "Gender",
+        "status": "Status"
       },
       "stats": {
         "projects_analyzed": "Projects Analyzed",
@@ -326,6 +335,12 @@
       },
       "buttons": {
         "go_back": "Go Back"
+      },
+      "loading": "Loading analyzer details...",
+      "error": "Error loading analyzer details. Please try again.",
+      "status": {
+        "active": "Active",
+        "terminated": "Terminated"
       }
     },
     "update_analyzer": {
@@ -467,39 +482,108 @@
         }
       }
     },
-    "analytics": {
-      "title": "Analytics",
-      "searchPlaceholder": "Search analytics...",
-      "tableHeaders": {
-        "number": "No.",
-        "projectName": "Project Name",
-        "submittedOn": "Submitted On",
-        "submittedBy": "Submitted By",
-        "actions": "Actions"
-      },
-      "actions": {
-        "view": "View Analytics",
-        "approve": "Approve Analytics",
-        "deny": "Deny Analytics"
-      },
-      "feasibilityPercentage": "Feasibility Percentage",
-      "monthlyIncome": "Monthly Income",
-      "annualIncome": "Annual Income",
-      "roi": "Return on Investment",
-      "price": "Price",
-      "feasibilityReason": "Feasibility Analysis",
-      "incomeDescription": "Income Analysis",
-      "analyticsDocument": "Analytics Document",
-      "loadingDocument": "Loading document...",
-      "denial": {
-        "title": "Deny Analytics",
-        "reason": "Reason for Denial",
-        "placeholder": "Please provide a reason for denying these analytics..."
-      },
-      "openExternally": "Open Externally",
+      "analytics": {
+    "title": "Analytics",
+    "searchPlaceholder": "Search analytics...",
+    "tableHeaders": {
+      "number": "No.",
+      "projectName": "Project Name",
+      "submittedOn": "Submitted On",
+      "submittedBy": "Submitted By",
+      "actions": "Actions"
+    },
+    "actions": {
+      "view": "View Analytics",
+      "approve": "Approve Analytics",
+      "deny": "Deny Analytics"
+    },
+    "feasibilityPercentage": "Feasibility Percentage",
+    "monthlyIncome": "Monthly Income",
+    "annualIncome": "Annual Income",
+    "roi": "Return on Investment",
+    "price": "Price",
+    "feasibilityReason": "Feasibility Analysis",
+    "incomeDescription": "Income Analysis",
+    "analyticsDocument": "Analytics Document",
+    "loadingDocument": "Loading document...",
+    "denial": {
+      "title": "Deny Analytics",
+      "reason": "Reason for Denial",
+      "placeholder": "Please provide a reason for denying these analytics..."
+    },
+    "openExternally": "Open Externally",
+    "download": "Download",
+    "documentLoadError": "Error loading document",
+    "documentNotAvailable": "Document not available"
+  },
+  "projectDetails": {
+    "title": "Project Details",
+    "backToProjects": "Back to Projects",
+    "loading": "Loading project details...",
+    "error": {
+      "title": "Oops! Something went wrong",
+      "message": "Failed to load project details. Please try again.",
+      "retry": "Try Again",
+      "notFound": "Error loading project details. Project not found."
+    },
+    "sections": {
+      "projectInformation": "Project Information",
+      "clientInformation": "Client Information",
+      "projectRequirements": "Project Requirements",
+      "documents": "Documents",
+      "additionalInformation": "Additional Information",
+      "projectProgress": "Project Progress"
+    },
+    "fields": {
+      "description": "Description",
+      "businessIdea": "Business Idea",
+      "targetAudience": "Target Audience",
+      "speciality": "Speciality",
+      "references": "References",
+      "reasons": "Reasons",
+      "sponsorship": "Sponsorship",
+      "sponsorName": "Sponsor Name",
+      "intellectualProject": "Intellectual Project",
+      "businessPlan": "Business Plan"
+    },
+    "actions": {
+      "viewMore": "View More",
+      "preview": "Preview",
       "download": "Download",
-      "documentLoadError": "Error loading document",
-      "documentNotAvailable": "Document not available"
+      "changeStatus": "Change Status"
+    },
+    "status": {
+      "currentStatus": "Current Status",
+      "availableActions": "Available Actions",
+      "projectStatus": "Project Status",
+      "finalStatus": "Project has reached its final status",
+      "noFurtherActions": "No further actions are available"
+    },
+    "documents": {
+      "businessIdeaDocument": "Business Idea Document",
+      "businessPlanDocument": "Business Plan Document",
+      "projectConcept": "Project concept and initial planning",
+      "businessStrategy": "Detailed business strategy and planning",
+      "noDocuments": "No documents available for this project",
+      "documentsWillAppear": "Documents will appear here when uploaded by the client"
+    },
+    "modals": {
+      "changeStatus": {
+        "title": "Change Project Status",
+        "selectNewStatus": "Select New Status",
+        "reasonForChange": "Reason for Status Change",
+        "reasonPlaceholder": "Please provide a reason for this status change...",
+        "cancel": "Cancel",
+        "confirm": "Change Status"
+      }
+    },
+    "statusDescriptions": {
+      "pending": "Project is under review",
+      "approved": "Project has been approved for development",
+      "declined": "Project has been declined",
+      "production": "Project is currently in development",
+      "completed": "Project has been completed"
     }
+  }
 }
 

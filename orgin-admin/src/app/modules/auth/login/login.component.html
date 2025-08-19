@@ -36,7 +36,7 @@
 
       <button type="submit" [disabled]="loginForm.invalid || isLoading">
         <span *ngIf="!isLoading">Login</span>
-        <span *ngIf="isLoading">Logging in...</span>
+        <span *ngIf="isLoading">{{ 'LOGGING_IN' | translate }}</span>
       </button>
     </form>
 

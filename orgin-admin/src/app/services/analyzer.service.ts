@@ -228,4 +228,11 @@ export class AnalyzerService {
       headers: this.getHeaders()
     });
   }
+
+  toggleAnalyzerStatus(analyzerId: string): Observable<any> {
+    // Use URL parameters instead of request body
+    return this.http.post(`${this.apiUrl}/admin/enable/analyzer?analyzerId=${analyzerId}`, {}, {
+      headers: this.getHeaders()
+    });
+  }
 } 

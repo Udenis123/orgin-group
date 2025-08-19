@@ -110,9 +110,7 @@ export class NavbarComponent implements OnInit {
       });
   
       // Redirect to the login page
-      this.router.navigate(['/login']).then(() => {
-        console.log('Logged out successfully');
-      }).catch((error) => {
+      this.router.navigate(['/login']).catch((error) => {
         console.error('Error navigating to login:', error);
       });
     } catch (error) {

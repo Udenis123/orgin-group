@@ -1,48 +1,259 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { ProjectService, OrderedProject } from '../../../services/project.services';
+import { SafeUrlPipe } from '../../../shared/pipes/safe-url.pipe';
+
+export type ProjectStatus = 'PENDING' | 'APPROVED' | 'DECLINED' | 'PRODUCTION' | 'COMPLETED';
 
 @Component({
   selector: 'app-ordered-project-details',
   templateUrl: './ordered-project-details.component.html',
   styleUrls: ['./ordered-project-details.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, FormsModule, TranslateModule, SafeUrlPipe]
 })
 export class OrderedProjectDetailsComponent implements OnInit {
-  projectId!: number;
-  projectDetails: any[] = [];
-  isCompleted = false;
+  projectId!: string;
+  projectDetails: OrderedProject | null = null;
+  loading = false;
+  error = '';
+  showFullText = false;
+  expandedField = '';
+  showDocumentPreview = false;
+  previewDocumentUrl = '';
+  previewDocumentTitle = '';
+  showStatusChangeModal = false;
+  selectedNewStatus: ProjectStatus | '' = '';
+  statusChangeReason = '';
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private projectService: ProjectService
+  ) {}
 
   ngOnInit(): void {
-    this.projectId = +this.route.snapshot.paramMap.get('id')!;
+    this.projectId = this.route.snapshot.paramMap.get('id')!;
     this.loadProjectDetails();
   }
 
-  loadProjectDetails(): void {
-    // Dummy ordered project data
-    this.projectDetails = [
-      { label: 'Project Name', value: 'Eco-Friendly Packaging' },
-      { label: 'Category', value: 'Sustainability' },
-      { label: 'Description', value: 'Innovative packaging solutions using biodegradable materials' },
-      { label: 'Status', value: 'In Progress' },
-      { label: 'Start Date', value: '2024-01-01' },
-      { label: 'Deadline', value: '2024-06-30' },
-      { label: 'Budget', value: '$50,000' },
-      { label: 'Client', value: 'Green Solutions Inc.' },
-      { label: 'Project Manager', value: 'Sarah Johnson' },
-      { label: 'Team Members', value: '5' },
-      { label: 'Progress', value: '65%' }
-    ];
-
-    // Dummy completion status
-    this.isCompleted = false;
+  async loadProjectDetails(): Promise<void> {
+    this.loading = true;
+    this.error = '';
+    
+    try {
+      const result = await this.projectService.getOrderedProjectById(this.projectId).toPromise();
+      this.projectDetails = result || null;
+    } catch (error) {
+      console.error('Error loading project details:', error);
+      this.error = 'Failed to load project details. Please try again.';
+    } finally {
+      this.loading = false;
+    }
   }
 
-  markAsCompleted(): void {
-    this.isCompleted = true;
-    console.log('Project marked as completed');
+  getStatusClass(status: string): string {
+    switch (status?.toUpperCase()) {
+      case 'APPROVED':
+        return 'status-approved';
+      case 'DECLINED':
+        return 'status-declined';
+      case 'PRODUCTION':
+        return 'status-production';
+      case 'COMPLETED':
+        return 'status-completed';
+      case 'PENDING':
+      default:
+        return 'status-pending';
+    }
+  }
+
+  isUrl(value: string): boolean {
+    return Boolean(value && (value.startsWith('http://') || value.startsWith('https://')));
+  }
+
+  openUrl(url: string): void {
+    window.open(url, '_blank');
+  }
+
+  goBack(): void {
+    this.router.navigate(['dashboard/projects/ordered']);
+  }
+
+  getStatusIcon(status: string): string {
+    switch (status?.toUpperCase()) {
+      case 'APPROVED':
+        return 'check_circle';
+      case 'DECLINED':
+        return 'cancel';
+      case 'PRODUCTION':
+        return 'build';
+      case 'COMPLETED':
+        return 'done_all';
+      case 'PENDING':
+      default:
+        return 'pending';
+    }
+  }
+
+  // Text truncation functionality
+  shouldTruncate(text: string): boolean {
+    return Boolean(text && text.length > 25);
+  }
+
+  getTruncatedText(text: string): string {
+    if (!text) return '';
+    return text.length > 25 ? text.substring(0, 25) + '...' : text;
+  }
+
+  showFullTextPopup(text: string, fieldName: string): void {
+    this.expandedField = fieldName;
+    this.showFullText = true;
+  }
+
+  closeFullTextPopup(): void {
+    this.showFullText = false;
+    this.expandedField = '';
+  }
+
+  getFullText(): string {
+    if (!this.projectDetails) return '';
+    
+    switch (this.expandedField) {
+      case 'description':
+        return this.projectDetails.projectDescription || '';
+      case 'businessIdea':
+        return this.projectDetails.businessIdea || '';
+      case 'targetAudience':
+        return this.projectDetails.targetAudience || '';
+      case 'speciality':
+        return this.projectDetails.specialityOfProject || '';
+      case 'references':
+        return this.projectDetails.references || '';
+      case 'reasons':
+        return this.projectDetails.reasons || '';
+      default:
+        return '';
+    }
+  }
+
+  // Document functionality
+  previewDocument(url: string, title: string): void {
+    this.previewDocumentUrl = url;
+    this.previewDocumentTitle = title;
+    this.showDocumentPreview = true;
+  }
+
+  closeDocumentPreview(): void {
+    this.showDocumentPreview = false;
+    this.previewDocumentUrl = '';
+    this.previewDocumentTitle = '';
+  }
+
+  downloadDocument(url: string, filename: string): void {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  getDocumentFilename(url: string, defaultName: string): string {
+    if (!url) return defaultName;
+    try {
+      const urlParts = url.split('/');
+      const filename = urlParts[urlParts.length - 1];
+      return filename || defaultName;
+    } catch {
+      return defaultName;
+    }
+  }
+
+  // Progress section functionality
+  getAvailableStatuses(): ProjectStatus[] {
+    if (!this.projectDetails) return [];
+    
+    const currentStatus = this.projectDetails.status as ProjectStatus;
+    
+    switch (currentStatus) {
+      case 'PENDING':
+        return ['APPROVED', 'DECLINED'];
+      case 'APPROVED':
+        return ['PRODUCTION'];
+      case 'PRODUCTION':
+        return ['DECLINED', 'COMPLETED'];
+      case 'DECLINED':
+      case 'COMPLETED':
+        return [];
+      default:
+        return [];
+    }
+  }
+
+  openStatusChangeModal(): void {
+    this.showStatusChangeModal = true;
+    this.selectedNewStatus = '';
+    this.statusChangeReason = '';
+  }
+
+  closeStatusChangeModal(): void {
+    this.showStatusChangeModal = false;
+    this.selectedNewStatus = '';
+    this.statusChangeReason = '';
+  }
+
+  async changeProjectStatus(): Promise<void> {
+    if (!this.selectedNewStatus || !this.projectDetails) {
+      return;
+    }
+
+    try {
+      // Call the API to update the project status
+      await this.projectService.updateOrderedProjectStatus(
+        this.projectDetails.projectId,
+        this.selectedNewStatus,
+        this.statusChangeReason
+      ).toPromise();
+      
+      // Update the local state after successful API call
+      this.projectDetails.status = this.selectedNewStatus as any;
+      this.projectDetails.reasons = this.statusChangeReason;
+      
+      this.closeStatusChangeModal();
+      
+      // Show success message
+      console.log('Status changed successfully');
+      // TODO: Add a toast notification or success message to the UI
+    } catch (error) {
+      console.error('Error changing project status:', error);
+      // TODO: Show error message to the user
+      // You might want to add error handling UI here
+    }
+  }
+
+  canChangeStatus(): boolean {
+    return this.getAvailableStatuses().length > 0;
+  }
+
+  getStatusDescription(status: ProjectStatus): string {
+    switch (status) {
+      case 'PENDING':
+        return 'projectDetails.statusDescriptions.pending';
+      case 'APPROVED':
+        return 'projectDetails.statusDescriptions.approved';
+      case 'DECLINED':
+        return 'projectDetails.statusDescriptions.declined';
+      case 'PRODUCTION':
+        return 'projectDetails.statusDescriptions.production';
+      case 'COMPLETED':
+        return 'projectDetails.statusDescriptions.completed';
+      default:
+        return '';
+    }
   }
 }

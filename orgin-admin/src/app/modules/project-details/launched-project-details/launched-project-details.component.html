@@ -3,12 +3,12 @@
   
   <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-state">
-    <p>Loading project details...</p>
+    <p>{{ 'projectDetails.loading' | translate }}</p>
   </div>
 
   <!-- Error State -->
   <div *ngIf="error" class="error-state">
-    <p>Error loading project details. Project not found.</p>
+    <p>{{ 'projectDetails.error.notFound' | translate }}</p>
   </div>
 
   <!-- Project Details -->
@@ -51,7 +51,15 @@
       </div>
       <div class="detail-row description-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.PROJECT_DESCRIPTION' | translate }}:</strong>
-        <span>{{ project.description }}</span>
+        <span>
+          <span *ngIf="!shouldTruncate(project.description)">{{ project.description }}</span>
+          <span *ngIf="shouldTruncate(project.description)">
+            {{ getTruncatedText(project.description) }}
+            <button class="view-more-btn" (click)="showFullTextPopup(project.description, 'description')">
+              {{ 'projectDetails.actions.viewMore' | translate }}
+            </button>
+          </span>
+        </span>
       </div>
       <div class="detail-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.CATEGORY' | translate }}:</strong>
@@ -141,7 +149,15 @@
       </div>
       <div class="detail-row description-row">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.BUSINESS_IDEA' | translate }}:</strong>
-        <span>{{ project.businessIdea }}</span>
+        <span>
+          <span *ngIf="!shouldTruncate(project.businessIdea)">{{ project.businessIdea }}</span>
+          <span *ngIf="shouldTruncate(project.businessIdea)">
+            {{ getTruncatedText(project.businessIdea) }}
+            <button class="view-more-btn" (click)="showFullTextPopup(project.businessIdea, 'businessIdea')">
+              {{ 'projectDetails.actions.viewMore' | translate }}
+            </button>
+          </span>
+        </span>
       </div>
     </div>
 
@@ -237,7 +253,24 @@
       <!-- Assigned Analyzers Section -->
       <div class="details-section analyzers-section" *ngSwitchCase="'PENDING'">
         <h3>{{ 'PROJECT_DETAILS.SECTIONS.ASSIGNED_ANALYZERS' | translate }}</h3>
-        <div class="analyzers-grid">
+        
+        <!-- Loading state for analyzers -->
+        <div *ngIf="analyzersLoading" class="analyzers-loading">
+          <div class="loading-spinner"></div>
+          <p>{{ 'common.loading' | translate }}</p>
+        </div>
+
+        <!-- Error state for analyzers -->
+        <div *ngIf="analyzersError && !analyzersLoading" class="analyzers-error">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>{{ 'projectDetails.error.loadingAnalyzers' | translate }}</p>
+          <button (click)="loadAnalyzers()" class="retry-button">
+            {{ 'common.retry' | translate }}
+          </button>
+        </div>
+
+        <!-- Analyzers grid -->
+        <div *ngIf="!analyzersLoading && !analyzersError" class="analyzers-grid">
           <div class="analyzer-card" *ngFor="let analyzer of analyzers">
             <div class="analyzer-header">
               <i class="fas fa-user-tie"></i>
@@ -250,6 +283,12 @@
               </div>
             </div>
           </div>
+          
+          <!-- No analyzers message -->
+          <div *ngIf="analyzers.length === 0" class="no-analyzers">
+            <i class="fas fa-users"></i>
+            <p>{{ 'projectDetails.noAnalyzers' | translate }}</p>
+          </div>
         </div>
       </div>
     </ng-container>
@@ -261,22 +300,39 @@
     <div class="assignment-form">
       <mat-form-field appearance="outline">
         <mat-label>{{ 'PROJECT_DETAILS.SELECT_ANALYZER' | translate }}</mat-label>
-        <mat-select [(ngModel)]="selectedAnalyzer">
-          <mat-option *ngFor="let analyzer of analyzers" [value]="analyzer">
-            <div class="analyzer-option">
-              <div class="name">{{ analyzer.name }}</div>
-              <div class="expertise">{{ analyzer.expertise }}</div>
-            </div>
+        <mat-select [(ngModel)]="selectedAnalyzer" [disabled]="analyzersLoading || analyzersError">
+          <mat-option *ngFor="let analyzer of analyzers" [value]="analyzer.id">
+            {{ analyzer.name }}
+            <span class="analyzer-expertise-inline"> - {{ analyzer.expertise }}</span>
           </mat-option>
         </mat-select>
+        <ng-template mat-select-trigger>
+          {{ getSelectedAnalyzer()?.name }}
+        </ng-template>
       </mat-form-field>
       <app-custom-button
           buttonClass="btn-save"
           type="button"
           (onClick)="assignProject()"
+          [disabled]="!selectedAnalyzer || analyzersLoading || analyzersError"
         >
           {{ 'COMMON.SAVE_CONTINUE' | translate }}
       </app-custom-button>
+    </div>
+  </div>
+
+  <!-- Full Text Popup Modal -->
+  <div class="modal-overlay" *ngIf="showFullText" (click)="closeFullTextPopup()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ expandedField | titlecase }}</h3>
+        <button class="close-btn" (click)="closeFullTextPopup()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ expandedText }}</p>
+      </div>
     </div>
   </div>
 </div>

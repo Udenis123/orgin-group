@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { CookieService } from '../../../services/cookie.service';
 import { AuthService } from '../../../services/auth.service';
 
@@ -10,7 +11,7 @@ import { AuthService } from '../../../services/auth.service';
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule]
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -53,16 +54,15 @@ export class LoginComponent implements OnInit {
       
       const { username, password } = this.loginForm.value;
       
-      console.log('Form submitted with:', { username, password }); // Debug log
-      
       this.authService.login({ username, password }).subscribe({
         next: (response) => {
-          console.log('Login response:', response); // Debug log
           
           // Store authentication data in cookies
-          this.cookieService.setCookie('adminToken', response.token, response.expiresIn / 60);
-          this.cookieService.setCookie('adminId', response.id, response.expiresIn / 60);
-          this.cookieService.setCookie('adminExpirationTime', (new Date().getTime() + response.expiresIn * 1000).toString(), response.expiresIn / 60);
+          // expiresIn is in milliseconds, convert to minutes for cookie expiration
+          const expiresInMinutes = response.expiresIn / (1000 * 60);
+          this.cookieService.setCookie('adminToken', response.token, expiresInMinutes);
+          this.cookieService.setCookie('adminId', response.id, expiresInMinutes);
+          this.cookieService.setCookie('adminExpirationTime', (new Date().getTime() + response.expiresIn).toString(), expiresInMinutes);
 
           // Check for redirect URL from analytics page
           const redirectUrl = this.cookieService.getCookie('redirectUrl');

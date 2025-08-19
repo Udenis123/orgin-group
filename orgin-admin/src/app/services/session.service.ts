@@ -1,12 +1,12 @@
-import { Injectable, OnDestroy, Inject, PLATFORM_ID } from '@angular/common';
+import { Injectable, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 import { CookieService } from './cookie.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService implements OnDestroy {
-  sessionTimeoutSeconds = 15 * 60; // 15 minutes
   timeout: any;
   isBrowser: boolean;
 
@@ -29,13 +29,23 @@ export class SessionService implements OnDestroy {
     const adminToken = this.cookieService.getCookie('adminToken');
     if (!adminToken) return;
 
-    const expirationTime = new Date().getTime() + this.sessionTimeoutSeconds * 1000;
-    this.cookieService.setCookie('adminExpirationTime', expirationTime.toString(), this.sessionTimeoutSeconds / 60);
+    const adminExpirationTime = this.cookieService.getCookie('adminExpirationTime');
+    if (!adminExpirationTime) return;
+
+    const expirationTime = parseInt(adminExpirationTime, 10);
+    const currentTime = new Date().getTime();
+    const timeUntilExpiration = expirationTime - currentTime;
+
+    // If already expired, clear session
+    if (timeUntilExpiration <= 0) {
+      this.clearSession();
+      return;
+    }
 
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
       this.clearSession();
-    }, this.sessionTimeoutSeconds * 1000);
+    }, timeUntilExpiration);
   }
 
   clearSession(): void {

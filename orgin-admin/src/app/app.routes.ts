@@ -24,6 +24,7 @@ import { UpdateClientComponent } from './modules/update-users/update-client/upda
 import { AnalyzerDetailsComponent } from './modules/user-details/analyzer-details/analyzer-details.component';
 import { ClientDetailsComponent } from './modules/user-details/client-details/client-details.component';
 import { LaunchedProjectDetailsComponent } from './modules/project-details/launched-project-details/launched-project-details.component';
+import { OrderedProjectDetailsComponent } from './modules/project-details/ordered-project-details/ordered-project-details.component';
 import { ClientFeedbackApprovalComponent } from './modules/client-feedback-approval/client-feedback-approval.component';
 import { FeedbackDetailsComponent } from './modules/feedback-details/feedback-details.component';
 import { IncomingAppointmentsComponent } from './modules/appointment-management/incoming-appointments/incoming-appointments.component';
@@ -133,8 +134,12 @@ export const routes: Routes = [
         component: ClientDetailsComponent,
       },
       {
-        path: 'project/details/:id',
+        path: 'project/launched/details/:id',
         component: LaunchedProjectDetailsComponent,
+      },
+      {
+        path: 'project/ordered/details/:id',
+        component: OrderedProjectDetailsComponent,
       },
 
       {

@@ -206,6 +206,11 @@ export class ProjectsLaunchedComponent implements OnInit {
   totalPages = 0;
   pageSizeOptions = [5, 10, 20];
 
+  // Text truncation properties
+  showFullText = false;
+  expandedField = '';
+  expandedText = '';
+
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
@@ -246,7 +251,7 @@ export class ProjectsLaunchedComponent implements OnInit {
   }
 
   viewProjectDetails(project: Project): void {
-    this.router.navigate(['dashboard/project/details', project.projectId]);
+    this.router.navigate(['dashboard/project/launched/details', project.projectId]);
   }
 
   previousPage(): void {
@@ -277,5 +282,27 @@ export class ProjectsLaunchedComponent implements OnInit {
   onPageSizeChange(): void {
     this.currentPage = 0;
     this.calculateTotalPages();
+  }
+
+  // Text truncation functionality
+  shouldTruncate(text: string): boolean {
+    return Boolean(text && text.length > 20);
+  }
+
+  getTruncatedText(text: string): string {
+    if (!text) return '';
+    return text.length > 20 ? text.substring(0, 20) + '...' : text;
+  }
+
+  showFullTextPopup(text: string, fieldName: string): void {
+    this.expandedField = fieldName;
+    this.expandedText = text;
+    this.showFullText = true;
+  }
+
+  closeFullTextPopup(): void {
+    this.showFullText = false;
+    this.expandedField = '';
+    this.expandedText = '';
   }
 }

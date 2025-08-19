@@ -3,12 +3,12 @@
   
   <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-state">
-    <p>Loading analyzers...</p>
+    <p>{{ 'users.analyzers.loading' | translate }}</p>
   </div>
 
   <!-- Error State -->
   <div *ngIf="error" class="error-state">
-    <p>Error loading analyzers. Please try again.</p>
+    <p>{{ 'users.analyzers.error' | translate }}</p>
   </div>
 
   <!-- Analyzers Table -->
@@ -47,8 +47,8 @@
               <button class="icon-button" (click)="updateUser(user)" [disabled]="!user.enabled" matTooltip="{{ 'users.analyzers.actions.update' | translate }}">
                 <i class="material-icons">edit</i>
               </button>
-              <button class="icon-button terminate-btn" (click)="terminateUser(user)" [disabled]="!user.enabled" matTooltip="{{ 'users.analyzers.actions.terminate' | translate }}">
-                <i class="material-icons">close</i>
+              <button class="icon-button terminate-btn" [class.enable-btn]="!user.enabled" (click)="terminateUser(user)" matTooltip="{{ user.enabled ? ('users.analyzers.actions.terminate' | translate) : ('users.analyzers.actions.enable' | translate) }}">
+                <i class="material-icons">{{ user.enabled ? 'close' : 'check_circle' }}</i>
               </button>
             </td>
           </tr>

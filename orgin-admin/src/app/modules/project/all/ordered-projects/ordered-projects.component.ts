@@ -12,6 +12,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ProjectService, OrderedProject } from '../../../../services/project.services';
 
 export interface Project {
   id: number;
@@ -46,100 +47,78 @@ export class ProjectsOrderedComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  projects: Project[] = [
-    {
-      id: 4,
-      title: 'E-commerce Platform',
-      description: 'Online marketplace for local artisans',
-      dateOfSubmission: new Date('2024-01-20'),
-      lastUpdated: new Date('2024-01-25'),
-      status: 'Approved'
-    },
-    {
-      id: 5,
-      title: 'Mobile Banking App',
-      description: 'Secure mobile banking solution',
-      dateOfSubmission: new Date('2024-02-10'),
-      lastUpdated: new Date('2024-02-15'),
-      status: 'Declined'
-    },
-    {
-      id: 6,
-      title: 'Online Learning Platform',
-      description: 'Interactive e-learning system',
-      dateOfSubmission: new Date('2024-03-01'),
-      lastUpdated: new Date('2024-03-05'),
-      status: 'Pending'
-    },
-    {
-      id: 7,
-      title: 'Healthcare Management System',
-      description: 'Patient records and appointment management',
-      dateOfSubmission: new Date('2024-02-15'),
-      lastUpdated: new Date('2024-02-20'),
-      status: 'Approved'
-    },
-    {
-      id: 8,
-      title: 'Smart Home Automation',
-      description: 'IoT-based home control system',
-      dateOfSubmission: new Date('2024-03-10'),
-      lastUpdated: new Date('2024-03-15'),
-      status: 'Pending'
-    },
-    {
-      id: 9,
-      title: 'Inventory Management',
-      description: 'Real-time stock tracking system',
-      dateOfSubmission: new Date('2024-01-25'),
-      lastUpdated: new Date('2024-01-30'),
-      status: 'Declined'
-    },
-    {
-      id: 10,
-      title: 'Social Media Analytics',
-      description: 'Data analysis and reporting platform',
-      dateOfSubmission: new Date('2024-02-20'),
-      lastUpdated: new Date('2024-02-25'),
-      status: 'Approved'
-    },
-    {
-      id: 11,
-      title: 'Fitness Tracking App',
-      description: 'Personal health and workout tracker',
-      dateOfSubmission: new Date('2024-03-05'),
-      lastUpdated: new Date('2024-03-10'),
-      status: 'Pending'
-    },
-    {
-      id: 12,
-      title: 'Restaurant Management',
-      description: 'Order and table management system',
-      dateOfSubmission: new Date('2024-01-30'),
-      lastUpdated: new Date('2024-02-05'),
-      status: 'Declined'
-    }
-  ];
+  projects: Project[] = [];
+  originalOrderedProjects: OrderedProject[] = []; // Store original data for navigation
+  loading = false;
+  error = '';
 
   currentPage = 0;
   pageSize = 10;
   totalPages = 0;
   pageSizeOptions = [5, 10, 20];
 
+  // Text truncation properties
+  showFullText = false;
+  expandedField = '';
+  expandedText = '';
+
   constructor(
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private projectService: ProjectService
   ) {}
 
   ngOnInit(): void {
-    this.dataSource.data = this.projects;
-    this.calculateTotalPages();
+    this.loadAllProjects();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.cdr.detectChanges();
+  }
+
+  async loadAllProjects(): Promise<void> {
+    this.loading = true;
+    this.error = '';
+    
+    try {
+      const orderedProjects = await this.projectService.getAllOrderedProjects().toPromise();
+      if (orderedProjects) {
+        this.originalOrderedProjects = orderedProjects; // Store original data
+        this.projects = orderedProjects.map((project, index) => ({
+          id: index + 1, // Using index as ID since we don't have a numeric ID
+          title: project.projectTitle,
+          description: project.projectDescription,
+          dateOfSubmission: new Date(), // API doesn't provide submission date, using current date
+          lastUpdated: new Date(), // API doesn't provide last updated date, using current date
+          status: this.mapStatus(project.status)
+        }));
+        
+        this.dataSource.data = this.projects;
+        this.calculateTotalPages();
+      }
+    } catch (error) {
+      console.error('Error loading all projects:', error);
+      this.error = 'Failed to load projects. Please try again.';
+    } finally {
+      this.loading = false;
+      this.cdr.detectChanges();
+    }
+  }
+
+  private mapStatus(apiStatus: string): 'Approved' | 'Declined' | 'Pending' {
+    // API returns status in uppercase, but we need to handle it properly
+    console.log('Mapping status:', apiStatus, 'to lowercase:', apiStatus.toLowerCase());
+    switch (apiStatus.toUpperCase()) {
+      case 'APPROVED':
+        return 'Approved';
+      case 'DECLINED':
+        return 'Declined';
+      case 'PENDING':
+      default:
+        return 'Pending';
+    }
   }
 
   applyFilter(event: Event): void {
@@ -149,7 +128,11 @@ export class ProjectsOrderedComponent implements OnInit {
   }
 
   viewProjectDetails(project: Project): void {
-    this.router.navigate(['dashboard/project/details', project.id]);
+    // Find the original ordered project data to get the actual projectId (UUID)
+    const originalProject = this.originalOrderedProjects.find((_, index) => index === project.id - 1);
+    if (originalProject) {
+      this.router.navigate(['dashboard/project/ordered/details', originalProject.projectId]);
+    }
   }
 
   previousPage(): void {
@@ -180,5 +163,27 @@ export class ProjectsOrderedComponent implements OnInit {
   onPageSizeChange(): void {
     this.currentPage = 0;
     this.calculateTotalPages();
+  }
+
+  // Text truncation functionality
+  shouldTruncate(text: string): boolean {
+    return Boolean(text && text.length > 20);
+  }
+
+  getTruncatedText(text: string): string {
+    if (!text) return '';
+    return text.length > 20 ? text.substring(0, 20) + '...' : text;
+  }
+
+  showFullTextPopup(text: string, fieldName: string): void {
+    this.expandedField = fieldName;
+    this.expandedText = text;
+    this.showFullText = true;
+  }
+
+  closeFullTextPopup(): void {
+    this.showFullText = false;
+    this.expandedField = '';
+    this.expandedText = '';
   }
 }

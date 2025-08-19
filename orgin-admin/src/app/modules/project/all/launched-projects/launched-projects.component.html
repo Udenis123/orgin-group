@@ -23,8 +23,24 @@
       <tbody>
         <tr *ngFor="let project of paginatedData; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ project.projectName }}</td>
-          <td>{{ project.description }}</td>
+          <td>
+            <span *ngIf="!shouldTruncate(project.projectName)">{{ project.projectName }}</span>
+            <span *ngIf="shouldTruncate(project.projectName)">
+              {{ getTruncatedText(project.projectName) }}
+              <button class="view-more-btn" (click)="showFullTextPopup(project.projectName, 'projectName')">
+                {{ 'projectDetails.actions.viewMore' | translate }}
+              </button>
+            </span>
+          </td>
+          <td>
+            <span *ngIf="!shouldTruncate(project.description)">{{ project.description }}</span>
+            <span *ngIf="shouldTruncate(project.description)">
+              {{ getTruncatedText(project.description) }}
+              <button class="view-more-btn" (click)="showFullTextPopup(project.description, 'description')">
+                {{ 'projectDetails.actions.viewMore' | translate }}
+              </button>
+            </span>
+          </td>
           <td>{{ project.submittedOn | date }}</td>
           <td>{{ project.updatedOn | date }}</td>
           <td [ngClass]="{
@@ -53,5 +69,20 @@
     <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
       <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
     </select>
+  </div>
+
+  <!-- Full Text Popup Modal -->
+  <div class="modal-overlay" *ngIf="showFullText" (click)="closeFullTextPopup()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ expandedField | titlecase }}</h3>
+        <button class="close-btn" (click)="closeFullTextPopup()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ expandedText }}</p>
+      </div>
+    </div>
   </div>
 </div>
