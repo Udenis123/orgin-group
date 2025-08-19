@@ -31,7 +31,8 @@
     "country": "Pays",
     "profilePicture": "Photo de Profil",
     "upload": "Télécharger",
-    "change": "Changer"
+    "change": "Changer",
+    "update": "Mettre à jour"
   },
   "settings": {
     "title": "Paramètres",
@@ -66,6 +67,8 @@
     "noLaunchedProjects": "Aucun projet lancé trouvé",
     "noOrderedProjects": "Aucun projet commandé trouvé",
     "noCommunityProjects": "Aucun projet communautaire trouvé",
+    "noAvailableProjects": "Aucun projet disponible trouvé",
+    "noAssignedProjects": "Aucun projet assigné trouvé",
     "tableHeaders": {
       "number": "#",
       "title": "Titre",
@@ -82,6 +85,7 @@
     "searchPlaceholder": "Rechercher des projets...",
     "cancel": "Annuler",
     "submit": "Soumettre",
+    "update": "Mettre à jour",
     "approve": "Approuver",
     "decline": "Refuser",
     "confirmDecline": "Confirmer le Refus",
@@ -135,11 +139,14 @@
     },
     "buttons": {
       "preview": "Aperçu",
-      "download": "Télécharger"
+      "download": "Télécharger",
+      "downloading": "Téléchargement..."
     },
     "loading": "Chargement des détails du projet...",
     "selfAssign": "S'assigner",
+    "assigning": "Assignation...",
     "assignedTo": "Assigné à",
+    "feedback": "Retour d'information",
     "projectName": "Nom du Projet",
     "category": "Catégorie",
     "location": "Emplacement",
@@ -199,6 +206,7 @@
     "buttons": {
       "preview": "Aperçu",
       "download": "Télécharger",
+      "downloading": "Téléchargement...",
       "addAnalytics": "Ajouter des Analytiques",
       "unassign": "Désassigner le Projet",
       "showAnalyzers": "Afficher les Analyseurs",
@@ -251,6 +259,12 @@
     "requiredNumber": "Veuillez entrer un nombre valide",
     "percentage": "Veuillez entrer un pourcentage entre 0 et 100",
     "required": "Ce champ est obligatoire"
+  },
+  "errors": {
+    "analyzerNotFound": "ID d'analyseur non trouvé. Veuillez essayer de vous reconnecter.",
+    "assignmentFailed": "Échec de l'assignation du projet. Veuillez réessayer.",
+    "generalError": "Une erreur s'est produite. Veuillez réessayer.",
+    "alreadyAssigned": "Ce projet vous est déjà assigné."
   },
   "projectLaunch": {
     "fields": {

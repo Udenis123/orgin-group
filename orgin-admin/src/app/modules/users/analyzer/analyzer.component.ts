@@ -123,7 +123,6 @@ export class AnalyzerComponent implements OnInit {
       if (result) {
         this.analyzerService.toggleAnalyzerStatus(user.id).subscribe({
           next: (response) => {
-            console.log('Analyzer status updated successfully:', response);
             this.loadAnalyzers();
             this.showNotification(
               user.enabled ? 'Analyzer terminated successfully' : 'Analyzer enabled successfully',

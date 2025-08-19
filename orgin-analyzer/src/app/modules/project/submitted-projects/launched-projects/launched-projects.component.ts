@@ -76,7 +76,12 @@ export class SubmittedLaunchedProjectsComponent implements OnInit {
   }
 
   loadPendingProjects() {
-    this.projectService.getAllPendingProjects().subscribe({
+    // First load both pending and assigned projects to ensure filtering works correctly
+    this.projectService.getAllPendingProjects().subscribe();
+    this.projectService.getAllAssignedProjects().subscribe();
+    
+    // Then subscribe to the filtered pending projects
+    this.projectService.getFilteredPendingProjects().subscribe({
       next: (projects) => {
         this.dataSource = new MatTableDataSource(projects);
         this.calculateTotalPages();

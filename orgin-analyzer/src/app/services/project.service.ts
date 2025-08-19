@@ -79,6 +79,9 @@ export class ProjectService {
   private assignedProjectsSubject = new BehaviorSubject<
     LaunchProjectResponse[]
   >([]);
+  private filteredPendingProjectsSubject = new BehaviorSubject<LaunchProjectResponse[]>(
+    []
+  );
 
   constructor(
     private http: HttpClient, 
@@ -100,7 +103,10 @@ export class ProjectService {
         headers: this.getHeaders(),
       })
       .subscribe({
-        next: (projects) => this.pendingProjectsSubject.next(projects),
+        next: (projects) => {
+          this.pendingProjectsSubject.next(projects);
+          this.updateFilteredPendingProjects();
+        },
         error: (error) =>
           console.error('Error fetching pending projects:', error),
       });
@@ -173,11 +179,31 @@ export class ProjectService {
         }
       )
       .subscribe({
-        next: (projects) => this.assignedProjectsSubject.next(projects),
+        next: (projects) => {
+          this.assignedProjectsSubject.next(projects);
+          this.updateFilteredPendingProjects();
+        },
         error: (error) =>
           console.error('Error fetching assigned projects:', error),
       });
     return this.assignedProjectsSubject.asObservable();
+  }
+
+  private updateFilteredPendingProjects(): void {
+    const pendingProjects = this.pendingProjectsSubject.value;
+    const assignedProjects = this.assignedProjectsSubject.value;
+    
+    // Filter out projects that are assigned to the current user
+    const assignedProjectIds = assignedProjects.map(p => p.projectId);
+    const filteredProjects = pendingProjects.filter(
+      project => !assignedProjectIds.includes(project.projectId)
+    );
+    
+    this.filteredPendingProjectsSubject.next(filteredProjects);
+  }
+
+  getFilteredPendingProjects(): Observable<LaunchProjectResponse[]> {
+    return this.filteredPendingProjectsSubject.asObservable();
   }
 
   getProjectAnalysts(projectId: string): Observable<AnalyzerInfo[]> {

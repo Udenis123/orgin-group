@@ -21,7 +21,7 @@ export interface AnalyzerDetails {
   id: string;
   name: string;
   email: string;
-  password: string;
+  password?: string;
   phone: string;
   expertise: string;
   profileUrl: string;
@@ -29,15 +29,23 @@ export interface AnalyzerDetails {
   gender: string;
   nationalId: string;
   enabled: boolean;
-  verificationCode: string;
-  codeExpiryAt: string;
-  roles: string[];
-  assignment: Assignment[];
-  username: string;
-  authorities: Authority[];
-  accountNonExpired: boolean;
-  accountNonLocked: boolean;
-  credentialsNonExpired: boolean;
+  verificationCode?: string;
+  codeExpiryAt?: string;
+  roles?: string[];
+  assignedProjects: AssignedProject[];
+  username?: string;
+  authorities?: Authority[];
+  accountNonExpired?: boolean;
+  accountNonLocked?: boolean;
+  credentialsNonExpired?: boolean;
+}
+
+export interface AssignedProject {
+  projectId: string;
+  projectName: string;
+  description: string;
+  status: string;
+  projectPhotoUrl: string;
 }
 
 export interface Assignment {
@@ -232,7 +240,8 @@ export class AnalyzerService {
   toggleAnalyzerStatus(analyzerId: string): Observable<any> {
     // Use URL parameters instead of request body
     return this.http.post(`${this.apiUrl}/admin/enable/analyzer?analyzerId=${analyzerId}`, {}, {
-      headers: this.getHeaders()
+      headers: this.getHeaders(),
+      responseType: 'text'
     });
   }
 } 

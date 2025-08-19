@@ -1,10 +1,11 @@
-import { Component, OnInit, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, HostListener, Inject, PLATFORM_ID, OnDestroy } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ThemeService } from '../../core/theme.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UserService } from '../../services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -13,10 +14,11 @@ import { UserService } from '../../services/user.service';
   standalone: true,
   imports: [CommonModule, TranslateModule]
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   username = ''; // Initialize as empty
   isAccountMenuOpen = false; // Track if account menu is open
   selectedLanguage = 'en'; // Add this line
+  private profileSubscription: Subscription | null = null;
 
   constructor(
     private router: Router, 
@@ -35,13 +37,8 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  async ngOnInit() {
-    try {
-      const profile = await this.userService.getProfileDetails().toPromise();
-      this.username = profile?.fullName || '';
-    } catch (error) {
-      console.error('Error fetching profile:', error);
-    }
+  ngOnInit() {
+    this.loadUserProfile();
 
     // Apply theme on component initialization
     if (isPlatformBrowser(this.platformId)) {
@@ -51,6 +48,36 @@ export class NavbarComponent implements OnInit {
         document.body.classList.remove('dark-mode');
       }
     }
+  }
+
+  ngOnDestroy() {
+    if (this.profileSubscription) {
+      this.profileSubscription.unsubscribe();
+    }
+  }
+
+  loadUserProfile() {
+    // Use preload method for faster loading
+    this.userService.preloadProfile().subscribe({
+      next: (profile) => {
+        this.username = profile?.fullName || '';
+      },
+      error: (error) => {
+        console.error('Error fetching profile:', error);
+      }
+    });
+
+    // Subscribe to profile updates
+    this.profileSubscription = this.userService.getProfileObservable().subscribe({
+      next: (profile) => {
+        if (profile) {
+          this.username = profile?.fullName || '';
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching profile:', error);
+      }
+    });
   }
 
   navigateToProfile() {
@@ -93,6 +120,10 @@ export class NavbarComponent implements OnInit {
    this.cookieService.delete('analyzerExpirationTime', '/');
    this.cookieService.delete('analyzerUserId', '/');
    this.cookieService.delete('analyzerSessionId', '/');
+
+   // Clear profile cache and stop background refresh on logout
+   this.userService.clearProfileCache();
+   this.userService.stopBackgroundRefresh();
 
     // Navigate to the login page
     window.location.href = '/login';

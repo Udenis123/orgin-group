@@ -67,56 +67,58 @@ export class AnalyzerDetailsComponent implements OnInit {
   }
 
   calculateWorkStats(): void {
-    if (!this.analyzerDetails?.assignment) {
-      console.log('No assignments found for analyzer');
+    if (!this.analyzerDetails?.assignedProjects) {
+      console.log('No assigned projects found for analyzer');
       return;
     }
 
-    const assignments = this.analyzerDetails.assignment;
-    console.log('All assignments:', assignments);
-    console.log('Total assignments count:', assignments.length);
+    const assignedProjects = this.analyzerDetails.assignedProjects;
+    console.log('All assigned projects:', assignedProjects);
+    console.log('Total assigned projects count:', assignedProjects.length);
     
-    // Log each assignment with its project status
-    assignments.forEach((assignment, index) => {
-      console.log(`Assignment ${index + 1}:`, {
-        assignmentId: assignment.id,
-        projectId: assignment.project.projectId,
-        projectName: assignment.project.projectName,
-        projectStatus: assignment.project.status,
-        analyzerId: assignment.analyzer
+    // Log each assigned project with its status
+    assignedProjects.forEach((project, index) => {
+      console.log(`Assigned Project ${index + 1}:`, {
+        projectId: project.projectId,
+        projectName: project.projectName,
+        status: project.status,
+        description: project.description
       });
     });
     
-    // Total projects assigned to this analyzer
-    this.analyzerWorkStats.totalProjectsAssigned = assignments.length;
+    // Total projects assigned to this analyzer (regardless of status)
+    this.analyzerWorkStats.totalProjectsAssigned = assignedProjects.length;
     console.log('Total projects assigned:', this.analyzerWorkStats.totalProjectsAssigned);
     
-    // Current assigned projects (projects with PENDING status assigned to this analyzer)
-    const pendingAssignments = assignments.filter(
-      assignment => assignment.project.status === 'PENDING'
+    // Current assigned projects (projects with PENDING status)
+    const pendingProjects = assignedProjects.filter(
+      project => project.status === 'PENDING'
     );
-    console.log('Pending assignments:', pendingAssignments);
-    console.log('Pending assignments count:', pendingAssignments.length);
+    console.log('Pending projects:', pendingProjects);
+    console.log('Pending projects count:', pendingProjects.length);
     
-    this.analyzerWorkStats.currentAssignedProjects = pendingAssignments.length;
+    this.analyzerWorkStats.currentAssignedProjects = pendingProjects.length;
     console.log('Current assigned projects (final):', this.analyzerWorkStats.currentAssignedProjects);
     
     // Projects analyzed by this analyzer (projects with APPROVED or DECLINED status)
-    const analyzedProjects = assignments.filter(
-      assignment => assignment.project.status === 'APPROVED' || assignment.project.status === 'DECLINED'
+    const analyzedProjects = assignedProjects.filter(
+      project => project.status === 'APPROVED' || project.status === 'DECLINED'
     );
     
     this.analyzerWorkStats.projectsAnalyzed = analyzedProjects.length;
+    console.log('Projects analyzed:', this.analyzerWorkStats.projectsAnalyzed);
     
     // Projects approved by this analyzer
-    this.analyzerWorkStats.projectsApproved = assignments.filter(
-      assignment => assignment.project.status === 'APPROVED'
+    this.analyzerWorkStats.projectsApproved = assignedProjects.filter(
+      project => project.status === 'APPROVED'
     ).length;
+    console.log('Projects approved:', this.analyzerWorkStats.projectsApproved);
     
     // Projects declined by this analyzer
-    this.analyzerWorkStats.projectsDeclined = assignments.filter(
-      assignment => assignment.project.status === 'DECLINED'
+    this.analyzerWorkStats.projectsDeclined = assignedProjects.filter(
+      project => project.status === 'DECLINED'
     ).length;
+    console.log('Projects declined:', this.analyzerWorkStats.projectsDeclined);
   }
 
   goBack(): void {

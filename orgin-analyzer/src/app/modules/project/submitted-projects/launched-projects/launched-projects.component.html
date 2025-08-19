@@ -46,6 +46,9 @@
         </tr>
       </tbody>
     </table>
+    <div *ngIf="paginatedData.length === 0" class="no-data-message">
+      {{ 'submittedProjects.noAvailableProjects' | translate }}
+    </div>
   </div>
 
   <div class="pagination">

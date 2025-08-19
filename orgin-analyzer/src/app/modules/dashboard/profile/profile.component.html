@@ -6,7 +6,7 @@
     
     <div class="profile-content">
       <div class="profile-picture">
-        <img [src]="userData.profilePicture" alt="Profile Picture">
+        <img [src]="userData.profilePicture || 'assets/images/logo.png'" alt="Profile Picture">
       </div>
       
       <div class="profile-details">

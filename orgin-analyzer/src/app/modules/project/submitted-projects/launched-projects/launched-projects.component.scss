@@ -246,3 +246,13 @@ mat-paginator {
     }
   }
 }
+
+.no-data-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: var(--text-color);
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+  margin: 1rem 0;
+}

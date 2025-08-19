@@ -48,7 +48,8 @@
     "profession": "Profession",
     "country": "Country",
     "profilePicture": "Profile Picture",
-    "change": "Change"
+    "change": "Change",
+    "update": "Update"
   },
   "settings": {
     "title": "Settings",
@@ -83,6 +84,8 @@
     "noLaunchedProjects": "No launched projects found",
     "noOrderedProjects": "No ordered projects found",
     "noCommunityProjects": "No community projects found",
+    "noAvailableProjects": "No available projects found",
+    "noAssignedProjects": "No assigned projects found",
     "tableHeaders": {
       "number": "#",
       "title": "Title",
@@ -99,6 +102,7 @@
     "searchPlaceholder": "Search projects...",
     "cancel": "Cancel",
     "submit": "Submit",
+    "update": "Update",
     "approve": "Approve",
     "decline": "Decline",
     "confirmDecline": "Confirm Decline",
@@ -152,11 +156,14 @@
     },
     "buttons": {
       "preview": "Preview",
-      "download": "Download"
+      "download": "Download",
+      "downloading": "Downloading..."
     },
     "loading": "Loading project details...",
     "selfAssign": "Self Assign",
+    "assigning": "Assigning...",
     "assignedTo": "Assigned To",
+    "feedback": "Feedback",
     "projectName": "Project Name",
     "category": "Category",
     "location": "Location",
@@ -221,6 +228,7 @@
     "buttons": {
       "preview": "Preview",
       "download": "Download",
+      "downloading": "Downloading...",
       "addAnalytics": "Add Analytics",
       "unassign": "Unassign Project",
       "showAnalyzers": "Show Analyzers",

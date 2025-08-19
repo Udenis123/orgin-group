@@ -30,7 +30,8 @@
     "profession": "Umwuga",
     "country": "Igihugu",
     "profilePicture": "Ifoto y'Umwirondoro",
-    "change": "Hindura"
+    "change": "Hindura",
+    "update": "Hindura"
   },
   "settings": {
     "title": "Igenamiterere",
@@ -65,6 +66,8 @@
     "noLaunchedProjects": "Nta mishinga yatangijwe yabonetse",
     "noOrderedProjects": "Nta mishinga yategetswe yabonetse",
     "noCommunityProjects": "Nta mishinga y'umuryango yabonetse",
+    "noAvailableProjects": "Nta mishinga iboneka yabonetse",
+    "noAssignedProjects": "Nta mishinga yaharijwe yabonetse",
     "tableHeaders": {
       "number": "#",
       "title": "Umutwe",
@@ -81,6 +84,7 @@
     "searchPlaceholder": "Shakisha Umushinga...",
     "cancel": "Hagarika",
     "submit": "Tanga",
+    "update": "Hindura",
     "approve": "Emeza",
     "decline": "Wanga",
     "confirmDecline": "Emeza Kwanga",
@@ -134,11 +138,14 @@
     },
     "buttons": {
       "preview": "Reba Mbere",
-      "download": "Kuramo"
+      "download": "Kuramo",
+      "downloading": "Gukuramo..."
     },
     "loading": "Gutanga ibisobanuro by'umushinga...",
     "selfAssign": "Wihariye",
+    "assigning": "Guharijwa...",
     "assignedTo": "Yaharijwe kuri",
+    "feedback": "Inyandiko",
     "projectName": "Izina ry'Umushinga",
     "category": "Icyiciro",
     "location": "Aho biherereye",
@@ -198,6 +205,7 @@
     "buttons": {
       "preview": "Reba Mbere",
       "download": "Kuramo",
+      "downloading": "Gukuramo...",
       "addAnalytics": "Ongeraho Ibisubizo",
       "unassign": "Kureka Umushinga",
       "showAnalyzers": "Reba Abasuzuma",
@@ -250,6 +258,12 @@
     "requiredNumber": "Nyamuneka andika numero nziza",
     "percentage": "Nyamuneka andika igipimo kiri hagati ya 0 na 100",
     "required": "Iyi ntambwe irakenewe"
+  },
+  "errors": {
+    "analyzerNotFound": "ID y'umusuzuma ntibonetse. Nyamuneka ongera ugerageze kwinjira.",
+    "assignmentFailed": "Guharijwa kw'umushinga byanze. Nyamuneka ongera ugerageze.",
+    "generalError": "Hari ikibazo cyabaye. Nyamuneka ongera ugerageze.",
+    "alreadyAssigned": "Uyu mushinga waharijwe kuri wowe."
   },
   "projectLaunch": {
     "fields": {
