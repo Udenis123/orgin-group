@@ -1,68 +1,91 @@
 <div class="container">
   <h1>{{ 'users.clients.title' | translate }}</h1>
   
-
-  
- <mat-form-field appearance="outline">
-    <mat-label>{{ 'common.search' | translate }}</mat-label>
-    <input style="color: var(--text-color);" matInput (keyup)="applyFilter($event)" placeholder="{{ 'users.clients.searchPlaceholder' | translate }}">
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
-
-  <div class="table-container">
-    <table class="animated-table">
-      <thead>
-        <tr>
-          <th>{{ 'users.clients.tableHeaders.number' | translate }}</th>
-          <th>{{ 'users.clients.tableHeaders.name' | translate }}</th>
-          <th>{{ 'users.clients.tableHeaders.nationalId' | translate }}</th>
-          <th>{{ 'users.clients.tableHeaders.phone' | translate }}</th>
-          <th>{{ 'users.clients.tableHeaders.status' | translate }}</th>
-          <th>{{ 'users.clients.tableHeaders.actions' | translate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let client of paginatedData; let i = index">
-          <td>{{ (currentPage * pageSize) + i + 1 }}</td>
-          <td>{{ client.name }}</td>
-          <td>{{ client.nationalId }}</td>
-          <td>{{ client.phone }}</td>
-          <td [class.status-disabled]="client.status === 'Disabled'">
-            {{ 'users.clients.status.' + client.status.toLowerCase() | translate }}
-          </td>
-          <td class="actions">
-            <button class="icon-button" (click)="viewClientDetails(client)" matTooltip="{{ 'users.clients.actions.view' | translate }}">
-              <i class="material-icons">visibility</i>
-            </button>
-            <button class="icon-button" (click)="updateClient(client)" [disabled]="isDisabled(client.status)" matTooltip="{{ 'users.clients.actions.update' | translate }}">
-              <i class="material-icons">edit</i>
-            </button>
-            <ng-container *ngIf="client.status === 'Active'; else enableButton">
-              <button class="icon-button terminate-btn" (click)="terminateClient(client)" matTooltip="{{ 'users.clients.actions.disable' | translate }}">
-                <i class="material-icons">close</i>
-              </button>
-            </ng-container>
-            <ng-template #enableButton>
-              <button class="icon-button enable-btn" (click)="enableClient(client)" matTooltip="{{ 'users.clients.actions.enable' | translate }}">
-                <i class="material-icons">check</i>
-              </button>
-            </ng-template>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>{{ 'common.loading' | translate }}</p>
   </div>
 
-  <div class="pagination">
-    <button (click)="previousPage()" [disabled]="currentPage === 0">
-      <i class="material-icons">chevron_left</i>
+  <!-- Error message -->
+  <div *ngIf="error && !loading" class="error-message">
+    <p>{{ error }}</p>
+    <button (click)="loadClients()" class="retry-button">
+      {{ 'common.retry' | translate }}
     </button>
-    <span>{{ currentPage + 1 }} / {{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
-      <i class="material-icons">chevron_right</i>
-    </button>
-    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
-      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
-    </select>
+  </div>
+
+  <!-- Content when not loading and no error -->
+  <div *ngIf="!loading && !error">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'common.search' | translate }}</mat-label>
+      <input style="color: var(--text-color);" matInput (keyup)="applyFilter($event)" placeholder="{{ 'users.clients.searchPlaceholder' | translate }}">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="table-container">
+      <table class="animated-table">
+        <thead>
+          <tr>
+            <th>{{ 'users.clients.tableHeaders.number' | translate }}</th>
+            <th>{{ 'users.clients.tableHeaders.name' | translate }}</th>
+            <th>{{ 'users.clients.tableHeaders.nationalId' | translate }}</th>
+            <th>{{ 'users.clients.tableHeaders.phone' | translate }}</th>
+            <th>{{ 'users.clients.tableHeaders.status' | translate }}</th>
+            <th>{{ 'users.clients.tableHeaders.actions' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of paginatedData; let i = index">
+            <td>{{ (currentPage * pageSize) + i + 1 }}</td>
+            <td>{{ client.name }}</td>
+            <td>{{ client.nationalId }}</td>
+            <td>{{ client.phone }}</td>
+            <td [class.status-disabled]="!client.active">
+              {{ 'users.clients.status.' + (client.active ? 'active' : 'disabled') | translate }}
+            </td>
+            <td class="actions">
+              <button class="icon-button" (click)="viewClientDetails(client)" matTooltip="{{ 'users.clients.actions.view' | translate }}">
+                <i class="material-icons">visibility</i>
+              </button>
+              <button class="icon-button" (click)="updateClient(client)" [disabled]="isDisabled(client) || isProcessing(client.id)" matTooltip="{{ 'users.clients.actions.update' | translate }}">
+                <i class="material-icons">edit</i>
+              </button>
+              <ng-container *ngIf="client.active; else enableButton">
+                <button class="icon-button terminate-btn" 
+                        (click)="terminateClient(client)" 
+                        [disabled]="isProcessing(client.id)"
+                        matTooltip="{{ 'users.clients.actions.disable' | translate }}">
+                  <i class="material-icons" *ngIf="!isProcessing(client.id)">close</i>
+                  <i class="material-icons loading-icon" *ngIf="isProcessing(client.id)">hourglass_empty</i>
+                </button>
+              </ng-container>
+              <ng-template #enableButton>
+                <button class="icon-button enable-btn" 
+                        (click)="enableClient(client)" 
+                        [disabled]="isProcessing(client.id)"
+                        matTooltip="{{ 'users.clients.actions.enable' | translate }}">
+                  <i class="material-icons" *ngIf="!isProcessing(client.id)">check</i>
+                  <i class="material-icons loading-icon" *ngIf="isProcessing(client.id)">hourglass_empty</i>
+                </button>
+              </ng-template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <button (click)="previousPage()" [disabled]="currentPage === 0">
+        <i class="material-icons">chevron_left</i>
+      </button>
+      <span>{{ currentPage + 1 }} / {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
+        <i class="material-icons">chevron_right</i>
+      </button>
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+      </select>
+    </div>
   </div>
 </div>

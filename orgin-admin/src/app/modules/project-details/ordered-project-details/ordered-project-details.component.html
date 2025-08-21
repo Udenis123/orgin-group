@@ -1,9 +1,16 @@
 <div class="container">
   <div class="header">
     <h1>{{ 'projectDetails.title' | translate }}</h1>
-    <div class="back-button" (click)="goBack()">
-      <i class="material-icons">arrow_back</i>
-      <span>{{ 'projectDetails.backToProjects' | translate }}</span>
+    <div class="header-actions">
+      <button class="export-button" (click)="exportProjectToPdf()" [disabled]="exportingPdf" *ngIf="projectDetails && !loading && !error">
+        <i class="material-icons" *ngIf="!exportingPdf">download</i>
+        <i class="material-icons loading-spinner" *ngIf="exportingPdf">hourglass_empty</i>
+        <span>{{ exportingPdf ? ('projectDetails.actions.exporting' | translate) : ('projectDetails.actions.export' | translate) }}</span>
+      </button>
+      <div class="back-button" (click)="goBack()">
+        <i class="material-icons">arrow_back</i>
+        <span>{{ 'projectDetails.backToProjects' | translate }}</span>
+      </div>
     </div>
   </div>
   

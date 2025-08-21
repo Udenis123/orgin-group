@@ -176,4 +176,28 @@ export class ProjectService {
       responseType: 'text' // Handle text response instead of JSON
     });
   }
+
+  // Unassign project from analyzer
+  unassignProject(projectId: string, analyzerId: string): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/admin/unassign-project`, {
+      params: {
+        projectId: projectId,
+        analyzerId: analyzerId
+      },
+      headers: this.getHeaders(),
+      responseType: 'text'
+    });
+  }
+
+  // Assign project to analyzer
+  assignProject(projectId: string, analyzerId: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/admin/assign-project`, null, {
+      params: {
+        projectId: projectId,
+        analyzerId: analyzerId
+      },
+      headers: this.getHeaders(),
+      responseType: 'text'
+    });
+  }
 }

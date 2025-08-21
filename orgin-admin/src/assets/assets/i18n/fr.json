@@ -114,6 +114,7 @@
   "retry": "Réessayer",
   "DOWNLOAD": "Télécharger",
   "SAVE_CONTINUE": "Enregistrer & Continuer",
+  "ASSIGNING": "Attribution en cours...",
   "cancel": "Annuler",
   "confirm": "Confirmer"
 },
@@ -522,7 +523,8 @@
       "title": "Oups ! Quelque chose s'est mal passé",
       "message": "Échec du chargement des détails du projet. Veuillez réessayer.",
       "retry": "Réessayer",
-      "notFound": "Erreur lors du chargement des détails du projet. Projet non trouvé."
+      "notFound": "Erreur lors du chargement des détails du projet. Projet non trouvé.",
+      "loadingAnalyzers": "Erreur lors du chargement des analystes. Veuillez réessayer."
     },
     "sections": {
       "projectInformation": "Informations du Projet",
@@ -548,7 +550,9 @@
       "viewMore": "Voir Plus",
       "preview": "Aperçu",
       "download": "Télécharger",
-      "changeStatus": "Changer le Statut"
+      "changeStatus": "Changer le Statut",
+      "export": "Exporter PDF",
+      "exporting": "Exportation..."
     },
     "status": {
       "currentStatus": "Statut Actuel",
@@ -581,6 +585,7 @@
       "declined": "Le projet a été refusé",
       "production": "Le projet est actuellement en développement",
       "completed": "Le projet a été terminé"
-    }
+    },
+    "noAnalyzers": "Aucun analyste disponible pour ce projet"
   }
 }

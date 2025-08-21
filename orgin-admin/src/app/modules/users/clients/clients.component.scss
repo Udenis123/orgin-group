@@ -7,6 +7,69 @@
   }
 }
 
+// Loading styles
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    color: var(--text-color);
+    font-size: 1.1rem;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Error styles
+.error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #ffebee;
+  border: 1px solid #f44336;
+  border-radius: 8px;
+  margin: 2rem 0;
+  
+  p {
+    color: #d32f2f;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .retry-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+    
+    &:hover {
+      background-color: #d15000;
+    }
+  }
+}
+
 .table-container {
   padding: 2rem;
   overflow-x: auto;
@@ -67,6 +130,11 @@
         color: #ccc;
         cursor: not-allowed;
       }
+
+      .loading-icon {
+        animation: spin 1s linear infinite;
+        color: var(--primary-color);
+      }
     }
 
     .terminate-btn {
@@ -74,6 +142,18 @@
       
       &:hover:not([disabled]) {
         color: #e53935;
+      }
+      
+      &[disabled] {
+        color: #ccc;
+      }
+    }
+
+    .enable-btn {
+      color: #4caf50;
+      
+      &:hover:not([disabled]) {
+        color: #388e3c;
       }
       
       &[disabled] {
@@ -89,6 +169,15 @@
     th {
       background-color: var(--secondary-color);
       color: var(--text-color-dark);
+    }
+  }
+  
+  .error-message {
+    background-color: #3e2723;
+    border-color: #d32f2f;
+    
+    p {
+      color: #ffcdd2;
     }
   }
 }

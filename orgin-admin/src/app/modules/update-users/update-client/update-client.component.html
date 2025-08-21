@@ -1,42 +1,183 @@
 <div class="container">
   <h2>Update Client</h2>
   
-  <div class="stepper">
-    <div *ngFor="let step of steps; let i = index" 
-         [class.active]="currentStep === i">
-      {{ step }}
-    </div>
+  <!-- Loading indicator -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading client details...</p>
   </div>
 
-  <form>
-    <!-- Client Information Step -->
-    <div class="card">
-      <div class="card-header">Client Information</div>
-      <div class="card-body" [formGroup]="firstFormGroup">
-        <div class="form-group">
-          <label>National ID</label>
-          <input type="text" formControlName="nationalId">
-        </div>
+  <!-- Content when not loading -->
+  <div *ngIf="!isLoading">
+    <div class="stepper">
+      <div *ngFor="let step of steps; let i = index" 
+           [class.active]="currentStep === i">
+        {{ step }}
       </div>
     </div>
 
-    <!-- Action Buttons -->
-    <div class="text-center">
-      <app-custom-button
-        buttonClass="btn-reset"
-        [disabled]="isSubmitting"
-        (onClick)="resetPassword()"
-      >
-        {{ isSubmitting ? 'Resetting...' : 'Reset Password' }}
-      </app-custom-button>
+    <form>
+      <!-- Client Information Step -->
+      <div class="card">
+        <div class="card-header">Client Information</div>
+        <div class="card-body" [formGroup]="firstFormGroup">
+          
+          <!-- Name -->
+          <div class="form-group">
+            <label for="name">Name *</label>
+            <input 
+              type="text" 
+              id="name"
+              formControlName="name"
+              placeholder="Enter client name"
+              [class.error]="firstFormGroup.get('name')?.invalid && firstFormGroup.get('name')?.touched"
+            >
+            <div *ngIf="firstFormGroup.get('name')?.invalid && firstFormGroup.get('name')?.touched" class="error-message">
+              <span *ngIf="firstFormGroup.get('name')?.errors?.['required']">Name is required</span>
+              <span *ngIf="firstFormGroup.get('name')?.errors?.['minlength']">Name must be at least 2 characters</span>
+            </div>
+          </div>
 
-      <app-custom-button
-        buttonClass="btn-submit"
-        [disabled]="firstFormGroup.invalid || isSubmitting"
-        (onClick)="submitForm()"
-      >
-        {{ isSubmitting ? 'Updating...' : 'Update' }}
-      </app-custom-button>
-    </div>
-  </form>
+          <!-- National ID -->
+          <div class="form-group">
+            <label for="nationalId">National ID *</label>
+            <input 
+              type="text" 
+              id="nationalId"
+              formControlName="nationalId"
+              placeholder="Enter national ID"
+              [class.error]="firstFormGroup.get('nationalId')?.invalid && firstFormGroup.get('nationalId')?.touched"
+            >
+            <div *ngIf="firstFormGroup.get('nationalId')?.invalid && firstFormGroup.get('nationalId')?.touched" class="error-message">
+              <span *ngIf="firstFormGroup.get('nationalId')?.errors?.['required']">National ID is required</span>
+              <span *ngIf="firstFormGroup.get('nationalId')?.errors?.['pattern']">National ID must contain only numbers</span>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="form-group">
+            <label for="phone">Phone *</label>
+            <input 
+              type="text" 
+              id="phone"
+              formControlName="phone"
+              placeholder="Enter phone number"
+              [class.error]="firstFormGroup.get('phone')?.invalid && firstFormGroup.get('phone')?.touched"
+            >
+            <div *ngIf="firstFormGroup.get('phone')?.invalid && firstFormGroup.get('phone')?.touched" class="error-message">
+              <span *ngIf="firstFormGroup.get('phone')?.errors?.['required']">Phone is required</span>
+              <span *ngIf="firstFormGroup.get('phone')?.errors?.['pattern']">Phone must contain only numbers</span>
+            </div>
+          </div>
+
+          <!-- Phone Number (duplicate field as per API) -->
+          <div class="form-group">
+            <label for="phoneNumber">Phone Number *</label>
+            <input 
+              type="text" 
+              id="phoneNumber"
+              formControlName="phoneNumber"
+              placeholder="Enter phone number"
+              [class.error]="firstFormGroup.get('phoneNumber')?.invalid && firstFormGroup.get('phoneNumber')?.touched"
+            >
+            <div *ngIf="firstFormGroup.get('phoneNumber')?.invalid && firstFormGroup.get('phoneNumber')?.touched" class="error-message">
+              <span *ngIf="firstFormGroup.get('phoneNumber')?.errors?.['required']">Phone number is required</span>
+              <span *ngIf="firstFormGroup.get('phoneNumber')?.errors?.['pattern']">Phone number must contain only numbers</span>
+            </div>
+          </div>
+
+          <!-- Gender -->
+          <div class="form-group">
+            <label for="gender">Gender *</label>
+            <select 
+              id="gender"
+              formControlName="gender"
+              [class.error]="firstFormGroup.get('gender')?.invalid && firstFormGroup.get('gender')?.touched"
+            >
+              <option value="">Select gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+            <div *ngIf="firstFormGroup.get('gender')?.invalid && firstFormGroup.get('gender')?.touched" class="error-message">
+              <span *ngIf="firstFormGroup.get('gender')?.errors?.['required']">Gender is required</span>
+            </div>
+          </div>
+
+          <!-- Nationality -->
+          <div class="form-group">
+            <label for="nationality">Nationality *</label>
+            <input 
+              type="text" 
+              id="nationality"
+              formControlName="nationality"
+              placeholder="Enter nationality"
+              [class.error]="firstFormGroup.get('nationality')?.invalid && firstFormGroup.get('nationality')?.touched"
+            >
+            <div *ngIf="firstFormGroup.get('nationality')?.invalid && firstFormGroup.get('nationality')?.touched" class="error-message">
+              <span *ngIf="firstFormGroup.get('nationality')?.errors?.['required']">Nationality is required</span>
+            </div>
+          </div>
+
+          <!-- Professional -->
+          <div class="form-group">
+            <label for="professional">Professional *</label>
+            <input 
+              type="text" 
+              id="professional"
+              formControlName="professional"
+              placeholder="Enter professional status"
+              [class.error]="firstFormGroup.get('professional')?.invalid && firstFormGroup.get('professional')?.touched"
+            >
+            <div *ngIf="firstFormGroup.get('professional')?.invalid && firstFormGroup.get('professional')?.touched" class="error-message">
+              <span *ngIf="firstFormGroup.get('professional')?.errors?.['required']">Professional is required</span>
+            </div>
+          </div>
+
+          <!-- Profession -->
+          <div class="form-group">
+            <label for="profession">Profession *</label>
+            <input 
+              type="text" 
+              id="profession"
+              formControlName="profession"
+              placeholder="Enter profession"
+              [class.error]="firstFormGroup.get('profession')?.invalid && firstFormGroup.get('profession')?.touched"
+            >
+            <div *ngIf="firstFormGroup.get('profession')?.invalid && firstFormGroup.get('profession')?.touched" class="error-message">
+              <span *ngIf="firstFormGroup.get('profession')?.errors?.['required']">Profession is required</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="text-center">
+        <app-custom-button
+          buttonClass="btn-back"
+          [disabled]="isSubmitting"
+          (onClick)="goBack()"
+        >
+          Back
+        </app-custom-button>
+
+        <app-custom-button
+          buttonClass="btn-reset"
+          [disabled]="isSubmitting"
+          (onClick)="resetPassword()"
+        >
+          {{ isSubmitting ? 'Resetting...' : 'Reset Password' }}
+        </app-custom-button>
+
+        <app-custom-button
+          buttonClass="btn-submit"
+          [disabled]="firstFormGroup.invalid || isSubmitting"
+          (onClick)="submitForm()"
+        >
+          {{ isSubmitting ? 'Updating...' : 'Update Client' }}
+        </app-custom-button>
+      </div>
+    </form>
+  </div>
 </div>

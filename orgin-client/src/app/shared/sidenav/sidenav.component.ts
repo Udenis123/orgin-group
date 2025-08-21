@@ -5,6 +5,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UserService } from '../../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
+import { ProfileCacheService } from '../services/profile-cache.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -27,7 +28,8 @@ export class SidenavComponent implements OnInit {
     private translate: TranslateService,
     private userService: UserService,
     private snackBar: MatSnackBar,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private profileCacheService: ProfileCacheService
   ) {}
 
   ngOnInit() {
@@ -35,15 +37,22 @@ export class SidenavComponent implements OnInit {
   }
 
   fetchUserProfile() {
-    // Remove cookie retrieval
-    // const storedProfile = this.cookieService.get('userProfile');
-    // if (storedProfile) {
-    //   this.userProfile = JSON.parse(storedProfile);
-    // }
+    // Try to get cached data immediately for instant loading
+    const cachedProfile = this.profileCacheService.getCachedDataImmediately();
+    if (cachedProfile) {
+      this.userProfile = {
+        fullname: cachedProfile.fullName,
+        email: cachedProfile.email,
+        profilePicture: cachedProfile.profilePicture
+          ? cachedProfile.profilePicture
+          : 'assets/images/default-profile.png'
+      };
+    }
 
-    // Fetch fresh data from API
-    this.userService.getProfileDetails().subscribe({
+    // Use cached profile data for faster loading
+    this.profileCacheService.getProfile().subscribe({
       next: (profile) => {
+        if (!profile) return;
         this.userProfile = {
           fullname: profile.fullName,
           email: profile.email,
@@ -51,8 +60,6 @@ export class SidenavComponent implements OnInit {
             ? profile.profilePicture
             : 'assets/images/default-profile.png'
         };
-       
-        // Remove cookie storage for userProfile
       },
       error: (err) => {
         console.error('Failed to fetch profile:', err);

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProjectService, OrderedProject } from '../../../services/project.services';
 import { SafeUrlPipe } from '../../../shared/pipes/safe-url.pipe';
+import { PdfExportService } from '../../../services/pdf-export.service';
 
 export type ProjectStatus = 'PENDING' | 'APPROVED' | 'DECLINED' | 'PRODUCTION' | 'COMPLETED';
 
@@ -28,11 +29,13 @@ export class OrderedProjectDetailsComponent implements OnInit {
   showStatusChangeModal = false;
   selectedNewStatus: ProjectStatus | '' = '';
   statusChangeReason = '';
+  exportingPdf = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private pdfExportService: PdfExportService
   ) {}
 
   ngOnInit(): void {
@@ -254,6 +257,24 @@ export class OrderedProjectDetailsComponent implements OnInit {
         return 'projectDetails.statusDescriptions.completed';
       default:
         return '';
+    }
+  }
+
+  async exportProjectToPdf(): Promise<void> {
+    if (!this.projectDetails) {
+      console.error('No project details available for export');
+      return;
+    }
+
+    this.exportingPdf = true;
+
+    try {
+      await this.pdfExportService.exportProjectToPdf(this.projectDetails);
+    } catch (error) {
+      console.error('Error exporting project to PDF:', error);
+      // TODO: Show error message to user
+    } finally {
+      this.exportingPdf = false;
     }
   }
 }

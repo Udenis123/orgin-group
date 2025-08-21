@@ -34,6 +34,8 @@ export class LaunchedProjectDetailsComponent implements OnInit {
   error = false;
   analyzersLoading = false;
   analyzersError = false;
+  assigningProject = false;
+  unassigningProject = false;
 
   // Text truncation properties
   showFullText = false;
@@ -83,7 +85,6 @@ export class LaunchedProjectDetailsComponent implements OnInit {
       next: (analyzers) => {
         this.analyzers = analyzers;
         this.analyzersLoading = false;
-        console.log('Loaded analyzers:', analyzers);
       },
       error: (error) => {
         console.error('Error loading analyzers:', error);
@@ -99,10 +100,40 @@ export class LaunchedProjectDetailsComponent implements OnInit {
     if (this.selectedAnalyzer) {
       const analyzer = this.getSelectedAnalyzer();
       if (analyzer) {
-        console.log(`Project ${this.project.projectId} would be assigned to: ${analyzer.name} (ID: ${analyzer.id})`);
-        // TODO: Implement actual assignment logic when backend endpoint is available
-        // The analyzer.id will be used for the API call
+        this.assigningProject = true;
+        this.projectService.assignProject(this.projectId, analyzer.id).subscribe({
+          next: (response) => {
+            // Clear the selection
+            this.selectedAnalyzer = '';
+            // Reload analyzers to reflect the change
+            this.loadAnalyzers();
+            this.assigningProject = false;
+            // You might want to show a success message here
+          },
+          error: (error) => {
+            this.assigningProject = false;
+            // You might want to show an error message here
+          }
+        });
       }
+    }
+  }
+
+  unassignProject(analyzerId: string): void {
+    if (confirm('Are you sure you want to unassign this analyzer from the project?')) {
+      this.unassigningProject = true;
+      this.projectService.unassignProject(this.projectId, analyzerId).subscribe({
+        next: (response) => {
+          // Reload analyzers to reflect the change
+          this.loadAnalyzers();
+          this.unassigningProject = false;
+          // You might want to show a success message here
+        },
+        error: (error) => {
+          this.unassigningProject = false;
+          // You might want to show an error message here
+        }
+      });
     }
   }
 

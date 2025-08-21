@@ -116,6 +116,7 @@
       "retry": "Retry",
       "DOWNLOAD": "Download",
       "SAVE_CONTINUE": "Save & Continue",
+      "ASSIGNING": "Assigning...",
       "cancel": "Cancel",
       "confirm": "Confirm"
     },
@@ -524,7 +525,8 @@
       "title": "Oops! Something went wrong",
       "message": "Failed to load project details. Please try again.",
       "retry": "Try Again",
-      "notFound": "Error loading project details. Project not found."
+      "notFound": "Error loading project details. Project not found.",
+      "loadingAnalyzers": "Error loading analyzers. Please try again."
     },
     "sections": {
       "projectInformation": "Project Information",
@@ -550,7 +552,9 @@
       "viewMore": "View More",
       "preview": "Preview",
       "download": "Download",
-      "changeStatus": "Change Status"
+      "changeStatus": "Change Status",
+      "export": "Export PDF",
+      "exporting": "Exporting..."
     },
     "status": {
       "currentStatus": "Current Status",
@@ -583,7 +587,8 @@
       "declined": "Project has been declined",
       "production": "Project is currently in development",
       "completed": "Project has been completed"
-    }
+    },
+    "noAnalyzers": "No analyzers available for this project"
   }
 }
 

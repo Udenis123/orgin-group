@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
+import { ProfileCacheService, ProfileData } from '../../../shared/services/profile-cache.service';
 
 @Component({
   selector: 'app-profile',
@@ -27,7 +28,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private profileCacheService: ProfileCacheService
   ) {}
 
   ngOnInit() {
@@ -35,32 +37,36 @@ export class ProfileComponent implements OnInit {
   }
 
   loadProfileData() {
-    // Remove cookie retrieval
-    // const storedProfile = this.cookieService.get('userProfile');
-    // if (storedProfile) {
-    //   this.userData = JSON.parse(storedProfile);
-    // }
+    // Try to get cached data immediately for instant loading
+    const cachedProfile = this.profileCacheService.getCachedDataImmediately();
+    if (cachedProfile) {
+      this.updateUserDataFromProfile(cachedProfile);
+    }
 
-    // Fetch fresh data from API
-    this.userService.getProfileDetails().subscribe({
-      next: (response) => {
-        this.userData = {
-          fullName: response.fullName,
-          email: response.email,
-          phoneNumber: response.phone,
-          idNumber: response.idNumber,
-          gender: response.gender,
-          nationality: response.nationality,
-          profession: response.profession,
-          profilePicture: response.profilePicture
-            ? `${response.profilePicture}`
-            : 'assets/images/default-profile.png'
-        };
-        // Remove cookie storage for userProfile
+    // Use cached profile data for faster loading
+    this.profileCacheService.getProfile().subscribe({
+      next: (profile: ProfileData | null) => {
+        if (!profile) return;
+        this.updateUserDataFromProfile(profile);
       },
       error: (err) => {
         console.error('Failed to load profile data:', err);
       }
     });
+  }
+
+  private updateUserDataFromProfile(profile: ProfileData): void {
+    this.userData = {
+      fullName: profile.fullName,
+      email: profile.email,
+      phoneNumber: profile.phone,
+      idNumber: profile.idNumber,
+      gender: profile.gender,
+      nationality: profile.nationality,
+      profession: profile.profession,
+      profilePicture: profile.profilePicture
+        ? `${profile.profilePicture}`
+        : 'assets/images/default-profile.png'
+    };
   }
 }

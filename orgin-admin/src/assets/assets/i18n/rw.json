@@ -113,6 +113,7 @@
   "retry": "Ongera Ugerageze",
   "DOWNLOAD": "Kuramo",
   "SAVE_CONTINUE": "Bika & Komeza",
+  "ASSIGNING": "Harira...",
   "cancel": "Hagarika",
   "confirm": "Emeza"
 },
@@ -518,10 +519,11 @@
     "backToProjects": "Subira ku Mishinga",
     "loading": "Birakora ibisobanuro by'umushinga...",
     "error": {
-      "title": "Oups! Hagaritse ikibazo",
+      "title": "Oups! Habayemo ikibazo",
       "message": "Kutashobora gukuraho ibisobanuro by'umushinga. Nyamuneka ongera ugerageze.",
       "retry": "Ongera Ugerageze",
-      "notFound": "Ikibazo mu gukuraho ibisobanuro by'umushinga. Umushinga ntibonetse."
+      "notFound": "Ikibazo mu gukuraho ibisobanuro by'umushinga. Umushinga ntibonetse.",
+      "loadingAnalyzers": "Ikibazo mu gukuraho abasuzuma. Nyamuneka ongera ugerageze."
     },
     "sections": {
       "projectInformation": "Amakuru y'Umushinga",
@@ -547,7 +549,9 @@
       "viewMore": "Reba Byinshi",
       "preview": "Reba Mbere",
       "download": "Kuramo",
-      "changeStatus": "Hindura Imiterere"
+      "changeStatus": "Hindura Imiterere",
+      "export": "Kuramo PDF",
+      "exporting": "Birakuramo..."
     },
     "status": {
       "currentStatus": "Imiterere Iriho",
@@ -580,6 +584,7 @@
       "declined": "Umushinga wanzwe",
       "production": "Umushinga uri mu gutunganywa",
       "completed": "Umushinga warangiye"
-    }
+    },
+    "noAnalyzers": "Nta musuzuma uhagaze kuri uyu mushinga"
   }
 }

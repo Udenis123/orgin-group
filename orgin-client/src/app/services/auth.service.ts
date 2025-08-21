@@ -64,7 +64,7 @@ export class AuthService {
       'Accept': 'application/json'
     });
 
-    console.log('Auth service sending data:', JSON.stringify(userData));
+
 
     return this.http.post(`${this.apiUrl}/auth/signup`, userData, {
       headers: headers,
@@ -211,21 +211,21 @@ export class AuthService {
   }
 
   private handleError(response: HttpErrorResponse): Observable<never> {
-    console.error('HTTP error occurred:', response);
-
     let errorMessage = 'Something bad happened; please try again later.';
 
     if (response.error instanceof ErrorEvent) {
       // Client-side error
-      console.error('Client error:', response.error.message);
       errorMessage = 'Cannot connect to the server. Please check your internet connection.';
     } else {
       // Server-side error
-      console.error(
-        `Backend returned code ${response.status}, ` +
-        `body was: ${JSON.stringify(response.error)}`
-      );
-      errorMessage = response.error?.message || errorMessage;
+      // Extract error message from backend response
+      if (response.error?.message) {
+        errorMessage = response.error.message;
+      } else if (response.error?.error) {
+        errorMessage = response.error.error;
+      } else if (typeof response.error === 'string') {
+        errorMessage = response.error;
+      }
     }
 
     return throwError(() => new Error(errorMessage));

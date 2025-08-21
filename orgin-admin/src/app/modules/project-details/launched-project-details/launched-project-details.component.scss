@@ -699,19 +699,61 @@
   .analyzer-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 1rem;
 
-    i {
-      font-size: 1.5rem;
-      color: var(--primary-color);
-      margin-right: 1rem;
+    .analyzer-info {
+      display: flex;
+      align-items: center;
+
+      i {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        margin-right: 1rem;
+      }
+
+      h4 {
+        margin: 0;
+        font-weight: 600;
+        color: var(--text-color);
+      }
     }
 
-    h4 {
-      margin: 0;
-      font-weight: 600;
-      color: var(--text-color);
-    }
+         .unassign-btn {
+       background: #ea5455;
+       color: white;
+       border: none;
+       border-radius: 50%;
+       width: 32px;
+       height: 32px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       cursor: pointer;
+       transition: all 0.3s ease;
+       box-shadow: 0 2px 4px rgba(234, 84, 85, 0.3);
+
+       &:hover:not(:disabled) {
+         background: #d13e3f;
+         transform: scale(1.1);
+         box-shadow: 0 4px 8px rgba(234, 84, 85, 0.4);
+       }
+
+       &:active:not(:disabled) {
+         transform: scale(0.95);
+       }
+
+       &:disabled {
+         background: #ccc;
+         cursor: not-allowed;
+         transform: none;
+         box-shadow: none;
+       }
+
+       i {
+         font-size: 0.9rem;
+       }
+     }
   }
 
   .analyzer-body {

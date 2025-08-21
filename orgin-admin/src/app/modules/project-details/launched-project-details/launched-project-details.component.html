@@ -273,8 +273,17 @@
         <div *ngIf="!analyzersLoading && !analyzersError" class="analyzers-grid">
           <div class="analyzer-card" *ngFor="let analyzer of analyzers">
             <div class="analyzer-header">
-              <i class="fas fa-user-tie"></i>
-              <h4>{{ analyzer.name }}</h4>
+              <div class="analyzer-info">
+                <i class="fas fa-user-tie"></i>
+                <h4>{{ analyzer.name }}</h4>
+              </div>
+                             <button 
+                 class="unassign-btn" 
+                 (click)="unassignProject(analyzer.id)"
+                 [disabled]="unassigningProject"
+                 title="Unassign analyzer from project">
+                 <i class="fas" [ngClass]="unassigningProject ? 'fa-spinner fa-spin' : 'fa-minus'"></i>
+               </button>
             </div>
             <div class="analyzer-body">
               <div class="expertise">
@@ -310,14 +319,15 @@
           {{ getSelectedAnalyzer()?.name }}
         </ng-template>
       </mat-form-field>
-      <app-custom-button
-          buttonClass="btn-save"
-          type="button"
-          (onClick)="assignProject()"
-          [disabled]="!selectedAnalyzer || analyzersLoading || analyzersError"
-        >
-          {{ 'COMMON.SAVE_CONTINUE' | translate }}
-      </app-custom-button>
+             <app-custom-button
+           buttonClass="btn-save"
+           type="button"
+           (onClick)="assignProject()"
+           [disabled]="!selectedAnalyzer || analyzersLoading || analyzersError || assigningProject"
+         >
+           <i class="fas" [ngClass]="assigningProject ? 'fa-spinner fa-spin' : ''"></i>
+           {{ assigningProject ? ('COMMON.ASSIGNING' | translate) : ('COMMON.SAVE_CONTINUE' | translate) }}
+       </app-custom-button>
     </div>
   </div>
 

@@ -6,6 +6,7 @@ import { ThemeService } from '../../core/theme.service';
 import { UserService } from '../../services/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../environments/environment';
+import { ProfileCacheService } from '../services/profile-cache.service';
 
 @Component({
   selector: 'app-navbar',
@@ -25,7 +26,8 @@ export class NavbarComponent implements OnInit {
     private translate: TranslateService,
     private themeService: ThemeService,
     private userService: UserService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private profileCacheService: ProfileCacheService
   ) {
     // Load saved language from cookies
     const savedLanguage = this.cookieService.get('selectedLanguage') || 'en';
@@ -35,12 +37,22 @@ export class NavbarComponent implements OnInit {
   }
 
   async ngOnInit() {
-    try {
-      const profile = await this.userService.getProfileDetails().toPromise();
-      this.username = profile?.fullName || '';
-    } catch (error) {
-      console.error('Error fetching profile:', error);
+    // Try to get cached data immediately for instant loading
+    const cachedProfile = this.profileCacheService.getCachedDataImmediately();
+    if (cachedProfile) {
+      this.username = cachedProfile.fullName || '';
     }
+
+    // Use cached profile data for faster loading
+    this.profileCacheService.getProfile().subscribe({
+      next: (profile) => {
+        if (!profile) return;
+        this.username = profile?.fullName || '';
+      },
+      error: (error) => {
+        console.error('Error fetching profile:', error);
+      }
+    });
 
     // Apply theme on component initialization
     if (this.themeService.isDarkTheme()) {
@@ -95,6 +107,9 @@ export class NavbarComponent implements OnInit {
       loginCookies.forEach(key => {
         this.cookieService.delete(key, '/');
       });
+
+      // Invalidate profile cache on logout
+      this.profileCacheService.invalidateCache();
   
       // Redirect to the login page
       this.router.navigate(['/login']);

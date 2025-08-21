@@ -6,6 +6,8 @@ import { SubscriptionService } from '../../../services/subscription.service';
 import { AuthService } from '../../../services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { isPlatformBrowser } from '@angular/common';
+import { ToastService } from '../../../shared/services/toast.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -13,11 +15,10 @@ import { isPlatformBrowser } from '@angular/common';
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, MatSnackBarModule]
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  loginFailed: boolean = false;
   redirectTo: string = 'dashboard/project/launch';
   projectId: string | null = null;
 
@@ -28,6 +29,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private cookieService: CookieService,
+    private toastService: ToastService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.loginForm = this.fb.group({
@@ -71,6 +73,9 @@ export class LoginComponent implements OnInit {
           profilePictureUrl = `http://${profilePictureUrl}`;
         }
 
+        // Show success message
+        this.toastService.showSuccess('Login successful!');
+
         // Check for redirect URL from localStorage
         let redirectUrl = null;
         if (isPlatformBrowser(this.platformId)) {
@@ -92,7 +97,8 @@ export class LoginComponent implements OnInit {
         }
       },
       error: (error) => {
-        this.loginFailed = true;
+        // Display error message using toast service
+        this.toastService.showError(error.message || 'Login failed. Please try again.');
       }
     });
   }

@@ -42,7 +42,28 @@
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules"]
             },
-            "allowedCommonJsDependencies": ["i18n-iso-countries"],
+            "allowedCommonJsDependencies": [
+              "i18n-iso-countries",
+              "core-js/modules/es.promise.js",
+              "core-js/modules/es.string.match.js",
+              "core-js/modules/es.string.replace.js",
+              "core-js/modules/es.string.starts-with.js",
+              "core-js/modules/es.array.iterator.js",
+              "core-js/modules/web.dom-collections.iterator.js",
+              "core-js/modules/es.array.reduce.js",
+              "core-js/modules/es.string.ends-with.js",
+              "core-js/modules/es.string.split.js",
+              "raf",
+              "core-js/modules/es.string.trim.js",
+              "rgbcolor",
+              "core-js/modules/es.array.index-of.js",
+              "core-js/modules/es.string.includes.js",
+              "core-js/modules/es.array.reverse.js",
+              "core-js/modules/es.regexp.to-string.js",
+              "file-saver",
+              "jszip",
+              "html2canvas"
+            ],
             "optimization": {
               "styles": {
                 "minify": true,
@@ -55,7 +76,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2MB",
+                  "maximumWarning": "2.5MB",
                   "maximumError": "3MB"
                 },
                 {
@@ -78,7 +99,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2MB",
+                  "maximumWarning": "2.5MB",
                   "maximumError": "3MB"
                 },
                 {

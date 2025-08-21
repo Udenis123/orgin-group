@@ -5,8 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgIf } from '@angular/common';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
+import { ToastService } from '../../../shared/services/toast.service';
+import { ProfileCacheService, ProfileData } from '../../../shared/services/profile-cache.service';
 
 
 
@@ -45,38 +46,46 @@ export class SettingsComponent implements OnInit, OnChanges {
 
   constructor(
     private userService: UserService,
-    private snackBar: MatSnackBar,
-    private cookieService: CookieService
+    private toastService: ToastService,
+    private cookieService: CookieService,
+    private profileCacheService: ProfileCacheService
   ) {}
 
   ngOnInit() {
-    // Fetch and log profile data
-    this.userService.getProfileDetails().subscribe({
-      next: (profile) => {
-        // Update userData with the fetched profile
-        this.userData = {
-          fullName: profile.fullName,
-          email: profile.email,
-          emailVerified: profile.emailStatus,
-          phoneNumber: profile.phone,
-          profession: profile.profession,
-          idNumber: profile.idNumber,
-          gender: profile.gender,
-          nationality: profile.nationality,
-          profilePicture: profile.profilePicture
-            ? `${profile.profilePicture}`
-            : 'assets/images/defaultPP.jpg'
-        };
+    // Try to get cached data immediately for instant loading
+    const cachedProfile = this.profileCacheService.getCachedDataImmediately();
+    if (cachedProfile) {
+      this.updateUserDataFromProfile(cachedProfile);
+    }
 
-
-
-        this.originalEmail = profile.email; // Store original email
+    // Then get fresh data (will use cache if still valid)
+    this.profileCacheService.getProfile().subscribe({
+      next: (profile: ProfileData | null) => {
+        if (!profile) return;
+        this.updateUserDataFromProfile(profile);
       },
       error: (err) => {
-
         this.showErrorNotification('Failed to load profile data');
       }
     });
+  }
+
+  private updateUserDataFromProfile(profile: ProfileData): void {
+    this.userData = {
+      fullName: profile.fullName,
+      email: profile.email,
+      emailVerified: profile.emailStatus,
+      phoneNumber: profile.phone,
+      profession: profile.profession,
+      idNumber: profile.idNumber,
+      gender: profile.gender,
+      nationality: profile.nationality,
+      profilePicture: profile.profilePicture
+        ? `${profile.profilePicture}`
+        : 'assets/images/defaultPP.jpg'
+    };
+
+    this.originalEmail = profile.email; // Store original email
   }
 
   ngOnChanges() {
@@ -149,6 +158,8 @@ export class SettingsComponent implements OnInit, OnChanges {
         this.userData.emailVerified = true;
         this.showOtpField = false;
         this.originalEmail = this.userData.email;
+        // Update cache with email verification status
+        this.profileCacheService.updateEmailStatus(true);
         this.showSuccessNotification('Email verified successfully');
         this.saveChanges();
       },
@@ -171,21 +182,11 @@ export class SettingsComponent implements OnInit, OnChanges {
   }
 
   private showErrorNotification(message: string) {
-    this.snackBar.open(message, 'Close', {
-      duration: 1000,
-      panelClass: ['error-snackbar'],
-      horizontalPosition: 'center',
-      verticalPosition: 'top'
-    });
+    this.toastService.showError(message, 3000);
   }
 
   private showSuccessNotification(message: string) {
-    this.snackBar.open(message, 'Close', {
-      duration: 1000,
-      panelClass: ['success-snackbar'],
-      horizontalPosition: 'center',
-      verticalPosition: 'top'
-    });
+    this.toastService.showSuccess(message, 3000);
   }
 
   onFileSelected(event: any) {
@@ -212,11 +213,15 @@ export class SettingsComponent implements OnInit, OnChanges {
         this.userService.uploadProfileImage(this.selectedFile, userId).subscribe({
             next: (response) => {
                 this.userData.profilePicture = `${response.fileUrl}`;
+                // Update cache with new profile picture
+                this.profileCacheService.updateProfilePicture(`${response.fileUrl}`);
                 this.showSuccessNotification('Profile image updated successfully');
                 this.selectedFile = null;
             },
             error: (err) => {
                 if (err.status === 200) {
+                    // Update cache with new profile picture
+                    this.profileCacheService.updateProfilePicture(this.userData.profilePicture);
                     this.showSuccessNotification('Profile image updated successfully');
                     window.location.reload();
                 }
@@ -245,15 +250,37 @@ export class SettingsComponent implements OnInit, OnChanges {
     this.userService.updateProfile(this.userData).subscribe({
       next: (response: any) => {
         if (response && (response.status === 200 || response === 'Profile updated successfully')) {
+          // Update cache with new profile data
+          this.profileCacheService.updateProfile({
+            fullName: this.userData.fullName,
+            email: this.userData.email,
+            emailStatus: this.userData.emailVerified,
+            phone: this.userData.phoneNumber,
+            profession: this.userData.profession,
+            idNumber: this.userData.idNumber,
+            gender: this.userData.gender,
+            nationality: this.userData.nationality,
+            profilePicture: this.userData.profilePicture
+          });
           this.showSuccessNotification('Profile updated successfully');
         } else {
-
           this.showErrorNotification('Failed to update profile. Please try again.');
         }
       },
       error: (err) => {
-
         if (err.status === 200) {
+          // Update cache with new profile data
+          this.profileCacheService.updateProfile({
+            fullName: this.userData.fullName,
+            email: this.userData.email,
+            emailStatus: this.userData.emailVerified,
+            phone: this.userData.phoneNumber,
+            profession: this.userData.profession,
+            idNumber: this.userData.idNumber,
+            gender: this.userData.gender,
+            nationality: this.userData.nationality,
+            profilePicture: this.userData.profilePicture
+          });
           this.showSuccessNotification('Profile updated successfully');
         } else {
           this.showErrorNotification('Failed to update profile. Please try again.');
@@ -276,12 +303,10 @@ export class SettingsComponent implements OnInit, OnChanges {
           this.newPassword = '';
           this.confirmPassword = '';
         } else {
-          console.warn('Unexpected successful response:', response);
           this.showErrorNotification('Failed to update password. Please try again.');
         }
       },
       error: (err) => {
-        console.error('Password update failed:', err);
         if (err.status === 200) {
           this.showSuccessNotification('Password updated successfully');
           this.currentPassword = '';
