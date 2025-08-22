@@ -4,8 +4,8 @@ import {
   HttpHeaders,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../environments/environment';
 
@@ -44,22 +44,16 @@ export class BookmarkedService {
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An error occurred';
-    if (error.status === 200) {
-      // Client-side error
-      errorMessage = 'bookmark removed successfully';
-
-    } else {
-      // Server-side error
-      if (error.status === 401) {
-        errorMessage = 'Session expired. Please login again';
-      } else if (error.error && typeof error.error === 'string') {
-        errorMessage = error.error;
-      } else if (error.status === 404) {
-        errorMessage = 'Project not found';
-      } else if (error.status === 403) {
-        errorMessage = 'You are not authorized to perform this action';
-      }
+    
+    // Try to extract message from backend response
+    if (error.error && error.error.message) {
+      errorMessage = error.error.message;
+    } else if (error.error && typeof error.error === 'string') {
+      errorMessage = error.error;
+    } else if (error.message) {
+      errorMessage = error.message;
     }
+    
     return throwError(() => ({ message: errorMessage, status: error.status }));
   }
 
@@ -74,11 +68,33 @@ export class BookmarkedService {
 
   bookmarkProject(userId: string, projectId: string): Observable<ApiResponse> {
     return this.http
-      .post<ApiResponse>(`${this.apiUrl}/bookmark`, null, {
+      .post(`${this.apiUrl}/bookmark`, null, {
         params: { userId, projectId },
         headers: this.getHeaders(),
+        observe: 'response'
       })
-      .pipe(catchError(this.handleError));
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          // Let the component handle status 200 errors
+          return this.handleError(error);
+        }),
+        // Transform successful HTTP response to ApiResponse format
+        map((response: any) => {
+          if (response.status === 200) {
+            // If we have a body with message, use it
+            if (response.body && response.body.message) {
+              return response.body;
+            }
+            // Otherwise return default success message
+            return {
+              status: 200,
+              message: 'Project has been successfully bookmarked!',
+              data: response.body || null
+            };
+          }
+          return response;
+        })
+      );
   }
 
   removeBookmark(userId: string, projectId: string): Observable<ApiResponse> {

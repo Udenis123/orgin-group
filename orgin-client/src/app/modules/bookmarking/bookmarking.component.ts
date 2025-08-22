@@ -71,16 +71,32 @@ export class BookmarkingComponent implements OnInit, OnDestroy {
     this.bookmarkedService.bookmarkProject(userId, projectId).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.message = 'Project bookmarked successfully!';
-        this.closeTab();
+        console.log('Bookmark success response:', response);
+        
+        // The service now returns ApiResponse format directly
+        this.message = response.message || 'Project has been successfully bookmarked!';
+        
+        // Close tab after showing success message for 2 seconds
+        this.timeoutId = setTimeout(() => {
+          this.closeTab();
+        }, 2000);
       },
       error: (error) => {
         this.isLoading = false;
+        console.log('Bookmark error response:', error);
+        
+        // Check if it's actually a success (status 200) but treated as error
         if (error.status === 200) {
-          // Handle successful response that comes as error
-          this.message = 'Project bookmarked successfully!';
-          this.closeTab();
+          // This is actually a success case - backend returned 200 but with parsing error
+          this.message = 'Project has been successfully bookmarked!';
+          console.log('Treating status 200 error as success');
+          
+          // Close tab after showing success message for 2 seconds
+          this.timeoutId = setTimeout(() => {
+            this.closeTab();
+          }, 2000);
         } else {
+          // Use backend error message for actual errors
           this.showError(error.message || 'Failed to bookmark project');
         }
       }
@@ -91,6 +107,7 @@ export class BookmarkingComponent implements OnInit, OnDestroy {
     this.isLoading = false;
     this.message = 'Bookmarking failed';
     this.errorMessage = errorMsg;
+    console.log('Showing error:', errorMsg);
     
     // Close tab after showing error for 3 seconds
     this.timeoutId = setTimeout(() => {
