@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UserService } from '../../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,7 +12,7 @@ import { ProfileCacheService } from '../services/profile-cache.service';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule]
+  imports: [CommonModule, RouterLink, RouterLinkActive, TranslateModule]
 })
 export class SidenavComponent implements OnInit {
   isOpen = true;
@@ -29,11 +29,22 @@ export class SidenavComponent implements OnInit {
     private userService: UserService,
     private snackBar: MatSnackBar,
     private cookieService: CookieService,
-    private profileCacheService: ProfileCacheService
+    private profileCacheService: ProfileCacheService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.fetchUserProfile();
+    this.checkInitiatingProjectState();
+  }
+
+  checkInitiatingProjectState() {
+    const currentUrl = this.router.url;
+    if (currentUrl.includes('/dashboard/project/order') || 
+        currentUrl.includes('/dashboard/project/launch') || 
+        currentUrl.includes('/dashboard/project/launch-community')) {
+      this.isInitiatingProjectOpen = true;
+    }
   }
 
   fetchUserProfile() {

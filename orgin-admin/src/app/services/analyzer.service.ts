@@ -17,6 +17,21 @@ export interface Analyzer {
   enabled: boolean;
 }
 
+// New interface for project analysts based on the API response
+export interface ProjectAnalyzer {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  expertise: string;
+  profileUrl: string;
+  nationality: string;
+  gender: string;
+  nationalId: string;
+  enabled: boolean;
+  assignedProjects: any; // This can be null or contain project data
+}
+
 export interface AnalyzerDetails {
   id: string;
   name: string;
@@ -209,6 +224,16 @@ export class AnalyzerService {
 
   getAnalyzers(): Observable<Analyzer[]> {
     return this.http.get<Analyzer[]>(`${this.apiUrl}/admin/analyzers`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // New method to get analyzers assigned to a specific project
+  getProjectAnalyzers(projectId: string): Observable<ProjectAnalyzer[]> {
+    return this.http.get<ProjectAnalyzer[]>(`${this.apiUrl}/analyzer/project/analysts`, {
+      params: {
+        projectId: projectId
+      },
       headers: this.getHeaders()
     });
   }

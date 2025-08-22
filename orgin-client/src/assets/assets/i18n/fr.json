@@ -27,7 +27,7 @@
             "appointments": "Rendez-vous",
             "finish_payment": "Terminer le Paiement",
             "initiating_project": "Lancer un Projet",
-            "launch_community_project": "Lancer un Projet Communautaire"
+            "launch_community_project": "Projet Communautaire"
         }
     },
    "projectLaunch": {
@@ -267,7 +267,8 @@
     "purpose": "Objectif",
     "viewAnalytics": "Voir les Analyses",
     "remove": "Supprimer",
-    "noProjects": "Vous n'avez aucun projet enregistré pour le moment."
+    "noProjects": "Vous n'avez aucun projet enregistré pour le moment.",
+    "loading": "Chargement des projets enregistrés..."
   },
   "analytics": {
     "title": "Analyse de Projet",

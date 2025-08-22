@@ -19,7 +19,7 @@
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <div class="table-container">
+    <div class="table-container" *ngIf="dataSource.filteredData.length > 0">
       <table class="analyzer-table">
         <thead>
           <tr>
@@ -54,6 +54,11 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="empty-state" *ngIf="dataSource.filteredData.length === 0">
+      <i class="material-icons">people</i>
+      <p>{{ 'users.analyzers.noData' | translate }}</p>
     </div>
   </div>
 </div>

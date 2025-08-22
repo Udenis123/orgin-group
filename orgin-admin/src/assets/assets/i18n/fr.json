@@ -162,12 +162,13 @@
       "active": "Actif",
       "terminated": "Terminé"
     },
-    "actions": {
-      "update": "Mettre à Jour",
-      "terminate": "Terminer",
-      "view": "Voir",
-      "enable": "Activer"
-    }
+           "actions": {
+         "update": "Mettre à Jour",
+         "terminate": "Terminer",
+         "view": "Voir",
+         "enable": "Activer"
+       },
+       "noData": "Aucun analyste trouvé"
   }
 },
 "PROJECT_DETAILS": {
@@ -513,7 +514,13 @@
     "openExternally": "Ouvrir Externement",
     "download": "Télécharger",
     "documentLoadError": "Erreur de chargement du document",
-    "documentNotAvailable": "Document non disponible"
+    "documentNotAvailable": "Document non disponible",
+    "notifications": {
+      "approved": "Analytiques approuvées avec succès",
+      "denied": "Analytiques refusées",
+      "close": "Fermer"
+    },
+    "noData": "Aucune analytique en attente trouvée"
   },
   "projectDetails": {
     "title": "Détails du Projet",
@@ -586,6 +593,7 @@
       "production": "Le projet est actuellement en développement",
       "completed": "Le projet a été terminé"
     },
-    "noAnalyzers": "Aucun analyste disponible pour ce projet"
+    "noAnalyzers": "Aucun analyste disponible pour ce projet",
+    "noAvailableAnalyzers": "Tous les analystes sont déjà assignés à ce projet"
   }
 }

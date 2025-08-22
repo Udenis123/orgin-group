@@ -77,9 +77,28 @@
     a {
         color: white;
         text-decoration: none;
+        transition: color 0.3s ease;
 
         &:hover {
             color: rgb(202, 86, 8);
+        }
+
+        &.active {
+            color: var(--secondary-color);
+            font-weight: 600;
+            position: relative;
+            
+            &::before {
+                content: '';
+                position: absolute;
+                left: -20px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 4px;
+                height: 20px;
+                background-color: var(--secondary-color);
+                border-radius: 2px;
+            }
         }
     }
 
@@ -101,11 +120,17 @@
     .nested-menu {
         position: relative;
         
+        &.active .menu-header {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        
         .menu-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
+            transition: color 0.3s ease;
             
             &:hover {
                 color: rgb(202, 86, 8);

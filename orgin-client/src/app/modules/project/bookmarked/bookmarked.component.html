@@ -1,7 +1,15 @@
 <div class="bookmarked-container">
   <h2>{{ "bookmarked.title" | translate }}</h2>
 
-  <div class="project-grid" *ngIf="projects.length; else noProjects">
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>{{ "bookmarked.loading" | translate }}</p>
+    </div>
+  </div>
+
+  <div class="project-grid" *ngIf="!isLoading && projects.length; else noProjects">
     <div *ngFor="let project of projects" class="project-card">
       <img
         [src]="project.projectUrl || 'assets/images/default-project.jpg'"

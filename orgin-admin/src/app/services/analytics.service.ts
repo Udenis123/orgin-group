@@ -56,6 +56,79 @@ export interface AnalyticsProject {
     analyticsEnabled: boolean;
     price: number;
     costOfDevelopment: number;
+    launchProject?: {
+      user?: {
+        id: string;
+        name: string;
+        nationalId: string;
+        gender: string;
+        nationality: string;
+        professional: string;
+        email: string;
+        phone: string;
+        password: string;
+        enabled: boolean;
+        verificationCode: string;
+        codeExpiryAt: string;
+        roles: string[];
+        subscribed: boolean;
+        photoUrl: string;
+        tempEmail: string;
+        subscriptions: any[];
+        launchProjects: string[];
+        bookmarks: any[];
+        payments: any[];
+        userRatting: any;
+        active: boolean;
+        authorities: any[];
+        username: string;
+        accountNonExpired: boolean;
+        accountNonLocked: boolean;
+        credentialsNonExpired: boolean;
+      };
+      bookmarks: any[];
+      assignments: any[];
+      analyticProject: string;
+      projectId: string;
+      clientName: string;
+      professionalStatus: string;
+      email: string;
+      phone: string;
+      linkedIn: string;
+      projectName: string;
+      category: string;
+      description: string;
+      projectLocation: string;
+      projectStatus: string;
+      projectPurpose: string;
+      prototypeLink: string;
+      numberOfEmp: number;
+      monthlyIncome: number;
+      website: string;
+      incomeStatementUrl: string;
+      cashFlowUrl: string;
+      balanceSheetUrl: string;
+      specialityOfProject: string;
+      haveSponsorQ: string;
+      sponsorName: string;
+      needSponsorQ: string;
+      needOrgQ: string;
+      doSellProjectQ: string;
+      projectAmount: number;
+      intellectualProjectQ: string;
+      wantOriginToBusinessPlanQ: string;
+      businessIdea: string;
+      submittedOn: string;
+      updatedOn: string;
+      projectType: string;
+      projectPhotoUrl: string;
+      pitchingVideoUrl: string;
+      businessPlanUrl: string;
+      businessIdeaDocumentUrl: string;
+      status: string;
+      countBookmark: number;
+      countAssignment: number;
+    };
   };
 }
 
@@ -93,16 +166,7 @@ export class AnalyticsService {
   }
 
   getAnalytics(): Observable<AnalyticsProject[]> {
-    const userId = this.cookieService.getCookie('adminId');
-    
-    if (!userId) {
-      throw new Error('User ID not found');
-    }
-
-    return this.http.get<AnalyticsProject[]>(`${this.apiUrl}/admin/all/launch/project`, {
-      params: {
-        userId: userId
-      },
+    return this.http.get<AnalyticsProject[]>(`${this.apiUrl}/admin/project/pending/analytics`, {
       headers: this.getHeaders()
     });
   }

@@ -27,7 +27,7 @@
             "appointments": "Gahunda",
             "finish_payment": "Kurangiza kwishyura",
             "initiating_project": "Gutangiza umushinga",
-            "launch_community_project": "Tangiza umushinga w'umuryango"
+            "launch_community_project": "Umushinga w'umuryango"
         }
   },
  "projectLaunch": {
@@ -267,7 +267,8 @@
     "purpose": "Intego",
     "viewAnalytics": "Reba Inyigo",
     "remove": "Kuraho",
-    "noProjects": "Nta mishinga yabitsweho ufite."
+    "noProjects": "Nta mishinga yabitsweho ufite.",
+    "loading": "Gusubiza imishinga yabitsweho..."
   },
   "analytics": {
     "title": "Inyigo y'Umushinga",

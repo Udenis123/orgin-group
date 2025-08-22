@@ -36,6 +36,7 @@ import { OrderedProjectUpdateComponent } from './modules/project/project-update/
 import { CommunityProjectUpdateComponent } from './modules/project/project-update/community/community.component';
 import { LaunchCommunityProjectComponent } from './modules/project/initiating-project/launch-community-project/launch-community-project.component';
 import { JoinProjectComponent } from './modules/project/join-project/join-project.component';
+import { BookmarkingComponent } from './modules/bookmarking/bookmarking.component';
 
 export const routes: Routes = [
   {
@@ -211,6 +212,10 @@ export const routes: Routes = [
       {
         path: 'checkout/imena',
         component: ImenaCheckoutComponent,
+      },
+      {
+        path: 'bookmarking/:id',
+        component: BookmarkingComponent,
       },
 
       // Default route

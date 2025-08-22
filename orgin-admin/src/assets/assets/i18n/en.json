@@ -164,12 +164,13 @@
         "active": "Active",
         "terminated": "Terminated"
       },
-      "actions": {
-        "update": "Update",
-        "terminate": "Terminate",
-        "view": "View",
-        "enable": "Enable"
-      }
+             "actions": {
+         "update": "Update",
+         "terminate": "Terminate",
+         "view": "View",
+         "enable": "Enable"
+       },
+       "noData": "No analyzers found"
     }
     },
     "PROJECT_DETAILS": {
@@ -515,7 +516,13 @@
     "openExternally": "Open Externally",
     "download": "Download",
     "documentLoadError": "Error loading document",
-    "documentNotAvailable": "Document not available"
+    "documentNotAvailable": "Document not available",
+    "notifications": {
+      "approved": "Analytics approved successfully",
+      "denied": "Analytics denied",
+      "close": "Close"
+    },
+    "noData": "No pending analytics found"
   },
   "projectDetails": {
     "title": "Project Details",
@@ -588,7 +595,8 @@
       "production": "Project is currently in development",
       "completed": "Project has been completed"
     },
-    "noAnalyzers": "No analyzers available for this project"
+    "noAnalyzers": "No analyzers available for this project",
+    "noAvailableAnalyzers": "All analyzers are already assigned to this project"
   }
 }
 

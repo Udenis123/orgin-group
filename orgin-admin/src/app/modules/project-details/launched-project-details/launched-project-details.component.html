@@ -270,8 +270,8 @@
         </div>
 
         <!-- Analyzers grid -->
-        <div *ngIf="!analyzersLoading && !analyzersError" class="analyzers-grid">
-          <div class="analyzer-card" *ngFor="let analyzer of analyzers">
+        <div *ngIf="!assignedAnalyzersLoading && !assignedAnalyzersError" class="analyzers-grid">
+          <div class="analyzer-card" *ngFor="let analyzer of assignedAnalyzers">
             <div class="analyzer-header">
               <div class="analyzer-info">
                 <i class="fas fa-user-tie"></i>
@@ -294,7 +294,7 @@
           </div>
           
           <!-- No analyzers message -->
-          <div *ngIf="analyzers.length === 0" class="no-analyzers">
+          <div *ngIf="assignedAnalyzers.length === 0" class="no-analyzers">
             <i class="fas fa-users"></i>
             <p>{{ 'projectDetails.noAnalyzers' | translate }}</p>
           </div>
@@ -306,11 +306,18 @@
   <!-- Assignment Section -->
   <div class="assignment-section" *ngIf="project && project.status === 'PENDING'">
     <h3>{{ 'PROJECT_DETAILS.ASSIGN_PROJECT' | translate }}</h3>
-    <div class="assignment-form">
+    
+    <!-- No available analyzers message -->
+    <div *ngIf="!analyzersLoading && !analyzersError && availableAnalyzers.length === 0" class="no-available-analyzers">
+      <i class="fas fa-info-circle"></i>
+      <p>{{ 'projectDetails.noAvailableAnalyzers' | translate }}</p>
+    </div>
+    
+    <div class="assignment-form" *ngIf="availableAnalyzers.length > 0">
       <mat-form-field appearance="outline">
         <mat-label>{{ 'PROJECT_DETAILS.SELECT_ANALYZER' | translate }}</mat-label>
-        <mat-select [(ngModel)]="selectedAnalyzer" [disabled]="analyzersLoading || analyzersError">
-          <mat-option *ngFor="let analyzer of analyzers" [value]="analyzer.id">
+        <mat-select [(ngModel)]="selectedAnalyzer" [disabled]="analyzersLoading || analyzersError || availableAnalyzers.length === 0">
+          <mat-option *ngFor="let analyzer of availableAnalyzers" [value]="analyzer.id">
             {{ analyzer.name }}
             <span class="analyzer-expertise-inline"> - {{ analyzer.expertise }}</span>
           </mat-option>
@@ -323,7 +330,7 @@
            buttonClass="btn-save"
            type="button"
            (onClick)="assignProject()"
-           [disabled]="!selectedAnalyzer || analyzersLoading || analyzersError || assigningProject"
+           [disabled]="!selectedAnalyzer || analyzersLoading || analyzersError || availableAnalyzers.length === 0 || assigningProject"
          >
            <i class="fas" [ngClass]="assigningProject ? 'fa-spinner fa-spin' : ''"></i>
            {{ assigningProject ? ('COMMON.ASSIGNING' | translate) : ('COMMON.SAVE_CONTINUE' | translate) }}

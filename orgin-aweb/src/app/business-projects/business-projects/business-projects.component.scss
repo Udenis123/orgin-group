@@ -1318,34 +1318,7 @@ body.dark-mode {
   }
 }
 
-.notification {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 15px 25px;
-  border-radius: 4px;
-  z-index: 1000;
-  background: #222;
-  color: #fff;
-  font-size: 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  opacity: 0.95;
-  min-width: 220px;
-  max-width: 90vw;
-  transition: opacity 0.3s;
-}
-.notification.success {
-  background-color: #28a745;
-  color: #fff;
-}
-.notification.error {
-  background-color: #dc3545;
-  color: #fff;
-}
-.notification.info {
-  background-color: var(--secondary-color, #007bff);
-  color: #fff;
-}
+
 
 /* Article Section Styles */
 .article-section {

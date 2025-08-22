@@ -7,8 +7,7 @@ import { TranslationService } from '../../services/translation.service';
 import { HomeService, Project, UserRating } from '../../services/home.service';
 import { environment } from '../../../environments/environment';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
-import { BookmarkService } from '../../services/bookmark.service';
-import { CookieService } from '../../services/cookie.service';
+
 
 declare var bootstrap: any;
 
@@ -59,7 +58,6 @@ export class BusinessProjectsComponent implements AfterViewInit, OnInit, OnDestr
   noProjectsAvailable: boolean = false;
   public currentLang: string = 'en';
   feedbackChunks: any[] = [];
-  notification: { message: string; type: 'success' | 'error' | 'info' } | null = null;
 
   private originalProjects: Project[] = [];
 
@@ -164,9 +162,7 @@ export class BusinessProjectsComponent implements AfterViewInit, OnInit, OnDestr
   constructor(
     private translate: TranslateService,
     private translationService: TranslationService,
-    private homeService: HomeService,
-    private bookmarkService: BookmarkService,
-    private cookieService: CookieService
+    private homeService: HomeService
   ) {
     this.displayTitle = this.translate.instant('DISPLAY_TITLE_ALL');
 
@@ -465,43 +461,12 @@ export class BusinessProjectsComponent implements AfterViewInit, OnInit, OnDestr
     });
   }
 
-  showNotification(message: string, type: 'success' | 'error' | 'info') {
-    this.notification = { message, type };
-    setTimeout(() => {
-      this.notification = null;
-    }, 3000);
-  }
+
 
   bookmarkProject(projectId: string): void {
-    const userId = this.cookieService.getCookie('userId');
-    const token = this.cookieService.getCookie('token');
-    console.log('Bookmark clicked:', { projectId, userId, token });
-    if (!userId || !token) {
-      this.showNotification('Please login to bookmark a project', 'info');
-      return;
-    }
-    this.bookmarkService.bookmarkProject(userId, projectId).subscribe({
-      next: (response) => {
-        console.log('Bookmark success response:', response);
-        this.showNotification('Project bookmarked successfully', 'success');
-      },
-      error: (error) => {
-        console.log('Bookmark error response:', error);
-        if (error.status === 200) {
-          this.showNotification('Project bookmarked successfully', 'success');
-        } else if (error.message === 'Authentication token not found') {
-          this.showNotification('Please login to bookmark a project', 'info');
-        } else if (error.error?.message === ' Project already bookmarked') {
-          this.showNotification('Project is already bookmarked', 'info');
-        } else if (error.error?.message === ' User not found') {
-          this.showNotification('User not found. Please login again', 'error');
-        } else if (error.error?.message === ' Project not found') {
-          this.showNotification('Project not found', 'error');
-        } else {
-          this.showNotification('Failed to bookmark project. Please try again.', 'error');
-        }
-      }
-    });
+    // Open the client bookmarking component in a new tab
+    const bookmarkUrl = `${this.clientUrl}/dashboard/bookmarking/${projectId}`;
+    window.open(bookmarkUrl, '_blank');
   }
 
   loadArticles() {

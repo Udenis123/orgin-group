@@ -28,7 +28,7 @@
             "appointments": "Appointments",
             "finish_payment": "Finish Payment",
             "initiating_project": "Initiating Project",
-            "launch_community_project": "Launch Community Project"
+            "launch_community_project": "Community Project"
         }
     },
     
@@ -270,7 +270,8 @@
         "purpose": "Purpose",
         "viewAnalytics": "View Analytics",
         "remove": "Remove",
-        "noProjects": "You have no bookmarked projects yet."
+        "noProjects": "You have no bookmarked projects yet.",
+        "loading": "Loading bookmarked projects..."
       },
       "analytics": {
         "title": "Project Analytics",

@@ -12,22 +12,22 @@
 
     <!-- Navigation Links -->
     <ul>
-        <li class="nested-menu" [class.open]="isInitiatingProjectOpen">
+        <li class="nested-menu" [class.open]="isInitiatingProjectOpen" routerLinkActive="active">
             <div class="menu-header" (click)="toggleInitiatingProject()">
                 <span>{{ 'sidenav.links.initiating_project' | translate }}</span>
                 <div class="arrow" [class.open]="isInitiatingProjectOpen"></div>
             </div>
             <ul class="sub-menu">
-                <li><a routerLink="/dashboard/project/order">{{ 'sidenav.links.order_project' | translate }}</a></li>
-                <li><a routerLink="/dashboard/project/launch">{{ 'sidenav.links.launch_project' | translate }}</a></li>
-                <li><a routerLink="/dashboard/project/launch-community">{{ 'sidenav.links.launch_community_project' | translate }}</a></li>
+                <li><a routerLink="/dashboard/project/order" routerLinkActive="active">{{ 'sidenav.links.order_project' | translate }}</a></li>
+                <li><a routerLink="/dashboard/project/launch" routerLinkActive="active">{{ 'sidenav.links.launch_project' | translate }}</a></li>
+                <li><a routerLink="/dashboard/project/launch-community" routerLinkActive="active">{{ 'sidenav.links.launch_community_project' | translate }}</a></li>
             </ul>
         </li>
-        <li><a routerLink="/dashboard/subscription/plan">{{ 'sidenav.links.subscription_plan' | translate }}</a></li>
-        <li><a [routerLink]="['/dashboard/project/bookmarked']">{{ 'sidenav.links.bookmarked' | translate }}</a></li>
-        <li><a routerLink="/dashboard/project/my-projects">{{ 'sidenav.links.my_projects' | translate }}</a></li>
-        <li><a routerLink="/dashboard/appointments">{{ 'sidenav.links.appointments' | translate }}</a></li>
-        <li><a routerLink="/dashboard/finish-payment">{{ 'sidenav.links.finish_payment' | translate }}</a></li>
+        <li><a routerLink="/dashboard/subscription/plan" routerLinkActive="active">{{ 'sidenav.links.subscription_plan' | translate }}</a></li>
+        <li><a [routerLink]="['/dashboard/project/bookmarked']" routerLinkActive="active">{{ 'sidenav.links.bookmarked' | translate }}</a></li>
+        <li><a routerLink="/dashboard/project/my-projects" routerLinkActive="active">{{ 'sidenav.links.my_projects' | translate }}</a></li>
+        <li><a routerLink="/dashboard/appointments" routerLinkActive="active">{{ 'sidenav.links.appointments' | translate }}</a></li>
+        <li><a routerLink="/dashboard/finish-payment" routerLinkActive="active">{{ 'sidenav.links.finish_payment' | translate }}</a></li>
     </ul>
 
     <!-- Toggle Button -->

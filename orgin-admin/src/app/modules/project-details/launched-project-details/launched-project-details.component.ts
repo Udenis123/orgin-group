@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AnalyzerService, Analyzer } from '../../../services/analyzer.service';
+import { AnalyzerService, Analyzer, ProjectAnalyzer } from '../../../services/analyzer.service';
 import { ProjectService, Project } from '../../../services/project.services';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -29,11 +29,15 @@ export class LaunchedProjectDetailsComponent implements OnInit {
   projectId!: string;
   project!: Project;
   analyzers: Analyzer[] = [];
+  assignedAnalyzers: ProjectAnalyzer[] = [];
+  availableAnalyzers: Analyzer[] = [];
   selectedAnalyzer: string = '';
   isLoading = true;
   error = false;
   analyzersLoading = false;
   analyzersError = false;
+  assignedAnalyzersLoading = false;
+  assignedAnalyzersError = false;
   assigningProject = false;
   unassigningProject = false;
 
@@ -52,6 +56,7 @@ export class LaunchedProjectDetailsComponent implements OnInit {
     this.projectId = this.route.snapshot.paramMap.get('id')!;
     this.loadProjectDetails();
     this.loadAnalyzers();
+    this.loadAssignedAnalyzers();
   }
 
   loadProjectDetails(): void {
@@ -84,6 +89,7 @@ export class LaunchedProjectDetailsComponent implements OnInit {
     this.analyzerService.getAnalyzers().subscribe({
       next: (analyzers) => {
         this.analyzers = analyzers;
+        this.filterAvailableAnalyzers();
         this.analyzersLoading = false;
       },
       error: (error) => {
@@ -92,8 +98,39 @@ export class LaunchedProjectDetailsComponent implements OnInit {
         this.analyzersLoading = false;
         // Keep empty array if API fails
         this.analyzers = [];
+        this.availableAnalyzers = [];
       }
     });
+  }
+
+  loadAssignedAnalyzers(): void {
+    this.assignedAnalyzersLoading = true;
+    this.assignedAnalyzersError = false;
+    
+    this.analyzerService.getProjectAnalyzers(this.projectId).subscribe({
+      next: (assignedAnalyzers) => {
+        this.assignedAnalyzers = assignedAnalyzers;
+        this.filterAvailableAnalyzers();
+        this.assignedAnalyzersLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading assigned analyzers:', error);
+        this.assignedAnalyzersError = true;
+        this.assignedAnalyzersLoading = false;
+        // Keep empty array if API fails
+        this.assignedAnalyzers = [];
+        this.filterAvailableAnalyzers();
+      }
+    });
+  }
+
+  filterAvailableAnalyzers(): void {
+    if (this.analyzers.length > 0) {
+      const assignedAnalyzerIds = this.assignedAnalyzers.map(analyzer => analyzer.id);
+      this.availableAnalyzers = this.analyzers.filter(analyzer => 
+        !assignedAnalyzerIds.includes(analyzer.id)
+      );
+    }
   }
 
   assignProject(): void {
@@ -105,8 +142,8 @@ export class LaunchedProjectDetailsComponent implements OnInit {
           next: (response) => {
             // Clear the selection
             this.selectedAnalyzer = '';
-            // Reload analyzers to reflect the change
-            this.loadAnalyzers();
+            // Reload assigned analyzers to reflect the change
+            this.loadAssignedAnalyzers();
             this.assigningProject = false;
             // You might want to show a success message here
           },
@@ -124,8 +161,8 @@ export class LaunchedProjectDetailsComponent implements OnInit {
       this.unassigningProject = true;
       this.projectService.unassignProject(this.projectId, analyzerId).subscribe({
         next: (response) => {
-          // Reload analyzers to reflect the change
-          this.loadAnalyzers();
+          // Reload assigned analyzers to reflect the change
+          this.loadAssignedAnalyzers();
           this.unassigningProject = false;
           // You might want to show a success message here
         },
@@ -138,7 +175,7 @@ export class LaunchedProjectDetailsComponent implements OnInit {
   }
 
   getSelectedAnalyzer(): Analyzer | null {
-    return this.analyzers.find(a => a.id === this.selectedAnalyzer) || null;
+    return this.availableAnalyzers.find(a => a.id === this.selectedAnalyzer) || null;
   }
 
   // Text truncation functionality

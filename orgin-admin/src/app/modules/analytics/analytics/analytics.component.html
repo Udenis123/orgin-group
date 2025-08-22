@@ -7,7 +7,7 @@
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
 
-  <div class="table-container">
+  <div class="table-container" *ngIf="paginatedData.length > 0">
     <table class="animated-table">
       <thead>
         <tr>
@@ -38,6 +38,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="empty-state" *ngIf="paginatedData.length === 0">
+    <i class="material-icons">analytics</i>
+    <p>{{ 'analytics.noData' | translate }}</p>
   </div>
 
   <div class="pagination">
