@@ -12,8 +12,8 @@
 
     "sidenav": {
         "profile": {
-            "name": "John Doe",
-            "email": "johndoe@example.com"
+            "name": "User Name",
+            "email": "example@gmail.com"
         },
         "links": {
             "buy": "Buy",
@@ -575,12 +575,8 @@
             "projectThumbnail": "Project Thumbnail",
             "confirmationCheckbox": "Confirmation",
             "requiredMembers": "Required Team Members",
-            "developer": "Developer",
-            "designer": "Designer",
-            "marketer": "Marketer",
-            "businessanalyst": "Business Analyst",
-            "projectmanager": "Project Manager",
-            "other": "Other"
+            "profession": "Profession/Role",
+            "quantity": "Quantity"
         },
         "placeholders": {
             "projectName": "Enter project name",
@@ -588,13 +584,17 @@
             "otherCategory": "Specify other category",
             "location": "Enter project location",
             "description": "Describe your project",
-            "quantity": "Enter number of members needed"
+            "quantity": "Enter number of members needed",
+            "profession": "e.g., Developer, Designer, Marketer, etc."
         },
         "notes": {
             "projectThumbnail": "Upload a square image (recommended size: 500x500px) that represents your project"
         },
         "confirmationStatement": "I confirm that the information provided is accurate and can be verified.",
-        "mandatoryFieldsNote": "Fields marked with * are mandatory."
+        "mandatoryFieldsNote": "Fields marked with * are mandatory.",
+        "addTeamRequirement": "Add Team Requirement",
+        "remove": "Remove",
+        "noTeamRequirements": "No team requirements added yet. Click 'Add Team Requirement' to get started."
       }
     }
 

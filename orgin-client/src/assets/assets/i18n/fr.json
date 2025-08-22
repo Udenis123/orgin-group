@@ -557,40 +557,40 @@
         "teamRequirements": "Exigences de l'Équipe",
         "reviewAndSubmit": "Vérifier et Soumettre"
     },
-    "fields": {
-        "fullName": "Nom Complet",
-        "professionalStatus": "Statut Professionnel",
-        "email": "Email",
-        "phone": "Téléphone",
-        "linkedin": "LinkedIn",
-        "projectName": "Nom du Projet",
-        "category": "Catégorie",
-        "otherCategory": "Autre Catégorie",
-        "location": "Localisation",
-        "description": "Description",
-        "projectThumbnail": "Miniature du Projet",
-        "confirmationCheckbox": "Confirmation",
-        "requiredMembers": "Membres de l'Équipe Requis",
-        "developer": "Développeur",
-        "designer": "Designer",
-        "marketer": "Marketeur",
-        "businessanalyst": "Analyste d'Affaires",
-        "projectmanager": "Chef de Projet",
-        "other": "Autre"
-    },
-    "placeholders": {
-        "projectName": "Entrez le nom du projet",
-        "category": "Sélectionnez une catégorie",
-        "otherCategory": "Précisez une autre catégorie",
-        "location": "Entrez la localisation du projet",
-        "description": "Décrivez votre projet",
-        "quantity": "Entrez le nombre de membres nécessaires"
-    },
+            "fields": {
+            "fullName": "Nom Complet",
+            "professionalStatus": "Statut Professionnel",
+            "email": "Email",
+            "phone": "Téléphone",
+            "linkedin": "LinkedIn",
+            "projectName": "Nom du Projet",
+            "category": "Catégorie",
+            "otherCategory": "Autre Catégorie",
+            "location": "Localisation",
+            "description": "Description",
+            "projectThumbnail": "Miniature du Projet",
+            "confirmationCheckbox": "Confirmation",
+            "requiredMembers": "Membres de l'Équipe Requis",
+            "profession": "Profession/Rôle",
+            "quantity": "Quantité"
+        },
+            "placeholders": {
+            "projectName": "Entrez le nom du projet",
+            "category": "Sélectionnez une catégorie",
+            "otherCategory": "Précisez une autre catégorie",
+            "location": "Entrez la localisation du projet",
+            "description": "Décrivez votre projet",
+            "quantity": "Entrez le nombre de membres nécessaires",
+            "profession": "ex: Développeur, Designer, Marketeur, etc."
+        },
     "notes": {
         "projectThumbnail": "Téléchargez une image carrée (taille recommandée : 500x500px) qui représente votre projet"
     },
-    "confirmationStatement": "Je confirme que les informations fournies sont exactes et peuvent être vérifiées.",
-    "mandatoryFieldsNote": "Les champs marqués d'un * sont obligatoires."
+            "confirmationStatement": "Je confirme que les informations fournies sont exactes et peuvent être vérifiées.",
+        "mandatoryFieldsNote": "Les champs marqués d'un * sont obligatoires.",
+        "addTeamRequirement": "Ajouter une Exigence d'Équipe",
+        "remove": "Supprimer",
+        "noTeamRequirements": "Aucune exigence d'équipe ajoutée. Cliquez sur 'Ajouter une Exigence d'Équipe' pour commencer."
   }
 }
   

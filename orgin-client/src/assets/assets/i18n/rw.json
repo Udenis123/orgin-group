@@ -549,39 +549,39 @@
         "teamRequirements": "Abakenewe mu mushinga",
         "reviewAndSubmit": "Gusuzuma no kwemeza"
     },
-    "fields": {
-        "fullName": "Izina Ryuzuye",
-        "professionalStatus": "Imiterere y'Umwuga",
-        "email": "Imeri",
-        "phone": "Telefone",
-        "linkedin": "LinkedIn",
-        "projectName": "Izina ry'Umushinga",
-        "category": "Icyiciro",
-        "otherCategory": "Icyiciro cy'ikindi",
-        "location": "Aho ushobora gukorerwa",
-        "description": "Ibisobanuro",
-        "projectThumbnail": "Ifoto y'umushinga",
-        "confirmationCheckbox": "Icyemezo",
-        "requiredMembers": "Abafatanyabikorwa Bakenewe",
-        "developer": "Uwubaka umushinga",
-        "designer": "Ukora imbata",
-        "marketer": "Uwamamaza",
-        "businessanalyst": "Inzobere mu bucuruzi",
-        "projectmanager": "Umuhuzabikorwa w'umushinga",
-        "other": "Ikindi"
-    },
-    "placeholders": {
-        "projectName": "Andika izina ry'umushinga",
-        "category": "Hitamo icyiciro",
-        "otherCategory": "Sobanura icyiciro cy'ikindi",
-        "location": "Andika aho ushobora gukorerwa",
-        "description": "Sobanura neza umushinga wawe",
-        "quantity": "Andika umubare w'abakozi bakenewe"
-    },
+            "fields": {
+            "fullName": "Izina Ryuzuye",
+            "professionalStatus": "Imiterere y'Umwuga",
+            "email": "Imeri",
+            "phone": "Telefone",
+            "linkedin": "LinkedIn",
+            "projectName": "Izina ry'Umushinga",
+            "category": "Icyiciro",
+            "otherCategory": "Icyiciro cy'ikindi",
+            "location": "Aho ushobora gukorerwa",
+            "description": "Ibisobanuro",
+            "projectThumbnail": "Ifoto y'umushinga",
+            "confirmationCheckbox": "Icyemezo",
+            "requiredMembers": "Abafatanyabikorwa Bakenewe",
+            "profession": "Umwuga/Icyo akora",
+            "quantity": "Umubare"
+        },
+            "placeholders": {
+            "projectName": "Andika izina ry'umushinga",
+            "category": "Hitamo icyiciro",
+            "otherCategory": "Sobanura icyiciro cy'ikindi",
+            "location": "Andika aho ushobora gukorerwa",
+            "description": "Sobanura neza umushinga wawe",
+            "quantity": "Andika umubare w'abakozi bakenewe",
+            "profession": "urugero: Uwubaka umushinga, Ukora imbata, Uwamamaza, etc."
+        },
     "notes": {
         "projectThumbnail": "Tanga ifoto ifite urugero rwa kare (ingano ishimishije: 500x500px) ihagarariye umushinga wawe"
     },
-    "confirmationStatement": "Nemeza ko amakuru natanze ari ukuri kandi ashobora kugenzurwa.",
-    "mandatoryFieldsNote": "Imyanya ifite * ni ibikenewe."
+            "confirmationStatement": "Nemeza ko amakuru natanze ari ukuri kandi ashobora kugenzurwa.",
+        "mandatoryFieldsNote": "Imyanya ifite * ni ibikenewe.",
+        "addTeamRequirement": "Ongera icyo gisaba umushinga",
+        "remove": "Kuraho",
+        "noTeamRequirements": "Nta kintu cyo gusaba umushinga cyongewe. Kanda 'Ongera icyo gisaba umushinga' kugira ngo utangire."
   }
 }

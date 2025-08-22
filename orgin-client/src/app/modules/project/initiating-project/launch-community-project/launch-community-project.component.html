@@ -71,12 +71,33 @@
         <div *ngIf="currentStep === 2" class="card mb-3">
             <div class="card-header">{{ 'launchCommunityProject.steps.teamRequirements' | translate }}</div>
             <div class="card-body">
-                <div class="row" *ngFor="let memberGroup of requiredMembers.controls; let i = index">
-                    <div class="col-md-6 form-group">
-                        <label>{{ 'launchCommunityProject.fields.' + requiredProfessions[i].toLowerCase() | translate }}</label>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <input type="number" class="form-control" [formControl]="getQuantityControl(i)" min="0" [placeholder]="'launchCommunityProject.placeholders.quantity' | translate">
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary btn-add-requirement" (click)="addTeamRequirement()">
+                        <i class="fas fa-plus"></i> {{ 'launchCommunityProject.addTeamRequirement' | translate }}
+                    </button>
+                </div>
+                
+                <div *ngIf="requiredMembers.length === 0" class="no-requirements-message">
+                    {{ 'launchCommunityProject.noTeamRequirements' | translate }}
+                </div>
+                
+                <div class="team-requirement-row" *ngFor="let memberGroup of requiredMembers.controls; let i = index">
+                    <div class="row">
+                        <div class="col-md-5 form-group">
+                            <label>{{ 'launchCommunityProject.fields.profession' | translate }} <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" [formControl]="getProfessionControl(i)" 
+                                   [placeholder]="'launchCommunityProject.placeholders.profession' | translate">
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label>{{ 'launchCommunityProject.fields.quantity' | translate }} <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" [formControl]="getQuantityControl(i)" 
+                                   min="1" [placeholder]="'launchCommunityProject.placeholders.quantity' | translate">
+                        </div>
+                        <div class="col-md-2 form-group d-flex align-items-end">
+                            <button type="button" class="btn btn-link btn-remove-requirement" (click)="removeTeamRequirement(i)" title="{{ 'launchCommunityProject.remove' | translate }}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -109,7 +130,8 @@
             <button type="button" class="btn btn-danger me-2" (click)="onClear()">
                 {{ 'CLEAR' | translate }}
             </button>
-            <button type="submit" class="btn btn-success" *ngIf="currentStep === steps.length - 1" [disabled]="!projectForm.valid">
+            <button type="submit" class="btn btn-success" *ngIf="currentStep === steps.length - 1" 
+                    [disabled]="!projectForm.valid || requiredMembers.length === 0">
                 {{ 'SUBMIT' | translate }}
             </button>
         </div>
