@@ -22,6 +22,7 @@ export class LaunchCommunityProjectComponent {
   fileReferences: { [key: string]: File | null } = {
     projectThumbnail: null
   };
+  isSubmitting = false;
 
   constructor(private fb: FormBuilder, private projectService: ProjectService) {
     this.projectForm = this.fb.group({
@@ -169,6 +170,7 @@ export class LaunchCommunityProjectComponent {
 
   async onSubmit() {
     if (this.projectForm.valid && this.requiredMembers.length > 0) {
+      this.isSubmitting = true;
       try {
         // Format the data according to the API structure
         const formValue = this.projectForm.value;
@@ -203,6 +205,8 @@ export class LaunchCommunityProjectComponent {
       } catch (error) {
         console.error('Error submitting community project:', error);
         alert('An error occurred while submitting your project. Please try again.');
+      } finally {
+        this.isSubmitting = false;
       }
     } else if (this.requiredMembers.length === 0) {
       alert('Please add at least one team requirement before submitting.');

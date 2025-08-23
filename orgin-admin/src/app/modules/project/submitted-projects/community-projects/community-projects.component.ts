@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,14 +12,15 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ProjectService, CommunityProject } from '../../../../services/project.services';
 
 export interface Project {
-  id: number;
+  id: string;
   title: string;
   description: string;
   dateOfSubmission: Date;
   lastUpdated: Date;
-  status: 'Pending';
+  status: string;
 }
 
 @Component({
@@ -36,42 +37,21 @@ export interface Project {
     CommonModule,
     FormsModule
   ],
+  providers: [ProjectService],
   templateUrl: './community-projects.component.html',
   styleUrls: ['./community-projects.component.scss']
 })
-export class SubmittedCommunityProjectsComponent {
+export class SubmittedCommunityProjectsComponent implements OnInit {
   displayedColumns: string[] = ['number', 'title', 'description', 'dateOfSubmission', 'lastUpdated', 'status', 'actions'];
   dataSource: MatTableDataSource<Project>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  projects: Project[] = [
-    {
-      id: 7,
-      title: 'Community Garden',
-      description: 'Urban gardening initiative',
-      dateOfSubmission: new Date('2024-01-15'),
-      lastUpdated: new Date('2024-01-20'),
-      status: 'Pending'
-    },
-    {
-      id: 8,
-      title: 'Recycling Program',
-      description: 'Community-based recycling initiative',
-      dateOfSubmission: new Date('2024-02-05'),
-      lastUpdated: new Date('2024-02-10'),
-      status: 'Pending'
-    },
-    {
-      id: 9,
-      title: 'Neighborhood Watch App',
-      description: 'Safety app for local communities',
-      dateOfSubmission: new Date('2024-03-10'),
-      lastUpdated: new Date('2024-03-15'),
-      status: 'Pending'
-    }
-  ];
+  projects: Project[] = [];
+  loading = true;
+  error = false;
+  errorMessage = '';
 
   currentPage = 0;
   pageSizeOptions = [5, 10, 25, 50];
@@ -81,9 +61,14 @@ export class SubmittedCommunityProjectsComponent {
   constructor(
     private router: Router,
     public translate: TranslateService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private projectService: ProjectService
   ) {
     this.dataSource = new MatTableDataSource(this.projects);
+  }
+
+  ngOnInit(): void {
+    this.loadPendingCommunityProjects();
   }
 
   ngAfterViewInit() {
@@ -91,6 +76,35 @@ export class SubmittedCommunityProjectsComponent {
     this.dataSource.sort = this.sort;
     this.calculateTotalPages();
     this.cdr.detectChanges();
+  }
+
+  loadPendingCommunityProjects(): void {
+    this.loading = true;
+    this.error = false;
+    
+    this.projectService.getPendingCommunityProjects().subscribe({
+      next: (communityProjects: CommunityProject[]) => {
+        this.projects = communityProjects.map(project => ({
+          id: project.id,
+          title: project.projectName,
+          description: project.description,
+          dateOfSubmission: new Date(project.createdAt),
+          lastUpdated: new Date(project.updatedOn),
+          status: project.status
+        }));
+        this.dataSource.data = this.projects;
+        this.calculateTotalPages();
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error: any) => {
+        console.error('Error loading pending community projects:', error);
+        this.error = true;
+        this.errorMessage = 'Failed to load community projects. Please try again.';
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   calculateTotalPages() {
@@ -129,11 +143,15 @@ export class SubmittedCommunityProjectsComponent {
   }
 
   viewProjectDetails(project: Project) {
-    this.router.navigate(['dashboard/project/details', project.id]);
+    this.router.navigate(['dashboard/project/community/details', project.id]);
   }
 
   onPageSizeChange() {
     this.currentPage = 0;
     this.calculateTotalPages();
+  }
+
+  retryLoading(): void {
+    this.loadPendingCommunityProjects();
   }
 }

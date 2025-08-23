@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray, FormControl } from '@angular/forms';
 import { ProjectService } from '../../../services/project.services';
 import { Project } from '../project.module';
 
@@ -47,6 +48,26 @@ interface OrderedProject {
   reasons?: string;
 }
 
+interface CommunityProject {
+  id: string;
+  fullName: string;
+  profession: string;
+  email: string;
+  phone: string;
+  linkedIn: string;
+  projectPhoto: string;
+  projectName: string;
+  category: string;
+  location: string;
+  description: string;
+  status: string;
+  reason: string;
+  createdAt: string;
+  updatedOn: string;
+  team: Array<{ title: string; number: number }>;
+  userId: string;
+}
+
 type ProjectType = 'launched' | 'ordered' | 'community';
 
 @Component({
@@ -54,13 +75,14 @@ type ProjectType = 'launched' | 'ordered' | 'community';
   standalone: true,
   imports: [
     CommonModule,
-    TranslateModule
+    TranslateModule,
+    ReactiveFormsModule
   ],
   templateUrl: './project-details.component.html',
   styleUrls: ['./project-details.component.scss']
 })
 export class ProjectDetailsComponent implements OnInit {
-  project: Project | OrderedProject | undefined;
+  project: Project | OrderedProject | CommunityProject | undefined;
   projectType: ProjectType = 'launched';
   projectAnalytics?: ProjectAnalytics;
   error: string | null = null;
@@ -68,14 +90,26 @@ export class ProjectDetailsComponent implements OnInit {
   @ViewChild('videoPreview') videoPreview: any;
   @ViewChild('videoPreviewModal') videoPreviewModal: any;
   currentVideoUrl: string = '';
+  addTeamMemberForm: FormGroup;
+  showAddTeamMemberForm = false;
+
+  // Popup properties for truncation
+  showPopup = false;
+  popupContent = '';
+  popupTitle = '';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public translate: TranslateService,
     private modalService: NgbModal,
-    private projectService: ProjectService
-  ) {}
+    private projectService: ProjectService,
+    private fb: FormBuilder
+  ) {
+    this.addTeamMemberForm = this.fb.group({
+      newTeamMembers: this.fb.array([])
+    });
+  }
 
   ngOnInit(): void {
     this.loadProjectDetails();
@@ -133,13 +167,12 @@ export class ProjectDetailsComponent implements OnInit {
       console.log('Not a launched project, trying community project...');
     }
 
-    // Finally try community project (if endpoint exists)
+    // Finally try community project
     try {
-      // TODO: Implement community project loading when endpoint is available
-      // const communityProject = await this.projectService.getCommunityProjectById(projectId);
-      // this.project = communityProject;
-      // this.projectType = 'community';
-      // return;
+      const communityProject = await this.projectService.getCommunityProjectById(projectId);
+      this.project = communityProject;
+      this.projectType = 'community';
+      return;
     } catch (error) {
       console.log('Not a community project...');
     }
@@ -170,12 +203,18 @@ export class ProjectDetailsComponent implements OnInit {
     if (this.isOrderedProject()) {
       return (this.project as OrderedProject).projectTitle || '';
     }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).projectName || '';
+    }
     return (this.project as Project).projectName || '';
   }
 
   getProjectDescription(): string {
     if (this.isOrderedProject()) {
       return (this.project as OrderedProject).projectDescription || '';
+    }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).description || '';
     }
     return (this.project as Project).description || '';
   }
@@ -188,12 +227,18 @@ export class ProjectDetailsComponent implements OnInit {
     if (this.isOrderedProject()) {
       return (this.project as OrderedProject).clientName || '';
     }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).fullName || '';
+    }
     return (this.project as Project).clientName || '';
   }
 
   getEmail(): string {
     if (this.isOrderedProject()) {
       return (this.project as OrderedProject).email || '';
+    }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).email || '';
     }
     return (this.project as Project).email || '';
   }
@@ -202,12 +247,18 @@ export class ProjectDetailsComponent implements OnInit {
     if (this.isOrderedProject()) {
       return (this.project as OrderedProject).phone || '';
     }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).phone || '';
+    }
     return (this.project as Project).phone || '';
   }
 
   getLinkedIn(): string {
     if (this.isOrderedProject()) {
       return (this.project as OrderedProject).linkedIn || '';
+    }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).linkedIn || '';
     }
     return (this.project as Project).linkedIn || '';
   }
@@ -216,12 +267,18 @@ export class ProjectDetailsComponent implements OnInit {
     if (this.isOrderedProject()) {
       return (this.project as OrderedProject).projectLocation;
     }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).location || '';
+    }
     return (this.project as Project).projectLocation || '';
   }
 
   getSpeciality(): string {
     if (this.isOrderedProject()) {
       return (this.project as OrderedProject).specialityOfProject;
+    }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).profession || '';
     }
     return (this.project as Project).specialityOfProject || '';
   }
@@ -265,6 +322,9 @@ export class ProjectDetailsComponent implements OnInit {
     if (this.isOrderedProject()) {
       return (this.project as OrderedProject).reasons || '';
     }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).reason || '';
+    }
     return (this.project as Project).feedback || '';
   }
 
@@ -272,6 +332,9 @@ export class ProjectDetailsComponent implements OnInit {
   getProfessionalStatus(): string {
     if (this.isOrderedProject()) {
       return (this.project as OrderedProject).professionalStatus || '';
+    }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).profession || '';
     }
     return '';
   }
@@ -309,12 +372,18 @@ export class ProjectDetailsComponent implements OnInit {
     if (this.isLaunchedProject()) {
       return (this.project as Project).submittedOn || '';
     }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).createdAt || '';
+    }
     return '';
   }
 
   getUpdatedOn(): string {
     if (this.isLaunchedProject()) {
       return (this.project as Project).updatedOn || '';
+    }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).updatedOn || '';
     }
     return '';
   }
@@ -323,6 +392,9 @@ export class ProjectDetailsComponent implements OnInit {
   getCategory(): string {
     if (this.isLaunchedProject()) {
       return (this.project as Project).category || '';
+    }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).category || '';
     }
     return '';
   }
@@ -438,7 +510,129 @@ export class ProjectDetailsComponent implements OnInit {
     if (this.isLaunchedProject()) {
       return (this.project as Project).projectPhotoUrl || '';
     }
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).projectPhoto || '';
+    }
     return '';
+  }
+
+  // Community project specific helper methods
+  getTeamMembers(): Array<{ title: string; number: number }> {
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).team || [];
+    }
+    return [];
+  }
+
+  hasTeamMembers(): boolean {
+    if (this.isCommunityProject()) {
+      const team = (this.project as CommunityProject).team;
+      return team && team.length > 0;
+    }
+    return false;
+  }
+
+  // Add new team member to community project
+  async addTeamMember(projectId: string, teamMember: { title: string; number: number }): Promise<void> {
+    try {
+      await this.projectService.addTeamMemberToCommunityProject(projectId, teamMember);
+      // Refresh the project data to show the new team member
+      await this.loadProjectDetails();
+    } catch (error) {
+      console.error('Error adding team member:', error);
+      throw error;
+    }
+  }
+
+  // Get project ID for community projects
+  getCommunityProjectId(): string {
+    if (this.isCommunityProject()) {
+      return (this.project as CommunityProject).id;
+    }
+    return '';
+  }
+
+  // Form Array getter
+  get newTeamMembers() {
+    return this.addTeamMemberForm.get('newTeamMembers') as FormArray;
+  }
+
+  // Add a new team member row
+  addTeamMemberRow() {
+    const teamMember = this.fb.group({
+      title: ['', Validators.required],
+      number: [1, [Validators.required, Validators.min(1)]]
+    });
+    this.newTeamMembers.push(teamMember);
+  }
+
+  // Remove a team member row
+  removeTeamMemberRow(index: number) {
+    this.newTeamMembers.removeAt(index);
+  }
+
+  // Get form controls for a specific team member
+  getTeamMemberControls(index: number) {
+    return this.newTeamMembers.at(index) as FormGroup;
+  }
+
+  // Show the add team member form
+  showAddTeamMemberFormSection() {
+    this.showAddTeamMemberForm = true;
+    // Add at least one row when showing the form
+    if (this.newTeamMembers.length === 0) {
+      this.addTeamMemberRow();
+    }
+  }
+
+  // Hide the add team member form
+  hideAddTeamMemberForm() {
+    this.showAddTeamMemberForm = false;
+    this.addTeamMemberForm.reset();
+    // Clear the form array
+    while (this.newTeamMembers.length !== 0) {
+      this.newTeamMembers.removeAt(0);
+    }
+  }
+
+  // Save all new team members
+  async saveTeamMembers(): Promise<void> {
+    if (this.addTeamMemberForm.valid && this.newTeamMembers.length > 0) {
+      try {
+        const projectId = this.getCommunityProjectId();
+        
+        // Add each team member
+        for (let i = 0; i < this.newTeamMembers.length; i++) {
+          const memberGroup = this.newTeamMembers.at(i) as FormGroup;
+          const teamMember = {
+            title: memberGroup.value.title,
+            number: parseInt(memberGroup.value.number)
+          };
+          
+          await this.addTeamMember(projectId, teamMember);
+        }
+        
+        // Hide form and reset
+        this.hideAddTeamMemberForm();
+        
+        // Show success message
+        console.log('Team members added successfully');
+      } catch (error) {
+        console.error('Error adding team members:', error);
+        // Show error message
+      }
+    }
+  }
+
+  // Clear the form
+  clearTeamMemberForm() {
+    this.addTeamMemberForm.reset();
+    // Clear the form array
+    while (this.newTeamMembers.length !== 0) {
+      this.newTeamMembers.removeAt(0);
+    }
+    // Add one empty row
+    this.addTeamMemberRow();
   }
 
   hasBasicInfo(): boolean {
@@ -488,5 +682,29 @@ export class ProjectDetailsComponent implements OnInit {
 
   closeModal(): void {
     this.modalService.dismissAll();
+  }
+
+  // Text truncation and popup methods
+  truncateText(text: string, maxLength: number = 50): string {
+    if (!text || text.length <= maxLength) {
+      return text;
+    }
+    return text.substring(0, maxLength) + '...';
+  }
+
+  shouldShowViewMore(text: string, maxLength: number = 50): boolean {
+    return !!(text && text.length > maxLength);
+  }
+
+  showFullText(content: string, title: string): void {
+    this.popupContent = content;
+    this.popupTitle = title;
+    this.showPopup = true;
+  }
+
+  closePopup(): void {
+    this.showPopup = false;
+    this.popupContent = '';
+    this.popupTitle = '';
   }
 }

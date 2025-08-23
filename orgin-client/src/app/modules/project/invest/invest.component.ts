@@ -25,9 +25,14 @@ interface Project {
 })
 export class InvestComponent implements OnInit {
   projectId: string | null = null;
-  project: Project | null = null;
-  loading = true;
+  project: any = null;
+  loading: boolean = false;
   error: string | null = null;
+
+  // Popup properties for truncation
+  showPopup = false;
+  popupContent = '';
+  popupTitle = '';
 
   // Dummy projects data with added ID
   projects: Project[] = [
@@ -182,9 +187,32 @@ export class InvestComponent implements OnInit {
     }
   }
 
-  investNow(): void {
-    if (this.projectId) {
-      this.router.navigate(['/dashboard/schedule/invest', this.projectId]);
+  investNow() {
+    // Implement investment logic
+    console.log('Investing in project:', this.projectId);
+  }
+
+  // Text truncation and popup methods
+  truncateText(text: string, maxLength: number = 80): string {
+    if (!text || text.length <= maxLength) {
+      return text;
     }
+    return text.substring(0, maxLength) + '...';
+  }
+
+  shouldShowViewMore(text: string, maxLength: number = 80): boolean {
+    return !!(text && text.length > maxLength);
+  }
+
+  showFullText(content: string, title: string): void {
+    this.popupContent = content;
+    this.popupTitle = title;
+    this.showPopup = true;
+  }
+
+  closePopup(): void {
+    this.showPopup = false;
+    this.popupContent = '';
+    this.popupTitle = '';
   }
 }

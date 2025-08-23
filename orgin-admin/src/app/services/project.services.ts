@@ -71,6 +71,29 @@ export interface OrderedProject {
   reasons: string;
 }
 
+export interface CommunityProject {
+  id: string;
+  fullName: string;
+  profession: string;
+  email: string;
+  phone: string;
+  linkedIn: string;
+  projectPhoto: string;
+  projectName: string;
+  category: string;
+  location: string;
+  description: string;
+  status: string;
+  reason: string | null;
+  createdAt: string;
+  updatedOn: string;
+  team: Array<{
+    title: string;
+    number: number;
+  }>;
+  userId: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -196,6 +219,45 @@ export class ProjectService {
         projectId: projectId,
         analyzerId: analyzerId
       },
+      headers: this.getHeaders(),
+      responseType: 'text'
+    });
+  }
+
+  // Get pending community projects
+  getPendingCommunityProjects(): Observable<CommunityProject[]> {
+    return this.http.get<CommunityProject[]>(`${environment.apiUrl}/community/project/pending`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // Get all community projects
+  getAllCommunityProjects(): Observable<CommunityProject[]> {
+    return this.http.get<CommunityProject[]>(`${environment.apiUrl}/community/project`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // Get community project by ID
+  getCommunityProjectById(id: string): Observable<CommunityProject> {
+    return this.http.get<CommunityProject>(`${environment.apiUrl}/community/project/${id}`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // Approve community project
+  approveCommunityProject(projectId: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/admin/community-project/approve`, null, {
+      params: { projectId },
+      headers: this.getHeaders(),
+      responseType: 'text'
+    });
+  }
+
+  // Decline community project
+  declineCommunityProject(projectId: string, reason: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/admin/community-project/cancel`, null, {
+      params: { projectId, reason },
       headers: this.getHeaders(),
       responseType: 'text'
     });

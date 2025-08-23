@@ -30,6 +30,11 @@ export class BookmarkedComponent implements OnInit {
   userId: string = '';
   isLoading: boolean = false;
 
+  // Popup properties for truncation
+  showPopup = false;
+  popupContent = '';
+  popupTitle = '';
+
   constructor(
     private bookmarkedService: BookmarkedService,
     private snackBar: MatSnackBar,
@@ -95,5 +100,29 @@ export class BookmarkedComponent implements OnInit {
           this.loadBookmarkedProjects();
         },
       });
+  }
+
+  // Text truncation and popup methods
+  truncateText(text: string, maxLength: number = 50): string {
+    if (!text || text.length <= maxLength) {
+      return text;
+    }
+    return text.substring(0, maxLength) + '...';
+  }
+
+  shouldShowViewMore(text: string, maxLength: number = 50): boolean {
+    return !!(text && text.length > maxLength);
+  }
+
+  showFullText(content: string, title: string): void {
+    this.popupContent = content;
+    this.popupTitle = title;
+    this.showPopup = true;
+  }
+
+  closePopup(): void {
+    this.showPopup = false;
+    this.popupContent = '';
+    this.popupTitle = '';
   }
 }

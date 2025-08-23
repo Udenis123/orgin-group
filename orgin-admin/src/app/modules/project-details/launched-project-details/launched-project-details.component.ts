@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { CustomButtonComponent } from '../../../shared/components/custom-button/custom-button.component';
+import { LoadingComponent } from '../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-launched-project-details',
@@ -22,7 +23,8 @@ import { CustomButtonComponent } from '../../../shared/components/custom-button/
     MatSelectModule,
     MatInputModule,
     FormsModule,
-    CustomButtonComponent
+    CustomButtonComponent,
+    LoadingComponent
   ]
 })
 export class LaunchedProjectDetailsComponent implements OnInit {
@@ -80,6 +82,12 @@ export class LaunchedProjectDetailsComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  retryLoading(): void {
+    this.loadProjectDetails();
+    this.loadAnalyzers();
+    this.loadAssignedAnalyzers();
   }
 
   loadAnalyzers(): void {

@@ -32,6 +32,7 @@ import { ScheduledAppointmentsComponent } from './modules/appointment-management
 import { AppointmentDetailsComponent } from './modules/appointment-management/appointment-details/appointment-details.component';
 import { AnalyticsComponent } from './modules/analytics/analytics/analytics.component';
 import { AnalyticsDetailsComponent } from './modules/analytics/analytics-details/analytics-details.component';
+import { CommunityProjectDetailsComponent } from './modules/project-details/community-project-details/community-project-details.component';
 
 export const routes: Routes = [
   {
@@ -136,6 +137,10 @@ export const routes: Routes = [
       {
         path: 'project/launched/details/:id',
         component: LaunchedProjectDetailsComponent,
+      },
+      {
+        path: 'project/community/details/:id',
+        component: CommunityProjectDetailsComponent,
       },
       {
         path: 'project/ordered/details/:id',

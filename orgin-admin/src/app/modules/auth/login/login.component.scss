@@ -68,6 +68,19 @@ html, body {
       border-color: rgb(202, 86, 8);
     }
   }
+
+  // Validation error styling
+  .validation-error {
+    color: #dc3545;
+    font-size: 0.4rem;
+    margin-top: 0.1373rem;
+    margin-bottom: 0.1373rem;
+    line-height: 1.2;
+    
+    span {
+      display: block;
+    }
+  }
   
   button {
     background-color: rgb(202, 86, 8);
@@ -194,5 +207,16 @@ p {
     a {
       font-size: 0.8rem;
     }
+  }
+}
+
+// Responsive validation error
+.validation-error {
+  @include mobile {
+    font-size: 0.6rem;
+  }
+  
+  @include tablet {
+    font-size: 0.5rem;
   }
 }

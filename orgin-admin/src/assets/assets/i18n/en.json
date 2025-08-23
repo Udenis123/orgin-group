@@ -118,7 +118,9 @@
       "SAVE_CONTINUE": "Save & Continue",
       "ASSIGNING": "Assigning...",
       "cancel": "Cancel",
-      "confirm": "Confirm"
+      "confirm": "Confirm",
+      "noProjects": "No Projects Found",
+      "noProjectsMessage": "There are no community projects available at the moment."
     },
     "users": {
       "clients": {

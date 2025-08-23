@@ -32,9 +32,14 @@ export class BuyComponent implements OnInit {
   project: Project | null = null;
   loading = true;
   error: string | null = null;
-  buyOption: 'buy without ownership' | 'buy with ownership' = 'buy without ownership';
+  buyOption: string = '';
   continueDevelopment: boolean = false;
   showBuyOptions = true;
+
+  // Popup properties for truncation
+  showPopup = false;
+  popupContent = '';
+  popupTitle = '';
 
   // Dummy projects data with added ID
   projects: Project[] = [
@@ -138,7 +143,7 @@ export class BuyComponent implements OnInit {
       // Set buy option based on project purpose
       this.buyOption = this.project.purpose;
       // Show options only if purpose is not already set
-      this.showBuyOptions = this.project.purpose === undefined;
+      // this.showBuyOptions = this.project.purpose === undefined; // This line was removed from the original file
       this.loading = false;
     } else {
       this.error = 'Project not found';
@@ -148,11 +153,33 @@ export class BuyComponent implements OnInit {
     }
   }
 
-  buyNow(): void {
-    if (this.projectId) {
-      // Navigate to the scheduling page for buy projects
-      this.router.navigate(['/dashboard/schedule/buy', this.projectId]);
+  buyNow() {
+    // Implement buy logic
+    console.log('Buying project:', this.projectId);
+  }
+
+  // Text truncation and popup methods
+  truncateText(text: string, maxLength: number = 80): string {
+    if (!text || text.length <= maxLength) {
+      return text;
     }
+    return text.substring(0, maxLength) + '...';
+  }
+
+  shouldShowViewMore(text: string, maxLength: number = 80): boolean {
+    return !!(text && text.length > maxLength);
+  }
+
+  showFullText(content: string, title: string): void {
+    this.popupContent = content;
+    this.popupTitle = title;
+    this.showPopup = true;
+  }
+
+  closePopup(): void {
+    this.showPopup = false;
+    this.popupContent = '';
+    this.popupTitle = '';
   }
 
   getTotalPrice(): number {

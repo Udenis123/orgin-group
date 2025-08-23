@@ -116,7 +116,9 @@
   "SAVE_CONTINUE": "Enregistrer & Continuer",
   "ASSIGNING": "Attribution en cours...",
   "cancel": "Annuler",
-  "confirm": "Confirmer"
+  "confirm": "Confirmer",
+  "noProjects": "Aucun Projet Trouvé",
+  "noProjectsMessage": "Il n'y a actuellement aucun projet communautaire disponible."
 },
 "users": {
   "clients": {

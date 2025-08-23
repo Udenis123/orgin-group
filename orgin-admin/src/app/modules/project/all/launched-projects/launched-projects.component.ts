@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ProjectService } from '../../../../services/project.services';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 export interface Project {
   balanceSheetUrl: string;
@@ -69,7 +70,8 @@ export interface Project {
     CommonModule,
     RouterModule,
     FormsModule,
-    DatePipe
+    DatePipe,
+    LoadingComponent
   ],
   templateUrl: './launched-projects.component.html',
   styleUrls: ['./launched-projects.component.scss']
@@ -80,6 +82,11 @@ export class ProjectsLaunchedComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+  // Loading states
+  isLoading = false;
+  isError = false;
+  errorMessage = '';
 
   projects: Project[] = [
     {
@@ -223,17 +230,25 @@ export class ProjectsLaunchedComponent implements OnInit {
   }
 
   loadLaunchedProjects(): void {
+    this.isLoading = true;
+    this.isError = false;
+    this.errorMessage = '';
+
     this.projectService.getAllLaunchedProjects().subscribe({
       next: (projects) => {
         this.projects = projects;
         this.dataSource.data = this.projects;
         this.calculateTotalPages();
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error loading launched projects:', error);
+        this.isError = true;
+        this.errorMessage = 'Failed to load launched projects. Please try again.';
         // Fallback to hardcoded data if API fails
         this.dataSource.data = this.projects;
         this.calculateTotalPages();
+        this.isLoading = false;
       }
     });
   }
@@ -304,5 +319,9 @@ export class ProjectsLaunchedComponent implements OnInit {
     this.showFullText = false;
     this.expandedField = '';
     this.expandedText = '';
+  }
+
+  retryLoading(): void {
+    this.loadLaunchedProjects();
   }
 }

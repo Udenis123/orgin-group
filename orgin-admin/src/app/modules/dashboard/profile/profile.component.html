@@ -1,4 +1,12 @@
-<div class="profile-container">
+<!-- Show loading state until profile is ready -->
+<div *ngIf="!isProfileReady || isLoading" class="profile-loading">
+  <app-loading 
+    [message]="'Loading profile information...'">
+  </app-loading>
+</div>
+
+<!-- Show profile content only when profile is ready -->
+<div *ngIf="isProfileReady && !isLoading" class="profile-container">
   <h1>{{ 'profile.title' | translate }}</h1>
   
   <div class="profile-section">

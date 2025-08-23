@@ -2,13 +2,21 @@
   <h1>{{ 'PROJECT_DETAILS.TITLE' | translate }}</h1>
   
   <!-- Loading State -->
-  <div *ngIf="isLoading" class="loading-state">
-    <p>{{ 'projectDetails.loading' | translate }}</p>
+  <div *ngIf="isLoading" class="loading-container">
+    <app-loading message="Loading project details..."></app-loading>
   </div>
 
   <!-- Error State -->
-  <div *ngIf="error" class="error-state">
-    <p>{{ 'projectDetails.error.notFound' | translate }}</p>
+  <div *ngIf="error && !isLoading" class="error-container">
+    <div class="error-content">
+      <i class="material-icons error-icon">error_outline</i>
+      <h3>Error Loading Project</h3>
+      <p>{{ 'projectDetails.error.notFound' | translate }}</p>
+      <button class="retry-button" (click)="retryLoading()">
+        <i class="material-icons">refresh</i>
+        Try Again
+      </button>
+    </div>
   </div>
 
   <!-- Project Details -->
@@ -256,17 +264,20 @@
         
         <!-- Loading state for analyzers -->
         <div *ngIf="analyzersLoading" class="analyzers-loading">
-          <div class="loading-spinner"></div>
-          <p>{{ 'common.loading' | translate }}</p>
+          <app-loading message="Loading analyzers..."></app-loading>
         </div>
 
         <!-- Error state for analyzers -->
         <div *ngIf="analyzersError && !analyzersLoading" class="analyzers-error">
-          <i class="fas fa-exclamation-triangle"></i>
-          <p>{{ 'projectDetails.error.loadingAnalyzers' | translate }}</p>
-          <button (click)="loadAnalyzers()" class="retry-button">
-            {{ 'common.retry' | translate }}
-          </button>
+          <div class="error-content">
+            <i class="material-icons error-icon">error_outline</i>
+            <h3>Error Loading Analyzers</h3>
+            <p>{{ 'projectDetails.error.loadingAnalyzers' | translate }}</p>
+            <button (click)="loadAnalyzers()" class="retry-button">
+              <i class="material-icons">refresh</i>
+              Try Again
+            </button>
+          </div>
         </div>
 
         <!-- Analyzers grid -->

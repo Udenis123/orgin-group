@@ -1,13 +1,33 @@
 <div class="container">
   <h1>{{ 'submittedProjects.assignedLaunchedProjects' | translate }}</h1>
   
-  <mat-form-field appearance="outline">
-    <mat-label>{{ 'common.search' | translate }}</mat-label>
-    <input style="color: var(--text-color);" matInput (keyup)="applyFilter($event)" placeholder="{{ 'common.searchPlaceholder' | translate }}">
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <app-loading message="Loading launched projects..."></app-loading>
+  </div>
 
-  <div class="projects-table">
+  <!-- Error State -->
+  <div *ngIf="isError && !isLoading" class="error-container">
+    <div class="error-content">
+      <i class="material-icons error-icon">error_outline</i>
+      <h3>Error Loading Projects</h3>
+      <p>{{ errorMessage }}</p>
+      <button class="retry-button" (click)="retryLoading()">
+        <i class="material-icons">refresh</i>
+        Try Again
+      </button>
+    </div>
+  </div>
+
+  <!-- Content when not loading and no error -->
+  <div *ngIf="!isLoading && !isError">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'common.search' | translate }}</mat-label>
+      <input style="color: var(--text-color);" matInput (keyup)="applyFilter($event)" placeholder="{{ 'common.searchPlaceholder' | translate }}">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="projects-table">
     <table>
       <thead>
         <tr>
@@ -69,6 +89,20 @@
     <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
       <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
     </select>
+    </div>
+
+    <div class="pagination">
+      <button (click)="previousPage()" [disabled]="currentPage === 0">
+        <i class="material-icons">chevron_left</i>
+      </button>
+      <span>{{ currentPage + 1 }} / {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
+        <i class="material-icons">chevron_right</i>
+      </button>
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+      </select>
+    </div>
   </div>
 
   <!-- Full Text Popup Modal -->

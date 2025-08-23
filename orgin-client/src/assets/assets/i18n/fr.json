@@ -350,6 +350,8 @@
   },
   "myProjects": {
     "title": "Mes Projets",
+    "loading": "Chargement de vos projets...",
+    "retry": "Réessayer",
     "projectName": "Nom du Projet",
     "status": "Statut",
     "lastUpdated": "Dernière Mise à Jour",
@@ -358,22 +360,33 @@
     "edit": "Modifier le Projet",
     "launchedProjects": "Projets Lancés",
     "orderedProjects": "Projets Commandés",
+    "joinedProjects": "Projets Rejoints",
     "communityProjects": "Projets Communautaires",
-    "tableHeaders": {
-        "number": "No",
-        "name": "Nom",
-        "description": "Description",
-        "submissionDate": "Date de Soumission",
-        "lastUpdated": "Dernière Mise à Jour",
-        "status": "Statut",
-        "actions": "Actions"
-    },
     "noLaunchedProjects": "Vous n'avez pas encore de projets lancés.",
     "noOrderedProjects": "Vous n'avez pas encore de projets commandés.",
-    "noCommunityProjects": "Vous n'avez pas encore de projets communautaires."
+    "noJoinedProjects": "Vous n'avez rejoint aucun projet pour le moment.",
+    "noCommunityProjects": "Vous n'avez pas encore de projets communautaires.",
+    "tableHeaders": {
+      "number": "No",
+      "name": "Nom",
+      "description": "Description",
+      "submissionDate": "Date de Soumission",
+      "lastUpdated": "Dernière Mise à Jour",
+      "projectOwner": "Propriétaire du Projet",
+      "joinedDate": "Date d'Adhésion",
+      "status": "Statut",
+      "actions": "Actions"
+    }
+  },
+  "pagination": {
+    "showing": "Affichage",
+    "of": "sur",
+    "previous": "Précédent",
+    "next": "Suivant"
   },
   "projectDetails": {
     "title": "Détails du Projet",
+    "loading": "Chargement des détails du projet...",
     "basicInfo": "Informations de Base",
     "projectInfo": "Informations sur le Projet",
     "financialDocs": "Documents Financiers",

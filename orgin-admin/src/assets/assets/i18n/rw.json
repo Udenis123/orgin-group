@@ -115,7 +115,9 @@
   "SAVE_CONTINUE": "Bika & Komeza",
   "ASSIGNING": "Harira...",
   "cancel": "Hagarika",
-  "confirm": "Emeza"
+  "confirm": "Emeza",
+  "noProjects": "Nta Mushinga Wabonetse",
+  "noProjectsMessage": "Nta mushinga w'umuryango uraboneka kugeza ubu."
 },
 "users": {
   "clients": {

@@ -28,8 +28,8 @@
     </div>
     
     <div class="card-body">
-      <!-- Project Thumbnail (only for launched projects) -->
-      <div class="project-thumbnail mb-4" *ngIf="isLaunchedProject() && getProjectPhotoUrl()">
+      <!-- Project Thumbnail (only for launched and community projects) -->
+      <div class="project-thumbnail mb-4" *ngIf="(isLaunchedProject() || isCommunityProject()) && getProjectPhotoUrl()">
         <img [src]="getProjectPhotoUrl()" [alt]="getProjectName()" class="img-fluid rounded">
       </div>
       
@@ -72,7 +72,17 @@
             </div>
             <div class="card-body">
               <div class="mb-2">
-                <strong>{{ 'projectLaunch.fields.projectDescription' | translate }}:</strong> {{ getProjectDescription() }}
+                <strong>{{ 'projectLaunch.fields.projectDescription' | translate }}:</strong> 
+                <span>
+                  {{ truncateText(getProjectDescription(), 80) }}
+                  <button 
+                    *ngIf="shouldShowViewMore(getProjectDescription(), 80)" 
+                    class="view-more-btn" 
+                    (click)="showFullText(getProjectDescription(), 'Project Description')"
+                  >
+                    view more
+                  </button>
+                </span>
               </div>
               
               <div class="mb-2" *ngIf="getProjectType()">
@@ -96,7 +106,17 @@
               </div>
               
               <div class="mb-2" *ngIf="getBusinessIdea()">
-                <strong>{{ 'projectLaunch.fields.businessIdea' | translate }}:</strong> {{ getBusinessIdea() }}
+                <strong>{{ 'projectLaunch.fields.businessIdea' | translate }}:</strong> 
+                <span>
+                  {{ truncateText(getBusinessIdea(), 60) }}
+                  <button 
+                    *ngIf="shouldShowViewMore(getBusinessIdea(), 60)" 
+                    class="view-more-btn" 
+                    (click)="showFullText(getBusinessIdea(), 'Business Idea')"
+                  >
+                    view more
+                  </button>
+                </span>
               </div>
               
               <div class="mb-2" *ngIf="getNeedsBusinessPlan()">
@@ -170,6 +190,124 @@
         </div>
       </div>
       
+      <!-- Team Section Card (only for community projects) -->
+      <div *ngIf="isCommunityProject() && hasTeamMembers()" class="mb-4">
+        <div class="card scroll-animate">
+          <div class="card-header">
+            <h5 class="border-bottom pb-2 text-secondary">
+              {{ 'launchCommunityProject.fields.requiredMembers' | translate }}
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="team-members-grid">
+              <div class="team-member-card" *ngFor="let member of getTeamMembers()">
+                <div class="member-info">
+                  <span class="member-title">{{ member.title }}</span>
+                  <span class="member-count">{{ member.number }}</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Add Team Member Button -->
+            <div class="add-team-member-section mt-4" *ngIf="!showAddTeamMemberForm">
+              <button 
+                type="button" 
+                class="btn btn-primary btn-add-team-member"
+                (click)="showAddTeamMemberFormSection()"
+              >
+                <i class="fas fa-plus me-2"></i>
+                {{ 'launchCommunityProject.addTeamRequirement' | translate }}
+              </button>
+            </div>
+            
+            <!-- Add New Team Member Form -->
+            <div class="add-team-member-form-section mt-4" *ngIf="showAddTeamMemberForm">
+              <div class="card">
+                <div class="card-header">
+                  <h6 class="mb-0">{{ 'launchCommunityProject.addTeamRequirement' | translate }}</h6>
+                </div>
+                <div class="card-body">
+                  <form [formGroup]="addTeamMemberForm">
+                    <div formArrayName="newTeamMembers">
+                      <div class="team-requirement-row" *ngFor="let memberGroup of newTeamMembers.controls; let i = index">
+                        <div class="row" [formGroupName]="i">
+                          <div class="col-md-5 form-group">
+                            <label>{{ 'launchCommunityProject.fields.profession' | translate }} <span class="text-danger">*</span></label>
+                            <input 
+                              type="text" 
+                              class="form-control" 
+                              formControlName="title"
+                              [placeholder]="'launchCommunityProject.placeholders.profession' | translate"
+                            >
+                          </div>
+                          <div class="col-md-3 form-group">
+                            <label>{{ 'launchCommunityProject.fields.quantity' | translate }} <span class="text-danger">*</span></label>
+                            <input 
+                              type="number" 
+                              class="form-control" 
+                              formControlName="number"
+                              min="1"
+                              [placeholder]="'launchCommunityProject.placeholders.quantity' | translate"
+                            >
+                          </div>
+                          <div class="col-md-2 form-group d-flex align-items-end">
+                            <button 
+                              type="button" 
+                              class="btn btn-link btn-remove-requirement" 
+                              (click)="removeTeamMemberRow(i)" 
+                              title="{{ 'launchCommunityProject.remove' | translate }}"
+                              *ngIf="newTeamMembers.length > 1"
+                            >
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Add Another Row Button -->
+                    <div class="mb-3">
+                      <button type="button" class="btn btn-outline-primary btn-add-row" (click)="addTeamMemberRow()">
+                        <i class="fas fa-plus"></i> {{ 'launchCommunityProject.addTeamRequirement' | translate }}
+                      </button>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                      <button 
+                        type="button" 
+                        class="btn btn-success me-2" 
+                        (click)="saveTeamMembers()"
+                        [disabled]="!addTeamMemberForm.valid || newTeamMembers.length === 0"
+                      >
+                        <i class="fas fa-save me-2"></i>
+                        {{ 'SUBMIT' | translate }}
+                      </button>
+                      <button 
+                        type="button" 
+                        class="btn btn-warning me-2" 
+                        (click)="clearTeamMemberForm()"
+                      >
+                        <i class="fas fa-eraser me-2"></i>
+                        {{ 'CLEAR' | translate }}
+                      </button>
+                      <button 
+                        type="button" 
+                        class="btn btn-secondary" 
+                        (click)="hideAddTeamMemberForm()"
+                      >
+                        <i class="fas fa-times me-2"></i>
+                        {{ 'CANCEL' | translate }}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <!-- Analytics Section Card (only for approved launched projects) -->
       <div *ngIf="isLaunchedProject() && getProjectStatus() === 'APPROVED' && projectAnalytics" class="mb-4">
         <div class="card scroll-animate">
@@ -227,7 +365,7 @@
       </div>
       
       <!-- Documents Section Card -->
-      <div class="mb-4">
+      <div class="mb-4" *ngIf="!isCommunityProject()">
         <div class="card scroll-animate">
           <div class="card-header">
             <h5 class="border-bottom pb-2 text-secondary">{{ 'projectDetails.documents' | translate }}</h5>
@@ -361,7 +499,16 @@
           </div>
           <div class="card-body">
             <div class="alert alert-danger mt-3">
-              <p>{{ getReasons() }}</p>
+              <p>
+                {{ truncateText(getReasons(), 100) }}
+                <button 
+                  *ngIf="shouldShowViewMore(getReasons(), 100)" 
+                  class="view-more-btn" 
+                  (click)="showFullText(getReasons(), 'Feedback')"
+                >
+                  view more
+                </button>
+              </p>
             </div>
           </div>
         </div>
@@ -375,6 +522,21 @@
       <i class="fas fa-arrow-left me-2"></i>
       {{ 'projectDetails.back' | translate }}
     </button>
+  </div>
+</div>
+
+<!-- Popup Modal for Full Text -->
+<div class="popup-overlay" *ngIf="showPopup" (click)="closePopup()">
+  <div class="popup-content" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <h3>{{ popupTitle }}</h3>
+      <button class="popup-close" (click)="closePopup()">
+        <i class="material-icons">close</i>
+      </button>
+    </div>
+    <div class="popup-body">
+      <p>{{ popupContent }}</p>
+    </div>
   </div>
 </div>
 

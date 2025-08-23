@@ -8,6 +8,7 @@
     color: var(--secondary-color);
     margin-bottom: 2rem;
     text-align: center;
+    font-size: 1.5rem;
   }
 }
 
@@ -18,6 +19,7 @@
   p {
     margin-top: 1rem;
     color: var(--text-color-secondary);
+    font-size: 0.9rem;
   }
 }
 
@@ -34,18 +36,19 @@
   border-collapse: collapse;
   overflow: hidden;
   background-color: transparent;
+  font-size: 0.85rem;
 
   th, td {
-    padding: 1rem;
+    padding: 0.75rem;
     text-align: left;
     border-bottom: 1px solid #eee;
     color: var(--text-color);
     
     &:nth-child(1) { width: 5%; }  // No
     &:nth-child(2) { width: 15%; } // Name
-    &:nth-child(3) { width: 25%; } // Description
-    &:nth-child(4) { width: 15%; } // Date of Submission
-    &:nth-child(5) { width: 15%; } // Last Updated
+    &:nth-child(3) { width: 20%; } // Description
+    &:nth-child(4) { width: 12%; } // Date of Submission / Project Owner
+    &:nth-child(5) { width: 12%; } // Last Updated / Joined Date
     &:nth-child(6) { width: 10%; } // Status
     &:nth-child(7) { width: 15%; } // Actions
   }
@@ -54,6 +57,7 @@
     font-weight: 500;
     background-color: var(--primary-color);
     color: white;
+    font-size: 0.8rem;
   }
 
   tr:hover {
@@ -76,10 +80,11 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0.25rem;
     color: #3f51b5;
     transition: color 0.3s;
     margin: 0 0.25rem;
+    font-size: 0.7rem;
 
     &:hover {
       color: #283593;
@@ -88,6 +93,312 @@
     &[disabled] {
       color: #ccc;
       cursor: not-allowed;
+    }
+  }
+
+  .delete-button {
+    color: #dc3545;
+    
+    &:hover {
+      color: #c82333;
+    }
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    .fa-spin {
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Custom Delete Confirmation Modal Styles
+.delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.delete-modal-content {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  animation: slideInScale 0.3s ease-out;
+}
+
+.delete-modal-header {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  background: #dc3545;
+  color: white;
+  position: relative;
+
+  .delete-modal-icon {
+    margin-right: 1rem;
+    
+    i {
+      font-size: 2rem;
+      color: #ffc107;
+      animation: pulse 2s infinite;
+    }
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    flex: 1;
+  }
+}
+
+.delete-modal-close {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  i {
+    font-size: 1.2rem;
+  }
+}
+
+.delete-modal-body {
+  padding: 1.5rem;
+  color: var(--text-color);
+  background-color: white;
+
+  p {
+    margin: 0 0 1.5rem 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+  }
+}
+
+.delete-modal-project-info {
+  background-color: rgba(var(--primary-color-rgb), 0.05);
+  border: 1px solid rgba(var(--primary-color-rgb), 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+
+  .project-name, .project-status {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    strong {
+      color: var(--text-color);
+      margin-right: 0.5rem;
+    }
+  }
+
+  .project-name {
+    color: var(--text-color);
+  }
+
+  .project-status {
+    .status-pending {
+      color: #ffc107;
+    }
+
+    .status-approved {
+      color: #28a745;
+    }
+
+    .status-declined {
+      color: #dc3545;
+    }
+  }
+}
+
+.delete-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  background-color: rgba(var(--secondary-color-rgb), 0.02);
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    i {
+      font-size: 1.1rem;
+    }
+  }
+
+  .delete-modal-cancel {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    color: var(--text-color-dark);
+
+    &:hover:not(:disabled) {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+  }
+
+  .delete-modal-confirm {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    border: 1px solid #dc3545;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #c82333, #bd2130);
+      border-color: #c82333;
+    }
+  }
+}
+
+/* Dark mode support for delete modal */
+:host-context(body.dark-mode) {
+  .delete-modal-content {
+    background-color: var(--background-color);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .delete-modal-body {
+    color: var(--text-color-dark);
+
+    p {
+      color: var(--text-color-dark);
+    }
+  }
+
+  .delete-modal-project-info {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    .project-name, .project-status {
+      strong {
+        color: var(--text-color-dark);
+      }
+    }
+
+    .project-name {
+      color: var(--text-color-dark);
+    }
+  }
+
+  .delete-modal-footer {
+    background-color: rgba(255, 255, 255, 0.02);
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .delete-modal-content {
+    width: 95%;
+    margin: 1rem;
+  }
+
+  .delete-modal-header {
+    padding: 1rem;
+
+    h3 {
+      font-size: 1.1rem;
+    }
+
+    .delete-modal-icon i {
+      font-size: 1.5rem;
+    }
+  }
+
+  .delete-modal-body {
+    padding: 1rem;
+  }
+
+  .delete-modal-footer {
+    padding: 1rem;
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+      justify-content: center;
     }
   }
 }
@@ -108,6 +419,7 @@
   h2 {
     color: var(--secondary-color);
     margin-bottom: 1rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -118,4 +430,170 @@
   text-align: center;
   color: var(--text-color-secondary);
   border: 1px solid var(--border-color);
+  font-size: 0.9rem;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border-color);
+}
+
+.pagination-info {
+  color: var(--text-color-secondary);
+  font-size: 0.8rem;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.3s;
+
+  &:hover:not(:disabled) {
+    background-color: var(--secondary-color);
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.pagination-page {
+  background-color: var(--background-color-light);
+  color: var(--text-color);
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-weight: 500;
+  border: 1px solid var(--border-color);
+  min-width: 2rem;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+// View More Button
+.view-more-btn {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: underline;
+  margin-left: 0.5rem;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #d15000;
+  }
+}
+
+// Modal Styles
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.popup-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #eee;
+    background: var(--primary-color);
+    color: white;
+
+    h3 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .popup-close {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      i {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .popup-body {
+    padding: 2rem;
+    max-height: 60vh;
+    overflow-y: auto;
+
+    p {
+      margin: 0;
+      line-height: 1.6;
+      color: var(--text-color);
+      font-size: 1rem;
+    }
+  }
+}
+
+/* Dark mode support for modal */
+:host-context(body.dark-mode) {
+  .popup-content {
+    background: #2c3e50;
+    color: var(--text-color);
+
+    .popup-header {
+      background: var(--secondary-color);
+      border-color: #444;
+    }
+
+    .popup-body {
+      p {
+        color: #ccc;
+      }
+    }
+  }
+
+  .view-more-btn {
+    color: var(--secondary-color);
+  }
 }

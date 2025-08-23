@@ -12,14 +12,15 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ProjectService, CommunityProject } from '../../../../services/project.services';
 
 export interface Project {
-  id: number;
+  id: string;
   title: string;
   description: string;
   dateOfSubmission: Date;
   lastUpdated: Date;
-  status: 'Approved' | 'Declined' | 'Pending';
+  status: string;
 }
 
 @Component({
@@ -36,6 +37,7 @@ export interface Project {
     CommonModule,
     FormsModule
   ],
+  providers: [ProjectService],
   templateUrl: './community-projects.component.html',
   styleUrls: ['./community-projects.component.scss']
 })
@@ -45,18 +47,21 @@ export class ProjectsCommunityComponent implements OnInit {
   totalPages = 0;
   dataSource = new MatTableDataSource<Project>([]);
   pageSizeOptions = [5, 10, 20];
+  loading = true;
+  error = false;
+  errorMessage = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private projectService: ProjectService
   ) {}
 
   ngOnInit(): void {
-    this.dataSource.data = this.getDummyData();
-    this.calculateTotalPages();
+    this.loadAllCommunityProjects();
   }
 
   ngAfterViewInit(): void {
@@ -65,12 +70,33 @@ export class ProjectsCommunityComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  getDummyData(): Project[] {
-    return [
-      { id: 1, title: 'Project 1', description: 'Description 1', dateOfSubmission: new Date(), lastUpdated: new Date(), status: 'Approved' },
-      { id: 2, title: 'Project 2', description: 'Description 2', dateOfSubmission: new Date(), lastUpdated: new Date(), status: 'Declined' },
-      { id: 3, title: 'Project 3', description: 'Description 3', dateOfSubmission: new Date(), lastUpdated: new Date(), status: 'Pending' },
-    ];
+  loadAllCommunityProjects(): void {
+    this.loading = true;
+    this.error = false;
+    
+    this.projectService.getAllCommunityProjects().subscribe({
+      next: (communityProjects: CommunityProject[]) => {
+        const projects = communityProjects.map(project => ({
+          id: project.id,
+          title: project.projectName,
+          description: project.description,
+          dateOfSubmission: new Date(project.createdAt),
+          lastUpdated: new Date(project.updatedOn),
+          status: project.status
+        }));
+        this.dataSource.data = projects;
+        this.calculateTotalPages();
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error: any) => {
+        console.error('Error loading all community projects:', error);
+        this.error = true;
+        this.errorMessage = 'Failed to load community projects. Please try again.';
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   calculateTotalPages(): void {
@@ -91,7 +117,7 @@ export class ProjectsCommunityComponent implements OnInit {
   }
 
   viewProjectDetails(project: Project): void {
-    this.router.navigate(['dashboard/project/details', project.id]);
+    this.router.navigate(['dashboard/project/community/details', project.id]);
   }
 
   previousPage(): void {
@@ -111,5 +137,9 @@ export class ProjectsCommunityComponent implements OnInit {
   onPageSizeChange(): void {
     this.currentPage = 0;
     this.calculateTotalPages();
+  }
+
+  retryLoading(): void {
+    this.loadAllCommunityProjects();
   }
 }

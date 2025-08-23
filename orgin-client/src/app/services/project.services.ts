@@ -370,6 +370,36 @@ export class ProjectService {
       .toPromise();
   }
 
+  // Joined Project Methods
+  async getUserJoinedProjects(): Promise<any[]> {
+    const token = this.cookieService.get('token');
+    const userId = this.cookieService.get('userId');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    const projects = await this.http
+      .get<any[]>(`${environment.apiUrl}/api/joined-projects/user?userId=${userId}`, { headers })
+      .toPromise();
+    return projects || [];
+  }
+
+  async getJoinedProjectById(projectId: string): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    const project = await this.http
+      .get<any>(`${environment.apiUrl}/api/joined-projects/${projectId}`, { headers })
+      .toPromise();
+    if (!project) {
+      throw new Error('Joined project not found');
+    }
+    return project;
+  }
+
   // Community Project Methods
   async createCommunityProject(
     projectData: {
@@ -416,6 +446,69 @@ export class ProjectService {
         headers,
         responseType: 'text',
       })
+      .toPromise();
+  }
+
+  async getUserCommunityProjects(): Promise<any[]> {
+    const token = this.cookieService.get('token');
+    const userId = this.cookieService.get('userId');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    const projects = await this.http
+      .get<any[]>(`${environment.apiUrl}/community/project/user/${userId}`, { headers })
+      .toPromise();
+    return projects || [];
+  }
+
+  async getCommunityProjectById(projectId: string): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    const project = await this.http
+      .get<any>(`${environment.apiUrl}/community/project/${projectId}`, { headers })
+      .toPromise();
+    if (!project) {
+      throw new Error('Community project not found');
+    }
+    return project;
+  }
+
+  async addTeamMemberToCommunityProject(projectId: string, teamMember: { title: string; number: number }): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http
+      .post<any>(`${environment.apiUrl}/community/project/${projectId}/team-members`, teamMember, { headers })
+      .toPromise();
+  }
+
+  async deleteCommunityProject(projectId: string): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .delete<any>(`${environment.apiUrl}/community/project/${projectId}`, { headers })
+      .toPromise();
+  }
+
+  async deleteLaunchedProject(projectId: string): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .delete<any>(`${this.apiUrl}/${projectId}`, { headers })
       .toPromise();
   }
 }

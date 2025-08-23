@@ -9,15 +9,34 @@
     </div>
   </div>
 
-  <div class="project-grid" *ngIf="!isLoading && projects.length; else noProjects">
+  <!-- Project Grid - Only show when not loading and has projects -->
+  <div class="project-grid" *ngIf="!isLoading && projects.length > 0">
     <div *ngFor="let project of projects" class="project-card">
       <img
         [src]="project.projectUrl || 'assets/images/default-project.jpg'"
         [alt]="project.projectName"
       />
       <div class="project-details">
-        <h3>{{ project.projectName }}</h3>
-        <p class="description">{{ project.projectDescription }}</p>
+        <h3>
+          {{ truncateText(project.projectName, 30) }}
+          <button 
+            *ngIf="shouldShowViewMore(project.projectName, 30)" 
+            class="view-more-btn" 
+            (click)="showFullText(project.projectName, 'Project Name')"
+          >
+            view more
+          </button>
+        </h3>
+        <p class="description">
+          {{ truncateText(project.projectDescription, 80) }}
+          <button 
+            *ngIf="shouldShowViewMore(project.projectDescription, 80)" 
+            class="view-more-btn" 
+            (click)="showFullText(project.projectDescription, 'Description')"
+          >
+            view more
+          </button>
+        </p>
         <div class="project-stats">
           <div class="stat">
             <span>{{ "bookmarked.category" | translate }}</span>
@@ -33,7 +52,16 @@
           </div>
           <div class="stat">
             <span>{{ "bookmarked.purpose" | translate }}</span>
-            <strong>{{ project.projectPurpose }}</strong>
+            <strong>
+              {{ truncateText(project.projectPurpose, 25) }}
+              <button 
+                *ngIf="shouldShowViewMore(project.projectPurpose, 25)" 
+                class="view-more-btn" 
+                (click)="showFullText(project.projectPurpose, 'Project Purpose')"
+              >
+                view more
+              </button>
+            </strong>
           </div>
         </div>
         <div class="project-actions">
@@ -51,7 +79,23 @@
     </div>
   </div>
 
-  <ng-template #noProjects>
+  <!-- No Projects Message - Only show when not loading and no projects -->
+  <div *ngIf="!isLoading && projects.length === 0" class="no-projects">
     <p>{{ "bookmarked.noProjects" | translate }}</p>
-  </ng-template>
+  </div>
+</div>
+
+<!-- Popup Modal for Full Text -->
+<div class="popup-overlay" *ngIf="showPopup" (click)="closePopup()">
+  <div class="popup-content" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <h3>{{ popupTitle }}</h3>
+      <button class="popup-close" (click)="closePopup()">
+        <i class="material-icons">close</i>
+      </button>
+    </div>
+    <div class="popup-body">
+      <p>{{ popupContent }}</p>
+    </div>
+  </div>
 </div>

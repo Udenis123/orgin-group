@@ -32,7 +32,16 @@
         </div>
       </div>
       
-      <p class="project-description">{{ project.description }}</p>
+      <p class="project-description">
+        {{ truncateText(project.description, 80) }}
+        <button 
+          *ngIf="shouldShowViewMore(project.description, 80)" 
+          class="view-more-btn" 
+          (click)="showFullText(project.description, 'Project Description')"
+        >
+          view more
+        </button>
+      </p>
       
       <div class="purchase-options">
         <h3>{{ 'buy.purchaseOptions' | translate }}</h3>
@@ -93,6 +102,21 @@
           {{ 'buy.buyNow' | translate }}
         </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Popup Modal for Full Text -->
+<div class="popup-overlay" *ngIf="showPopup" (click)="closePopup()">
+  <div class="popup-content" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <h3>{{ popupTitle }}</h3>
+      <button class="popup-close" (click)="closePopup()">
+        <i class="material-icons">close</i>
+      </button>
+    </div>
+    <div class="popup-body">
+      <p>{{ popupContent }}</p>
     </div>
   </div>
 </div>

@@ -353,6 +353,8 @@
       },
       "myProjects": {
         "title": "My Projects",
+        "loading": "Loading your projects...",
+        "retry": "Retry",
         "projectName": "Project Name",
         "status": "Status",
         "lastUpdated": "Last Updated",
@@ -361,6 +363,7 @@
         "edit": "Edit Project",
         "launchedProjects": "Launched Projects",
         "orderedProjects": "Ordered Projects",
+        "joinedProjects": "Joined Projects",
         "communityProjects": "Community Projects",
         "tableHeaders": {
             "number": "No",
@@ -368,15 +371,25 @@
             "description": "Description",
             "submissionDate": "Date of Submission",
             "lastUpdated": "Last Updated",
+            "projectOwner": "Project Owner",
+            "joinedDate": "Joined Date",
             "status": "Status",
             "actions": "Actions"
         },
         "noLaunchedProjects": "You have no launched projects yet.",
         "noOrderedProjects": "You have no ordered projects yet.",
+        "noJoinedProjects": "You have not joined any projects yet.",
         "noCommunityProjects": "You have no community projects yet."
+      },
+      "pagination": {
+        "showing": "Showing",
+        "of": "of",
+        "previous": "Previous",
+        "next": "Next"
       },
       "projectDetails": {
         "title": "Project Details",
+        "loading": "Loading project details...",
         "basicInfo": "Basic Information",
         "projectInfo": "Project Information",
         "financialDocs": "Financial Documents",

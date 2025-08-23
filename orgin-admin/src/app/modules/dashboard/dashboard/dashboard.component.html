@@ -1,4 +1,13 @@
-<div class="dashboard-container">
+<!-- Show loading state until profile is ready -->
+<div *ngIf="!isProfileReady || isLoading" class="dashboard-loading">
+  <app-loading 
+    [fullscreen]="true" 
+    [message]="'Loading your dashboard...'">
+  </app-loading>
+</div>
+
+<!-- Show dashboard content only when profile is ready -->
+<div *ngIf="isProfileReady && !isLoading" class="dashboard-container">
   <app-navbar></app-navbar>
   <div class="dashboard-content" [class.sidenav-closed]="!isSidenavOpen">
     <app-sidenav (toggle)="onSidenavToggle($event)"></app-sidenav>

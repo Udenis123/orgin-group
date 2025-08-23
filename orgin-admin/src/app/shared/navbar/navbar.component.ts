@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -6,6 +6,7 @@ import { ThemeService } from '../../core/theme.service';
 import { CookieService } from '../../services/cookie.service';
 import { UserService } from '../../services/user.service';
 import { environment } from '../../../environments/environment';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -14,11 +15,16 @@ import { environment } from '../../../environments/environment';
   standalone: true,
   imports: [CommonModule, TranslateModule]
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   username = ''; // Initialize as empty
   isAccountMenuOpen = false; // Track if account menu is open
   selectedLanguage = 'en'; // Add this line
   analyzerUrl = environment.analyzerUrl; // Add analyzer URL from environment
+  isProfileReady = false;
+  isLoading = false;
+  private profileSubscription: Subscription | null = null;
+  private loadingSubscription: Subscription | null = null;
+  private readySubscription: Subscription | null = null;
 
   constructor(
     private router: Router, 
@@ -35,7 +41,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchUserProfile();
+    this.initializeProfile();
 
     // Apply theme on component initialization
     if (this.themeService.isDarkTheme()) {
@@ -45,22 +51,53 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  fetchUserProfile() {
-    // Fetch fresh data from API
-    this.userService.getProfileDetails().subscribe({
-      next: (profile) => {
+  ngOnDestroy() {
+    if (this.profileSubscription) {
+      this.profileSubscription.unsubscribe();
+    }
+    if (this.loadingSubscription) {
+      this.loadingSubscription.unsubscribe();
+    }
+    if (this.readySubscription) {
+      this.readySubscription.unsubscribe();
+    }
+  }
+
+  private initializeProfile() {
+    // Subscribe to profile ready state
+    this.readySubscription = this.userService.profileReady$.subscribe(ready => {
+      this.isProfileReady = ready;
+    });
+
+    // Subscribe to loading state
+    this.loadingSubscription = this.userService.loading$.subscribe(loading => {
+      this.isLoading = loading;
+    });
+
+    // Subscribe to profile updates
+    this.profileSubscription = this.userService.profile$.subscribe(profile => {
+      if (profile) {
         this.username = profile.fullName;
-      },
-      error: (err) => {
-        console.error('Failed to fetch profile:', err);
-        // Fallback to cookie if API fails
-        const userProfile = this.cookieService.getCookie('userProfile');
-        if (userProfile) {
-          const profile = JSON.parse(userProfile);
-          this.username = profile.fullname;
-        }
       }
     });
+
+    // Fetch profile data if not already ready
+    if (!this.userService.isProfileReady()) {
+      this.userService.getProfileDetails().subscribe({
+        next: (profile) => {
+          this.username = profile.fullName;
+        },
+        error: (err) => {
+          console.error('Failed to fetch profile:', err);
+          // Fallback to cookie if API fails
+          const userProfile = this.cookieService.getCookie('userProfile');
+          if (userProfile) {
+            const profile = JSON.parse(userProfile);
+            this.username = profile.fullname;
+          }
+        }
+      });
+    }
   }
 
   navigateToProfile() {

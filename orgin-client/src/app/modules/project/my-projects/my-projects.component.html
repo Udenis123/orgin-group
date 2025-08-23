@@ -37,10 +37,28 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let project of launchedProjects; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ project.projectName }}</td>
-            <td>{{ project.description }}</td>
+          <tr *ngFor="let project of getLaunchedProjectsPaginated(); let i = index">
+            <td>{{ (launchedProjectsPage - 1) * launchedProjectsPageSize + i + 1 }}</td>
+            <td>
+              {{ truncateText(project.projectName) }}
+              <button 
+                *ngIf="shouldShowViewMore(project.projectName)" 
+                class="view-more-btn" 
+                (click)="showFullText(project.projectName, 'Project Name')"
+              >
+                view more
+              </button>
+            </td>
+            <td>
+              {{ truncateText(project.description) }}
+              <button 
+                *ngIf="shouldShowViewMore(project.description)" 
+                class="view-more-btn" 
+                (click)="showFullText(project.description, 'Description')"
+              >
+                view more
+              </button>
+            </td>
             <td>{{ project.submittedOn | date }}</td>
             <td>{{ project.updatedOn | date }}</td>
             <td [ngClass]="'status-' + project.status.toLowerCase()">
@@ -59,10 +77,35 @@
               >
                 <i class="material-icons">edit</i>
               </button>
+              
             </td>
           </tr>
         </tbody>
       </table>
+      
+      <!-- Paginator for launched projects -->
+      <div class="pagination-container" *ngIf="launchedProjectsTotal > launchedProjectsPageSize">
+        <div class="pagination-info">
+          {{ "pagination.showing" | translate }} {{ (launchedProjectsPage - 1) * launchedProjectsPageSize + 1 }} - {{ Math.min(launchedProjectsPage * launchedProjectsPageSize, launchedProjectsTotal) }} {{ "pagination.of" | translate }} {{ launchedProjectsTotal }}
+        </div>
+        <div class="pagination-controls">
+          <button 
+            class="pagination-btn" 
+            [disabled]="launchedProjectsPage === 1"
+            (click)="onLaunchedProjectsPageChange(launchedProjectsPage - 1)"
+          >
+            {{ "pagination.previous" | translate }}
+          </button>
+          <span class="pagination-page">{{ launchedProjectsPage }}</span>
+          <button 
+            class="pagination-btn" 
+            [disabled]="launchedProjectsPage * launchedProjectsPageSize >= launchedProjectsTotal"
+            (click)="onLaunchedProjectsPageChange(launchedProjectsPage + 1)"
+          >
+            {{ "pagination.next" | translate }}
+          </button>
+        </div>
+      </div>
     </div>
     <ng-template #noLaunchedProjects>
       <div class="no-projects-card">
@@ -87,10 +130,28 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let project of orderedProjects; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ project.projectName }}</td>
-            <td>{{ project.description }}</td>
+          <tr *ngFor="let project of getOrderedProjectsPaginated(); let i = index">
+            <td>{{ (orderedProjectsPage - 1) * orderedProjectsPageSize + i + 1 }}</td>
+            <td>
+              {{ truncateText(project.projectName) }}
+              <button 
+                *ngIf="shouldShowViewMore(project.projectName)" 
+                class="view-more-btn" 
+                (click)="showFullText(project.projectName, 'Project Name')"
+              >
+                view more
+              </button>
+            </td>
+            <td>
+              {{ truncateText(project.description) }}
+              <button 
+                *ngIf="shouldShowViewMore(project.description)" 
+                class="view-more-btn" 
+                (click)="showFullText(project.description, 'Description')"
+              >
+                view more
+              </button>
+            </td>
             <td>{{ project.submittedOn | date }}</td>
             <td>{{ project.updatedOn | date }}</td>
             <td [ngClass]="'status-' + project.status.toLowerCase()">
@@ -109,14 +170,148 @@
               >
                 <i class="material-icons">edit</i>
               </button>
+              <button
+                class="icon-button delete-button"
+                (click)="deleteOrderedProject(project)"
+                title="Delete Project"
+                [disabled]="deletingProjectId === project.projectId"
+              >
+                <i *ngIf="deletingProjectId !== project.projectId" class="material-icons">delete</i>
+                <i *ngIf="deletingProjectId === project.projectId" class="material-icons fa-spin">hourglass_empty</i>
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
+      
+      <!-- Paginator for ordered projects -->
+      <div class="pagination-container" *ngIf="orderedProjectsTotal > orderedProjectsPageSize">
+        <div class="pagination-info">
+          {{ "pagination.showing" | translate }} {{ (orderedProjectsPage - 1) * orderedProjectsPageSize + 1 }} - {{ Math.min(orderedProjectsPage * orderedProjectsPageSize, orderedProjectsTotal) }} {{ "pagination.of" | translate }} {{ orderedProjectsTotal }}
+        </div>
+        <div class="pagination-controls">
+          <button 
+            class="pagination-btn" 
+            [disabled]="orderedProjectsPage === 1"
+            (click)="onOrderedProjectsPageChange(orderedProjectsPage - 1)"
+          >
+            {{ "pagination.previous" | translate }}
+          </button>
+          <span class="pagination-page">{{ orderedProjectsPage }}</span>
+          <button 
+            class="pagination-btn" 
+            [disabled]="orderedProjectsPage * orderedProjectsPageSize >= orderedProjectsTotal"
+            (click)="onOrderedProjectsPageChange(orderedProjectsPage + 1)"
+          >
+            {{ "pagination.next" | translate }}
+          </button>
+        </div>
+      </div>
     </div>
     <ng-template #noOrderedProjects>
       <div class="no-projects-card">
         {{ "myProjects.noOrderedProjects" | translate }}
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="projects-section">
+    <h2>{{ "myProjects.joinedProjects" | translate }}</h2>
+    <div *ngIf="joinedProjects.length > 0; else noJoinedProjects">
+      <table class="projects-table">
+        <thead>
+          <tr>
+            <th>{{ "myProjects.tableHeaders.number" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.name" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.description" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.projectOwner" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.joinedDate" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.status" | translate }}</th>
+            <th>{{ "myProjects.tableHeaders.actions" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of getJoinedProjectsPaginated(); let i = index">
+            <td>{{ (joinedProjectsPage - 1) * joinedProjectsPageSize + i + 1 }}</td>
+            <td>
+              {{ truncateText(project.projectName) }}
+              <button 
+                *ngIf="shouldShowViewMore(project.projectName)" 
+                class="view-more-btn" 
+                (click)="showFullText(project.projectName, 'Project Name')"
+              >
+                view more
+              </button>
+            </td>
+            <td>
+              {{ truncateText(project.description) }}
+              <button 
+                *ngIf="shouldShowViewMore(project.description)" 
+                class="view-more-btn" 
+                (click)="showFullText(project.description, 'Description')"
+              >
+                view more
+              </button>
+            </td>
+            <td>
+              {{ truncateText(project.projectOwner) }}
+              <button 
+                *ngIf="shouldShowViewMore(project.projectOwner)" 
+                class="view-more-btn" 
+                (click)="showFullText(project.projectOwner, 'Project Owner')"
+              >
+                view more
+              </button>
+            </td>
+            <td>{{ project.joinedDate | date }}</td>
+            <td [ngClass]="'status-' + project.status.toLowerCase()">
+              {{ project.status }}
+            </td>
+            <td>
+              <button class="icon-button" (click)="viewJoinedProjectDetails(project)">
+                <i class="material-icons">visibility</i>
+              </button>
+              <button
+                class="icon-button delete-button"
+                (click)="deleteJoinedProject(project)"
+                title="Delete Project"
+                [disabled]="deletingProjectId === project.projectId"
+              >
+                <i *ngIf="deletingProjectId !== project.projectId" class="material-icons">delete</i>
+                <i *ngIf="deletingProjectId === project.projectId" class="material-icons fa-spin">hourglass_empty</i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <!-- Paginator for joined projects -->
+      <div class="pagination-container" *ngIf="joinedProjectsTotal > joinedProjectsPageSize">
+        <div class="pagination-info">
+          {{ "pagination.showing" | translate }} {{ (joinedProjectsPage - 1) * joinedProjectsPageSize + 1 }} - {{ Math.min(joinedProjectsPage * joinedProjectsPageSize, joinedProjectsTotal) }} {{ "pagination.of" | translate }} {{ joinedProjectsTotal }}
+        </div>
+        <div class="pagination-controls">
+          <button 
+            class="pagination-btn" 
+            [disabled]="joinedProjectsPage === 1"
+            (click)="onJoinedProjectsPageChange(joinedProjectsPage - 1)"
+          >
+            {{ "pagination.previous" | translate }}
+          </button>
+          <span class="pagination-page">{{ joinedProjectsPage }}</span>
+          <button 
+            class="pagination-btn" 
+            [disabled]="joinedProjectsPage * joinedProjectsPageSize >= joinedProjectsTotal"
+            (click)="onJoinedProjectsPageChange(joinedProjectsPage + 1)"
+          >
+            {{ "pagination.next" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-template #noJoinedProjects>
+      <div class="no-projects-card">
+        {{ "myProjects.noJoinedProjects" | translate }}
       </div>
     </ng-template>
   </div>
@@ -137,17 +332,35 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let project of communityProjects; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ project.projectName }}</td>
-            <td>{{ project.description }}</td>
+          <tr *ngFor="let project of getCommunityProjectsPaginated(); let i = index">
+            <td>{{ (communityProjectsPage - 1) * communityProjectsPageSize + i + 1 }}</td>
+            <td>
+              {{ truncateText(project.projectName) }}
+              <button 
+                *ngIf="shouldShowViewMore(project.projectName)" 
+                class="view-more-btn" 
+                (click)="showFullText(project.projectName, 'Project Name')"
+              >
+                view more
+              </button>
+            </td>
+            <td>
+              {{ truncateText(project.description) }}
+              <button 
+                *ngIf="shouldShowViewMore(project.description)" 
+                class="view-more-btn" 
+                (click)="showFullText(project.description, 'Description')"
+              >
+                view more
+              </button>
+            </td>
             <td>{{ project.submittedOn | date }}</td>
             <td>{{ project.updatedOn | date }}</td>
             <td [ngClass]="'status-' + project.status.toLowerCase()">
               {{ project.status }}
             </td>
             <td>
-              <button class="icon-button" (click)="viewProjectDetails(project)">
+              <button class="icon-button" (click)="viewCommunityProjectDetails(project)">
                 <i class="material-icons">visibility</i>
               </button>
               <button
@@ -159,10 +372,43 @@
               >
                 <i class="material-icons">edit</i>
               </button>
+              <button
+                class="icon-button delete-button"
+                (click)="deleteCommunityProject(project)"
+                title="Delete Project"
+                [disabled]="deletingProjectId === project.projectId"
+              >
+                <i *ngIf="deletingProjectId !== project.projectId" class="material-icons">delete</i>
+                <i *ngIf="deletingProjectId === project.projectId" class="material-icons fa-spin">hourglass_empty</i>
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
+      
+      <!-- Paginator for community projects -->
+      <div class="pagination-container" *ngIf="communityProjectsTotal > communityProjectsPageSize">
+        <div class="pagination-info">
+          {{ "pagination.showing" | translate }} {{ (communityProjectsPage - 1) * communityProjectsPageSize + 1 }} - {{ Math.min(communityProjectsPage * communityProjectsPageSize, communityProjectsTotal) }} {{ "pagination.of" | translate }} {{ communityProjectsTotal }}
+        </div>
+        <div class="pagination-controls">
+          <button 
+            class="pagination-btn" 
+            [disabled]="communityProjectsPage === 1"
+            (click)="onCommunityProjectsPageChange(communityProjectsPage - 1)"
+          >
+            {{ "pagination.previous" | translate }}
+          </button>
+          <span class="pagination-page">{{ communityProjectsPage }}</span>
+          <button 
+            class="pagination-btn" 
+            [disabled]="communityProjectsPage * communityProjectsPageSize >= communityProjectsTotal"
+            (click)="onCommunityProjectsPageChange(communityProjectsPage + 1)"
+          >
+            {{ "pagination.next" | translate }}
+          </button>
+        </div>
+      </div>
     </div>
     <ng-template #noCommunityProjects>
       <div class="no-projects-card">
@@ -170,5 +416,72 @@
       </div>
     </ng-template>
   </div>
+  </div>
+</div>
+
+<!-- Popup Modal for Full Text -->
+<div class="popup-overlay" *ngIf="showPopup" (click)="closePopup()">
+  <div class="popup-content" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <h3>{{ popupTitle }}</h3>
+      <button class="popup-close" (click)="closePopup()">
+        <i class="material-icons">close</i>
+      </button>
+    </div>
+    <div class="popup-body">
+      <p>{{ popupContent }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Delete Confirmation Modal -->
+<div class="delete-modal-overlay" *ngIf="showDeleteModal" (click)="closeDeleteModal()">
+  <div class="delete-modal-content" (click)="$event.stopPropagation()">
+    <div class="delete-modal-header">
+      <div class="delete-modal-icon">
+        <i class="material-icons">warning</i>
+      </div>
+      <h3>{{ deleteModalTitle }}</h3>
+      <button class="delete-modal-close" (click)="closeDeleteModal()">
+        <i class="material-icons">close</i>
+      </button>
+    </div>
+    <div class="delete-modal-body">
+      <p>{{ deleteModalMessage }}</p>
+      <div class="delete-modal-project-info" *ngIf="projectToDelete">
+        <div class="project-name">
+          <strong>Project:</strong> {{ projectToDelete.projectName }}
+        </div>
+        <div class="project-status">
+          <strong>Status:</strong> 
+          <span [ngClass]="'status-' + projectToDelete.status.toLowerCase()">
+            {{ projectToDelete.status }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="delete-modal-footer">
+      <button 
+        class="btn btn-secondary delete-modal-cancel" 
+        (click)="closeDeleteModal()"
+        [disabled]="deletingProjectId === projectToDelete?.projectId"
+      >
+        Cancel
+      </button>
+      <button 
+        class="btn btn-danger delete-modal-confirm" 
+        (click)="confirmDeleteProject()"
+        [disabled]="deletingProjectId === projectToDelete?.projectId"
+      >
+        <span *ngIf="deletingProjectId !== projectToDelete?.projectId">
+          <i class="material-icons">delete</i>
+          Delete Project
+        </span>
+        <span *ngIf="deletingProjectId === projectToDelete?.projectId">
+          <i class="material-icons fa-spin">hourglass_empty</i>
+          Deleting...
+        </span>
+      </button>
+    </div>
   </div>
 </div>

@@ -1,20 +1,173 @@
 <div class="container">
-  <h1>Community Project Details</h1>
-  
-  <div *ngIf="projectDetails" class="details-card">
-    <div *ngFor="let field of projectDetails" class="detail-row">
-      <strong>{{ field.label }}:</strong>
-      <span>{{ field.value }}</span>
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading project details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-state">
+    <i class="material-icons">error</i>
+    <h3>Error Loading Project</h3>
+    <p>{{ errorMessage }}</p>
+    <button (click)="loadProjectDetails()" class="retry-btn">Try Again</button>
+  </div>
+
+  <!-- Project Details -->
+  <div *ngIf="!loading && !error && project" class="project-details">
+    <div class="header">
+      <button (click)="goBack()" class="back-btn">
+        <i class="material-icons">arrow_back</i>
+        Back to Projects
+      </button>
+      <h1>Community Project Details</h1>
     </div>
-  </div>
 
-  <div *ngIf="!isApproved" class="approval-section">
-    <button mat-raised-button color="primary" (click)="approveProject()">
-      Approve Project
-    </button>
-  </div>
+    <div class="project-content">
+      <!-- Project Photo -->
+      <div class="project-photo" *ngIf="project.projectPhoto">
+        <img [src]="project.projectPhoto" [alt]="project.projectName" />
+      </div>
 
-  <div *ngIf="isApproved" class="approval-status">
-    <h3>Project Approved</h3>
-  </div>
-</div>
+      <!-- Project Information -->
+      <div class="details-section">
+        <h2>Project Information</h2>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Project Name:</label>
+            <span>{{ project.projectName }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Category:</label>
+            <span>{{ project.category }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Location:</label>
+            <span>{{ project.location }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Status:</label>
+            <span [class]="getStatusClass(project.status)">{{ project.status }}</span>
+          </div>
+          
+          <div class="detail-item full-width">
+            <label>Description:</label>
+            <span>{{ project.description }}</span>
+          </div>
+          <div class="detail-item" *ngIf="project.reason">
+            <label>Reason:</label>
+            <span>{{ project.reason }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal Information -->
+      <div class="details-section">
+        <h2>Personal Information</h2>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Full Name:</label>
+            <span>{{ project.fullName }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Profession:</label>
+            <span>{{ project.profession }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Email:</label>
+            <span>{{ project.email }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Phone:</label>
+            <span>{{ project.phone }}</span>
+          </div>
+          <div class="detail-item" *ngIf="project.linkedIn">
+            <label>LinkedIn:</label>
+            <a [href]="project.linkedIn" target="_blank" class="link">{{ project.linkedIn }}</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Information -->
+      <div class="details-section" *ngIf="project.team && project.team.length > 0">
+        <h2>Team Information</h2>
+        <div class="team-grid">
+          <div class="team-item" *ngFor="let member of project.team">
+            <div class="team-title">{{ member.title }}</div>
+            <div class="team-number">{{ member.number }} members</div>
+          </div>
+        </div>
+      </div>
+
+             <!-- Timestamps -->
+       <div class="details-section">
+         <h2>Timeline</h2>
+         <div class="detail-grid">
+           <div class="detail-item">
+             <label>Created:</label>
+             <span>{{ project.createdAt | date:'medium' }}</span>
+           </div>
+           <div class="detail-item">
+             <label>Last Updated:</label>
+             <span>{{ project.updatedOn | date:'medium' }}</span>
+           </div>
+         </div>
+       </div>
+
+               <!-- Actions Section -->
+        <div class="details-section" *ngIf="project.status === 'PENDING'">
+          <h2>Actions</h2>
+          <div class="action-buttons">
+            <button class="approve-btn" (click)="approveProject()" [disabled]="actionLoading">
+              <i class="material-icons" *ngIf="!actionLoading">check</i>
+              <div class="spinner-small" *ngIf="actionLoading"></div>
+              {{ actionLoading ? 'Approving...' : 'Approve Project' }}
+            </button>
+            <button class="decline-btn" (click)="showDeclineDialog()" [disabled]="actionLoading">
+              <i class="material-icons" *ngIf="!actionLoading">close</i>
+              <div class="spinner-small" *ngIf="actionLoading"></div>
+              {{ actionLoading ? 'Processing...' : 'Decline Project' }}
+            </button>
+          </div>
+        </div>
+     </div>
+   </div>
+ </div>
+
+ <!-- Message Notification -->
+ <div class="message-notification" *ngIf="showMessage" [class]="'message-' + messageType">
+   <i class="material-icons">{{ messageType === 'success' ? 'check_circle' : 'error' }}</i>
+   <span>{{ messageText }}</span>
+   <button class="close-message" (click)="showMessage = false">
+     <i class="material-icons">close</i>
+   </button>
+ </div>
+
+ <!-- Decline Dialog -->
+ <div class="dialog-overlay" *ngIf="showDeclinePopup" (click)="closeDeclineDialog()">
+   <div class="decline-dialog" (click)="$event.stopPropagation()">
+     <div class="dialog-header">
+       <h3>Decline Project</h3>
+       <button class="close-btn" (click)="closeDeclineDialog()">
+         <i class="material-icons">close</i>
+       </button>
+     </div>
+     <div class="dialog-content">
+       <p>Please provide a reason for declining this project:</p>
+       <textarea 
+         [(ngModel)]="declineReason" 
+         placeholder="Enter your reason here..."
+         rows="4"
+         class="reason-textarea">
+       </textarea>
+     </div>
+     <div class="dialog-actions">
+       <button class="cancel-btn" (click)="closeDeclineDialog()">Cancel</button>
+                       <button class="confirm-decline-btn" (click)="confirmDecline()" [disabled]="!declineReason.trim() || actionLoading">
+          <i class="material-icons" *ngIf="!actionLoading">close</i>
+          <div class="spinner-small" *ngIf="actionLoading"></div>
+          {{ actionLoading ? 'Declining...' : 'Decline Project' }}
+        </button>
+     </div>
+   </div>
+ </div>

@@ -351,6 +351,8 @@
   },
   "myProjects": {
     "title": "Imishinga Yanjye",
+    "loading": "Gusubiza imishinga yawe...",
+    "retry": "Ongera ugerageze",
     "projectName": "Izina ry'Umushinga",
     "status": "Imiterere",
     "lastUpdated": "Iheruka Gusubirwaho",
@@ -359,9 +361,11 @@
     "edit": "Hindura Umushinga",
     "launchedProjects": "Imishinga Yatangijwe",
     "orderedProjects": "Imishinga Yatanzwe",
+    "joinedProjects": "Imishinga Wiyunze",
     "communityProjects": "Imishinga y'Umuryango",
     "noLaunchedProjects": "Nta mishinga watangije ufite.",
     "noOrderedProjects": "Nta mishinga wasabye ufite.",
+    "noJoinedProjects": "Nta mushinga wiyunze ufite.",
     "noCommunityProjects": "Nta mishinga y'umuryango ufite.",
     "tableHeaders": {
       "number": "Oya",
@@ -369,12 +373,21 @@
       "description": "Ibisobanuro",
       "submissionDate": "Itariki yo Gutanga",
       "lastUpdated": "Igihe Gishya",
+      "projectOwner": "Umwishingizi w'Umushinga",
+      "joinedDate": "Itariki yo Kujyina",
       "status": "Imiterere",
       "actions": "Ibikorwa"
     }
   },
+  "pagination": {
+    "showing": "Kwerekana",
+    "of": "kuri",
+    "previous": "Subira Inyuma",
+    "next": "Komeza"
+  },
   "projectDetails": {
     "title": "Ibisobanuro by'Umushinga",
+    "loading": "Gusubiza ibisobanuro by'umushinga...",
     "basicInfo": "Amakuru y'ibanze",
     "projectInfo": "Ibisobanuro by'umushinga",
     "financialDocs": "Inyandiko z'ama faranga",
