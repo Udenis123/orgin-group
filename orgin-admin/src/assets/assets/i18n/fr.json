@@ -345,6 +345,8 @@
 },
 "update_analyzer": {
   "title": "Mettre à Jour l'Analyste",
+  "loading": "Chargement des détails de l'analyste...",
+  "error": "Erreur lors du chargement des détails de l'analyste. Veuillez réessayer.",
   "steps": {
     "personal_info": "Informations Personnelles",
     "account_details": "Détails du Compte",
@@ -353,12 +355,15 @@
   "form": {
     "full_name": "Nom Complet",
     "national_id": "Numéro National",
-    "nationality": "Nationalité",
-    "expertise": "Expertise",
-    "email": "Email",
-    "country": "Pays",
-    "select_country": "Sélectionner le pays",
-    "phone_number": "Numéro de Téléphone"
+            "nationality": "Nationalité",
+        "gender": "Genre",
+        "select_gender": "Sélectionner le Genre",
+        "male": "Masculin",
+        "female": "Féminin",
+        "other": "Autre",
+        "expertise": "Expertise",
+        "email": "Email",
+        "phone_number": "Numéro de Téléphone"
   },
   "review": {
     "title": "Vérifier Vos Modifications",

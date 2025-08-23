@@ -369,4 +369,53 @@ export class ProjectService {
       .delete(`${environment.apiUrl}/api/ordered-projects/${projectId}`, { headers })
       .toPromise();
   }
+
+  // Community Project Methods
+  async createCommunityProject(
+    projectData: {
+      fullName: string;
+      profession: string;
+      email: string;
+      phone: string;
+      linkedIn: string;
+      projectName: string;
+      category: string;
+      location: string;
+      description: string;
+      team: Array<{ title: string; number: number }>;
+    },
+    projectPhoto: File | null
+  ): Promise<any> {
+    const token = this.cookieService.get('token');
+    const userId = this.cookieService.get('userId');
+
+    const formData = new FormData();
+
+    // Add userId as query parameter
+    const url = `${environment.apiUrl}/community/project?userId=${userId}`;
+
+    // Add project data as JSON
+    formData.append(
+      'project',
+      new Blob([JSON.stringify(projectData)], {
+        type: 'application/json',
+      })
+    );
+
+    // Add project photo if provided
+    if (projectPhoto) {
+      formData.append('projectPhoto', projectPhoto);
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .post(url, formData, {
+        headers,
+        responseType: 'text',
+      })
+      .toPromise();
+  }
 }

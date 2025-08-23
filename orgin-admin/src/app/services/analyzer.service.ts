@@ -269,4 +269,11 @@ export class AnalyzerService {
       responseType: 'text'
     });
   }
+
+  updateAnalyzer(analyzerId: string, analyzerData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/admin/update/analyzer/${analyzerId}`, analyzerData, {
+      headers: this.getHeaders(),
+      responseType: 'text'
+    });
+  }
 } 

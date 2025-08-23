@@ -553,6 +553,17 @@
         "message": "The page you are looking for does not exist.",
         "homeLink": "Go to Home"
       },
+      "auth": {
+        "login": "Login",
+        "loggingIn": "Logging in...",
+        "email": "Email",
+        "password": "Password",
+        "forgotPassword": "Forgot Password?",
+        "dontHaveAccount": "Don't have an account?",
+        "signUp": "Sign up",
+        "loginSuccessful": "Login successful!",
+        "loginFailed": "Login failed. Please try again."
+      },
       "launchCommunityProject": {
         "title": "Launch Community Project",
         "steps": {
@@ -594,7 +605,15 @@
         "mandatoryFieldsNote": "Fields marked with * are mandatory.",
         "addTeamRequirement": "Add Team Requirement",
         "remove": "Remove",
-        "noTeamRequirements": "No team requirements added yet. Click 'Add Team Requirement' to get started."
+        "noTeamRequirements": "No team requirements added yet. Click 'Add Team Requirement' to get started.",
+        "selectCategory": "Select category",
+        "errors": {
+            "fullNameRequired": "Full name is required",
+            "emailRequired": "Email is required",
+            "emailInvalid": "Please enter a valid email address",
+            "categoryRequired": "Category is required",
+            "otherCategoryRequired": "Other category is required"
+        }
       }
     }
 

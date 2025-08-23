@@ -8,6 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { isPlatformBrowser } from '@angular/common';
 import { ToastService } from '../../../shared/services/toast.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { LanguageService } from '../../../core/language.service';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   redirectTo: string = 'dashboard/project/launch';
   projectId: string | null = null;
+  isLoading: boolean = false;
+  translations: any = {};
 
   constructor(
     private fb: FormBuilder,
@@ -30,6 +33,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private cookieService: CookieService,
     private toastService: ToastService,
+    private languageService: LanguageService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.loginForm = this.fb.group({
@@ -44,6 +48,35 @@ export class LoginComponent implements OnInit {
       this.redirectTo = params['redirectTo'] || 'dashboard/project/launch';
       this.projectId = params['projectId'] || null;
     });
+
+    // Load translations
+    this.loadTranslations();
+  }
+
+  loadTranslations() {
+    // Default to English for now, you can make this dynamic based on user preference
+    this.languageService.getTranslations('en').subscribe({
+      next: (translations) => {
+        this.translations = translations;
+      },
+      error: (error) => {
+        console.error('Error loading translations:', error);
+        // Fallback to default English translations
+        this.translations = {
+          auth: {
+            login: 'Login',
+            loggingIn: 'Logging in...',
+            email: 'Email',
+            password: 'Password',
+            forgotPassword: 'Forgot Password?',
+            dontHaveAccount: "Don't have an account?",
+            signUp: 'Sign up',
+            loginSuccessful: 'Login successful!',
+            loginFailed: 'Login failed. Please try again.'
+          }
+        };
+      }
+    });
   }
 
   validateUsername(control: any) {
@@ -54,6 +87,9 @@ export class LoginComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
+    if (this.isLoading) return; // Prevent multiple submissions
+    
+    this.isLoading = true;
     const { email, password } = this.loginForm.value;
 
     this.authService.login({ email, password }).subscribe({
@@ -74,7 +110,7 @@ export class LoginComponent implements OnInit {
         }
 
         // Show success message
-        this.toastService.showSuccess('Login successful!');
+        this.toastService.showSuccess(this.translations.auth?.loginSuccessful || 'Login successful!');
 
         // Check for redirect URL from localStorage
         let redirectUrl = null;
@@ -98,7 +134,10 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         // Display error message using toast service
-        this.toastService.showError(error.message || 'Login failed. Please try again.');
+        this.toastService.showError(error.message || this.translations.auth?.loginFailed || 'Login failed. Please try again.');
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }

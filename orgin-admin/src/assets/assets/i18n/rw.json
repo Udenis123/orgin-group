@@ -344,6 +344,8 @@
 },
 "update_analyzer": {
   "title": "Hindura Umunyeshuzuma",
+  "loading": "Kurura amakuru y'umunyeshuzuma...",
+  "error": "Ikibazo mu kurura amakuru y'umunyeshuzuma. Ongera ugerageze.",
   "steps": {
     "personal_info": "Amakuru Yihariye",
     "account_details": "Amakuru ya Konti",
@@ -352,12 +354,15 @@
   "form": {
     "full_name": "Izina Ryuzuye",
     "national_id": "Indangamuntu",
-    "nationality": "Ubwenegihugu",
-    "expertise": "Ubumenyi",
-    "email": "Imeri",
-    "country": "Igihugu",
-    "select_country": "Hitamo igihugu",
-    "phone_number": "Numero ya Telefone"
+            "nationality": "Ubwenegihugu",
+        "gender": "Igitsina",
+        "select_gender": "Hitamo Igitsina",
+        "male": "Umugabo",
+        "female": "Umugore",
+        "other": "Ikindi",
+        "expertise": "Ubumenyi",
+        "email": "Imeri",
+        "phone_number": "Numero ya Telefone"
   },
   "review": {
     "title": "Reba Amahinduka Yawe",

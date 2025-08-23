@@ -549,6 +549,17 @@
     "message": "La page que vous recherchez n'existe pas.",
     "homeLink": "Retour à l'Accueil"
   },
+  "auth": {
+    "login": "Connexion",
+    "loggingIn": "Connexion en cours...",
+    "email": "Email",
+    "password": "Mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "dontHaveAccount": "Vous n'avez pas de compte ?",
+    "signUp": "S'inscrire",
+    "loginSuccessful": "Connexion réussie !",
+    "loginFailed": "Échec de la connexion. Veuillez réessayer."
+  },
   "launchCommunityProject": {
     "title": "Lancer un Projet Communautaire",
     "steps": {
@@ -590,7 +601,15 @@
         "mandatoryFieldsNote": "Les champs marqués d'un * sont obligatoires.",
         "addTeamRequirement": "Ajouter une Exigence d'Équipe",
         "remove": "Supprimer",
-        "noTeamRequirements": "Aucune exigence d'équipe ajoutée. Cliquez sur 'Ajouter une Exigence d'Équipe' pour commencer."
+        "noTeamRequirements": "Aucune exigence d'équipe ajoutée. Cliquez sur 'Ajouter une Exigence d'Équipe' pour commencer.",
+        "selectCategory": "Sélectionnez une catégorie",
+        "errors": {
+            "fullNameRequired": "Le nom complet est requis",
+            "emailRequired": "L'email est requis",
+            "emailInvalid": "Veuillez entrer une adresse email valide",
+            "categoryRequired": "La catégorie est requise",
+            "otherCategoryRequired": "L'autre catégorie est requise"
+        }
   }
 }
   

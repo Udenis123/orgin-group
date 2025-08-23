@@ -86,12 +86,22 @@
   }
 }
 
-.phone-input {
-  display: flex;
-  gap: 1rem;
 
-  .form-group {
-    flex: 1;
+
+.loading-state, .error-state {
+  text-align: center;
+  padding: 2rem;
+  margin: 2rem 0;
+  
+  p {
+    font-size: 1.1rem;
+    color: var(--text-color);
+  }
+}
+
+.error-state {
+  p {
+    color: #f44336;
   }
 }
 
@@ -104,7 +114,7 @@
   }
   
   .card {
-    background-color: rgb(4 0 54 / 99%) !important;
+    background-color: rgb(4 0 54 / 20%) !important;
     
     h5 {
       color: var(--text-color-dark);
@@ -124,6 +134,18 @@
       color: var(--text-color-dark) !important;
       background-color: rgba(255, 255, 255, 0) !important;
       border: solid 1px var(--text-color-dark);
+    }
+  }
+
+  .loading-state, .error-state {
+    p {
+      color: var(--text-color-dark);
+    }
+  }
+
+  .error-state {
+    p {
+      color: #ff6b6b;
     }
   }
 }

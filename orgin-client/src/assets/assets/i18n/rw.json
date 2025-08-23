@@ -541,6 +541,17 @@
     "message": "Urupapuro ushaka ntirubaho.",
     "homeLink": "Subira Ahabanza"
   },
+  "auth": {
+    "login": "Kwinjira",
+    "loggingIn": "Kwinjira...",
+    "email": "Imeri",
+    "password": "Ijambo ry'ibanga",
+    "forgotPassword": "Wibagiwe ijambo ry'ibanga?",
+    "dontHaveAccount": "Niba utarafungura konti?",
+    "signUp": "Iyandikishe",
+    "loginSuccessful": "Kwinjira byagenze neza!",
+    "loginFailed": "Kwinjira byanze. Nyamuneka ongera ugerageze."
+  },
   "launchCommunityProject": {
     "title": "Tangiza umushinga w'umuryango",
     "steps": {
@@ -582,6 +593,14 @@
         "mandatoryFieldsNote": "Imyanya ifite * ni ibikenewe.",
         "addTeamRequirement": "Ongera icyo gisaba umushinga",
         "remove": "Kuraho",
-        "noTeamRequirements": "Nta kintu cyo gusaba umushinga cyongewe. Kanda 'Ongera icyo gisaba umushinga' kugira ngo utangire."
+        "noTeamRequirements": "Nta kintu cyo gusaba umushinga cyongewe. Kanda 'Ongera icyo gisaba umushinga' kugira ngo utangire.",
+        "selectCategory": "Hitamo icyiciro",
+        "errors": {
+            "fullNameRequired": "Izina ryuzuye ni ibikenewe",
+            "emailRequired": "Imeri ni ibikenewe",
+            "emailInvalid": "Imeri ntibashije",
+            "categoryRequired": "Icyiciro ni ibikenewe",
+            "otherCategoryRequired": "Icyiciro cy'ikindi ni ibikenewe"
+        }
   }
 }

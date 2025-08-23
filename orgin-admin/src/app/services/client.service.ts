@@ -74,6 +74,13 @@ export class ClientService {
     });
   }
 
+  updateClientNationalId(clientId: string, nationalId: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/admin/update/client/nationalId?clientId=${clientId}&nationalId=${nationalId}`, {}, {
+      headers: this.getHeaders(),
+      responseType: 'text'
+    });
+  }
+
   toggleClientStatus(clientId: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/admin/activate/user?Id=${clientId}`, {}, {
       headers: this.getHeaders(),

@@ -46,14 +46,7 @@ export class UpdateClientComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {
     this.firstFormGroup = this._formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      nationalId: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      phone: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      gender: ['', Validators.required],
-      nationality: ['', Validators.required],
-      professional: ['', Validators.required],
-      profession: ['', Validators.required]
+      nationalId: ['', [Validators.required, Validators.pattern(/^\d+$/)]]
     });
   }
 
@@ -76,75 +69,65 @@ export class UpdateClientComponent implements OnInit {
     if (!this.clientId) return;
 
     this.isLoading = true;
-    this.clientService.getClientDetails(this.clientId)
+    this.clientService.getAllClients()
       .pipe(
         catchError(error => {
-          console.error('Error loading client details:', error);
-          this.snackBar.open('Failed to load client details. Please try again.', 'Close', {
+          console.error('Error loading clients:', error);
+          this.snackBar.open('Failed to load clients. Please try again.', 'Close', {
             duration: 3000,
             horizontalPosition: 'center',
             verticalPosition: 'bottom'
           });
-          return of(null);
+          return of([]);
         }),
         finalize(() => {
           this.isLoading = false;
         })
       )
-      .subscribe(client => {
+      .subscribe(clients => {
+        // Find the specific client by ID
+        const client = clients.find(c => c.id === this.clientId);
         if (client) {
           this.client = client;
           this.populateForm(client);
+          console.log('Found client:', client.name, 'National ID:', client.nationalId);
+        } else {
+          this.snackBar.open('Client not found', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom'
+          });
+          this.router.navigate(['dashboard/users/clients']);
         }
       });
   }
 
   populateForm(client: Client) {
     this.firstFormGroup.patchValue({
-      name: client.name || '',
-      nationalId: client.nationalId || '',
-      phone: client.phone || '',
-      phoneNumber: client.phone || '', // Using phone as phoneNumber
-      gender: client.gender || '',
-      nationality: client.nationality || '',
-      professional: client.professional || '',
-      profession: client.professional || '' // Using professional as profession
+      nationalId: client.nationalId || ''
     });
   }
 
   getFormData(): { label: string, value: any }[] {
     return [
-      { label: 'Name', value: this.firstFormGroup.get('name')?.value },
-      { label: 'National ID', value: this.firstFormGroup.get('nationalId')?.value },
-      { label: 'Phone', value: this.firstFormGroup.get('phone')?.value },
-      { label: 'Gender', value: this.firstFormGroup.get('gender')?.value },
-      { label: 'Nationality', value: this.firstFormGroup.get('nationality')?.value },
-      { label: 'Professional', value: this.firstFormGroup.get('professional')?.value }
+      { label: 'National ID', value: this.firstFormGroup.get('nationalId')?.value }
     ];
   }
 
-  async submitForm(): Promise<void> {
+    async submitForm(): Promise<void> {
     if (this.firstFormGroup.invalid || this.isSubmitting || !this.clientId) return;
 
     this.isSubmitting = true;
     
-    const formData: UpdateClientRequest = {
-      id: this.clientId,
-      name: this.firstFormGroup.get('name')?.value,
-      nationalId: this.firstFormGroup.get('nationalId')?.value,
-      phone: this.firstFormGroup.get('phone')?.value,
-      phoneNumber: this.firstFormGroup.get('phoneNumber')?.value,
-      gender: this.firstFormGroup.get('gender')?.value,
-      nationality: this.firstFormGroup.get('nationality')?.value,
-      professional: this.firstFormGroup.get('professional')?.value,
-      profession: this.firstFormGroup.get('profession')?.value
-    };
-
-    this.clientService.updateClient(formData)
+    // Get the current national ID from the form
+    const newNationalId = this.firstFormGroup.get('nationalId')?.value;
+    
+    // Update the national ID using the specific endpoint
+    this.clientService.updateClientNationalId(this.clientId!, newNationalId)
       .pipe(
         catchError(error => {
-          console.error('Error updating client:', error);
-          this.snackBar.open('Failed to update client. Please try again.', 'Close', {
+          console.error('Error updating client national ID:', error);
+          this.snackBar.open('Failed to update client national ID. Please try again.', 'Close', {
             duration: 3000,
             horizontalPosition: 'center',
             verticalPosition: 'bottom'
@@ -155,38 +138,19 @@ export class UpdateClientComponent implements OnInit {
           this.isSubmitting = false;
         })
       )
-      .subscribe(() => {
-        this.snackBar.open('Client updated successfully', 'Close', {
-          duration: 2000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom'
-        });
-        this.router.navigate(['dashboard/users/clients']);
+      .subscribe(response => {
+        if (response !== null) {
+          this.snackBar.open('Client national ID updated successfully', 'Close', {
+            duration: 2000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom'
+          });
+          this.router.navigate(['dashboard/users/clients']);
+        }
       });
   }
 
-  async resetPassword(): Promise<void> {
-    this.isSubmitting = true;
-    try {
-      console.log('Resetting password...');
-      // Add your password reset logic here
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      this.snackBar.open('Password reset functionality not implemented yet', 'Close', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      });
-    } catch (error) {
-      console.error('Password reset failed:', error);
-      this.snackBar.open('Password reset failed', 'Close', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      });
-    } finally {
-      this.isSubmitting = false;
-    }
-  }
+
 
   goBack(): void {
     this.router.navigate(['dashboard/users/clients']);

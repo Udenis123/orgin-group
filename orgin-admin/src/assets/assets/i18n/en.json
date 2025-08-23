@@ -347,6 +347,8 @@
     },
     "update_analyzer": {
       "title": "Update Analyzer",
+      "loading": "Loading analyzer details...",
+      "error": "Error loading analyzer details. Please try again.",
       "steps": {
         "personal_info": "Personal Information",
         "account_details": "Account Details",
@@ -356,10 +358,13 @@
         "full_name": "Full Name",
         "national_id": "National ID",
         "nationality": "Nationality",
+        "gender": "Gender",
+        "select_gender": "Select Gender",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other",
         "expertise": "Expertise",
         "email": "Email",
-        "country": "Country",
-        "select_country": "Select country",
         "phone_number": "Phone Number"
       },
       "review": {

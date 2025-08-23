@@ -11,6 +11,9 @@
                     <div class="col-md-6 form-group">
                         <label for="fullName">{{ 'launchCommunityProject.fields.fullName' | translate }} <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="fullName" formControlName="fullName">
+                        <div *ngIf="projectForm.get('fullName')?.invalid && projectForm.get('fullName')?.touched" class="text-danger">
+                            {{ 'launchCommunityProject.errors.fullNameRequired' | translate }}
+                        </div>
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="professionalStatus">{{ 'launchCommunityProject.fields.professionalStatus' | translate }} <span class="text-danger">*</span></label>
@@ -19,6 +22,10 @@
                     <div class="col-md-6 form-group">
                         <label for="email">{{ 'launchCommunityProject.fields.email' | translate }} <span class="text-danger">*</span></label>
                         <input type="email" class="form-control" id="email" formControlName="email">
+                        <div *ngIf="projectForm.get('email')?.invalid && projectForm.get('email')?.touched" class="text-danger">
+                            <span *ngIf="projectForm.get('email')?.errors?.['required']">{{ 'launchCommunityProject.errors.emailRequired' | translate }}</span>
+                            <span *ngIf="projectForm.get('email')?.errors?.['email']">{{ 'launchCommunityProject.errors.emailInvalid' | translate }}</span>
+                        </div>
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="phone">{{ 'launchCommunityProject.fields.phone' | translate }} <span class="text-danger">*</span></label>
@@ -39,7 +46,11 @@
                 <div class="row">
                     <div class="col-md-12 form-group">
                         <label for="projectThumbnail">{{ 'launchCommunityProject.fields.projectThumbnail' | translate }}</label>
-                        <input type="file" class="form-control" id="projectThumbnail" (change)="onFileChange($event, 'projectThumbnail')" accept="image/*">
+                        <div class="input-group">
+                            <input type="text" class="form-control" [value]="(fileReferences['projectThumbnail']?.name) || 'No file chosen'" readonly>
+                            <button class="btn btn-outline-secondary" type="button" (click)="fileInput.click()">Choose File</button>
+                            <input type="file" class="form-control" id="projectThumbnail" #fileInput style="display: none;" (change)="onFileChange($event, 'projectThumbnail')" accept="image/*">
+                        </div>
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="projectName">{{ 'launchCommunityProject.fields.projectName' | translate }} <span class="text-danger">*</span></label>
@@ -47,13 +58,20 @@
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="category">{{ 'launchCommunityProject.fields.category' | translate }} <span class="text-danger">*</span></label>
-                        <select class="form-control" id="category" formControlName="category">
+                        <select class="form-control" id="category" formControlName="category" (change)="onCategoryChange()">
+                            <option value="">{{ 'launchCommunityProject.selectCategory' | translate }}</option>
                             <option *ngFor="let category of projectCategories" [value]="category">{{ category | translate }}</option>
                         </select>
+                        <div *ngIf="projectForm.get('category')?.invalid && projectForm.get('category')?.touched" class="text-danger">
+                            {{ 'launchCommunityProject.errors.categoryRequired' | translate }}
+                        </div>
                     </div>
                     <div class="col-md-6 form-group" *ngIf="projectForm.get('category')?.value === 'Other'">
                         <label for="otherCategory">{{ 'launchCommunityProject.fields.otherCategory' | translate }} <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="otherCategory" formControlName="otherCategory">
+                        <div *ngIf="projectForm.get('otherCategory')?.invalid && projectForm.get('otherCategory')?.touched" class="text-danger">
+                            {{ 'launchCommunityProject.errors.otherCategoryRequired' | translate }}
+                        </div>
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="location">{{ 'launchCommunityProject.fields.location' | translate }} <span class="text-danger">*</span></label>
@@ -131,7 +149,8 @@
                 {{ 'CLEAR' | translate }}
             </button>
             <button type="submit" class="btn btn-success" *ngIf="currentStep === steps.length - 1" 
-                    [disabled]="!projectForm.valid || requiredMembers.length === 0">
+                    [disabled]="!projectForm.valid || requiredMembers.length === 0"
+                    (click)="markFormAsTouched()">
                 {{ 'SUBMIT' | translate }}
             </button>
         </div>

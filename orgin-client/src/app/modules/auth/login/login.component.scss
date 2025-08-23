@@ -80,8 +80,10 @@ html, body {
     margin-top: 0.2746rem;
     transition: background 0.3s ease, transform 0.2s ease;
     font-size: 0.54925rem;
+    position: relative;
+    overflow: hidden;
   
-    &:hover {
+    &:hover:not(:disabled) {
       background-color: #1f4068;
       transform: scale(1.02);
     }
@@ -89,7 +91,33 @@ html, body {
     &:disabled {
       background-color: #8a8a8a;
       cursor: not-allowed;
+      transform: none;
     }
+
+    &.loading {
+      background-color: #8a8a8a;
+      cursor: not-allowed;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 50%;
+        left: 50%;
+        margin-left: -10px;
+        margin-top: -10px;
+        border: 2px solid transparent;
+        border-top: 2px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+    }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
   
 

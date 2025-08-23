@@ -1,19 +1,22 @@
 <div class="login-container">
-    <h2>Login</h2>
+    <h2>{{ translations.auth?.login || 'Login' }}</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="email">Email</label>
-        <input id="email" type="email" formControlName="email" required />
+        <label for="email">{{ translations.auth?.email || 'Email' }}</label>
+        <input id="email" type="email" formControlName="email" required [disabled]="isLoading" />
       </div>
 
       <div class="form-group">
-        <label for="password">Password</label>
-        <input id="password" type="password" formControlName="password" required />
+        <label for="password">{{ translations.auth?.password || 'Password' }}</label>
+        <input id="password" type="password" formControlName="password" required [disabled]="isLoading" />
       </div>
 
-      <button type="submit" [disabled]="loginForm.invalid">Login</button>
+      <button type="submit" [disabled]="loginForm.invalid || isLoading" [class.loading]="isLoading">
+        <span *ngIf="!isLoading">{{ translations.auth?.login || 'Login' }}</span>
+        <span *ngIf="isLoading">{{ translations.auth?.loggingIn || 'Logging in...' }}</span>
+      </button>
     </form>
 
-    <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
-    <p><a routerLink="/auth/forgot-password">Forgot Password?</a></p>
+    <p>{{ translations.auth?.dontHaveAccount || "Don't have an account?" }} <a routerLink="/signup">{{ translations.auth?.signUp || 'Sign up' }}</a></p>
+    <p><a routerLink="/auth/forgot-password">{{ translations.auth?.forgotPassword || 'Forgot Password?' }}</a></p>
 </div>
