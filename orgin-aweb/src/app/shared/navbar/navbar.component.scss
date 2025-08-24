@@ -1,24 +1,59 @@
 @use "bootstrap";
 
-// Upper Navbar
-.upper-navbar {
+// Single Unified Navbar
+.main-navbar {
   background: #162447;
   backdrop-filter: blur(10px);
-  
+  padding: 10px 20px;
   transition: all 0.3s ease-in-out;
-  z-index: 1030; // Higher z-index to ensure it's above content
+  z-index: 1030;
   top: 0;
   position: fixed;
   
   // Ensure proper positioning context for dropdown
   .container-fluid {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .navbar-brand {
     .logo {
       height: 50px;
       width: auto;
+    }
+  }
+
+  // Main Navigation Links (desktop)
+  .main-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+    
+    .nav-link {
+      color: white;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: 0.3s;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      white-space: nowrap;
+
+      &:hover, &.active-link {
+        color: rgb(202, 86, 8);
+        font-weight: bold;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      
+      &.disabled-link {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
     }
   }
 
@@ -53,13 +88,13 @@
     left: 50%;
     transform: translateX(-50%);
     top: 0; // Position on top of the navbar
-    background: #162447; // Same background as upper navbar
+    background: #162447; // Same background as navbar
     padding: 15px 20px;
     border-radius: 15px; // Full border radius since it's on top
   
     border: none; // No borders needed
     min-width: 200px; // Ensure dropdown has proper width
-    z-index: 1031; // Higher than upper navbar to appear in front
+    z-index: 1031; // Higher than navbar to appear in front
     
     .navbar-nav {
       display: flex;
@@ -148,166 +183,20 @@
   }
 }
 
-// Lower Navbar
-.lower-navbar {
-  background: var(--primary-color); // Slightly different background color
-  backdrop-filter: blur(10px);
-  padding: 15px 20px;
-  transition: all 0.3s ease-in-out;
-  z-index: 1020; // Below upper navbar but above content
-  top: 70px; // Position below upper navbar (adjust based on upper navbar height)
-  position: fixed;
-  border-top: none; // Remove top border to attach to upper navbar
-  margin-top: 0; // Remove margin since we're using fixed positioning
-
-  // Hide on small screens
-  @media (max-width: 991.98px) {
-    display: none !important;
-  }
-
-  .nav-item-left {
-    position: absolute;
-    left: 20px;
-    
-    .nav-link {
-      color: white;
-      font-weight: 500;
-      transition: 0.3s;
-      text-decoration: none;
-
-      &:hover, &.active-link {
-        color: rgb(202, 86, 8);
-        font-weight: bold;
-      }
-    }
-  }
-
-  .nav-item-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    
-    .nav-link {
-      color: white;
-      font-weight: 500;
-      transition: 0.3s;
-      text-decoration: none;
-
-      &:hover, &.active-link {
-        color: rgb(202, 86, 8);
-        font-weight: bold;
-      }
-    }
-  }
-
-  .nav-item-right {
-    position: absolute;
-    right: 20px;
-    
-    .nav-link {
-      color: white;
-      font-weight: 500;
-      transition: 0.3s;
-      text-decoration: none;
-
-      &:hover, &.active-link {
-        color: rgb(202, 86, 8);
-        font-weight: bold;
-      }
-    }
-  }
-
-  .mobile-menu-btn {
-    display: none;
-    border: none;
-    color: white;
-    
-    &:focus {
-      box-shadow: none;
-    }
-  }
-
-  .mobile-menu {
-    display: none;
-    position: fixed;
-    top: 140px; // Position below both navbars
-    left: 0;
-    right: 0;
-    background: rgba(22, 36, 71, 0.98);
-    backdrop-filter: blur(10px);
-    padding: 20px;
-    border-radius: 0 0 15px 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    z-index: 1019; // Below lower navbar but above content
-    
-    &.show {
-      display: block;
-    }
-
-    .navbar-nav {
-      text-align: center;
-      margin: 0;
-      padding: 0;
-      
-      .nav-item {
-        margin: 15px 0;
-        
-        .nav-link {
-          color: white;
-          font-weight: 500;
-          font-size: 1.1rem;
-          transition: 0.3s;
-          text-decoration: none;
-          padding: 12px 20px;
-          border-radius: 8px;
-          display: block;
-
-          &:hover, &.active-link {
-            color: rgb(202, 86, 8);
-            font-weight: bold;
-            background: rgba(255, 255, 255, 0.1);
-          }
-        }
-      }
-    }
-  }
-
-  @media (max-width: 992px) {
-    .nav-item-left,
-    .nav-item-center,
-    .nav-item-right {
-      display: none;
-    }
-
-    .mobile-menu-btn {
-      display: block;
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: transparent;
-      border: 1px solid white;
-      border-radius: 5px;
-      padding: 8px 12px;
-      
-      &:hover {
-        background: rgba(255, 255, 255, 0.1);
-      }
-    }
-  }
-}
-
 // Dark mode styles
 :host-context(body.dark-mode) {
-  
-  .lower-navbar {
+  .main-navbar {
     border-bottom: 1px solid var(--secondary-color) !important;
   }
 }
 
 // Responsive adjustments
-@media (max-width: 992px) {
-  .upper-navbar {
+@media (max-width: 991.98px) {
+  .main-navbar {
+    .main-nav-links {
+      display: none !important;
+    }
+    
     .nav-actions {
       flex-direction: column;
       text-align: center;
@@ -322,22 +211,14 @@
       z-index: 1002;
     }
   }
-  
-  // Adjust navbar heights for mobile
-  .upper-navbar {
-    .navbar-brand .logo {
-      height: 40px; // Smaller logo on mobile
-    }
-  }
-  
-  // Lower navbar is hidden on mobile, so no need to adjust its position
-  .mobile-menu {
-    top: 70px; // Adjust mobile menu position since lower navbar is hidden
-  }
 }
 
 @media (max-width: 576px) {
-  .upper-navbar {
+  .main-navbar {
+    .navbar-brand .logo {
+      height: 40px; // Smaller logo on mobile
+    }
+    
     .nav-actions {
       gap: 8px;
       

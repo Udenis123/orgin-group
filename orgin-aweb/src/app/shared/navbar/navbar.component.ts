@@ -15,7 +15,6 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  menuOpen = false;
   centerMenuOpen = false;
   isDarkMode = false;
   currentLanguage: string = 'en';
@@ -33,30 +32,19 @@ export class NavbarComponent {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event) {
-    // Check if click is outside both menus
+    // Check if click is outside center menu
     const target = event.target as HTMLElement;
     
-    // Check if click is on menu buttons (don't close if clicking on buttons)
-    const isMenuButton = target.closest('.center-menu-btn') || 
-                        target.closest('.mobile-menu-btn') ||
-                        target.closest('.navbar-toggler');
+    // Check if click is on menu button (don't close if clicking on button)
+    const isMenuButton = target.closest('.center-menu-btn');
     
-    // Check if click is inside the menus
+    // Check if click is inside the menu
     const isInsideCenterMenu = target.closest('.center-menu-options');
-    const isInsideMobileMenu = target.closest('.mobile-menu');
     
-    // Close menus if clicking outside and not on menu buttons
-    if (!isMenuButton && !isInsideCenterMenu && !isInsideMobileMenu) {
-      this.menuOpen = false;
+    // Close menu if clicking outside and not on menu button
+    if (!isMenuButton && !isInsideCenterMenu) {
       this.centerMenuOpen = false;
     }
-  }
-
-  toggleMenu(event?: Event) {
-    if (event) {
-      event.stopPropagation();
-    }
-    this.menuOpen = !this.menuOpen;
   }
 
   toggleCenterMenu(event?: Event) {
