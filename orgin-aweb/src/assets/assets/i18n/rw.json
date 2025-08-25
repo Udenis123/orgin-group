@@ -192,7 +192,11 @@
   "LINKEDIN": "LinkedIn",
   "VIEW_LINKEDIN": "Reba profil ya LinkedIn",
   "ANALYTICS": "Reba isesengura",
-  "JOIN_PROJECT": "Jya mu mushinga",
-  "APPROVED": "Yemewe",
-  "PENDING": "Itegereje"
+      "JOIN_PROJECT": "Jya mu mushinga",
+    "APPROVED": "Yemewe",
+    "PENDING": "Itegereje",
+    "BUSINESS_PROJECTS": "Imishinga y'Ubucuruzi",
+    "COMMUNITY_PROJECTS": "Imishinga y'Umuryango",
+    "I2V_PROGRAM": "Gahunda ya I2V",
+    "COMING_SOON": "Iraza Vuba"
 }

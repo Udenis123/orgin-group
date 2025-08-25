@@ -19,7 +19,6 @@
 body {
   margin: 0;
   padding: 0;
-  padding-top: 50px; // Minimized to eliminate white space
   transition: background-color 0.3s ease, color 0.3s ease;
   background-color: var(--background-color);
   color: var(--text-color);
@@ -28,11 +27,6 @@ body {
   font-family: 'sans-serif'; // Change font style for lead text
   overflow-x: hidden; // Ensure proper scroll behavior
   position: relative; // Ensure proper positioning
-  
-  // Adjust padding for small screens
-  @media (max-width: 576px) {
-    padding-top: 40px; // Minimized padding on mobile
-  }
 }
 
 // Ensure html element also has proper positioning

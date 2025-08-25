@@ -1,198 +1,457 @@
 @use "bootstrap";
 
-// Single Unified Navbar
+// Keyframe animations
+@keyframes morphBackground {
+  0%, 100% {
+    background: linear-gradient(135deg, #162447 0%, #1f4068 50%, #162447 100%);
+  }
+  25% {
+    background: linear-gradient(135deg, #1f4068 0%, #162447 50%, #1f4068 100%);
+  }
+  50% {
+    background: linear-gradient(135deg, #162447 0%, #1f4068 50%, #162447 100%);
+  }
+  75% {
+    background: linear-gradient(135deg, #1f4068 0%, #162447 50%, #1f4068 100%);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(202, 86, 8, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(202, 86, 8, 0.6), 0 0 30px rgba(202, 86, 8, 0.4);
+  }
+}
+
+@keyframes slideInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+// Single Unified Navbar with Advanced Animations
 .main-navbar {
-  background: #162447;
-  backdrop-filter: blur(10px);
-  padding: 10px 20px;
-  transition: all 0.3s ease-in-out;
+  background: linear-gradient(135deg, #162447 0%, #1f4068 50%, #162447 100%);
+  background-size: 200% 200%;
+  animation: morphBackground 8s ease-in-out infinite, gradientShift 6s ease infinite;
+  backdrop-filter: blur(15px);
+  padding: 12px 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1030;
   top: 0;
   position: fixed;
+  margin: 0;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
   
-  // Ensure proper positioning context for dropdown
+  // Animated background particles
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(202, 86, 8, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(202, 86, 8, 0.1) 0%, transparent 50%);
+    animation: float 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  
+  // Scrolled state - enhanced floating navbar
+  &.scrolled {
+    background: rgba(22, 36, 71, 0.95);
+    backdrop-filter: blur(20px);
+    top: 15px;
+    margin: 0 20px;
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(202, 86, 8, 0.2);
+    border: 1px solid rgba(202, 86, 8, 0.3);
+    transform: scale(0.98);
+    animation: glow 3s ease-in-out infinite;
+    
+    &::before {
+      animation: float 4s ease-in-out infinite;
+    }
+  }
+  
+  // Container with enhanced positioning
   .container-fluid {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 2;
   }
 
+  // Enhanced Brand Logo with animations
   .navbar-brand {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &:hover {
+      transform: scale(1.05) rotate(2deg);
+      filter: drop-shadow(0 0 10px rgba(202, 86, 8, 0.5));
+    }
+    
     .logo {
       height: 50px;
       width: auto;
+      transition: all 0.3s ease;
+      animation: slideInFromLeft 0.8s ease-out;
     }
   }
 
-  // Main Navigation Links (desktop)
+  // Enhanced Main Navigation Links with magnetic effects
   .main-nav-links {
     display: flex;
     align-items: center;
     gap: 30px;
     margin: 0;
     padding: 0;
+    animation: slideInFromTop 0.8s ease-out 0.2s both;
     
     .nav-link {
       color: white;
       font-weight: 500;
       font-size: 1rem;
-      transition: 0.3s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       text-decoration: none;
-      padding: 8px 16px;
-      border-radius: 5px;
+      padding: 10px 18px;
+      border-radius: 12px;
       white-space: nowrap;
-
-      &:hover, &.active-link {
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid transparent;
+      
+      // Magnetic hover effect
+      &:hover {
         color: rgb(202, 86, 8);
         font-weight: bold;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(202, 86, 8, 0.15);
+        border-color: rgba(202, 86, 8, 0.3);
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 8px 25px rgba(202, 86, 8, 0.3);
+        
+        &::before {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      
+      &.active-link {
+        color: rgb(202, 86, 8);
+        font-weight: bold;
+        background: rgba(202, 86, 8, 0.2);
+        border-color: rgba(202, 86, 8, 0.5);
+        box-shadow: 0 0 15px rgba(202, 86, 8, 0.4);
+        animation: pulse 2s ease-in-out infinite;
+      }
+      
+      // Ripple effect background
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(202, 86, 8, 0.3);
+        transform: translate(-50%, -50%) scale(0);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0;
+      }
+      
+      &:active::before {
+        animation: ripple 0.6s ease-out;
       }
       
       &.disabled-link {
         opacity: 0.6;
         cursor: not-allowed;
         pointer-events: none;
+        filter: grayscale(50%);
       }
     }
   }
 
-  // Center Menu Icon (visible only on small screens)
+  // Enhanced Center Menu Icon with morphing animation
   .center-menu-icon {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    animation: slideInFromTop 0.8s ease-out 0.4s both;
     
     .center-menu-btn {
-      background: transparent;
-      border: 1px solid white;
+      background: rgba(202, 86, 8, 0.1);
+      border: 2px solid rgba(202, 86, 8, 0.3);
       color: white;
-      border-radius: 5px;
-      padding: 8px 12px;
-      transition: 0.3s ease;
+      border-radius: 12px;
+      padding: 10px 15px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
       
       &:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(202, 86, 8, 0.2);
         border-color: rgb(202, 86, 8);
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 8px 25px rgba(202, 86, 8, 0.4);
+        
+        i {
+          transform: rotate(180deg) scale(1.2);
+        }
       }
       
       &:focus {
-        box-shadow: none;
+        box-shadow: 0 0 0 3px rgba(202, 86, 8, 0.3);
       }
-    }
-  }
-
-  // Center Menu Options (visible only on small screens when menu is open)
-  .center-menu-options {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 0; // Position on top of the navbar
-    background: #162447; // Same background as navbar
-    padding: 15px 20px;
-    border-radius: 15px; // Full border radius since it's on top
-  
-    border: none; // No borders needed
-    min-width: 200px; // Ensure dropdown has proper width
-    z-index: 1031; // Higher than navbar to appear in front
-    
-    .navbar-nav {
-      display: flex;
-      flex-direction: column; // Vertical layout
-      gap: 10px;
-      margin: 0;
-      padding: 0;
-      align-items: center;
       
-      .nav-item {
-        margin: 0;
-        width: 100%; // Full width for each item
-        
-        .nav-link {
-          color: white;
-          font-weight: 500;
-          font-size: 0.9rem;
-          transition: 0.3s;
-          text-decoration: none;
-          padding: 10px 15px;
-          border-radius: 5px;
-          white-space: nowrap;
-          display: block;
-          text-align: center;
-          width: 100%;
-
-          &:hover, &.active-link {
-            color: rgb(202, 86, 8);
-            font-weight: bold;
-            background: rgba(255, 255, 255, 0.1);
-          }
-          
-          &.disabled-link {
-            opacity: 0.6;
-            cursor: not-allowed;
-            pointer-events: none;
-          }
-        }
+      i {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
     }
   }
 
+  // Enhanced Center Menu Options with staggered animations
+  .center-menu-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 15px 0;
+    animation: slideInFromTop 0.6s ease-out;
+    
+    .nav-link {
+      color: white;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 12px;
+      white-space: nowrap;
+      text-align: center;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid transparent;
+      position: relative;
+      overflow: hidden;
+      
+      // Staggered animation for each link
+      &:nth-child(1) { animation: slideInFromTop 0.4s ease-out 0.1s both; }
+      &:nth-child(2) { animation: slideInFromTop 0.4s ease-out 0.2s both; }
+      &:nth-child(3) { animation: slideInFromTop 0.4s ease-out 0.3s both; }
+
+      &:hover, &.active-link {
+        color: rgb(202, 86, 8);
+        font-weight: bold;
+        background: rgba(202, 86, 8, 0.15);
+        border-color: rgba(202, 86, 8, 0.3);
+        transform: translateX(5px) scale(1.02);
+        box-shadow: 0 5px 15px rgba(202, 86, 8, 0.3);
+      }
+      
+      &.disabled-link {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+        filter: grayscale(50%);
+      }
+    }
+  }
+
+  // Enhanced Right-side Actions with magnetic effects
   .nav-actions {
     display: flex;
     gap: 12px;
+    align-items: center;
+    animation: slideInFromRight 0.8s ease-out 0.3s both;
 
     .theme-toggle {
-      color: #162447;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
-      transition: 0.3s ease;
+      background: linear-gradient(135deg, rgba(202, 86, 8, 0.1), rgba(202, 86, 8, 0.2));
+      color: white;
+      border: 2px solid rgba(202, 86, 8, 0.3);
+      padding: 8px 12px;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      
+      &:hover {
+        background: linear-gradient(135deg, rgba(202, 86, 8, 0.2), rgba(202, 86, 8, 0.3));
+        border-color: rgb(202, 86, 8);
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 8px 25px rgba(202, 86, 8, 0.4);
+      }
+      
+      &:active {
+        transform: scale(0.95);
+      }
     }
 
     .lang-select {
-      background: #162447;
+      background: rgba(22, 36, 71, 0.8);
       color: white;
-      border: 1px solid white;
-      padding: 5px;
-      border-radius: 5px;
+      border: 2px solid rgba(202, 86, 8, 0.3);
+      padding: 6px 8px;
+      border-radius: 8px;
       cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      min-width: 60px;
+      width: auto;
+      font-size: 0.9rem;
+      
+      &:hover {
+        border-color: rgb(202, 86, 8);
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(202, 86, 8, 0.3);
+      }
       
       &:focus {
         outline: none;
         border-color: rgb(202, 86, 8);
+        box-shadow: 0 0 0 3px rgba(202, 86, 8, 0.3);
       }
     
       option {
         background: #1f4068;
         color: white;
+        padding: 8px;
       }
     }
 
     .login-btn {
-      background-color: #1f4068;
+      background: linear-gradient(135deg, #1f4068, rgba(202, 86, 8, 0.8));
       color: white;
-      padding: 8px 12px;
+      padding: 8px 14px;
       border-radius: 8px;
       text-decoration: none;
-      transition: 0.3s ease;
-
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+      min-width: 80px;
+      text-align: center;
+      font-size: 0.9rem;
+      
       &:hover {
-        background-color: rgb(202, 86, 8);
+        background: linear-gradient(135deg, rgb(202, 86, 8), #1f4068);
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 10px 30px rgba(202, 86, 8, 0.4);
+        border-color: rgba(202, 86, 8, 0.5);
+      }
+      
+      &:active {
+        transform: translateY(-1px) scale(1.02);
       }
     }
   }
 }
 
-// Dark mode styles
+// Enhanced Dark mode styles
 :host-context(body.dark-mode) {
   .main-navbar {
-    border-bottom: 1px solid var(--secondary-color) !important;
+    background: linear-gradient(135deg, #0a0a0a 0%, #162447 50%, #0a0a0a 100%);
+    background-size: 200% 200%;
+    animation: morphBackground 10s ease-in-out infinite, gradientShift 8s ease infinite;
+    
+    &.scrolled {
+      background: rgba(10, 10, 10, 0.95);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(202, 86, 8, 0.3);
+      border: 1px solid rgba(202, 86, 8, 0.4);
+    }
   }
 }
 
-// Responsive adjustments
+// Enhanced Responsive adjustments
 @media (max-width: 991.98px) {
   .main-navbar {
+    margin: 0;
+    top: 0;
+    
+    &.scrolled {
+      margin: 0 10px;
+      top: 10px;
+    }
+    
     .main-nav-links {
       display: none !important;
     }
@@ -200,10 +459,9 @@
     .nav-actions {
       flex-direction: column;
       text-align: center;
-      gap: 10px;
+      gap: 12px;
     }
     
-    // Ensure center menu icon is properly positioned
     .center-menu-icon {
       position: absolute;
       left: 50%;
@@ -215,25 +473,175 @@
 
 @media (max-width: 576px) {
   .main-navbar {
+    margin: 0;
+    top: 0;
+    border-radius: 0 0 15px 15px;
+    padding: 10px 15px;
+    
+    &.scrolled {
+      margin: 0 5px;
+      top: 8px;
+      border-radius: 15px;
+      padding: 8px 12px;
+    }
+    
     .navbar-brand .logo {
-      height: 40px; // Smaller logo on mobile
+      height: 40px;
     }
     
     .nav-actions {
       gap: 8px;
       
-      .theme-toggle,
-      .lang-select,
-      .login-btn {
-        font-size: 0.9rem;
+      .theme-toggle {
+        font-size: 0.85rem;
         padding: 6px 8px;
+      }
+      
+      .lang-select {
+        font-size: 0.8rem;
+        padding: 4px 6px;
+        min-width: 50px;
+      }
+      
+      .login-btn {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        min-width: 70px;
       }
     }
     
-    // Ensure center menu icon is visible and properly sized on very small screens
     .center-menu-icon .center-menu-btn {
-      font-size: 0.9rem;
-      padding: 6px 8px;
+      font-size: 0.85rem;
+      padding: 8px 10px;
     }
+  }
+}
+
+// Performance optimizations
+@media (prefers-reduced-motion: reduce) {
+  .main-navbar,
+  .main-navbar * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// Additional animation classes for JavaScript interactions
+.navbar-entrance {
+  animation: slideInFromTop 0.8s ease-out;
+}
+
+.navbar-hidden {
+  transform: translateY(-100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-opening {
+  animation: slideInFromTop 0.4s ease-out;
+}
+
+.menu-item-visible {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.menu-item-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.language-changing {
+  animation: pulse 0.3s ease-in-out;
+  transform: scale(1.05);
+}
+
+.theme-toggling {
+  animation: pulse 0.5s ease-in-out;
+  transform: rotate(180deg) scale(1.1);
+}
+
+// Ripple effect styles
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(202, 86, 8, 0.3);
+  transform: scale(0);
+  animation: ripple 0.6s ease-out;
+  pointer-events: none;
+}
+
+// Enhanced hover states for magnetic effects
+.theme-toggle,
+.login-btn,
+.center-menu-btn {
+  position: relative;
+  overflow: hidden;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// Parallax background effect
+.main-navbar {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+// Enhanced focus states for accessibility
+.nav-link:focus,
+.theme-toggle:focus,
+.login-btn:focus,
+.center-menu-btn:focus,
+.lang-select:focus {
+  outline: 2px solid rgba(202, 86, 8, 0.5);
+  outline-offset: 2px;
+}
+
+// Smooth transitions for all interactive elements
+* {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Loading state animations
+.navbar-loading {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(202, 86, 8, 0.2), transparent);
+    animation: loading 1.5s infinite;
+  }
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
   }
 }

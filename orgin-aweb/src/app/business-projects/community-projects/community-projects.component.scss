@@ -3,7 +3,7 @@
 .home-container {
   width: 100%;
   min-height: calc(100vh - 140px);
-  padding: 5rem 2rem 3rem;
+  padding: 0;
   transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
   opacity: 0;
   animation: fadeInContainer 1s forwards;
@@ -130,6 +130,7 @@
 .search-section {
   padding: 50px;
   border-radius: 8px;
+  margin-top: 120px; // Increased top margin to push content further down
 
   .search-header {
     display: flex;
@@ -708,7 +709,7 @@
     }
   }
   .search-section {
-    margin-top: 60px; // Adjust this value to match your navbar height
+    margin-top: 140px; // Increased top margin for mobile to push content further down
   }
 }
 
@@ -724,7 +725,7 @@
     }
   }
   .search-section {
-    margin-top: 100px; // Adjust this value to match your navbar height
+    margin-top: 130px; // Increased top margin for small mobile to push content further down
   }
 }
 .subscription-card {
@@ -871,9 +872,9 @@
   }
 
   @media (max-width: 992px) {
-    .search-section {
-      margin-top: 100px; // Adjust this value to match your navbar height
-    }
+  .search-section {
+    margin-top: 130px; // Increased top margin for tablet to push content further down
+  }
     .projects-container {
       padding: 12px;
       
@@ -1055,7 +1056,7 @@
 
 @media (max-width: 1000px) {
   .search-section {
-    margin-top: 60px; // Adjust this value to match your navbar height
+    margin-top: 130px; // Increased top margin for medium screens to push content further down
   }
   .feedback-section {
     .card {

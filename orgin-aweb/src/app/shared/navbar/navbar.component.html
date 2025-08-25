@@ -1,58 +1,81 @@
-<!-- Single Unified Navbar -->
-<nav class="navbar navbar-expand-lg fixed-top main-navbar">
+<!-- Single Unified Navbar with Advanced Animations -->
+<nav class="navbar navbar-expand-lg fixed-top main-navbar" 
+     [class.scrolled]="isScrolled"
+     [class.navbar-hidden]="!isNavbarVisible"
+     [class.navbar-entrance]="true">
   <div class="container-fluid">
     
-    <!-- Brand Logo -->
-    <a class="navbar-brand" routerLink="/">
+    <!-- Enhanced Brand Logo with hover effects -->
+    <a class="navbar-brand" routerLink="/" (click)="createRippleEffect($event)">
       <img src="../../../assets/images/logo.png" alt="Orgin Group" class="logo">
     </a>
 
-    <!-- Navigation Links (hidden on small screens) -->
+    <!-- Enhanced Navigation Links with staggered animations -->
     <div class="navbar-nav main-nav-links d-none d-lg-flex">
-      <a class="nav-link" [routerLink]="'/'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Business Projects</a>
-      <a class="nav-link" [routerLink]="'/community-projects'" routerLinkActive="active-link">Community Projects</a>
-      <a class="nav-link disabled-link" style="pointer-events: none; opacity: 0.6; cursor: not-allowed;">I2V Program</a>
+      <a class="nav-link animate-in" 
+         [routerLink]="'/'" 
+         routerLinkActive="active-link" 
+         [routerLinkActiveOptions]="{exact: true}"
+         (click)="createRippleEffect($event)">{{ 'BUSINESS_PROJECTS' | translate }}</a>
+      <a class="nav-link animate-in" 
+         [routerLink]="'/community-projects'" 
+         routerLinkActive="active-link"
+         (click)="createRippleEffect($event)">{{ 'COMMUNITY_PROJECTS' | translate }}</a>
+      <a class="nav-link disabled-link animate-in" 
+         style="pointer-events: none; opacity: 0.6; cursor: not-allowed;">{{ 'I2V_PROGRAM' | translate }} ({{ 'COMING_SOON' | translate }})</a>
     </div>
 
-    <!-- Center Menu Icon (visible only on small screens) -->
+    <!-- Enhanced Center Menu Icon with morphing animation -->
     <div class="center-menu-icon d-lg-none" *ngIf="!centerMenuOpen">
-      <button class="btn center-menu-btn" (click)="toggleCenterMenu($event)">
+      <button class="btn center-menu-btn" 
+              (click)="toggleCenterMenu($event)"
+              (click)="createRippleEffect($event)">
         <i class="fas fa-bars"></i>
       </button>
     </div>
 
-    <!-- Center Menu Options (visible only on small screens when menu is open) -->
-    <div class="center-menu-options d-lg-none" *ngIf="centerMenuOpen">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="'/'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" (click)="closeCenterMenu()">Business Projects</a> 
-        </li>   
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="'/community-projects'" routerLinkActive="active-link" (click)="closeCenterMenu()">Community Projects</a>
-        </li>    
-        <li class="nav-item">
-          <a class="nav-link disabled-link" style="pointer-events: none; opacity: 0.6; cursor: not-allowed;">I2V Program</a>
-        </li>
-      </ul>
+    <!-- Enhanced Center Menu Options with staggered animations -->
+    <div class="center-menu-options d-lg-none" 
+         *ngIf="centerMenuOpen"
+         [class.menu-opening]="centerMenuOpen">
+      <a class="nav-link menu-item-visible" 
+         [routerLink]="'/'" 
+         routerLinkActive="active-link" 
+         [routerLinkActiveOptions]="{exact: true}" 
+         (click)="closeCenterMenu(); createRippleEffect($event)">{{ 'BUSINESS_PROJECTS' | translate }}</a> 
+      <a class="nav-link menu-item-visible" 
+         [routerLink]="'/community-projects'" 
+         routerLinkActive="active-link" 
+         (click)="closeCenterMenu(); createRippleEffect($event)">{{ 'COMMUNITY_PROJECTS' | translate }}</a>
+      <a class="nav-link disabled-link menu-item-visible" 
+         style="pointer-events: none; opacity: 0.6; cursor: not-allowed;">{{ 'I2V_PROGRAM' | translate }} ({{ 'COMING_SOON' | translate }})</a>
     </div>
 
-    <!-- Right-side Actions -->
+    <!-- Enhanced Right-side Actions with magnetic effects -->
     <div class="nav-actions d-flex align-items-center">
       
-      <!-- Theme Switcher -->
-      <button (click)="toggleTheme()" class="btn theme-toggle">
+      <!-- Enhanced Theme Switcher with animation -->
+      <button (click)="toggleTheme(); createRippleEffect($event)" 
+              class="btn theme-toggle"
+              [class.theme-toggling]="false">
         {{ isDarkMode ? '☀️' : '🌙' }}
       </button>
 
-      <!-- Language Selector -->
-      <select class="form-select lang-select" (change)="changeLanguage($event)" [ngModel]="currentLanguage">
+      <!-- Enhanced Language Selector with animation -->
+      <select class="form-select lang-select" 
+              (change)="changeLanguage($event)" 
+              [ngModel]="currentLanguage"
+              [class.language-changing]="false">
         <option value="en">EN</option>
         <option value="fr">FR</option>
         <option value="rw">RW</option>
       </select>
 
-      <!-- Login | Signup -->
-      <a [href]="clientUrl" target="_blank" class="btn login-btn">{{ 'ACCOUNT' | translate }}</a>
+      <!-- Enhanced Login Button with magnetic effect -->
+      <a [href]="clientUrl" 
+         target="_blank" 
+         class="btn login-btn"
+         (click)="createRippleEffect($event)">{{ 'ACCOUNT' | translate }}</a>
       
     </div>
   </div>

@@ -194,7 +194,11 @@
     "PENDING": "Pending",
     "PROJECT_EXHIBITION": "Project Exhibition",
     "PROJECT_LAUNCH_ACCESS": "Project Launch Access",
-    "COMMUNITY_ACCESS": "Community Access"
+    "COMMUNITY_ACCESS": "Community Access",
+    "BUSINESS_PROJECTS": "Business Projects",
+    "COMMUNITY_PROJECTS": "Community Projects",
+    "I2V_PROGRAM": "I2V Program",
+    "COMING_SOON": "Coming Soon"
     
 }
   

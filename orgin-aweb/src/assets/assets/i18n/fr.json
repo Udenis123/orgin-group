@@ -138,7 +138,11 @@
   "APPROVED": "Approuvé",
   "PENDING": "En attente",
   "PROJECT_EXHIBITION": "Exposition de projets",
-  "PROJECT_LAUNCH_ACCESS": "Accès au lancement de projet",
-  "COMMUNITY_ACCESS": "Accès à la communauté"
+      "PROJECT_LAUNCH_ACCESS": "Accès au lancement de projet",
+    "COMMUNITY_ACCESS": "Accès à la communauté",
+    "BUSINESS_PROJECTS": "Projets Commerciaux",
+    "COMMUNITY_PROJECTS": "Projets Communautaires",
+    "I2V_PROGRAM": "Programme I2V",
+    "COMING_SOON": "Bientôt Disponible"
   
 }
