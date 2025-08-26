@@ -364,9 +364,6 @@
                 <i class="material-icons">visibility</i>
               </button>
               <button
-                *ngIf="
-                  project.status === 'PENDING' || project.status === 'DECLINED'
-                "
                 class="icon-button"
                 (click)="editProject(project)"
               >

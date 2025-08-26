@@ -265,11 +265,23 @@ export class MyProjectsComponent implements OnInit {
   }
 
   editProject(project: Project) {
-    if (project.status === 'PENDING' || project.status === 'DECLINED') {
+    // Check if it's a community project by looking for it in the community projects array
+    const isCommunityProject = this.communityProjects.some(cp => cp.projectId === project.projectId);
+    
+    if (isCommunityProject) {
+      // Community project - always allow editing regardless of status
       this.router.navigate([
-        'dashboard/project/update/launched',
+        'dashboard/project/update/community',
         project.projectId,
       ]);
+    } else {
+      // Launched project - only allow editing for PENDING or DECLINED status
+      if (project.status === 'PENDING' || project.status === 'DECLINED') {
+        this.router.navigate([
+          'dashboard/project/update/launched',
+          project.projectId,
+        ]);
+      }
     }
   }
 

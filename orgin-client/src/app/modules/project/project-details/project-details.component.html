@@ -21,7 +21,8 @@
       <span class="badge" [ngClass]="{
         'bg-warning': getProjectStatus() === 'PENDING',
         'bg-success': getProjectStatus() === 'APPROVED',
-        'bg-danger': getProjectStatus() === 'DECLINED'
+         'bg-danger': getProjectStatus() === 'DECLINED',
+         'bg-info': getProjectStatus() === 'QUERY'
       }">
         {{ 'status.' + getProjectStatus().toLowerCase() | translate }}
       </span>
@@ -161,9 +162,9 @@
                 <strong>{{ 'projectLaunch.fields.employeesCount' | translate }}:</strong> {{ getNumberOfEmp() }}
               </div>
               
-              <div class="mb-2" *ngIf="getMonthlyIncome()">
-                <strong>{{ 'projectLaunch.fields.monthlyIncome' | translate }}:</strong> {{ getMonthlyIncome() | currency }}
-              </div>
+                             <div class="mb-2" *ngIf="getMonthlyIncome()">
+                 <strong>{{ 'projectLaunch.fields.monthlyIncome' | translate }}:</strong> {{ formatNumberWithCommas(getMonthlyIncome()) }} RWF
+               </div>
               
               <div class="mb-2" *ngIf="getWebsite()">
                 <strong>{{ 'projectLaunch.fields.websiteUrl' | translate }}:</strong> 
@@ -182,16 +183,16 @@
                 <strong>{{ 'projectLaunch.fields.sellProject' | translate }}:</strong> {{ getDoSellProjectQ() }}
               </div>
               
-              <div class="mb-2" *ngIf="getProjectAmount()">
-                <strong>{{ 'projectLaunch.fields.projectInvestment' | translate }}:</strong> {{ getProjectAmount() | currency }}
-              </div>
+                             <div class="mb-2" *ngIf="getProjectAmount()">
+                 <strong>{{ 'projectLaunch.fields.projectInvestment' | translate }}:</strong> {{ formatNumberWithCommas(getProjectAmount()) }} RWF
+               </div>
             </div>
           </div>
         </div>
       </div>
       
       <!-- Team Section Card (only for community projects) -->
-      <div *ngIf="isCommunityProject() && hasTeamMembers()" class="mb-4">
+      <div *ngIf="isCommunityProject()" class="mb-4">
         <div class="card scroll-animate">
           <div class="card-header">
             <h5 class="border-bottom pb-2 text-secondary">
@@ -199,12 +200,51 @@
             </h5>
           </div>
           <div class="card-body">
-            <div class="team-members-grid">
-              <div class="team-member-card" *ngFor="let member of getTeamMembers()">
-                <div class="member-info">
-                  <span class="member-title">{{ member.title }}</span>
-                  <span class="member-count">{{ member.number }}</span>
-                </div>
+            <!-- Existing Team Members -->
+            <div class="team-members-grid" *ngIf="hasTeamMembers()">
+               <div class="team-member-card" *ngFor="let member of getTeamMembers(); let i = index">
+                 <!-- Action Buttons - Always visible on left -->
+                 <div class="member-actions">
+                   <!-- Edit Button -->
+                   <button 
+                     *ngIf="editingTeamMemberIndex !== i"
+                     class="btn btn-sm btn-primary edit-member-btn" 
+                     (click)="startEditTeamMember(i)"
+                     title="Edit team member"
+                     [disabled]="deletingTeamMemberIndex === i || updatingTeamMemberIndex === i"
+                   >
+                     <i class="fas fa-edit"></i>
+                   </button>
+                   
+                   <!-- Delete Button -->
+                   <button 
+                     class="btn btn-sm btn-danger delete-member-btn" 
+                     (click)="deleteTeamMember(getCommunityProjectId(), i)"
+                     title="Delete team member"
+                     [disabled]="deletingTeamMemberIndex === i || updatingTeamMemberIndex === i || editingTeamMemberIndex === i"
+                   >
+                     <i *ngIf="deletingTeamMemberIndex !== i" class="fas fa-trash"></i>
+                     <i *ngIf="deletingTeamMemberIndex === i" class="fas fa-spinner fa-spin"></i>
+                   </button>
+                 </div>
+                 
+                                   <!-- Content Area -->
+                  <div class="member-content">
+                    <!-- Display Mode -->
+                    <div class="member-info">
+                      <span class="member-title">{{ member.title }}</span>
+                      <span class="member-count">{{ member.number }}</span>
+                                             <span class="member-wage">{{ member.wageType }}: {{ member.wageType === 'Shares' ? member.wage + '%' : member.wageType === 'Wages' ? formatNumberWithCommas(member.wage) + ' RWF' : member.wage }}</span>
+                    </div>
+                  </div>
+               </div>
+             </div>
+            
+            <!-- No Team Members Message -->
+            <div class="no-team-members-message text-center py-4" *ngIf="!hasTeamMembers()">
+              <div class="text-muted">
+                <i class="fas fa-users fa-3x mb-3"></i>
+                <p class="mb-3">{{ 'projectDetails.noTeamMembers' | translate }}</p>
               </div>
             </div>
             
@@ -231,74 +271,99 @@
                     <div formArrayName="newTeamMembers">
                       <div class="team-requirement-row" *ngFor="let memberGroup of newTeamMembers.controls; let i = index">
                         <div class="row" [formGroupName]="i">
-                          <div class="col-md-5 form-group">
+                          <div class="col-md-4 form-group">
                             <label>{{ 'launchCommunityProject.fields.profession' | translate }} <span class="text-danger">*</span></label>
-                            <input 
-                              type="text" 
-                              class="form-control" 
-                              formControlName="title"
-                              [placeholder]="'launchCommunityProject.placeholders.profession' | translate"
-                            >
+                                                         <input 
+                               type="text" 
+                               class="form-control" 
+                               formControlName="title"
+                               [placeholder]="'launchCommunityProject.placeholders.profession' | translate"
+                               [disabled]="isSubmittingTeamMembers"
+                             >
                           </div>
-                          <div class="col-md-3 form-group">
+                          <div class="col-md-2 form-group">
                             <label>{{ 'launchCommunityProject.fields.quantity' | translate }} <span class="text-danger">*</span></label>
-                            <input 
-                              type="number" 
-                              class="form-control" 
-                              formControlName="number"
-                              min="1"
-                              [placeholder]="'launchCommunityProject.placeholders.quantity' | translate"
-                            >
+                                                         <input 
+                               type="number" 
+                               class="form-control" 
+                               formControlName="number"
+                               min="1"
+                               [placeholder]="'launchCommunityProject.placeholders.quantity' | translate"
+                               [disabled]="isSubmittingTeamMembers"
+                             >
+                          </div>
+                          <div class="col-md-2 form-group">
+                            <label>{{ 'launchCommunityProject.fields.wageType' | translate }} <span class="text-danger">*</span></label>
+                                                         <select class="form-control" formControlName="wageType" (change)="onWageTypeChange(i)" [disabled]="isSubmittingTeamMembers">
+                               <option *ngFor="let type of wageTypes" [value]="type">{{ type }}</option>
+                             </select>
+                          </div>
+                          <div class="col-md-2 form-group" *ngIf="getTeamMemberControls(i).get('wageType')?.value !== 'Free'">
+                            <label>{{ getWageLabel(getTeamMemberControls(i).get('wageType')?.value) }} <span class="text-danger">*</span></label>
+                                                         <input 
+                               type="number" 
+                               class="form-control" 
+                               formControlName="wage"
+                               [min]="0"
+                               [max]="getTeamMemberControls(i).get('wageType')?.value === 'Shares' ? 100 : null"
+                               [step]="getTeamMemberControls(i).get('wageType')?.value === 'Shares' ? 1 : 0.1"
+                               [placeholder]="getWagePlaceholder(getTeamMemberControls(i).get('wageType')?.value)"
+                               [disabled]="isSubmittingTeamMembers"
+                             >
                           </div>
                           <div class="col-md-2 form-group d-flex align-items-end">
-                            <button 
-                              type="button" 
-                              class="btn btn-link btn-remove-requirement" 
-                              (click)="removeTeamMemberRow(i)" 
-                              title="{{ 'launchCommunityProject.remove' | translate }}"
-                              *ngIf="newTeamMembers.length > 1"
-                            >
-                              <i class="fas fa-trash"></i>
-                            </button>
+                                                         <button 
+                               type="button" 
+                               class="btn btn-link btn-remove-requirement" 
+                               (click)="removeTeamMemberRow(i)" 
+                               title="{{ 'launchCommunityProject.remove' | translate }}"
+                               *ngIf="newTeamMembers.length > 1"
+                               [disabled]="isSubmittingTeamMembers"
+                             >
+                               <i class="fas fa-trash"></i>
+                             </button>
                           </div>
                         </div>
                       </div>
                     </div>
                     
-                    <!-- Add Another Row Button -->
-                    <div class="mb-3">
-                      <button type="button" class="btn btn-outline-primary btn-add-row" (click)="addTeamMemberRow()">
-                        <i class="fas fa-plus"></i> {{ 'launchCommunityProject.addTeamRequirement' | translate }}
-                      </button>
-                    </div>
+                                         <!-- Add Another Row Button -->
+                     <div class="mb-3">
+                       <button type="button" class="btn btn-outline-primary btn-add-row" (click)="addTeamMemberRow()" [disabled]="isSubmittingTeamMembers">
+                         <i class="fas fa-plus"></i> {{ 'launchCommunityProject.addTeamRequirement' | translate }}
+                       </button>
+                     </div>
                     
-                    <!-- Action Buttons -->
-                    <div class="form-actions">
-                      <button 
-                        type="button" 
-                        class="btn btn-success me-2" 
-                        (click)="saveTeamMembers()"
-                        [disabled]="!addTeamMemberForm.valid || newTeamMembers.length === 0"
-                      >
-                        <i class="fas fa-save me-2"></i>
-                        {{ 'SUBMIT' | translate }}
-                      </button>
-                      <button 
-                        type="button" 
-                        class="btn btn-warning me-2" 
-                        (click)="clearTeamMemberForm()"
-                      >
-                        <i class="fas fa-eraser me-2"></i>
-                        {{ 'CLEAR' | translate }}
-                      </button>
-                      <button 
-                        type="button" 
-                        class="btn btn-secondary" 
-                        (click)="hideAddTeamMemberForm()"
-                      >
-                        <i class="fas fa-times me-2"></i>
-                        {{ 'CANCEL' | translate }}
-                      </button>
+                                         <!-- Action Buttons -->
+                     <div class="form-actions">
+                       <button 
+                         type="button" 
+                         class="btn btn-success me-2" 
+                         (click)="saveTeamMembers()"
+                         [disabled]="!addTeamMemberForm.valid || newTeamMembers.length === 0 || isSubmittingTeamMembers"
+                       >
+                         <i *ngIf="!isSubmittingTeamMembers" class="fas fa-save me-2"></i>
+                         <i *ngIf="isSubmittingTeamMembers" class="fas fa-spinner fa-spin me-2"></i>
+                         {{ 'SUBMIT' | translate }}
+                       </button>
+                                             <button 
+                         type="button" 
+                         class="btn btn-warning me-2" 
+                         (click)="clearTeamMemberForm()"
+                         [disabled]="isSubmittingTeamMembers"
+                       >
+                         <i class="fas fa-eraser me-2"></i>
+                         {{ 'CLEAR' | translate }}
+                       </button>
+                       <button 
+                         type="button" 
+                         class="btn btn-secondary" 
+                         (click)="hideAddTeamMemberForm()"
+                         [disabled]="isSubmittingTeamMembers"
+                       >
+                         <i class="fas fa-times me-2"></i>
+                         {{ 'CANCEL' | translate }}
+                       </button>
                     </div>
                   </form>
                 </div>
@@ -491,6 +556,58 @@
         </div>
       </div>
       
+             <!-- Admin Query/Feedback Card -->
+       <div *ngIf="getProjectStatus() === 'QUERY' && getReasons()" class="mb-4">
+         <div class="card scroll-animate">
+           <div class="card-header">
+             <h5 class="border-bottom pb-2 text-secondary">
+               <i class="fas fa-comments me-2"></i>
+               {{ 'projectDetails.adminQuery' | translate }}
+             </h5>
+           </div>
+           <div class="card-body">
+             <div class="alert alert-info mt-3">
+               <div class="d-flex align-items-start">
+                 <i class="fas fa-info-circle me-3 mt-1"></i>
+                 <div class="flex-grow-1">
+                   <h6 class="alert-heading mb-2">{{ 'projectDetails.updateRequired' | translate }}</h6>
+                   <p class="mb-3">
+                     {{ truncateText(getReasons(), 150) }}
+                     <button 
+                       *ngIf="shouldShowViewMore(getReasons(), 150)" 
+                       class="view-more-btn" 
+                       (click)="showFullText(getReasons(), 'Admin Query')"
+                     >
+                       view more
+                     </button>
+                   </p>
+                   <div class="query-actions">
+                     <button 
+                       class="btn btn-primary me-2" 
+                       (click)="updateProject()"
+                       [disabled]="isUpdating"
+                     >
+                       <i class="fas fa-edit me-2"></i>
+                       <span *ngIf="!isUpdating">{{ 'projectDetails.updateProject' | translate }}</span>
+                       <span *ngIf="isUpdating">{{ 'projectDetails.updating' | translate }}</span>
+                     </button>
+                     <button 
+                       class="btn btn-outline-secondary" 
+                       (click)="resubmitProject()"
+                       [disabled]="isResubmitting"
+                     >
+                       <i class="fas fa-paper-plane me-2"></i>
+                       <span *ngIf="!isResubmitting">{{ 'projectDetails.resubmit' | translate }}</span>
+                       <span *ngIf="isResubmitting">{{ 'projectDetails.resubmitting' | translate }}</span>
+                     </button>
+                   </div>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <!-- Feedback/Reasons Card -->
       <div *ngIf="getProjectStatus() === 'DECLINED' && getReasons()" class="mb-4">
         <div class="card scroll-animate">
@@ -540,19 +657,114 @@
   </div>
 </div>
 
-<!-- Video Preview Modal -->
-<ng-template #videoPreviewModal let-modal>
-  <div class="modal-header">
-    <h5 class="modal-title">{{ 'projectDetails.videoPreview' | translate }}</h5>
-    <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
-  </div>
-  <div class="modal-body">
-    <video controls class="w-100" #videoPreview>
-      <source [src]="currentVideoUrl" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modal.close()">{{ 'projectDetails.buttons.close' | translate }}</button>
-  </div>
-</ng-template>
+ <!-- Video Preview Modal -->
+ <ng-template #videoPreviewModal let-modal>
+   <div class="modal-header">
+     <h5 class="modal-title">{{ 'projectDetails.videoPreview' | translate }}</h5>
+     <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+   </div>
+   <div class="modal-body">
+     <video controls class="w-100" #videoPreview>
+       <source [src]="currentVideoUrl" type="video/mp4">
+       Your browser does not support the video tag.
+     </video>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-secondary" (click)="modal.close()">{{ 'projectDetails.buttons.close' | translate }}</button>
+   </div>
+ </ng-template>
+
+ <!-- Update Team Member Modal -->
+ <div class="modal fade show" [class.d-block]="showUpdateTeamMemberModal" tabindex="-1" role="dialog" *ngIf="showUpdateTeamMemberModal">
+   <div class="modal-dialog modal-lg" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title">
+           <i class="fas fa-edit me-2"></i>
+           {{ 'projectDetails.updateTeamMember' | translate }}
+         </h5>
+         <button type="button" class="btn-close" (click)="closeUpdateTeamMemberModal()" aria-label="Close"></button>
+       </div>
+       <div class="modal-body" *ngIf="updatingTeamMember">
+         <form>
+           <div class="row">
+             <div class="col-md-6 form-group mb-3">
+               <label for="updateTitle">{{ 'launchCommunityProject.fields.profession' | translate }} <span class="text-danger">*</span></label>
+                                <input 
+                   type="text" 
+                   class="form-control" 
+                   id="updateTitle"
+                   [(ngModel)]="updatingTeamMember.title"
+                   name="title"
+                   placeholder="{{ 'launchCommunityProject.placeholders.profession' | translate }}"
+                   [disabled]="isUpdatingTeamMember"
+                 >
+             </div>
+             <div class="col-md-6 form-group mb-3">
+               <label for="updateNumber">{{ 'launchCommunityProject.fields.quantity' | translate }} <span class="text-danger">*</span></label>
+               <input 
+                 type="number" 
+                 class="form-control" 
+                 id="updateNumber"
+                 [(ngModel)]="updatingTeamMember.number"
+                 name="number"
+                 min="1"
+                 placeholder="{{ 'launchCommunityProject.placeholders.quantity' | translate }}"
+                 [disabled]="isUpdatingTeamMember"
+               >
+             </div>
+           </div>
+           <div class="row">
+             <div class="col-md-6 form-group mb-3">
+               <label for="updateWageType">{{ 'launchCommunityProject.fields.wageType' | translate }} <span class="text-danger">*</span></label>
+               <select 
+                 class="form-control" 
+                 id="updateWageType"
+                 [(ngModel)]="updatingTeamMember.wageType"
+                 name="wageType"
+                 (change)="onUpdateModalWageTypeChange()"
+                 [disabled]="isUpdatingTeamMember"
+               >
+                 <option *ngFor="let type of wageTypes" [value]="type">{{ type }}</option>
+               </select>
+             </div>
+             <div class="col-md-6 form-group mb-3" *ngIf="updatingTeamMember.wageType !== 'Free'">
+               <label for="updateWage">{{ getWageLabel(updatingTeamMember.wageType) }} <span class="text-danger">*</span></label>
+               <input 
+                 type="number" 
+                 class="form-control" 
+                 id="updateWage"
+                 [(ngModel)]="updatingTeamMember.wage"
+                 name="wage"
+                 [min]="0"
+                 [max]="updatingTeamMember.wageType === 'Shares' ? 100 : null"
+                 [step]="updatingTeamMember.wageType === 'Shares' ? 1 : 0.1"
+                 [placeholder]="getWagePlaceholder(updatingTeamMember.wageType)"
+                 [disabled]="isUpdatingTeamMember"
+               >
+             </div>
+           </div>
+         </form>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" (click)="closeUpdateTeamMemberModal()">
+           <i class="fas fa-times me-2"></i>
+           {{ 'CANCEL' | translate }}
+         </button>
+         <button 
+           type="button" 
+           class="btn btn-success" 
+           (click)="updateTeamMemberFromModal()"
+           [disabled]="!updatingTeamMember || !updatingTeamMember.title || updatingTeamMember.number < 1 || isUpdatingTeamMember"
+         >
+           <i *ngIf="!isUpdatingTeamMember" class="fas fa-save me-2"></i>
+           <i *ngIf="isUpdatingTeamMember" class="fas fa-spinner fa-spin me-2"></i>
+           {{ 'SAVE' | translate }}
+         </button>
+       </div>
+     </div>
+   </div>
+ </div>
+
+ <!-- Modal Backdrop -->
+ <div class="modal-backdrop fade show" *ngIf="showUpdateTeamMemberModal"></div>

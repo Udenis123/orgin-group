@@ -452,13 +452,22 @@
       "projectDescription": "Ibisobanuro by'Umushinga",
       "projectPurpose": "Intego y'Umushinga",
       "speciality": "Ni iki gituma umushinga wawe wihariye?"
-    }
+    },
+    "adminQuery": "Ibibazo by'Umuyobozi",
+    "updateRequired": "Gusubirwaho Bikenewe",
+    "updateProject": "Hindura Umushinga",
+    "updating": "Gusubirwaho...",
+    "resubmit": "Tanga Umushinga Nanone",
+    "resubmitting": "Gutanga nanone...",
+    "noTeamMembers": "Nta bagize b'itsinda bongeyeho kugeza ubu. Kanda kuri buto hepfo kugira ngo ongero umugize wa mbere w'itsinda.",
+    "updateTeamMember": "Hindura Umugize w'Itsinda"
   },
-  "status": {
-    "pending": "Urategereje",
-    "approved": "Wemejwe",
-    "declined": "Wanzwe"
-  },
+        "status": {
+        "pending": "Urategereje",
+        "approved": "Wemejwe",
+        "declined": "Wanzwe",
+        "query": "Ibibazo"
+      },
   "appointments": {
     "title": "Igihe Cyemejwe",
     "project": "Umushinga",
@@ -588,7 +597,9 @@
             "confirmationCheckbox": "Icyemezo",
             "requiredMembers": "Abafatanyabikorwa Bakenewe",
             "profession": "Umwuga/Icyo akora",
-            "quantity": "Umubare"
+            "quantity": "Umubare",
+            "wageType": "Ubwoko bwo Kwishyura",
+            "wage": "Ishyura"
         },
             "placeholders": {
             "projectName": "Andika izina ry'umushinga",
@@ -613,7 +624,12 @@
             "emailRequired": "Imeri ni ibikenewe",
             "emailInvalid": "Imeri ntibashije",
             "categoryRequired": "Icyiciro ni ibikenewe",
-            "otherCategoryRequired": "Icyiciro cy'ikindi ni ibikenewe"
+            "otherCategoryRequired": "Icyiciro cy'ikindi ni ibikenewe",
+            "professionRequired": "Umwuga/Icyo akora ni ibikenewe",
+            "quantityRequired": "Umubare ni ibikenewe",
+            "wageRequired": "Ishyura ni ibikenewe",
+            "wageMin": "Ishyura ntirushobora kurenza 0",
+            "wageMax": "Ishyura ntirushobora kurenza 100%"
         }
   }
 }

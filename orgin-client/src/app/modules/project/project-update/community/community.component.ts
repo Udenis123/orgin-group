@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProjectService } from '../../../../services/project.services';
 
 @Component({
   selector: 'app-community',
@@ -15,67 +16,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class CommunityProjectUpdateComponent implements OnInit {
   projectForm: FormGroup;
   projectCategories = ['Technology', 'Healthcare', 'Education', 'Finance', 'Agriculture', 'Retail', 'Other'];
-  steps = ['Personal Information', 'Project Information', 'Team Requirements', 'Review and Submit'];
+  steps = ['Personal Information', 'Project Information', 'Review and Submit'];
   currentStep = 0;
   projectId: string | null = null;
   isLoading = true;
   isSubmitting = false;
 
-  private dummyProjects: { [key: string]: any } = {
-    '7': {
-      id: '7',
-      fullName: 'John Doe',
-      professionalStatus: 'Developer',
-      email: 'john@example.com',
-      phone: '111-222-3333',
-      linkedin: 'https://linkedin.com/in/johndoe',
-      projectName: 'Community Garden App',
-      category: 'Agriculture',
-      location: 'New York',
-      description: 'Platform for urban gardening communities',
-      requiredMembers: [
-        { profession: 'Gardener', quantity: 3 },
-        { profession: 'Developer', quantity: 2 }
-      ]
-    },
-    '8': {
-      id: '8',
-      fullName: 'Jane Smith',
-      professionalStatus: 'Entrepreneur',
-      email: 'jane@example.com',
-      phone: '444-555-6666',
-      linkedin: 'https://linkedin.com/in/janesmith',
-      projectName: 'Recycling Initiative',
-      category: 'Environment',
-      location: 'San Francisco',
-      description: 'Community-based recycling program',
-      requiredMembers: [
-        { profession: 'Coordinator', quantity: 2 },
-        { profession: 'Volunteer', quantity: 10 }
-      ]
-    },
-    '9': {
-      id: '9',
-      fullName: 'Mike Johnson',
-      professionalStatus: 'Community Leader',
-      email: 'mike@example.com',
-      phone: '777-888-9999',
-      linkedin: 'https://linkedin.com/in/mikejohnson',
-      projectName: 'Neighborhood Watch App',
-      category: 'Technology',
-      location: 'Chicago',
-      description: 'Safety app for local communities',
-      requiredMembers: [
-        { profession: 'Developer', quantity: 3 },
-        { profession: 'Security Expert', quantity: 2 }
-      ]
-    }
-  };
+
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private projectService: ProjectService
   ) {
     this.projectForm = this.fb.group({
       // Personal Information
@@ -91,13 +44,7 @@ export class CommunityProjectUpdateComponent implements OnInit {
       location: ['', Validators.required],
       description: ['', Validators.required],
       
-      // Team Requirements
-      requiredMembers: this.fb.array([
-        this.fb.group({
-          profession: ['', Validators.required],
-          quantity: [0, [Validators.required, Validators.min(0)]]
-        })
-      ]),
+
       
       // Confirmation
       confirmationCheckbox: [false, Validators.requiredTrue]
@@ -109,10 +56,15 @@ export class CommunityProjectUpdateComponent implements OnInit {
     this.loadProject();
   }
 
-  loadProject(): void {
-    if (this.projectId && this.dummyProjects[this.projectId]) {
-      const project = this.dummyProjects[this.projectId];
-      this.populateForm(project);
+  async loadProject(): Promise<void> {
+    if (this.projectId) {
+      try {
+        const project = await this.projectService.getCommunityProjectById(this.projectId);
+        this.populateForm(project);
+      } catch (error) {
+        console.error('Error loading project:', error);
+        // Handle error - could show a message to user
+      }
     }
     this.isLoading = false;
   }
@@ -120,49 +72,18 @@ export class CommunityProjectUpdateComponent implements OnInit {
   populateForm(project: any): void {
     this.projectForm.patchValue({
       fullName: project.fullName,
-      professionalStatus: project.professionalStatus,
+      professionalStatus: project.profession, // Map profession to professionalStatus
       email: project.email,
       phone: project.phone,
-      linkedin: project.linkedin,
+      linkedin: project.linkedIn, // Map linkedIn to linkedin
       projectName: project.projectName,
       category: project.category,
       location: project.location,
       description: project.description
     });
-
-    // Clear existing required members
-    while (this.requiredMembers.length) {
-      this.requiredMembers.removeAt(0);
-    }
-
-    // Add new required members
-    project.requiredMembers.forEach((member: any) => {
-      this.requiredMembers.push(this.fb.group({
-        profession: [member.profession],
-        quantity: [member.quantity, [Validators.min(0)]]
-      }));
-    });
   }
 
-  get requiredMembers() {
-    return this.projectForm.get('requiredMembers') as FormArray;
-  }
 
-  getProfessionControl(index: number): FormControl {
-    const control = this.requiredMembers.at(index).get('profession');
-    if (!control) {
-      throw new Error(`Profession control not found at index ${index}`);
-    }
-    return control as FormControl;
-  }
-
-  getQuantityControl(index: number): FormControl {
-    const control = this.requiredMembers.at(index).get('quantity');
-    if (!control) {
-      throw new Error(`Quantity control not found at index ${index}`);
-    }
-    return control as FormControl;
-  }
 
   nextStep() {
     if (this.currentStep < this.steps.length - 1) {
@@ -187,26 +108,38 @@ export class CommunityProjectUpdateComponent implements OnInit {
 
     this.isSubmitting = true;
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const formData = this.projectForm.value;
       
-      console.log('Form submitted with:', this.projectForm.value);
-      
-      this.router.navigate(['dashboard/project/my-projects'], {
-        queryParams: { updated: true }
-      });
+      // Map form data to API format
+      const projectData = {
+        fullName: formData.fullName,
+        profession: formData.professionalStatus, // Map professionalStatus to profession
+        email: formData.email,
+        phone: formData.phone,
+        linkedIn: formData.linkedin, // Map linkedin to linkedIn
+        projectName: formData.projectName,
+        category: formData.category,
+        location: formData.location,
+        description: formData.description
+      };
+
+      if (this.projectId) {
+        await this.projectService.updateCommunityProject(this.projectId, projectData);
+        console.log('Project updated successfully');
+        
+        this.router.navigate(['dashboard/project/my-projects'], {
+          queryParams: { updated: true }
+        });
+      }
     } catch (error) {
-      console.error('Submission failed:', error);
+      console.error('Update failed:', error);
+      // Handle error - could show a message to user
     } finally {
       this.isSubmitting = false;
     }
   }
 
-  onFileChange(event: any, controlName: string) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.projectForm.get(controlName)?.setValue(file);
-    }
-  }
+
 
   onClear() {
     const stepFields = this.getStepFields(this.currentStep);
@@ -221,9 +154,7 @@ export class CommunityProjectUpdateComponent implements OnInit {
         return ['fullName', 'professionalStatus', 'email', 'phone', 'linkedin'];
       case 1: // Project Information
         return ['projectName', 'category', 'location', 'description'];
-      case 2: // Team Requirements
-        return ['requiredMembers'];
-      case 3: // Review and Submit
+      case 2: // Review and Submit
         return ['confirmationCheckbox'];
       default:
         return [];
@@ -240,18 +171,9 @@ export class CommunityProjectUpdateComponent implements OnInit {
       { label: 'Project Name', value: this.projectForm.get('projectName')?.value },
       { label: 'Category', value: this.projectForm.get('category')?.value },
       { label: 'Location', value: this.projectForm.get('location')?.value },
-      { label: 'Description', value: this.projectForm.get('description')?.value },
-      ...this.requiredMembers.controls.map((member, index) => ({
-        label: `Required ${member.get('profession')?.value}`, 
-        value: member.get('quantity')?.value
-      }))
+      { label: 'Description', value: this.projectForm.get('description')?.value }
     ];
   }
 
-  addMember() {
-    this.requiredMembers.push(this.fb.group({
-      profession: ['', Validators.required],
-      quantity: [0, [Validators.required, Validators.min(0)]]
-    }));
-  }
+
 }

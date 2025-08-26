@@ -460,13 +460,22 @@
       "projectDescription": "Description du Projet",
       "projectPurpose": "Objectif du Projet",
       "speciality": "Qu'est-ce qui rend votre projet unique ?"
-    }
+    },
+    "adminQuery": "Requête de l'Administrateur",
+    "updateRequired": "Mise à Jour Requise",
+    "updateProject": "Mettre à Jour le Projet",
+    "updating": "Mise à Jour...",
+            "resubmit": "Resoumettre le Projet",
+        "resubmitting": "Resoumission...",
+        "noTeamMembers": "Aucun membre d'équipe n'a encore été ajouté. Cliquez sur le bouton ci-dessous pour ajouter votre premier membre d'équipe.",
+        "updateTeamMember": "Mettre à Jour le Membre d'Équipe"
   },
-  "status": {
-    "pending": "En Attente",
-    "approved": "Approuvé",
-    "declined": "Refusé"
-  },
+        "status": {
+        "pending": "En Attente",
+        "approved": "Approuvé",
+        "declined": "Refusé",
+        "query": "Requête"
+      },
   "appointments": {
     "title": "Mes Rendez-vous",
     "project": "Projet",
@@ -596,7 +605,9 @@
             "confirmationCheckbox": "Confirmation",
             "requiredMembers": "Membres de l'Équipe Requis",
             "profession": "Profession/Rôle",
-            "quantity": "Quantité"
+            "quantity": "Quantité",
+            "wageType": "Type de Rémunération",
+            "wage": "Rémunération"
         },
             "placeholders": {
             "projectName": "Entrez le nom du projet",
@@ -621,7 +632,12 @@
             "emailRequired": "L'email est requis",
             "emailInvalid": "Veuillez entrer une adresse email valide",
             "categoryRequired": "La catégorie est requise",
-            "otherCategoryRequired": "L'autre catégorie est requise"
+            "otherCategoryRequired": "L'autre catégorie est requise",
+            "professionRequired": "La profession/rôle est requis",
+            "quantityRequired": "La quantité est requise",
+            "wageRequired": "La rémunération est requise",
+            "wageMin": "La rémunération doit être au moins 0",
+            "wageMax": "La rémunération ne peut pas dépasser 100%"
         }
   }
 }

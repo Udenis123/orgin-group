@@ -101,15 +101,42 @@
                 
                 <div class="team-requirement-row" *ngFor="let memberGroup of requiredMembers.controls; let i = index">
                     <div class="row">
-                        <div class="col-md-5 form-group">
+                        <div class="col-md-4 form-group">
                             <label>{{ 'launchCommunityProject.fields.profession' | translate }} <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" [formControl]="getProfessionControl(i)" 
+                            <input type="text" class="form-control" [formControl]="getTitleControl(i)" 
                                    [placeholder]="'launchCommunityProject.placeholders.profession' | translate">
+                            <div *ngIf="getTitleControl(i).invalid && getTitleControl(i).touched" class="text-danger">
+                                {{ 'launchCommunityProject.errors.professionRequired' | translate }}
+                            </div>
                         </div>
-                        <div class="col-md-3 form-group">
+                        <div class="col-md-2 form-group">
                             <label>{{ 'launchCommunityProject.fields.quantity' | translate }} <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" [formControl]="getQuantityControl(i)" 
+                            <input type="number" class="form-control" [formControl]="getNumberControl(i)" 
                                    min="1" [placeholder]="'launchCommunityProject.placeholders.quantity' | translate">
+                            <div *ngIf="getNumberControl(i).invalid && getNumberControl(i).touched" class="text-danger">
+                                {{ 'launchCommunityProject.errors.quantityRequired' | translate }}
+                            </div>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label>{{ 'launchCommunityProject.fields.wageType' | translate }} <span class="text-danger">*</span></label>
+                            <select class="form-control" [formControl]="getWageTypeControl(i)" (change)="onWageTypeChange(i)">
+                                <option *ngFor="let wageType of wageTypes" [value]="wageType.value">
+                                    {{ wageType.label }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 form-group" *ngIf="getWageTypeControl(i).value !== 'Free'">
+                            <label>{{ getWageLabel(getWageTypeControl(i).value) }} <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" [formControl]="getWageControl(i)" 
+                                   [placeholder]="getWagePlaceholder(getWageTypeControl(i).value)"
+                                   [min]="getWageTypeControl(i).value === 'Shares' ? 0 : 0"
+                                   [max]="getWageTypeControl(i).value === 'Shares' ? 100 : null"
+                                   [step]="getWageTypeControl(i).value === 'Shares' ? 0.1 : 1">
+                            <div *ngIf="getWageControl(i).invalid && getWageControl(i).touched" class="text-danger">
+                                <span *ngIf="getWageControl(i).errors?.['required']">{{ 'launchCommunityProject.errors.wageRequired' | translate }}</span>
+                                <span *ngIf="getWageControl(i).errors?.['min']">{{ 'launchCommunityProject.errors.wageMin' | translate }}</span>
+                                <span *ngIf="getWageControl(i).errors?.['max']">{{ 'launchCommunityProject.errors.wageMax' | translate }}</span>
+                            </div>
                         </div>
                         <div class="col-md-2 form-group d-flex align-items-end">
                             <button type="button" class="btn btn-link btn-remove-requirement" (click)="removeTeamRequirement(i)" title="{{ 'launchCommunityProject.remove' | translate }}">

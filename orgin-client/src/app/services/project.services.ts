@@ -412,7 +412,7 @@ export class ProjectService {
       category: string;
       location: string;
       description: string;
-      team: Array<{ title: string; number: number }>;
+      team: Array<{ title: string; number: number; wageType: string; wage: string }>;
     },
     projectPhoto: File | null
   ): Promise<any> {
@@ -478,7 +478,7 @@ export class ProjectService {
     return project;
   }
 
-  async addTeamMemberToCommunityProject(projectId: string, teamMember: { title: string; number: number }): Promise<any> {
+  async addTeamMemberToCommunityProject(projectId: string, teamMember: { title: string; number: number; wageType: string; wage: string }): Promise<any> {
     const token = this.cookieService.get('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
@@ -501,6 +501,57 @@ export class ProjectService {
       .toPromise();
   }
 
+  async deleteTeamMember(projectId: string, index: number): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .delete<any>(`${environment.apiUrl}/community/project/${projectId}/team-members/${index}`, { headers })
+      .toPromise();
+  }
+
+  async updateTeamMember(projectId: string, index: number, teamMember: { title: string; number: number; wageType: string; wage: string }): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http
+      .put<any>(`${environment.apiUrl}/community/project/${projectId}/team-members/${index}`, teamMember, { headers })
+      .toPromise();
+  }
+
+  async updateCommunityProject(
+    projectId: string,
+    projectData: {
+      fullName: string;
+      profession: string;
+      email: string;
+      phone: string;
+      linkedIn: string;
+      projectName: string;
+      category: string;
+      location: string;
+      description: string;
+    }
+  ): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http
+      .put(`${environment.apiUrl}/community/project/${projectId}`, projectData, {
+        headers,
+        responseType: 'text',
+      })
+      .toPromise();
+  }
+
   async deleteLaunchedProject(projectId: string): Promise<any> {
     const token = this.cookieService.get('token');
     const headers = new HttpHeaders({
@@ -509,6 +560,40 @@ export class ProjectService {
 
     return this.http
       .delete<any>(`${this.apiUrl}/${projectId}`, { headers })
+      .toPromise();
+  }
+
+  // Resubmit methods for QUERY status projects
+  async resubmitCommunityProject(projectId: string): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .post<any>(`${environment.apiUrl}/community/project/${projectId}/resubmit`, {}, { headers })
+      .toPromise();
+  }
+
+  async resubmitLaunchedProject(projectId: string): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .post<any>(`${this.apiUrl}/${projectId}/resubmit`, {}, { headers })
+      .toPromise();
+  }
+
+  async resubmitOrderedProject(projectId: string): Promise<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .post<any>(`${environment.apiUrl}/api/ordered-projects/${projectId}/resubmit`, {}, { headers })
       .toPromise();
   }
 }

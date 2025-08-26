@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { environment } from '../../../../../environments/environment';
 import { ProjectService } from '../../../../services/project.services';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-launch-community-project',
-  standalone: true,
   templateUrl: './launch-community-project.component.html',
   styleUrls: ['./launch-community-project.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule]
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
+  standalone: true
 })
 export class LaunchCommunityProjectComponent {
   projectForm: FormGroup;
@@ -23,6 +23,13 @@ export class LaunchCommunityProjectComponent {
     projectThumbnail: null
   };
   isSubmitting = false;
+  
+  // Wage type options
+  wageTypes = [
+    { value: 'Free', label: 'Free' },
+    { value: 'Shares', label: 'Shares' },
+    { value: 'Wages', label: 'Wages' }
+  ];
 
   constructor(private fb: FormBuilder, private projectService: ProjectService) {
     this.projectForm = this.fb.group({
@@ -41,7 +48,7 @@ export class LaunchCommunityProjectComponent {
       description: ['', [Validators.required]],
       projectThumbnail: [null],
 
-      // Team Requirements - Now dynamic
+      // Team Requirements - Now dynamic with wage information
       requiredMembers: this.fb.array([]),
 
       // Confirmation
@@ -53,12 +60,34 @@ export class LaunchCommunityProjectComponent {
     return this.projectForm.get('requiredMembers') as FormArray;
   }
 
-  // Add a new team requirement
+  // Add a new team requirement with wage information
   addTeamRequirement() {
     const teamRequirement = this.fb.group({
-      profession: ['', Validators.required],
-      quantity: [1, [Validators.required, Validators.min(1)]]
+      title: ['', Validators.required],
+      number: [1, [Validators.required, Validators.min(1)]],
+      wageType: ['Free', Validators.required],
+      wage: ['0', [Validators.required, Validators.min(0)]]
     });
+    
+    // Set up wage field behavior based on wage type
+    const wageTypeControl = teamRequirement.get('wageType');
+    const wageControl = teamRequirement.get('wage');
+    
+    wageTypeControl?.valueChanges.subscribe(value => {
+      if (value === 'Free') {
+        wageControl?.setValue('0');
+        wageControl?.disable();
+      } else {
+        wageControl?.enable();
+        if (value === 'Shares') {
+          wageControl?.setValidators([Validators.required, Validators.min(0), Validators.max(100)]);
+        } else if (value === 'Wages') {
+          wageControl?.setValidators([Validators.required, Validators.min(0)]);
+        }
+        wageControl?.updateValueAndValidity();
+      }
+    });
+    
     this.requiredMembers.push(teamRequirement);
   }
 
@@ -72,14 +101,66 @@ export class LaunchCommunityProjectComponent {
     return this.requiredMembers.at(index) as FormGroup;
   }
 
-  // Get profession control for a specific team requirement
-  getProfessionControl(index: number): FormControl {
-    return (this.requiredMembers.at(index) as FormGroup).get('profession') as FormControl;
+  // Get title control for a specific team requirement
+  getTitleControl(index: number): FormControl {
+    return (this.requiredMembers.at(index) as FormGroup).get('title') as FormControl;
   }
 
-  // Get quantity control for a specific team requirement
-  getQuantityControl(index: number): FormControl {
-    return (this.requiredMembers.at(index) as FormGroup).get('quantity') as FormControl;
+  // Get number control for a specific team requirement
+  getNumberControl(index: number): FormControl {
+    return (this.requiredMembers.at(index) as FormGroup).get('number') as FormControl;
+  }
+
+  // Get wage type control for a specific team requirement
+  getWageTypeControl(index: number): FormControl {
+    return (this.requiredMembers.at(index) as FormGroup).get('wageType') as FormControl;
+  }
+
+  // Get wage control for a specific team requirement
+  getWageControl(index: number): FormControl {
+    return (this.requiredMembers.at(index) as FormGroup).get('wage') as FormControl;
+  }
+
+  // Handle wage type change for a specific team requirement
+  onWageTypeChange(index: number) {
+    const teamRequirement = this.requiredMembers.at(index) as FormGroup;
+    const wageTypeControl = teamRequirement.get('wageType');
+    const wageControl = teamRequirement.get('wage');
+    
+    if (wageTypeControl?.value === 'Free') {
+      wageControl?.setValue('0');
+    } else {
+      if (wageTypeControl?.value === 'Shares') {
+        wageControl?.setValidators([Validators.required, Validators.min(0), Validators.max(100)]);
+      } else if (wageTypeControl?.value === 'Wages') {
+        wageControl?.setValidators([Validators.required, Validators.min(0)]);
+      }
+      wageControl?.updateValueAndValidity();
+    }
+  }
+
+  // Get wage placeholder based on wage type
+  getWagePlaceholder(wageType: string): string {
+    switch (wageType) {
+      case 'Shares':
+        return 'Enter percentage (0-100)';
+      case 'Wages':
+        return 'Enter amount in Rwandan Franc';
+      default:
+        return '0';
+    }
+  }
+
+  // Get wage label based on wage type
+  getWageLabel(wageType: string): string {
+    switch (wageType) {
+      case 'Shares':
+        return 'Percentage (%)';
+      case 'Wages':
+        return 'Amount (RWF)';
+      default:
+        return 'Wage';
+    }
   }
 
   // ... existing navigation methods from project-launch component ...
@@ -148,18 +229,14 @@ export class LaunchCommunityProjectComponent {
 
       this.fileReferences[controlName] = file;
       this.projectForm.get(controlName)?.setValue(file);
-      this.projectForm.updateValueAndValidity();
-    } else {
-      delete this.fileReferences[controlName];
-      this.projectForm.get(controlName)?.setValue(null);
     }
   }
 
   onCategoryChange() {
-    const category = this.projectForm.get('category')?.value;
+    const categoryControl = this.projectForm.get('category');
     const otherCategoryControl = this.projectForm.get('otherCategory');
     
-    if (category === 'Other') {
+    if (categoryControl?.value === 'Other') {
       otherCategoryControl?.setValidators([Validators.required]);
     } else {
       otherCategoryControl?.clearValidators();
@@ -177,8 +254,10 @@ export class LaunchCommunityProjectComponent {
         
         // Transform team requirements to match API structure
         const team = this.requiredMembers.controls.map((memberGroup: any) => ({
-          title: memberGroup.value.profession,
-          number: memberGroup.value.quantity
+          title: memberGroup.value.title,
+          number: memberGroup.value.number,
+          wageType: memberGroup.value.wageType,
+          wage: memberGroup.value.wage
         }));
 
         const projectData = {
@@ -269,8 +348,4 @@ export class LaunchCommunityProjectComponent {
       }
     }
   }
-
-
-
-
 }

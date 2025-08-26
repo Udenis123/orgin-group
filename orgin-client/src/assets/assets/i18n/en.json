@@ -463,12 +463,21 @@
           "projectDescription": "Project Description",
           "projectPurpose": "Project Purpose",
           "speciality": "What makes your project unique?"
-        }
+        },
+        "adminQuery": "Admin Query",
+        "updateRequired": "Update Required",
+        "updateProject": "Update Project",
+        "updating": "Updating...",
+        "resubmit": "Resubmit Project",
+        "resubmitting": "Resubmitting...",
+        "noTeamMembers": "No team members have been added yet. Click the button below to add your first team member.",
+        "updateTeamMember": "Update Team Member"
       },
       "status": {
         "pending": "Pending",
         "approved": "Approved",
-        "declined": "Declined"
+        "declined": "Declined",
+        "query": "Query"
       },
       "appointments": {
         "title": "My Appointments",
@@ -600,7 +609,9 @@
             "confirmationCheckbox": "Confirmation",
             "requiredMembers": "Required Team Members",
             "profession": "Profession/Role",
-            "quantity": "Quantity"
+            "quantity": "Quantity",
+            "wageType": "Wage Type",
+            "wage": "Wage"
         },
         "placeholders": {
             "projectName": "Enter project name",
@@ -625,7 +636,12 @@
             "emailRequired": "Email is required",
             "emailInvalid": "Please enter a valid email address",
             "categoryRequired": "Category is required",
-            "otherCategoryRequired": "Other category is required"
+            "otherCategoryRequired": "Other category is required",
+            "professionRequired": "Profession/Role is required",
+            "quantityRequired": "Quantity is required",
+            "wageRequired": "Wage is required",
+            "wageMin": "Wage must be at least 0",
+            "wageMax": "Wage cannot exceed 100%"
         }
       }
     }
