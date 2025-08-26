@@ -67,7 +67,7 @@ export interface OrderedProject {
   businessIdea: string;
   businessIdeaDocumentUrl: string;
   businessPlanDocumentUrl: string;
-  status: 'PENDING' | 'APPROVED' | 'DECLINED' | 'PRODUCTION' | 'COMPLETED';
+          status: 'PENDING' | 'PENDING_QUERY' | 'QUERY' | 'APPROVED' | 'DECLINED' | 'PRODUCTION' | 'COMPLETED';
   reasons: string;
 }
 

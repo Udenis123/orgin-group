@@ -205,6 +205,45 @@ export class ProjectsLaunchedComponent implements OnInit {
       intellectualProjectQ: 'Yes',
       email: 'mike@example.com',
       feedback: 'Under review'
+    },
+    {
+      balanceSheetUrl: '',
+      projectId: '4',
+      businessIdea: 'E-commerce Platform',
+      businessPlanUrl: '',
+      businessIdeaDocumentUrl: '',
+      clientName: 'Sarah Wilson',
+      category: 'E-commerce',
+      description: 'Online marketplace for local artisans',
+      cashFlowUrl: '',
+      status: 'PENDING_QUERY',
+      professionalStatus: 'Entrepreneur',
+      projectName: 'Artisan Marketplace',
+      haveSponsorQ: 'Yes',
+      projectPurpose: 'Digital Commerce',
+      projectLocation: 'Nairobi',
+      projectPhotoUrl: '',
+      doSellProjectQ: 'No',
+      submittedOn: '2024-02-10T00:00:00.000Z',
+      projectAmount: 6000000,
+      needOrgQ: 'Yes',
+      pitchingVideoUrl: '',
+      sponsorName: 'Local Business Fund',
+      website: 'https://artisan.example.com',
+      incomeStatementUrl: '',
+      prototypeLink: 'https://prototype.artisan.com',
+      projectStatus: 'Pending Query',
+      updatedOn: '2024-02-15T00:00:00.000Z',
+      linkedIn: 'https://linkedin.com/in/sarahwilson',
+      monthlyIncome: 1500000,
+      specialityOfProject: 'E-commerce',
+      phone: '+254123456789',
+      needSponsorQ: 'Yes',
+      numberOfEmp: 6,
+      wantOriginToBusinessPlanQ: 'Yes',
+      intellectualProjectQ: 'No',
+      email: 'sarah@example.com',
+      feedback: 'Project resubmitted after settling queries'
     }
   ];
 
@@ -244,7 +283,9 @@ export class ProjectsLaunchedComponent implements OnInit {
       error: (error) => {
         console.error('Error loading launched projects:', error);
         this.isError = true;
-        this.errorMessage = 'Failed to load launched projects. Please try again.';
+        this.translate.get('launchedProjects.errorMessage').subscribe((message: string) => {
+          this.errorMessage = message;
+        });
         // Fallback to hardcoded data if API fails
         this.dataSource.data = this.projects;
         this.calculateTotalPages();
@@ -323,5 +364,22 @@ export class ProjectsLaunchedComponent implements OnInit {
 
   retryLoading(): void {
     this.loadLaunchedProjects();
+  }
+
+  getDisplayStatus(status: string): string {
+    switch (status) {
+      case 'PENDING_QUERY':
+        return 'Pending Query';
+      case 'QUERY':
+        return 'Query';
+      case 'PENDING':
+        return 'Pending';
+      case 'APPROVED':
+        return 'Approved';
+      case 'DECLINED':
+        return 'Declined';
+      default:
+        return status;
+    }
   }
 }

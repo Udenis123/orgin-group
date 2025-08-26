@@ -592,14 +592,29 @@
         "confirm": "Hindura Imiterere"
       }
     },
-    "statusDescriptions": {
-      "pending": "Umushinga uri mu gusuzumwa",
-      "approved": "Umushinga wemejwe kugira ngo utunganywe",
-      "declined": "Umushinga wanzwe",
+            "statusDescriptions": {
+          "pending": "Umushinga uri mu gusuzumwa",
+          "pending_query": "Umushinga woherejwe inyuma yo gufata ibibazo",
+          "query": "Umutekano yabajije umwishingizi w'umushinga kandi arindira igisubizo",
+          "approved": "Umushinga wemejwe kugira ngo utunganywe",
+          "declined": "Umushinga wanzwe",
       "production": "Umushinga uri mu gutunganywa",
       "completed": "Umushinga warangiye"
     },
     "noAnalyzers": "Nta musuzuma uhagaze kuri uyu mushinga",
     "noAvailableAnalyzers": "Abasuzuma bose barashyizweho kuri uyu mushinga"
+  },
+  "launchedProjects": {
+    "loadingMessage": "Birakora imishinga yatangijwe...",
+    "errorTitle": "Ikibazo mu gukuraho imishinga",
+    "errorMessage": "Kutashobora gukuraho imishinga yatangijwe. Nyamuneka ongera ugerageze.",
+    "retryButton": "Ongera Ugerageze",
+    "pagination": {
+      "pageSize": "Ubunini bw'Urupapuro",
+      "itemsPerPage": "ibintu kuri urupapuro"
+    },
+    "modal": {
+      "close": "Funga"
+    }
   }
 }

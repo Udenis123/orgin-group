@@ -51,7 +51,7 @@
         <i class="material-icons status-icon">
           {{ getStatusIcon(projectDetails.status) }}
         </i>
-        {{ projectDetails.status }}
+        {{ getDisplayStatus(projectDetails.status) }}
       </div>
     </div>
 
@@ -317,7 +317,7 @@
                      <i class="material-icons status-icon">
                        {{ getStatusIcon(projectDetails.status) }}
                      </i>
-                     {{ projectDetails.status }}
+                     {{ getDisplayStatus(projectDetails.status) }}
                    </span>
                    <p class="status-description">{{ getStatusDescription(projectDetails.status) | translate }}</p>
                  </div>
@@ -333,13 +333,13 @@
 
              <div class="status-workflow" *ngIf="canChangeStatus()">
                <label>{{ 'projectDetails.status.availableActions' | translate }}</label>
-                               <div class="workflow-options">
-                  <div class="workflow-option" *ngFor="let status of getAvailableStatuses()">
-                    <i class="material-icons">{{ getStatusIcon(status) }}</i>
-                    <span>{{ status }}</span>
-                    <small>{{ getStatusDescription(status) | translate }}</small>
-                  </div>
-                </div>
+                                               <div class="workflow-options">
+                   <div class="workflow-option" *ngFor="let status of getAvailableStatuses()">
+                     <i class="material-icons">{{ getStatusIcon(status) }}</i>
+                     <span>{{ getDisplayStatus(status) }}</span>
+                     <small>{{ getStatusDescription(status) | translate }}</small>
+                   </div>
+                 </div>
              </div>
 
              <div class="status-workflow" *ngIf="!canChangeStatus()">
@@ -412,7 +412,7 @@
               (click)="selectedNewStatus = status">
               <i class="material-icons">{{ getStatusIcon(status) }}</i>
                              <div class="status-details">
-                 <span class="status-name">{{ status }}</span>
+                 <span class="status-name">{{ getDisplayStatus(status) }}</span>
                  <small>{{ getStatusDescription(status) | translate }}</small>
                </div>
             </div>

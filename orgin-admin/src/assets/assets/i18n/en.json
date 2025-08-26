@@ -595,15 +595,30 @@
         "confirm": "Change Status"
       }
     },
-    "statusDescriptions": {
-      "pending": "Project is under review",
-      "approved": "Project has been approved for development",
-      "declined": "Project has been declined",
+            "statusDescriptions": {
+          "pending": "Project is under review",
+          "pending_query": "Project was resubmitted after settling queries",
+          "query": "Admin has queried the project owner and waiting for response",
+          "approved": "Project has been approved for development",
+          "declined": "Project has been declined",
       "production": "Project is currently in development",
       "completed": "Project has been completed"
     },
     "noAnalyzers": "No analyzers available for this project",
     "noAvailableAnalyzers": "All analyzers are already assigned to this project"
+  },
+  "launchedProjects": {
+    "loadingMessage": "Loading launched projects...",
+    "errorTitle": "Error Loading Projects",
+    "errorMessage": "Failed to load launched projects. Please try again.",
+    "retryButton": "Try Again",
+    "pagination": {
+      "pageSize": "Page Size",
+      "itemsPerPage": "items per page"
+    },
+    "modal": {
+      "close": "Close"
+    }
   }
 }
 

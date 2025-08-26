@@ -54,6 +54,8 @@
     "INVESTING": "Investing",
     "FEASIBILITY_LOCATION": "Feasibility Location",
     "CHOOSE_SUBSCRIPTION_PLAN": "Choose Your Subscription Plan",
+    "FREE_PLAN": "FREE PLAN",
+    "FREE_PLAN_DESCRIPTION": "Access to basic features. Perfect for exploring the platform.",
     "BASIC_PLAN": "Basic Plan",
     "BASIC_PLAN_DESCRIPTION": "Launch your project and join communities",
     "PREMIUM_PLAN": "Premium Plan",
@@ -100,6 +102,10 @@
     "ORDER_NOW": "Order Now",
     "CUSTOMIZED_PROJECTS": "Customized Projects",
     "BROKERED_PROJECTS": "Brokered Projects",
+    "OUR_SUCCESS": "Our Success",
+    "BOOKMARK": "Bookmark",
+    "INVEST": "Invest",
+    "BUY": "Buy",
     "EXHIBITION_TITLE": "Our Exhibitions",
     "EXHIBITION_DESCRIPTION": "Explore our curated collection of innovative projects and opportunities.",
     "UPCOMING_EXHIBITIONS": "Upcoming Exhibitions",
@@ -182,7 +188,6 @@
         "MESSAGE": "The page you're looking for doesn't exist or has been moved.",
         "HOME_LINK": "Return to Home"
     },
-    
     "YEAR": "year",
     "LOADING_DESCRIPTION": "Loading description...",
     "USE_BROWSER_TRANSLATION": "Use browser translation for this content",
@@ -197,8 +202,11 @@
     "COMMUNITY_ACCESS": "Community Access",
     "BUSINESS_PROJECTS": "Business Projects",
     "COMMUNITY_PROJECTS": "Community Projects",
+    "COMMUNITY_PROJECTS_TITLE": "Community Projects",
+    "COMMUNITY_PROJECTS_FILTERED": "Filtered Community Projects",
     "I2V_PROGRAM": "I2V Program",
-    "COMING_SOON": "Coming Soon"
-    
+    "COMING_SOON": "Coming Soon",
+    "LATEST_ARTICLES": "Latest Articles",
+    "DISCOVER_ARTICLES": "Discover insightful articles about community development and innovation."
 }
   

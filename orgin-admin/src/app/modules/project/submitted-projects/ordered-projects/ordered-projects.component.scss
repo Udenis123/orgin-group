@@ -191,6 +191,18 @@ mat-paginator {
   text-transform: capitalize;
 }
 
+      .status-pending_query {
+        color: #ff9800 !important;
+        font-weight: 600;
+        text-transform: capitalize;
+      }
+
+      .status-query {
+        color: #9c27b0 !important;
+        font-weight: 600;
+        text-transform: capitalize;
+      }
+
 .status-approved {
   color: #4caf50 !important;
   font-weight: 600;

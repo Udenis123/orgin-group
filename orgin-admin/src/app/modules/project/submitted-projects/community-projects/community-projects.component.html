@@ -43,7 +43,7 @@
           <td>{{ project.description }}</td>
           <td>{{ project.dateOfSubmission | date }}</td>
           <td>{{ project.lastUpdated | date }}</td>
-          <td [class]="'status-' + project.status.toLowerCase()">{{ project.status }}</td>
+          <td [class]="getStatusClass(project.status)">{{ getDisplayStatus(project.status) }}</td>
           <td>
             <button class="icon-button" (click)="viewProjectDetails(project)">
               <i class="material-icons">visibility</i>

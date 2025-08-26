@@ -90,9 +90,9 @@ export class AnalyzerDetailsComponent implements OnInit {
     this.analyzerWorkStats.totalProjectsAssigned = assignedProjects.length;
     console.log('Total projects assigned:', this.analyzerWorkStats.totalProjectsAssigned);
     
-    // Current assigned projects (projects with PENDING status)
+    // Current assigned projects (projects with PENDING or PENDING_QUERY status)
     const pendingProjects = assignedProjects.filter(
-      project => project.status === 'PENDING'
+      project => project.status === 'PENDING' || project.status === 'PENDING_QUERY'
     );
     console.log('Pending projects:', pendingProjects);
     console.log('Pending projects count:', pendingProjects.length);

@@ -3,18 +3,18 @@
   
   <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-container">
-    <app-loading message="Loading launched projects..."></app-loading>
+    <app-loading message="{{ 'launchedProjects.loadingMessage' | translate }}"></app-loading>
   </div>
 
   <!-- Error State -->
   <div *ngIf="isError && !isLoading" class="error-container">
     <div class="error-content">
       <i class="material-icons error-icon">error_outline</i>
-      <h3>Error Loading Projects</h3>
+      <h3>{{ 'launchedProjects.errorTitle' | translate }}</h3>
       <p>{{ errorMessage }}</p>
       <button class="retry-button" (click)="retryLoading()">
         <i class="material-icons">refresh</i>
-        Try Again
+        {{ 'launchedProjects.retryButton' | translate }}
       </button>
     </div>
   </div>
@@ -65,9 +65,10 @@
           <td>{{ project.updatedOn | date }}</td>
           <td [ngClass]="{
             'status-pending': project.status === 'PENDING',
+            'status-pending-query': project.status === 'PENDING_QUERY',
             'status-approved': project.status === 'APPROVED',
             'status-declined': project.status === 'DECLINED'
-          }">{{ project.status }}</td>
+          }">{{ getDisplayStatus(project.status) }}</td>
           <td>
             <button class="icon-button" (click)="viewProjectDetails(project)">
               <i class="material-icons">visibility</i>
@@ -97,7 +98,7 @@
     <div class="modal-content" (click)="$event.stopPropagation()">
       <div class="modal-header">
         <h3>{{ expandedField | titlecase }}</h3>
-        <button class="close-btn" (click)="closeFullTextPopup()">
+        <button class="close-btn" (click)="closeFullTextPopup()" [attr.aria-label]="'launchedProjects.modal.close' | translate">
           <i class="material-icons">close</i>
         </button>
       </div>

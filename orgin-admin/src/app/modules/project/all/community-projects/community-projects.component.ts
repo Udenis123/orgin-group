@@ -142,4 +142,37 @@ export class ProjectsCommunityComponent implements OnInit {
   retryLoading(): void {
     this.loadAllCommunityProjects();
   }
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'APPROVED':
+        return 'status-approved';
+      case 'DECLINED':
+        return 'status-declined';
+      case 'PENDING_QUERY':
+        return 'status-pending-query';
+      case 'QUERY':
+        return 'status-query';
+      case 'PENDING':
+      default:
+        return 'status-pending';
+    }
+  }
+
+  getDisplayStatus(status: string): string {
+    switch (status) {
+      case 'PENDING_QUERY':
+        return 'Pending Query';
+      case 'QUERY':
+        return 'Query';
+      case 'PENDING':
+        return 'Pending';
+      case 'APPROVED':
+        return 'Approved';
+      case 'DECLINED':
+        return 'Declined';
+      default:
+        return status;
+    }
+  }
 }

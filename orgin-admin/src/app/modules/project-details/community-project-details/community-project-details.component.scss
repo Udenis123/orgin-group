@@ -229,6 +229,18 @@
   font-weight: 600;
 }
 
+      .detail-item .status-pending-query,
+      .detail-item .status-PENDING_QUERY {
+        color: #ff9800 !important;
+        font-weight: 600;
+      }
+
+      .detail-item .status-query,
+      .detail-item .status-QUERY {
+        color: #9c27b0 !important;
+        font-weight: 600;
+      }
+
 .detail-item .status-approved,
 .detail-item .status-APPROVED {
   color: #28a745 !important;

@@ -20,7 +20,7 @@ export interface Project {
   description: string;
   dateOfSubmission: Date;
   lastUpdated: Date;
-  status: 'Pending';
+          status: 'Pending' | 'Pending Query' | 'Query';
 }
 
 @Component({
@@ -111,13 +111,29 @@ export class SubmittedOrderedProjectsComponent implements OnInit {
     }
   }
 
-  private mapStatus(apiStatus: string): 'Pending' {
+  private mapStatus(apiStatus: string): 'Pending' | 'Pending Query' | 'Query' {
     // API returns status in uppercase, but we need to handle it properly
     console.log('Mapping status:', apiStatus, 'to lowercase:', apiStatus.toLowerCase());
     switch (apiStatus.toUpperCase()) {
+      case 'PENDING_QUERY':
+        return 'Pending Query';
+      case 'QUERY':
+        return 'Query';
       case 'PENDING':
       default:
         return 'Pending';
+    }
+  }
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'Pending Query':
+        return 'status-pending_query';
+      case 'Query':
+        return 'status-query';
+      case 'Pending':
+      default:
+        return 'status-pending';
     }
   }
 

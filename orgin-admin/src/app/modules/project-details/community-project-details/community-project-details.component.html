@@ -47,7 +47,7 @@
           </div>
           <div class="detail-item">
             <label>Status:</label>
-            <span [class]="getStatusClass(project.status)">{{ project.status }}</span>
+            <span [class]="getStatusClass(project.status)">{{ getDisplayStatus(project.status) }}</span>
           </div>
           
           <div class="detail-item full-width">

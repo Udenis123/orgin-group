@@ -192,6 +192,14 @@ mat-paginator {
   color: #ffc107;  // Yellow for pending
 }
 
+      .status-pending-query {
+        color: #ff9800;  // Orange for pending query
+      }
+
+      .status-query {
+        color: #9c27b0;  // Purple for query
+      }
+
 .status-approved {
   color: #4caf50;  // Green for approved
 }

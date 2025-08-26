@@ -59,7 +59,7 @@
             </td>
             <td>{{ project.dateOfSubmission | date }}</td>
             <td>{{ project.lastUpdated | date }}</td>
-            <td [ngClass]="'status-' + project.status.toLowerCase()" [title]="'Status: ' + project.status + ' | Class: status-' + project.status.toLowerCase()">{{ project.status }}</td>
+            <td [ngClass]="getStatusClass(project.status)" [title]="'Status: ' + project.status">{{ project.status }}</td>
             <td>
               <button class="icon-button" (click)="viewProjectDetails(project)">
                 <i class="material-icons">visibility</i>

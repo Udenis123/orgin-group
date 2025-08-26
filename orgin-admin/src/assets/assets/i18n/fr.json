@@ -593,14 +593,29 @@
         "confirm": "Changer le Statut"
       }
     },
-    "statusDescriptions": {
-      "pending": "Le projet est en cours d'examen",
-      "approved": "Le projet a été approuvé pour le développement",
-      "declined": "Le projet a été refusé",
+            "statusDescriptions": {
+          "pending": "Le projet est en cours d'examen",
+          "pending_query": "Le projet a été resoumis après avoir réglé les questions",
+          "query": "L'administrateur a interrogé le propriétaire du projet et attend une réponse",
+          "approved": "Le projet a été approuvé pour le développement",
+          "declined": "Le projet a été refusé",
       "production": "Le projet est actuellement en développement",
       "completed": "Le projet a été terminé"
     },
     "noAnalyzers": "Aucun analyste disponible pour ce projet",
     "noAvailableAnalyzers": "Tous les analystes sont déjà assignés à ce projet"
+  },
+  "launchedProjects": {
+    "loadingMessage": "Chargement des projets lancés...",
+    "errorTitle": "Erreur lors du chargement des projets",
+    "errorMessage": "Échec du chargement des projets lancés. Veuillez réessayer.",
+    "retryButton": "Réessayer",
+    "pagination": {
+      "pageSize": "Taille de page",
+      "itemsPerPage": "éléments par page"
+    },
+    "modal": {
+      "close": "Fermer"
+    }
   }
 }

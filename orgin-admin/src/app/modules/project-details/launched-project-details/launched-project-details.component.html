@@ -77,12 +77,12 @@
         <strong>{{ 'PROJECT_DETAILS.FIELDS.LOCATION' | translate }}:</strong>
         <span>{{ project.projectLocation }}</span>
       </div>
-      <div class="detail-row">
-        <strong>{{ 'PROJECT_DETAILS.FIELDS.STATUS' | translate }}:</strong>
-        <span class="status-badge" [ngClass]="project.status.toLowerCase()">
-          {{ project.status }}
-        </span>
-      </div>
+             <div class="detail-row">
+         <strong>{{ 'PROJECT_DETAILS.FIELDS.STATUS' | translate }}:</strong>
+         <span class="status-badge" [ngClass]="getStatusClass(project.status)">
+           {{ getDisplayStatus(project.status) }}
+         </span>
+       </div>
       <div class="detail-row" *ngIf="project.prototypeLink">
         <strong>{{ 'PROJECT_DETAILS.FIELDS.PROTOTYPE_LINK' | translate }}:</strong>
         <a [href]="project.prototypeLink" target="_blank" class="external-link">{{ project.prototypeLink }}</a>

@@ -130,4 +130,21 @@ export class CommunityProjectDetailsComponent implements OnInit {
       this.showMessage = false;
     }, 3000);
   }
+
+  getDisplayStatus(status: string): string {
+    switch (status) {
+      case 'PENDING_QUERY':
+        return 'Pending Query';
+      case 'QUERY':
+        return 'Query';
+      case 'PENDING':
+        return 'Pending';
+      case 'APPROVED':
+        return 'Approved';
+      case 'DECLINED':
+        return 'Declined';
+      default:
+        return status;
+    }
+  }
 }

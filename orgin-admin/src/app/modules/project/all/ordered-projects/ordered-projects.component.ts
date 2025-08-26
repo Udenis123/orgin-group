@@ -20,7 +20,7 @@ export interface Project {
   description: string;
   dateOfSubmission: Date;
   lastUpdated: Date;
-  status: 'Approved' | 'Declined' | 'Pending';
+          status: 'Approved' | 'Declined' | 'Pending' | 'Pending Query' | 'Query';
 }
 
 @Component({
@@ -107,7 +107,7 @@ export class ProjectsOrderedComponent implements OnInit {
     }
   }
 
-  private mapStatus(apiStatus: string): 'Approved' | 'Declined' | 'Pending' {
+  private mapStatus(apiStatus: string): 'Approved' | 'Declined' | 'Pending' | 'Pending Query' | 'Query' {
     // API returns status in uppercase, but we need to handle it properly
     console.log('Mapping status:', apiStatus, 'to lowercase:', apiStatus.toLowerCase());
     switch (apiStatus.toUpperCase()) {
@@ -115,9 +115,29 @@ export class ProjectsOrderedComponent implements OnInit {
         return 'Approved';
       case 'DECLINED':
         return 'Declined';
+      case 'PENDING_QUERY':
+        return 'Pending Query';
+      case 'QUERY':
+        return 'Query';
       case 'PENDING':
       default:
         return 'Pending';
+    }
+  }
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'Approved':
+        return 'status-approved';
+      case 'Declined':
+        return 'status-declined';
+      case 'Pending Query':
+        return 'status-pending_query';
+      case 'Query':
+        return 'status-query';
+      case 'Pending':
+      default:
+        return 'status-pending';
     }
   }
 

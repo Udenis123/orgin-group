@@ -7,7 +7,7 @@ import { ProjectService, OrderedProject } from '../../../services/project.servic
 import { SafeUrlPipe } from '../../../shared/pipes/safe-url.pipe';
 import { PdfExportService } from '../../../services/pdf-export.service';
 
-export type ProjectStatus = 'PENDING' | 'APPROVED' | 'DECLINED' | 'PRODUCTION' | 'COMPLETED';
+export type ProjectStatus = 'PENDING' | 'PENDING_QUERY' | 'QUERY' | 'APPROVED' | 'DECLINED' | 'PRODUCTION' | 'COMPLETED';
 
 @Component({
   selector: 'app-ordered-project-details',
@@ -68,6 +68,10 @@ export class OrderedProjectDetailsComponent implements OnInit {
         return 'status-production';
       case 'COMPLETED':
         return 'status-completed';
+      case 'PENDING_QUERY':
+        return 'status-pending-query';
+      case 'QUERY':
+        return 'status-query';
       case 'PENDING':
       default:
         return 'status-pending';
@@ -96,6 +100,10 @@ export class OrderedProjectDetailsComponent implements OnInit {
         return 'build';
       case 'COMPLETED':
         return 'done_all';
+      case 'PENDING_QUERY':
+        return 'help';
+      case 'QUERY':
+        return 'question_answer';
       case 'PENDING':
       default:
         return 'pending';
@@ -185,7 +193,11 @@ export class OrderedProjectDetailsComponent implements OnInit {
     
     switch (currentStatus) {
       case 'PENDING':
+        return ['APPROVED', 'DECLINED', 'QUERY'];
+      case 'PENDING_QUERY':
         return ['APPROVED', 'DECLINED'];
+      case 'QUERY':
+        return ['APPROVED', 'DECLINED', 'PENDING_QUERY'];
       case 'APPROVED':
         return ['PRODUCTION'];
       case 'PRODUCTION':
@@ -247,6 +259,10 @@ export class OrderedProjectDetailsComponent implements OnInit {
     switch (status) {
       case 'PENDING':
         return 'projectDetails.statusDescriptions.pending';
+      case 'PENDING_QUERY':
+        return 'projectDetails.statusDescriptions.pending_query';
+      case 'QUERY':
+        return 'projectDetails.statusDescriptions.query';
       case 'APPROVED':
         return 'projectDetails.statusDescriptions.approved';
       case 'DECLINED':
@@ -275,6 +291,27 @@ export class OrderedProjectDetailsComponent implements OnInit {
       // TODO: Show error message to user
     } finally {
       this.exportingPdf = false;
+    }
+  }
+
+  getDisplayStatus(status: string): string {
+    switch (status) {
+      case 'PENDING_QUERY':
+        return 'Pending Query';
+      case 'QUERY':
+        return 'Query';
+      case 'PENDING':
+        return 'Pending';
+      case 'APPROVED':
+        return 'Approved';
+      case 'DECLINED':
+        return 'Declined';
+      case 'PRODUCTION':
+        return 'Production';
+      case 'COMPLETED':
+        return 'Completed';
+      default:
+        return status;
     }
   }
 }
